@@ -2,7 +2,7 @@
 
 The `ballerinax/slack` module provides a slack client that allows you to access the Slack API through Ballerina.
 
-The following sections provide you details on how to use the FTP connector.
+The following sections provide you details on how to use the slack connector.
 
 - [Compatibility](#compatibility)
 - [Feature Overview](#feature-overview)
@@ -23,10 +23,10 @@ There are basically 5 clients provided by Ballerina to interact with different A
 that you wish to execute.
 2. **slack:ChatClient** - Chat client can be used in messaging related operations. For example: post messages on slack, delete messages,
 send attachments.
-3. **slack:ConversationsClient** - This client can be used in conversations/channels related operations. For example: create conversations,
+3. **slack:ConversationClient** - This client can be used in conversations/channels related operations. For example: create conversations,
 join a conversation, add users to a conversation, archive/unarchive conversations etc.
-4. **slack:UsersClient** - This client can be used in users/user groups related operations. For example: get user information etc.
-5. **self.filesClient** - This client can be used in file related operations in slack.
+4. **slack:UserClient** - This client can be used in users/user groups related operations. For example: get user information etc.
+5. **self.fileClient** - This client can be used in file related operations in slack. For example: upload files, delete files, get file information etc
 
 ## Getting Started
 
@@ -34,7 +34,7 @@ join a conversation, add users to a conversation, archive/unarchive conversation
 Download and install [Ballerina](https://ballerinalang.org/downloads/).
 
 ### Pull the Module
-You can pull the FTP module from Ballerina Central using the command:
+You can pull the slack module from Ballerina Central using the command:
 ```ballerina
 $ ballerina pull ballerinax/slack
 ```
@@ -42,7 +42,7 @@ $ ballerina pull ballerinax/slack
 ## Samples
 
 ### Slack Client Sample
-The Slack Client Connector can be used to interact with slack API.
+The Slack Client Connector can be used to interact with slack Web API.
 
 ```ballerina
 import ballerina/log;

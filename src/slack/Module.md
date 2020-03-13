@@ -8,10 +8,10 @@ There are basically 5 clients provided by Ballerina to interact with different A
 that you wish to execute.
 2. **slack:ChatClient** - Chat client can be used in messaging related operations. For example: post messages on slack, delete messages,
 send attachments.
-3. **slack:ConversationsClient** - This client can be used in conversations/channels related operations. For example: create conversations,
+3. **slack:ConversationClient** - This client can be used in conversations/channels related operations. For example: create conversations,
 join a conversation, add users to a conversation, archive/unarchive conversations etc.
-4. **slack:UsersClient** - This client can be used in users/user groups related operations. For example: get user information etc.
-5. **self.filesClient** - This client can be used in file related operations in slack.
+4. **slack:UserClient** - This client can be used in users/user groups related operations. For example: get user information etc.
+5. **self.fileClient** - This client can be used in file related operations in slack. For example: upload files, delete files, get file information etc
 
 ## Compatibility
 |                     |    Version     |
