@@ -15,17 +15,13 @@
 // under the License.
 
 import ballerina/test;
-import ballerina/lang.'array as arrays;
-import ballerina/lang.'string as strings;
+import ballerina/system;
 
-string encodedToken = "eG94cC05NDM1ODEzNjI5OTUtOTQ0OTE3ODc1MDI1LTk3Mjg1NjM0MzgwOS0wZTEwYzc2MGIyNTIzMjkyMjQwODk4ZmNkYWQ2MTBiNg==";
-
-byte[] actualTokenByteArr = check arrays:fromBase64(encodedToken);
-string actualToken = check strings:fromBytes(actualTokenByteArr);
+string token = system:getEnv("slackToken");
 
 Configuration slackConfig1 = {
     oauth2Config: {
-        accessToken: actualToken
+        accessToken: token
     }
 };
 
