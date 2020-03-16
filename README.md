@@ -13,7 +13,7 @@ The following sections provide you details on how to use the slack connector.
 
 |                             |           Version           |
 |:---------------------------:|:---------------------------:|
-| Ballerina Language          |            1.1.4            |
+| Ballerina Language          |            1.2.0            |
 
 ## Feature Overview
 
@@ -26,7 +26,7 @@ send attachments.
 3. **slack:ConversationClient** - This client can be used in conversations/channels related operations. For example: create conversations,
 join a conversation, add users to a conversation, archive/unarchive conversations etc.
 4. **slack:UserClient** - This client can be used in users/user groups related operations. For example: get user information etc.
-5. **self.fileClient** - This client can be used in file related operations in slack. For example: upload files, delete files, get file information etc
+5. **self.FileClient** - This client can be used in file related operations in slack. For example: upload files, delete files, get file information etc
 
 ## Getting Started
 
@@ -49,7 +49,7 @@ import ballerina/log;
 import ballerinax/slack;
 
 slack:Configuration slackConfig = {
-    oAuth2Config: {
+    oauth2Config: {
         accessToken: "<access-token>"
     }
 };
@@ -62,7 +62,7 @@ public function main() {
     slack:UserClient user = slackClient.getUserClient();
 
     // Post a message to a channel.
-    var postResponse = chat->postMessage("channelName", "Hello Channel");
+    string|error postResponse = chat->postMessage("channelName", "Hello Channel");
     if (postResponse is string) {
         log:printInfo("Message sent");
     } else {
@@ -70,7 +70,7 @@ public function main() {
     }
 
     // List all the conversations.
-    var listConvResponse = conv->listConversations();
+    Conversations|error listConvResponse = conv->listConversations();
     if (listConvResponse is error) {
         log:printError("Error occured when listing conversations", listConvResponse);
     } else {
@@ -78,7 +78,7 @@ public function main() {
     }
 
     // Upload a file to a channel
-    var fileResponse = file->uploadFile("filePath", "channelName");
+    FileInfo|error fileResponse = file->uploadFile("filePath", "channelName");
     if (fileResponse is error) {
         log:printError("Error occured when uploading the file ", fileResponse);
     } else {
@@ -86,7 +86,7 @@ public function main() {
     }
 
     // Get user information.
-    var userResponse = user->getUserInfo("userName");
+    User|error userResponse = user->getUserInfo("userName");
     if (userResponse is error) {
         log:printError("Error occured when getting user information ", userResponse);
     } else {

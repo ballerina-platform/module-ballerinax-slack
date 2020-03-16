@@ -24,7 +24,7 @@ byte[] actualTokenByteArr = check arrays:fromBase64(encodedToken);
 string actualToken = check strings:fromBytes(actualTokenByteArr);
 
 Configuration slackConfig1 = {
-    oAuth2Config: {
+    oauth2Config: {
         accessToken: actualToken
     }
 };

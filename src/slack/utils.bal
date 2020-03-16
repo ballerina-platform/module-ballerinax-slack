@@ -19,7 +19,7 @@ import ballerina/mime;
 import ballerina/stringutils;
 
 function getChannelId(http:Client slackClient, string channelName) returns @tainted string|error {
-    var response = slackClient->get(LIST_CONVERSATIONS_PATH);
+    http:Response|error response = slackClient->get(LIST_CONVERSATIONS_PATH);
     if (response is error) {
         return setResError(response);
     }
@@ -40,18 +40,18 @@ function getChannelId(http:Client slackClient, string channelName) returns @tain
     return error(SLACK_ERROR_CODE, message = "Channel " + channelName + " does not exist");
 }
 
-function archiveConversation(http:Client slackClient, string channelId) returns @tainted error|() {
+function archiveConversation(http:Client slackClient, string channelId) returns @tainted error? {
     string url = ARCHIVE_CHANNEL_PATH + channelId;
     return handleArchiveResponse(slackClient, url);
 }
 
-function unArchiveConversation(http:Client slackClient, string channelId) returns @tainted error|() {
+function unArchiveConversation(http:Client slackClient, string channelId) returns @tainted error? {
     string url = UNARCHIVE_CHANNEL_PATH + channelId;
     return handleArchiveResponse(slackClient, url);
 }
 
-function handleArchiveResponse(http:Client slackClient, string url) returns @tainted error|() {
-    var response = slackClient->post(url, EMPTY_STRING);
+function handleArchiveResponse(http:Client slackClient, string url) returns @tainted error? {
+    http:Response|error response = slackClient->post(url, EMPTY_STRING);
     if (response is error) {
         return setResError(response);
     }
@@ -66,7 +66,7 @@ function handleArchiveResponse(http:Client slackClient, string url) returns @tai
 
 function getUserIds(http:Client slackClient, string[] users) returns @tainted string|error {
     string usersList = EMPTY_STRING;
-    var response = slackClient->get(LIST_USERS_PATH);
+    http:Response|error response = slackClient->get(LIST_USERS_PATH);
     if (response is error) {
         return setResError(response);
     }
@@ -85,13 +85,16 @@ function getUserIds(http:Client slackClient, string[] users) returns @tainted st
                 usersList = usersList + (member.id).toString() + ",";
             }
         }
+    } 
+    if (usersList == EMPTY_STRING) {
+        return error(SLACK_ERROR_CODE, message = "Unable to find user ids of the given users");
     }
     return usersList;
 }
 
 function getUserId(http:Client slackClient, string user) returns @tainted string|error {
     string userId = EMPTY_STRING;
-    var response = slackClient->get(LIST_USERS_PATH);
+    http:Response|error response = slackClient->get(LIST_USERS_PATH);
     if (response is error) {
         return setResError(response);
     }
@@ -109,6 +112,9 @@ function getUserId(http:Client slackClient, string user) returns @tainted string
             userId =  (member.id).toString();
             break;
         }
+    } 
+    if (userId == EMPTY_STRING) {
+        return error(SLACK_ERROR_CODE, message = "Unable to find the user id for the user " + user);
     }
     return userId;
 }
@@ -125,12 +131,12 @@ function listConversationsOfUser(http:Client slackClient, string user, boolean e
     if (user != EMPTY_STRING) {
         url = url + USER_ARG + user;
     }
-    var response = slackClient->get(url);
+    http:Response|error response = slackClient->get(url);
     if (response is error) {
         return setResError(response);
     }
     http:Response resp = <http:Response> response;
-    var payload = resp.getJsonPayload();
+    json|error payload = resp.getJsonPayload();
     if (payload is error) {
         return setJsonResError(payload);
     }
@@ -139,7 +145,7 @@ function listConversationsOfUser(http:Client slackClient, string user, boolean e
     return mapConversationInfo(jsonPayload);      
 }
 
-function removeUserFromConversation(http:Client slackClient, string user, string channelId) returns @tainted error|() {
+function removeUserFromConversation(http:Client slackClient, string user, string channelId) returns @tainted error? {
     string url = KICK_USER_FROM_CHANNEL_PATH + channelId + USER_ARG + user;
     return handleOkResp(slackClient, url);
 }
@@ -147,7 +153,7 @@ function removeUserFromConversation(http:Client slackClient, string user, string
 function inviteUsersToConversation(http:Client slackClient, string channelId, string users) 
                                         returns @tainted error|Channel {
     string url = INVITE_USERS_TO_CHANNEL_PATH + channelId + USER_IDS_ARG + users;
-    var response = slackClient->post(url, EMPTY_STRING);
+    http:Response|error response = slackClient->post(url, EMPTY_STRING);
     if (response is error) {
         return setResError(response);
     } 
@@ -165,7 +171,7 @@ function getConversationInfo(http:Client slackClient, string channelId, boolean?
                                  boolean? memberCount = false) returns @tainted Channel|error {
     string url = GET_CONVERSATION_INFO_PATH + channelId + INCLUDE_LOCALE + includeLocale.toString() + 
                     INCLUDE_NUM_MEMBERS + memberCount.toString();
-    var response = slackClient->get(url);
+    http:Response|error response = slackClient->get(url);
     if (response is error) {
         return setResError(response);
     } else {
@@ -189,7 +195,7 @@ function updateMessage(http:Client slackClient, string channelId, string message
 }
 
 function handlePostMessage(http:Client slackClient, string url) returns @tainted string|error {
-    var response = slackClient->post(<@untained> url, EMPTY_STRING);
+    http:Response|error response = slackClient->post(<@untained> url, EMPTY_STRING);
     if (response is error) {
         return setResError(response);
     }
@@ -205,7 +211,7 @@ function handlePostMessage(http:Client slackClient, string url) returns @tainted
 }
 
 function createChannel(http:Client slackClient, string url) returns @tainted Channel|error {
-    var response = slackClient->post(url, EMPTY_STRING);
+    http:Response|error response = slackClient->post(url, EMPTY_STRING);
     if (response is http:Response) {
         return mapChannelInfo(response);
     } else {
@@ -238,19 +244,19 @@ function mapConversationInfo(json channelList) returns Conversations|error {
     return Conversations.constructFrom(channelList);
 }
 
-function joinConversation(http:Client slackClient, string channelId) returns @tainted error|() {
+function joinConversation(http:Client slackClient, string channelId) returns @tainted error? {
     string url = CONVERSATIONS_JOIN_PATH + channelId;
     return handleOkResp(slackClient, url);
 }
 
-function leaveConversation(http:Client slackClient, string channelId) returns @tainted error|() {
+function leaveConversation(http:Client slackClient, string channelId) returns @tainted error? {
     string url = LEAVE_CHANNEL_PATH + channelId;
     return handleOkResp(slackClient, url);
 }
 
 function getUserInfo(http:Client slackClient, string userId) returns @tainted error|User {
     string url = GET_USER_INFO_PATH + userId;
-    var response = slackClient->get(url);
+    http:Response|error response = slackClient->get(url);
     if (response is error) {
         return setResError(response);
     }
@@ -267,7 +273,7 @@ function getUserInfo(http:Client slackClient, string userId) returns @tainted er
 
 function renameConversation(http:Client slackClient, string channelId, string newName) returns @tainted Channel|error {
     string url = RENAME_CHANNEL_PATH + channelId + NAME_ARG + newName;
-    var response = slackClient->post(url, EMPTY_STRING);
+    http:Response|error response = slackClient->post(url, EMPTY_STRING);
     if (response is http:Response) {
         return mapChannelInfo(response);
     } else {
@@ -275,7 +281,7 @@ function renameConversation(http:Client slackClient, string channelId, string ne
     }
 }
 
-function checkOk(json respPayload) returns error|() {
+function checkOk(json respPayload) returns error? {
     json ok = check respPayload.ok;
     if (ok == false) {
         json|error errorRes = respPayload.'error;
@@ -285,12 +291,12 @@ function checkOk(json respPayload) returns error|() {
     }
 }
 
-function deleteMessage(http:Client slackClient, string channelId, string threadTs) returns @tainted error|() {
+function deleteMessage(http:Client slackClient, string channelId, string threadTs) returns @tainted error? {
     string url = DELETE_CONVERSATION_PATH + channelId + DELETE_CONVERSATION_TS_ARG + threadTs;
     return handleOkResp(slackClient, url);
 }
 
-function deleteFile(http:Client slackClient, string fileId) returns @tainted error|() {
+function deleteFile(http:Client slackClient, string fileId) returns @tainted error? {
     string url = DELETE_FILE_PATH + fileId;
     return handleOkResp(slackClient, url);
 }
@@ -321,7 +327,7 @@ function listFiles(http:Client slackClient, string? channelId, int? count, strin
         url = (stringutils:contains(url, QUESTION_MARK)) ? url + USER_AS_SECOND_PARAM + user.toString() : 
                 url + USER_AS_FIRST_PARAM + user.toString();
     }         
-    var response = slackClient->post(url, EMPTY_STRING);
+    http:Response|error response = slackClient->post(url, EMPTY_STRING);
     if (response is error) {
         return setResError(response);
     }
@@ -361,7 +367,7 @@ function uploadFile(string filePath, http:Client slackClient, string? channelId,
     filePart.setFileAsEntityBody(filePath);
     mime:Entity[] bodyParts = [<@untainted> filePart];
     request.setBodyParts(bodyParts, contentType = mime:MULTIPART_FORM_DATA);
-    var response = slackClient->post(url, request);
+    http:Response|error response = slackClient->post(url, request);
     if (response is error) {
         return setResError(response);
     }
@@ -378,7 +384,7 @@ function uploadFile(string filePath, http:Client slackClient, string? channelId,
 
 function getFileInfo(http:Client slackClient, string fileId) returns @tainted FileInfo|error {
     string url = GET_FILE_INFO_PATH + fileId;
-    var response = slackClient->get(url);
+    http:Response|error response = slackClient->get(url);
     if (response is error) {
         return setResError(response);
     }
@@ -406,8 +412,8 @@ function getFileName(string filePath) returns string {
     return filePath.substring(lastIndex + 1);
 }
 
-function handleOkResp(http:Client slackClient, string url) returns @tainted error|() {
-    var response = slackClient->post(url, EMPTY_STRING);
+function handleOkResp(http:Client slackClient, string url) returns @tainted error? {
+    http:Response|error response = slackClient->post(url, EMPTY_STRING);
     if (response is error) {
         return setResError(response);
     }

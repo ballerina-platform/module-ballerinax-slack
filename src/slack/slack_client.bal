@@ -26,7 +26,7 @@ public type Client client object {
     private ChatClient chatClient;
 
     public function __init(Configuration config) {
-        oauth2:OutboundOAuth2Provider oauth2Provider = new(config.oAuth2Config);
+        oauth2:OutboundOAuth2Provider oauth2Provider = new(config.oauth2Config);
         http:BearerAuthHandler oauth2Handler = new(oauth2Provider);
         http:ProxyConfig? proxyConfig = config?.proxyConfig;
         http:ClientConfiguration clientConfig = {
@@ -97,8 +97,8 @@ public type ConversationClient client object {
     #
     # + channelName - Name of the conversation to archive
     # + return - An `error` if it is a failure or `nil` if it is a success
-    public remote function archiveConversation(string channelName) returns @tainted error|() {
-        var resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
+    public remote function archiveConversation(string channelName) returns @tainted error? {
+        string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return archiveConversation(self.conversationClient, <@untainted> resolvedChannelId);
     }
 
@@ -106,8 +106,8 @@ public type ConversationClient client object {
     #
     # + channelName - Name of the conversation to unarchive
     # + return - An `error` if it is a failure or `nil` if it is a success
-    public remote function unArchiveConversation(string channelName) returns @tainted error|() {
-        var resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
+    public remote function unArchiveConversation(string channelName) returns @tainted error? {
+        string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return unArchiveConversation(self.conversationClient, <@untainted> resolvedChannelId);
     }
 
@@ -117,7 +117,7 @@ public type ConversationClient client object {
     # + newName - 	New name for conversation.
     # + return - An `error` if it is a failure or `Channel` record if it is a success
     public remote function renameConversation(string channelName, string newName) returns @tainted Channel|error {
-        var resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
+        string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return renameConversation(self.conversationClient, <@untainted> resolvedChannelId, newName);
     }
 
@@ -126,12 +126,12 @@ public type ConversationClient client object {
     # + return - An `error` if it is a failure or `Conversations` record if it is a success
     public remote function listConversations() returns @tainted Conversations|error {
         http:Client convClient = self.conversationClient;
-        var response = convClient->get(LIST_CONVERSATIONS_PATH);
+        http:Response|error response = convClient->get(LIST_CONVERSATIONS_PATH);
         if (response is error) {
            return setResError(response);  
         }
         http:Response httpResp = <http:Response> response;
-        var jsonPayload = httpResp.getJsonPayload();
+        json|error jsonPayload = httpResp.getJsonPayload();
         if (jsonPayload is error) {
             return setJsonResError(jsonPayload);
         }
@@ -143,8 +143,8 @@ public type ConversationClient client object {
     #
     # + channelName - Name of the conversation 
     # + return - An 'error' if it is a failure or 'nil' if it is a success
-    public remote function leaveConversation(string channelName) returns @tainted error|() {
-        var resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
+    public remote function leaveConversation(string channelName) returns @tainted error? {
+        string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return leaveConversation(self.conversationClient, <@untainted> resolvedChannelId);
     }
 
@@ -156,7 +156,7 @@ public type ConversationClient client object {
     # + return - An `error` if it is a failure or the `Channel` record if it is a success
     public remote function getConversationInfo(string channelName, boolean includeLocale = false, 
                                     boolean memberCount = false) returns @tainted Channel|error {
-        var resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
+        string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return getConversationInfo(self.conversationClient, <@untainted> resolvedChannelId);
     }
 
@@ -165,13 +165,9 @@ public type ConversationClient client object {
     # + channelName - Name of the conversation 
     # + user - Name of the user to be removed
     # + return - An `error` if it is a failure or `nil` if it is a success
-    public remote function removeUserFromConversation(string channelName, string user) returns @tainted error|() {
-        string userId = EMPTY_STRING;
+    public remote function removeUserFromConversation(string channelName, string user) returns @tainted error? {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
-        userId = check getUserId(self.conversationClient, user); 
-        if (userId == EMPTY_STRING) {
-            return error(SLACK_ERROR_CODE, message = "Unable to find the user id for the user " + user);
-        } 
+        string userId = check getUserId(self.conversationClient, user); 
         return removeUserFromConversation(self.conversationClient, <@untainted> userId, <@untainted> resolvedChannelId);
     }
 
@@ -179,8 +175,8 @@ public type ConversationClient client object {
     #
     # + channelName - Name of the conversation 
     # + return - An 'error' if it is a failure or 'nil' if it is a success
-    public remote function joinConversation(string channelName) returns @tainted error|() {
-        var resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
+    public remote function joinConversation(string channelName) returns @tainted error? {
+        string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return joinConversation(self.conversationClient, <@untainted> resolvedChannelId);
     }
 
@@ -191,14 +187,10 @@ public type ConversationClient client object {
     # + return - An error if it is a failure or the Channel record if it is a success
     public remote function inviteUsersToConversation(string channelName, string[] users) 
                                 returns @tainted Channel|error {
-        string userIds = EMPTY_STRING;
         string channelId = EMPTY_STRING;
-        var resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
+        string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         channelId = resolvedChannelId;
-        userIds = check getUserIds(self.conversationClient, users);
-        if (userIds == EMPTY_STRING) {
-            return error(SLACK_ERROR_CODE, message = "Unable to find user ids of the given users");
-        } 
+        string userIds = check getUserIds(self.conversationClient, users);
         return inviteUsersToConversation(<@untainted> self.conversationClient, <@untainted> channelId, 
                                             <@untainted> userIds);
     }
@@ -207,7 +199,7 @@ public type ConversationClient client object {
         if (channelMap.hasKey(channelName)) {
             return channelMap.get(channelName);
         } 
-        var channelId = check getChannelId(self.conversationClient, channelName);
+        string channelId = check getChannelId(self.conversationClient, channelName);
         self.idMap[channelName] = channelId;
         return channelId;
     }
@@ -227,9 +219,6 @@ public type UserClient client object {
     # + return - An 'error' if it is a failure or 'User' record if it is a success
     public remote function getUserInfo(string user) returns @tainted User|error {
         string userId = check getUserId(self.userClient, user);
-        if (userId == EMPTY_STRING) {
-            return error(SLACK_ERROR_CODE, message = "Unable to find the user id for the user " + user);
-        } 
         return getUserInfo(self.userClient, <@untainted> userId); 
     }
 
@@ -245,9 +234,6 @@ public type UserClient client object {
         string resolvedUserId = EMPTY_STRING;
         if (user is string) {
             resolvedUserId = check getUserId(self.userClient, user);
-            if (resolvedUserId == EMPTY_STRING) {
-                return error(SLACK_ERROR_CODE, message = "Unable to find the user id for the user " + user);
-            } 
         } 
         return listConversationsOfUser(self.userClient, <@untainted> resolvedUserId, excludeArchived, 
                                             noOfItems, types);
@@ -273,7 +259,7 @@ public type ChatClient client object {
     # + return - The thread id of the posted message or an error 
     public remote function postMessage(string channelName, string message, string? threadTs = ())
                         returns @tainted string|error {
-        var resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
+        string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return postMessage(self.chatClient, resolvedChannelId, message, threadTs);
     }
 
@@ -285,7 +271,7 @@ public type ChatClient client object {
     # + return - The thread id of the posted message or an error
     public remote function updateMessage(string channelName, string message, string threadTs)
                         returns @tainted string|error {
-        var resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
+        string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return updateMessage(self.chatClient, resolvedChannelId, message, threadTs);
     }
 
@@ -294,8 +280,8 @@ public type ChatClient client object {
     # + channelName - Name of the conversation/channel
     # + threadTs - Timestamp of the message to be deleted
     # + return - An 'error' if it is a failure or 'nil' if it is a success
-    public remote function deleteMessage(string channelName, string threadTs) returns @tainted error|() {
-        var resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
+    public remote function deleteMessage(string channelName, string threadTs) returns @tainted error? {
+        string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return deleteMessage(self.chatClient, <@untainted> resolvedChannelId, threadTs);
     }
 
@@ -303,7 +289,7 @@ public type ChatClient client object {
         if (channelMap.hasKey(channelName)) {
             return channelMap.get(channelName);
         } 
-        var channelId = check getChannelId(self.chatClient, channelName);
+        string channelId = check getChannelId(self.chatClient, channelName);
         self.idMap[channelName] = channelId;
         return channelId;
     }
@@ -323,7 +309,7 @@ public type FileClient client object {
     #
     # + fileId - Id of file to delete
     # + return - An 'error' if it is a failure or 'nil' if it is a success
-    public remote function deleteFile(string fileId) returns @tainted error|() {
+    public remote function deleteFile(string fileId) returns @tainted error? {
         return deleteFile(self.fileClient, <@untainted> fileId);
     }
 
@@ -352,10 +338,7 @@ public type FileClient client object {
             channelId = check self.resolveChannelId(self.idMap, channelName);
         } 
         if (user is string) {
-            string resolvedUserId = check getUserId(self.fileClient, user);
-            if (resolvedUserId == EMPTY_STRING) {
-                return error(SLACK_ERROR_CODE, message = "Unable to find the user id for the user " + user);
-            } 
+            userId = check getUserId(self.fileClient, user);
         }
         return listFiles(self.fileClient, <@untainted> channelId, count, tsFrom, tsTo, types, <@untainted> userId);         
     }
@@ -371,7 +354,7 @@ public type FileClient client object {
     public remote function uploadFile(string filePath, string? channelName = (), string? title = (), 
                             string? initialComment = (), string? threadTs = ()) returns @tainted FileInfo|error {
         if (channelName is string) {
-            var resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
+            string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
             return uploadFile(filePath, self.fileClient, <@untainted> resolvedChannelId, title, 
                         initialComment, threadTs);
         }
@@ -383,7 +366,7 @@ public type FileClient client object {
         if (channelMap.hasKey(channelName)) {
             return channelMap.get(channelName);
         }
-        var channelId = check getChannelId(self.fileClient, channelName);
+        string channelId = check getChannelId(self.fileClient, channelName);
         self.idMap[channelName] = channelId;
         return channelId;            
     }
