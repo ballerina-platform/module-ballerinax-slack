@@ -71,7 +71,7 @@ public function main() {
 
     // List all the conversations.
     Conversations|error listConvResponse = conv->listConversations();
-    if (listConvResponse is error) {
+    if (listConvResponse is slack:Error) {
         log:printError("Error occured when listing conversations", listConvResponse);
     } else {
         log:printInfo(listConvResponse);
@@ -79,7 +79,7 @@ public function main() {
 
     // Upload a file to a channel.
     FileInfo|error fileResponse = file->uploadFile("filePath", "channelName");
-    if (fileResponse is error) {
+    if (fileResponse is slack:Error) {
         log:printError("Error occured when uploading the file ", fileResponse);
     } else {
         log:printInfo("Uploaded file " + fileResponse.id);
@@ -87,7 +87,7 @@ public function main() {
 
     // Get user information.
     User|error userResponse = user->getUserInfo("userName");
-    if (userResponse is error) {
+    if (userResponse is slack:Error) {
         log:printError("Error occured when getting user information ", userResponse);
     } else {
         log:printInfo("Found user information of the user " + userResponse.name);
