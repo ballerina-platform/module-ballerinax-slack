@@ -1,8 +1,8 @@
 ## Module Overview
 
-The `ballerinax/slack` module provides a slack client that allows you to access the Slack API through Ballerina.
+The `ballerinax/slack` module provides a Slack client, which allows you to access the Slack API through Ballerina.
 
-The following sections provide you details on how to use the slack connector.
+The following sections provide you details on how to use the Slack connector.
 
 - [Compatibility](#compatibility)
 - [Feature Overview](#feature-overview)
@@ -18,15 +18,15 @@ The following sections provide you details on how to use the slack connector.
 ## Feature Overview
 
 ### Slack Clients
-There are basically 5 clients provided by Ballerina to interact with different API groups in Slack Web API. 
-1. **slack:Client** - This client is the top most client in the slack module. This can be used to get the relevant client associated with the operation
+There are 5 clients provided by Ballerina to interact with different API groups of the Slack Web API. 
+1. **slack:Client** - This client is the top-most client in the Slack module. This can be used to get the relevant client associated with the operation
 that you wish to execute.
-2. **slack:ChatClient** - Chat client can be used in messaging related operations. For example: post messages on slack, delete messages,
-send attachments.
-3. **slack:ConversationClient** - This client can be used in conversations/channels related operations. For example: create conversations,
-join a conversation, add users to a conversation, archive/unarchive conversations etc.
-4. **slack:UserClient** - This client can be used in users/user groups related operations. For example: get user information etc.
-5. **self.FileClient** - This client can be used in file related operations in slack. For example: upload files, delete files, get file information etc
+2. **slack:ChatClient** - Chat client can be used in messaging related operations. For example, post messages on slack, delete messages,
+send attachments, etc.
+3. **slack:ConversationClient** - This client can be used in `conversations/channels` related operations. For example, create conversations,
+join a conversation, add users to a conversation, archive/unarchive conversations, etc.
+4. **slack:UserClient** - This client can be used in `users/user groups` related operations. For example, get user information etc.
+5. **self.FileClient** - This client can be used in file-related operations in Slack. For example, upload files, delete files, get file information, etc.
 
 ## Getting Started
 
@@ -34,7 +34,7 @@ join a conversation, add users to a conversation, archive/unarchive conversation
 Download and install [Ballerina](https://ballerinalang.org/downloads/).
 
 ### Pull the Module
-You can pull the slack module from Ballerina Central using the command:
+Execute the below command to pull the Slack module from Ballerina Central:
 ```ballerina
 $ ballerina pull ballerinax/slack
 ```
@@ -42,7 +42,7 @@ $ ballerina pull ballerinax/slack
 ## Samples
 
 ### Slack Client Sample
-The Slack Client Connector can be used to interact with slack Web API.
+The Slack Client Connector can be used to interact with the Slack Web API.
 
 ```ballerina
 import ballerina/log;
@@ -77,7 +77,7 @@ public function main() {
         log:printInfo(listConvResponse);
     }
 
-    // Upload a file to a channel
+    // Upload a file to a channel.
     FileInfo|error fileResponse = file->uploadFile("filePath", "channelName");
     if (fileResponse is error) {
         log:printError("Error occured when uploading the file ", fileResponse);
