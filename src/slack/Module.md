@@ -66,7 +66,7 @@ Conversations|error response = conv->listConversations();
 if (response is Conversations) {    
     io:println("Conversations " + response);
 } else {
-    io:println(response.detail()?.message.toString());
+    io:println("Error" + response.detail()?.message.toString());
 }
 ```
 
@@ -80,7 +80,7 @@ string|error response = chatClient->postMessage(channelName, "Hello Channel");
 if (response is string) {    
     io:println("Message posted to channel " + response);
 } else {
-    io:println(response.detail()?.message.toString());
+    io:println("Error" + response.detail()?.message.toString());
 }
 ```
 
@@ -94,7 +94,7 @@ User|error response = userClient->getUserInfo(userName);
 if (response is User) {    
     io:println("User id " + response.id);
 } else {
-    io:println(response.detail()?.message.toString());
+    io:println("Error" + response.detail()?.message.toString());
 }
 ```
 
@@ -108,6 +108,6 @@ FileInfo|error response = fileClient->uploadFile(filePath, channelName);
 if (response is FileInfo) {    
     io:println("File id " + response.id);
 } else {
-    io:println(response.detail()?.message.toString());
+    io:println("Error" + response.detail()?.message.toString());
 }
 ```

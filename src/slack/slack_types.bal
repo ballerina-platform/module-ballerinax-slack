@@ -183,7 +183,7 @@ public type FileInfo record {
 #
 # + oauth2Config - OAuth2 client configuration
 # + proxyConfig - Proxy configuration if connecting through a proxy
-public type Configuration record {
+public type Configuration record {|
    oauth2:DirectTokenConfig oauth2Config;
    http:ProxyConfig? proxyConfig = ();
-};
+|};

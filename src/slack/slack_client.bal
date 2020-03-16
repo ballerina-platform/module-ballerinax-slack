@@ -358,8 +358,7 @@ public type FileClient client object {
             return uploadFile(filePath, self.fileClient, <@untainted> resolvedChannelId, title, 
                         initialComment, threadTs);
         }
-        return uploadFile(filePath, self.fileClient, channelName, title, initialComment, threadTs);
- 
+        return uploadFile(filePath, self.fileClient, channelName, title, initialComment, threadTs); 
     }
 
     private function resolveChannelId(map<string> channelMap, string channelName) returns @tainted string|error {
