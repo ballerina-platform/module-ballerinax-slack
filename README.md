@@ -21,12 +21,12 @@ The following sections provide you details on how to use the Slack connector.
 There are 5 clients provided by Ballerina to interact with different API groups of the Slack Web API. 
 1. **slack:Client** - This client is the top-most client in the Slack module. This can be used to get the relevant client associated with the operation
 that you wish to execute.
-2. **slack:ChatClient** - Chat client can be used in messaging related operations. For example, post messages on slack, delete messages,
+2. **slack:ChatClient** - The Chat client can be used in messaging-related operations. For example, post messages on slack, delete messages, 
 send attachments, etc.
-3. **slack:ConversationClient** - This client can be used in `conversations/channels` related operations. For example, create conversations,
+3. **slack:ConversationClient** - This client can be used in `conversations/channels`-related operations. For example, create conversations,
 join a conversation, add users to a conversation, archive/unarchive conversations, etc.
-4. **slack:UserClient** - This client can be used in `users/user groups` related operations. For example, get user information etc.
-5. **self.FileClient** - This client can be used in file-related operations in Slack. For example, upload files, delete files, get file information, etc.
+4. **slack:UserClient** - This client can be used in `users/user groups`-related operations. For example, get user information etc.
+5. **slack.FileClient** - This client can be used in file-related operations in Slack. For example, upload files, delete files, get file information, etc.
 
 ## Getting Started
 

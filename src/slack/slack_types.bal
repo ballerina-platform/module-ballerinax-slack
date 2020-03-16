@@ -20,7 +20,7 @@ import ballerina/http;
 # Contains information about the channel topic.
 # 
 # + value - Value of the topic
-# + creator - The user Id of the member that created the topic
+# + creator - The user ID of the member who created the topic
 public type Topic record {
     string value;
     string creator;
@@ -29,7 +29,7 @@ public type Topic record {
 # Contains information about the channel purpose.
 # 
 # + value - Value of the purpose
-# + creator - The user Id of the member that created the channel
+# + creator - The user ID of the member who created the channel
 public type Purpose record {
     string value;
     string creator;
@@ -37,15 +37,15 @@ public type Purpose record {
 
 # Contains information about the channel.
 # 
-# + id - Id of the channel
+# + id - ID of the channel
 # + name - Name of the channel
 # + is_channel - `true` if a channel, else `false`
 # + is_group - `true` if a group conversation, else `false`
 # + is_archived - `true` if the channel is archived
-# + is_general - `true` if the channel is the "general" channel that includes all regular members
+# + is_general - `true` if the channel is the "general" channel which includes all regular members
 # + name_normalized - Normalized name
 # + parent_conversation - Name of the parent conversation if there is one
-# + creator - The user Id of the member that created the channel
+# + creator - The user ID of the member who created the channel
 # + is_member - `true` if the calling member is part of the channel
 # + is_private - `true` if a private channel
 # + topic - Contains information about the channel topic
@@ -84,14 +84,14 @@ public type Response_metadata record {
 
 # Contains information about the user.
 # 
-# + id - User id
-# + team_id - Team id
+# + id - User iD
+# + team_id - Team iD
 # + name - Name of the user
 # + deleted - `true` if the user has been deactivated, otherwise false
 # + real_name - The real name that the user specified in their workspace profile
 # + tz - The time zone
-# + tz_label - the commonly used name of the `tz` timezone
-# + profile - Contains information about user's workspace profile
+# + tz_label - The commonly-used name of the `tz` timezone
+# + profile - Contains information about the user's workspace profile
 # + is_admin - `true` if the user is an admin of the current workspace
 # + is_owner - `true` if the user is an owner of the current workspace
 # + is_primary_owner - `true` if the user is the primary owner of the current workspace
@@ -121,11 +121,11 @@ public type User record {
 # 
 # + title - Title added in the user profile
 # + phone - Phone number 
-# + skype - skype id
-# + real_name - The real name that the user specified in their workspace profile
-# + real_name_normalized - The `real_name` field, but with any non-Latin characters filtered out
-# + display_name - The display name that the user has chosen to identify themselves by in their workspace profile
-# + display_name_normalized - The `display_name` field, but with any non-Latin characters filtered out
+# + skype - skype ID
+# + real_name - The real name which the user specified in their workspace profile
+# + real_name_normalized - The `real_name` field with any non-Latin characters filtered out
+# + display_name - The display name, which the users have chosen to identify themselves by in their workspace profile
+# + display_name_normalized - The `display_name` field with any non-Latin characters filtered out
 public type Profile record {
     string title;
     string phone;
@@ -138,21 +138,21 @@ public type Profile record {
 
 # Contains information about the file.
 # 
-# + id - File id
+# + id - File ID
 # + created - Timestamp representing when the file was created
 # + name - File name
 # + title - File title
-# + user - The user id of the user who uploaded the file
+# + user - The user ID of the user who uploaded the file
 # + editable - `true` if the file is stored as editable
 # + size - File size in bytes
-# + mode - Contains one of hosted, external, snippet or post
+# + mode - Contains one of hosted, external, snippet, or post
 # + is_external - `true` if the master copy of the file is stored within the system, otherwise `false`
-# + external_type - Kind of external file eg: dropbox or gdoc
+# + external_type - Kind of external file (e.g., Dropbox or GDoc)
 # + is_public - `true` if the file is public
-# + public_url_shared - `true` if the file's public url has been shared
-# + url_private - Points to a URL to the file content
+# + public_url_shared - `true` if the file's public URL has been shared
+# + url_private - Points to a URL for the file content
 # + url_private_download - Includes headers to force a browser download
-# + permalink - The URL pointing to a single page for the file containing details, comments and a download link
+# + permalink - The URL pointing to a single page for the file containing details, comments, and a download link
 # + permalink_public - Points to a public file itself
 # + lines - The total count of the lines shown in the snippet
 # + lines_more - The count of the lines not shown in the preview
