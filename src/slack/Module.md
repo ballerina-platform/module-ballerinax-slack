@@ -76,7 +76,11 @@ The `postMessage` remote function can be used to send a message to a Slack chann
 
 ```ballerina
 slack:ChatClient chatClient = slackClient.getChatClient();
-string|error response = chatClient->postMessage(channelName, "Hello Channel");
+stripe:Message messageParams = {
+    channelName: "channelName",
+    text: "Hello"
+};
+string|error response = chatClient->postMessage(messageParams);
 if (response is string) {    
     io:println("Message posted to channel " + response);
 } else {

@@ -253,26 +253,20 @@ public type ChatClient client object {
 
     # The `ChatClient.postMessage()` function can be used to send a message to a channel.
     #
-    # + channelName - Name of the conversation to send the message
-    # + message - Message to be posted on the slack
-    # + threadTs - Thread timestamp of the conversation, if replying to a thread
+    # + message - Message parameters to be posted on the slack
     # + return - Thread ID of the posted message or a `slack:Error` 
-    public remote function postMessage(string channelName, string message, string? threadTs = ())
-                        returns @tainted string|Error {
-        string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
-        return postMessage(self.chatClient, resolvedChannelId, message, threadTs);
+    public remote function postMessage(Message message) returns @tainted string|Error {
+        string resolvedChannelId = check self.resolveChannelId(self.idMap, message.channelName);
+        return postMessage(self.chatClient, resolvedChannelId, message);
     }
 
     # The `ChatClient.updateMessage()` function can be used to update a message.
     #
-    # + channelName - Name of the conversation to send the message
-    # + message - Message to be posted on the Slack
-    # + threadTs - Thread timestamp of the conversation, if replying to a thread
+    # + message - Message parameters to be updated on the slack
     # + return - The thread ID of the posted message or a `slack:Error`
-    public remote function updateMessage(string channelName, string message, string threadTs)
-                        returns @tainted string|Error {
-        string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
-        return updateMessage(self.chatClient, resolvedChannelId, message, threadTs);
+    public remote function updateMessage(Message message) returns @tainted string|Error {
+        string resolvedChannelId = check self.resolveChannelId(self.idMap, message.channelName);
+        return updateMessage(self.chatClient, resolvedChannelId, message);
     }
 
     # The `ChatClient.deleteMessage()` function can be used to delete a message.

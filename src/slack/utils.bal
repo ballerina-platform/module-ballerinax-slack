@@ -14,6 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/encoding;
 import ballerina/http;
 import ballerina/mime;
 import ballerina/stringutils;
@@ -183,18 +184,46 @@ function getConversationInfo(http:Client slackClient, string channelId, boolean?
     }
 }
 
-function postMessage(http:Client slackClient, string channelId, string message, string? threadTs = ()) 
-                        returns @tainted string|Error {
-    string url = POST_MESSAGE_PATH + channelId + TEXT_TYPE_ARG + message;
-    if (!(threadTs is ())) {
-        url = url + THREAD_TS_ARG + threadTs;
-    }
+function postMessage(http:Client slackClient, string channelId, Message message) 
+                        returns @tainted string|Error {    
+    string url = POST_MESSAGE_PATH + channelId + createQuery(message);
     return handlePostMessage(slackClient, url);
 }
 
-function updateMessage(http:Client slackClient, string channelId, string message, string threadTs) 
+function createQuery(Message message) returns string {  
+    string queryString = "";  
+    foreach [string, any] [key, value] in message.entries() {
+        if (key != CHANNEL_NAME) {
+            if (key == BLOCKS || key == ATTACHMENTS) {
+                queryString = queryString + AND + fillWithUnderscore(key) + EQUAL + 
+                               getEncodedUri(value.toJsonString());
+            } else {
+                queryString = queryString + AND + fillWithUnderscore(key) + EQUAL + getEncodedUri(value.toString());
+            }              
+        }      
+    }
+    return queryString;
+}
+
+function getEncodedUri(string value) returns string {
+    string|error encoded = encoding:encodeUriComponent(value, UTF8);
+    if (encoded is string) {
+        return encoded;
+    } else {
+        return value;
+    }
+}
+
+function fillWithUnderscore(string camelCaseString) returns string {
+    string stringWithUnderScore = stringutils:replaceAll(camelCaseString, "([A-Z])", "_$1");
+    return stringWithUnderScore.toLowerAscii();
+}
+
+function updateMessage(http:Client slackClient, string channelId, Message message) 
                         returns @tainted string|Error {
-    string url = UPDATE_MESSAGE_PATH + channelId + TEXT_TYPE_ARG + message + THREAD_TS_ARG_FOR_UPDATING + threadTs;
+    string updateQuery = createQuery(message);
+    updateQuery = stringutils:replace(updateQuery, THREAD_TS_ARG, THREAD_TS_ARG_FOR_UPDATING);    
+    string url = UPDATE_MESSAGE_PATH + channelId + updateQuery;
     return handlePostMessage(slackClient, url);
 }
 
@@ -241,6 +270,7 @@ function mapChannelInfo(http:Response response) returns @tainted Channel|Error {
     if (ok == true) {                    
         var ch = jsonPayload.'channel;
         if (ch is map<json>) {
+            convertJsonToCamelCase(ch);
             Channel|error slackCh = Channel.constructFrom(ch);
             if (slackCh is error) {
                 return Error(message = "Channel does not exist", cause = slackCh);
@@ -257,6 +287,7 @@ function mapChannelInfo(http:Response response) returns @tainted Channel|Error {
 }
 
 function mapConversationInfo(json channelList) returns Conversations|Error {
+    convertJsonToCamelCase(channelList);
     var conversations = Conversations.constructFrom(channelList);
     if (conversations is error) {
         return Error(message = "Response cannot be converted to Conversations record", cause = conversations);
@@ -293,6 +324,7 @@ function getUserInfo(http:Client slackClient, string userId) returns @tainted Er
         return setJsonResError(user);
     }
     json userJson = <json> user;
+    convertJsonToCamelCase(userJson);
     var  userRec = User.constructFrom(userJson);
     if (userRec is error) {
         return Error(message = "Response cannot be converted to User record", cause = userRec);
@@ -375,8 +407,9 @@ function listFiles(http:Client slackClient, string? channelId, int? count, strin
     if (files is error) {
         return setJsonResError(files);
     }
-    json fileJson = <json> files;
-    var fileRec = FileInfo[].constructFrom(fileJson);
+    json[] fileJson = <json[]> files;
+    convertJsonArrayToCamelCase(fileJson);
+    var fileRec = FileInfo[].constructFrom(fileJson);    
     if (fileRec is error) {
         return Error(message = "Response cannot be converted to FileInfo array", cause = fileRec);
     } else {
@@ -425,6 +458,7 @@ function uploadFile(string filePath, http:Client slackClient, string? channelId,
         return setJsonResError(file);
     }
     json fileJson = <json> file;
+    convertJsonToCamelCase(fileJson);
     var fileRec = FileInfo.constructFrom(fileJson);
     if (fileRec is error) {
         return Error(message = "Unable to convert the response to FileInfo record", cause = fileRec);
@@ -451,6 +485,7 @@ function getFileInfo(http:Client slackClient, string fileId) returns @tainted Fi
         return setJsonResError(file);
     }
     json fileJson = <json> file;
+    convertJsonToCamelCase(fileJson);
     var fileRec = FileInfo.constructFrom(fileJson);
     if (fileRec is error) {
         return Error(message = "Unable to convert the response to FileInfo record", cause = fileRec);
@@ -493,4 +528,47 @@ function setResError(error errorResponse) returns Error {
 function setJsonResError(error errorResponse) returns Error {
     return Error(message = "Error occurred while accessing the JSON payload of the response", 
                         cause = errorResponse);
+}
+
+function convertJsonToCamelCase(json req) {
+    map<json> mapValue = <map<json>>req;
+    foreach var [key, value] in mapValue.entries() {
+        string converted = convertToCamelCase(key);
+        if (converted != key) {
+            any|error removeResult = mapValue.remove(key);
+            mapValue[converted] = value;
+        }
+        if (value is json[]) {
+            json[] innerJson = <json[]>mapValue[converted];
+            foreach var item in innerJson {
+                // assume no arrays inside array
+                if (item is map<json>) {
+                    convertJsonToCamelCase(item);
+                }
+            }
+        } else if (value is map<json>) {
+            convertJsonToCamelCase(value);
+        }
+    }
+}
+
+function convertJsonArrayToCamelCase(json[] jsonArr) {
+    foreach var item in jsonArr {
+        convertJsonToCamelCase(item);
+    }
+}
+
+function convertToCamelCase(string input) returns string {
+    string returnResult = "";
+    string[] splitResult = stringutils:split(input, "_");
+    int i = 0;
+    foreach var item in splitResult {
+        if (i == 0) {
+            returnResult = item;
+        } else {
+            returnResult = returnResult + item.substring(0,1).toUpperAscii() + item.substring(1, item.length());
+        }
+        i = i + 1;
+    }
+    return returnResult;
 }
