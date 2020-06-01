@@ -61,11 +61,11 @@ public function main() {
     slack:FileClient file = slackClient.getFileClient();
     slack:UserClient user = slackClient.getUserClient();
 
-    stripe:Message messageParams = {
+    slack:Message messageParams = {
         channelName: "channelName",
         text: "Hello"
     };
-    
+
     // Post a message to a channel.
     string|error postResponse = chat->postMessage(messageParams);
     if (postResponse is string) {
