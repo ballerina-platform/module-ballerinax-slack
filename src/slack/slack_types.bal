@@ -121,7 +121,7 @@ public type User record {
 # 
 # + title - Title added in the user profile
 # + phone - Phone number 
-# + skype - skype ID
+# + skype - Skype ID
 # + realName - The real name, which the users specified in their workspace profile
 # + realNameNormalized - The `real_name` field with any non-Latin characters filtered out
 # + displayName - The display name, which the users have chosen to identify themselves by in their workspace profile
@@ -180,6 +180,7 @@ public type FileInfo record {
 };
 
 # Parameters associated with posting messages in Slack.
+# 
 # + channelName - Channel name
 # + text - Text message
 # + threadTs - Provide another message's `ts` value to make this message a reply
@@ -190,7 +191,7 @@ public type FileInfo record {
 # + linkNames - Set to `true` to find and link channel names and usernames
 # + mrkdwn - Set to `true` to enable Slack markup parsing
 # + parse - Refers how messages should be treated: `none`, which is the default value or `full` 
-# + replyBroadcast - Used in conjunction with `thread_ts` and indicates whether the reply should be made visible to everyone
+# + replyBroadcast - Used in conjunction with `threadTs` and indicates whether the reply should be made visible to everyone
 #                    in the channel or conversation
 # + unfurlLinks - `true` to enable unfurling of primarily text-based content or otherwise `false`
 # + unfurlMedia - `false` to disable unfurling of media content
