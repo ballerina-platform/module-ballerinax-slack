@@ -39,10 +39,10 @@ public type Purpose record {
 # 
 # + id - ID of the channel
 # + name - Name of the channel
-# + isChannel - `true` if a channel, else `false`
-# + isGroup - `true` if a group conversation, else `false`
+# + isChannel - `true` if a channel or else `false`
+# + isGroup - `true` if a group conversation or else `false`
 # + isArchived - `true` if the channel is archived
-# + isGeneral - `true` if the channel is the "general" channel which includes all regular members
+# + isGeneral - `true` if the channel is the "general" channel, which includes all regular members
 # + nameNormalized - Normalized name
 # + parentConversation - Name of the parent conversation if there is one
 # + creator - The user ID of the member who created the channel
@@ -84,11 +84,11 @@ public type ResponseMetadata record {
 
 # Contains information about the user.
 # 
-# + id - User iD
-# + teamId - Team iD
+# + id - User ID
+# + teamId - Team ID
 # + name - Name of the user
-# + deleted - `true` if the user has been deactivated, otherwise false
-# + realName - The real name that the user specified in their workspace profile
+# + deleted - `true` if the user has been deactivated or else `false`
+# + realName - The real name that the users specified in their workspace profile
 # + tz - The time zone
 # + tzLabel - The commonly-used name of the `tz` timezone
 # + profile - Contains information about the user's workspace profile
@@ -122,7 +122,7 @@ public type User record {
 # + title - Title added in the user profile
 # + phone - Phone number 
 # + skype - skype ID
-# + realName - The real name which the user specified in their workspace profile
+# + realName - The real name, which the users specified in their workspace profile
 # + realNameNormalized - The `real_name` field with any non-Latin characters filtered out
 # + displayName - The display name, which the users have chosen to identify themselves by in their workspace profile
 # + displayNameNormalized - The `display_name` field with any non-Latin characters filtered out
@@ -146,8 +146,8 @@ public type Profile record {
 # + editable - `true` if the file is stored as editable
 # + size - File size in bytes
 # + mode - Contains one of hosted, external, snippet, or post
-# + isExternal - `true` if the master copy of the file is stored within the system, otherwise `false`
-# + externalType - Kind of external file (e.g., Dropbox or GDoc)
+# + isExternal - `true` if the master copy of the file is stored within the system otherwise `false`
+# + externalType - Type of the external file (e.g., Dropbox or GDoc)
 # + isPublic - `true` if the file is public
 # + publicUrlShared - `true` if the file's public URL has been shared
 # + urlPrivate - Points to a URL for the file content
@@ -179,7 +179,7 @@ public type FileInfo record {
     int commentsCount;
 };
 
-# Parameters associated with posting messages in slack.
+# Parameters associated with posting messages in Slack.
 # + channelName - Channel name
 # + text - Text message
 # + threadTs - Provide another message's `ts` value to make this message a reply
@@ -189,12 +189,12 @@ public type FileInfo record {
 # + iconUrl - URL to an image to use as the icon for this message
 # + linkNames - Set to `true` to find and link channel names and usernames
 # + mrkdwn - Set to `true` to enable Slack markup parsing
-# + parse - Refers how messages should be treated. `full` or default to `none`
-# + replyBroadcast - Used in conjunction with thread_ts and indicates whether reply should be made visible to everyone
+# + parse - Refers how messages should be treated: `none`, which is the default value or `full` 
+# + replyBroadcast - Used in conjunction with `thread_ts` and indicates whether the reply should be made visible to everyone
 #                    in the channel or conversation
-# + unfurlLinks - `true` to enable unfurling of primarily text-based content, otherwise `false`
+# + unfurlLinks - `true` to enable unfurling of primarily text-based content or otherwise `false`
 # + unfurlMedia - `false` to disable unfurling of media content
-# + username - Bot's user name. This must be used in conjunction with `asUser` set to `false`, otherwise ignored
+# + username - Bot's user name. This must be used in conjunction with `asUser` set to `false`or otherwise ignored
 public type Message record {|
     string channelName;
     string text;
@@ -212,7 +212,7 @@ public type Message record {|
     string username?;
 |};
 
-# Refers how messages should be treated. `full` or default to `none`
+# Refers how messages should be treated: `none`, which is the default value or `full` 
 public type Parse NONE|FULL;
 
 # Holds the parameters used to create a `Client`.

@@ -253,7 +253,7 @@ public type ChatClient client object {
 
     # The `ChatClient.postMessage()` function can be used to send a message to a channel.
     #
-    # + message - Message parameters to be posted on the slack
+    # + message - Message parameters to be posted on Slack
     # + return - Thread ID of the posted message or a `slack:Error` 
     public remote function postMessage(Message message) returns @tainted string|Error {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, message.channelName);
@@ -262,7 +262,7 @@ public type ChatClient client object {
 
     # The `ChatClient.updateMessage()` function can be used to update a message.
     #
-    # + message - Message parameters to be updated on the slack
+    # + message - Message parameters to be updated on Slack
     # + return - The thread ID of the posted message or a `slack:Error`
     public remote function updateMessage(Message message) returns @tainted string|Error {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, message.channelName);
