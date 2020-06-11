@@ -61,8 +61,13 @@ public function main() {
     slack:FileClient file = slackClient.getFileClient();
     slack:UserClient user = slackClient.getUserClient();
 
+    slack:Message messageParams = {
+        channelName: "channelName",
+        text: "Hello"
+    };
+
     // Post a message to a channel.
-    string|error postResponse = chat->postMessage("channelName", "Hello Channel");
+    string|error postResponse = chat->postMessage(messageParams);
     if (postResponse is string) {
         log:printInfo("Message sent");
     } else {

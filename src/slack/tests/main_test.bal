@@ -39,14 +39,28 @@ string fileId = "";
 string filePath = "src/slack/tests/resources/test.txt";
 string threadId = "";
 
+Message messageParams = {
+    channelName: "test-slack-connector",
+    text: "Hello",
+    attachments: [{"pretext": "pre-hello", "text": "text-world"}],
+    blocks: [{"type": "section", "text": {"type": "plain_text", "text": "Hello world"}}]
+};
+
+Message udateMessageParams = {
+    channelName: "test-slack-connector",
+    threadTs: "",
+    text: "updated message"
+};
+
 @test:Config {
     after: "deleteMessageAfterTest"
 }
 function testPostTextMessage() {
-    var response = chatClient->postMessage(channelName1, "Hello Channel");
+    var response = chatClient->postMessage(messageParams);
     if (response is string) {
         threadId = <@untainted> response;
-        var updateResponse = chatClient->updateMessage(channelName1, "updated message", threadId);
+        udateMessageParams.threadTs = threadId;
+        var updateResponse = chatClient->updateMessage(udateMessageParams);
         if (updateResponse is string) {
             test:assertEquals(updateResponse, threadId);
         } else {
