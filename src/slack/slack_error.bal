@@ -14,13 +14,5 @@
 // specific language governing permissions and limitations
 // under the License.
 
-type Detail record {
-    string message;
-    error cause?;
-};
-
-# Represents the Slack error reason.
-public const SLACK_ERROR = "(ballerinax/slack)Error";
-
 # Represents the Slack error type with details.
-public type Error error<SLACK_ERROR, Detail>;
+public type Error distinct error;
