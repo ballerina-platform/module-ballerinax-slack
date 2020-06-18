@@ -424,15 +424,15 @@ function uploadFile(string filePath, http:Client slackClient, string? channelId,
         url = url + CHANNELS_PARAM + channelId;
     }
     if (title is string) {
-        url = (stringutils:contains(url, QUESTION_MARK)) ? url + TITLE_AS_SECOND_PARAM + title : 
+        url = (stringutils:contains(url, QUESTION_MARK)) ? (url + TITLE_AS_SECOND_PARAM + title) : 
                 url + TITLE_AS_FIRST_PARAM + title;
     }  
     if (initialComment is string) {
-        url = (stringutils:contains(url, QUESTION_MARK)) ? url + INITIAL_COMMENT_AS_SECOND_PARAM + initialComment : 
+        url = (stringutils:contains(url, QUESTION_MARK)) ? (url + INITIAL_COMMENT_AS_SECOND_PARAM + initialComment) : 
                 url + INITIAL_COMMENT_AS_FIRST_PARAM + initialComment;
     }
     if (threadTs is string) {
-        url = (stringutils:contains(url, QUESTION_MARK)) ? url + THREAD_TS_AS_SECOND_PARAM + threadTs : 
+        url = (stringutils:contains(url, QUESTION_MARK)) ? (url + THREAD_TS_AS_SECOND_PARAM + threadTs) : 
                 url + THREAD_TS_AS_FIRST_PARAM + threadTs;
     }              
     http:Request request = new;
