@@ -13,7 +13,7 @@ The following sections provide you details on how to use the Slack connector.
 
 |                             |           Version           |
 |:---------------------------:|:---------------------------:|
-| Ballerina Language          |        2.0.0-Preview1       |
+| Ballerina Language          |        Swan Lake Preview1   |
 
 ## Feature Overview
 

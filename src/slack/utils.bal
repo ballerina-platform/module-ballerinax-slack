@@ -409,7 +409,7 @@ function listFiles(http:Client slackClient, string? channelId, int? count, strin
     }
     json[] fileJson = <json[]> files;
     convertJsonArrayToCamelCase(fileJson);
-    var fileRec = fileJson.cloneWithType(FileInfo[]);
+    var fileRec = fileJson.cloneWithType(FileInfoArray);
     if (fileRec is error) {
         return Error("Response cannot be converted to FileInfo array", fileRec);
     } else {
