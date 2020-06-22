@@ -224,3 +224,5 @@ public type Configuration record {|
    oauth2:DirectTokenConfig oauth2Config;
    http:ProxyConfig? proxyConfig = ();
 |};
+
+type FileInfoArray FileInfo[];

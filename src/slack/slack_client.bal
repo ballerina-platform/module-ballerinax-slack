@@ -25,7 +25,7 @@ public type Client client object {
     private FileClient fileClient;
     private ChatClient chatClient;
 
-    public function __init(Configuration config) {
+    public function init(Configuration config) {
         oauth2:OutboundOAuth2Provider oauth2Provider = new(config.oauth2Config);
         http:BearerAuthHandler oauth2Handler = new(oauth2Provider);
         http:ProxyConfig? proxyConfig = config?.proxyConfig;
@@ -78,7 +78,7 @@ public type ConversationClient client object {
     private http:Client conversationClient;
     private map<string> idMap;
 
-    function __init(http:Client slackClient, map<string> channelIdMap) {
+    function init(http:Client slackClient, map<string> channelIdMap) {
         self.conversationClient = slackClient;  
         self.idMap = channelIdMap;
     }
@@ -209,7 +209,7 @@ public type UserClient client object {
 
     private http:Client userClient;
 
-    function __init(http:Client slackClient) {
+    function init(http:Client slackClient) {
         self.userClient = slackClient;
     }
 
@@ -246,7 +246,7 @@ public type ChatClient client object {
     private string channelId = EMPTY_STRING;
     private map<string> idMap;
 
-    function __init(http:Client slackClient, map<string> channelIdMap) {
+    function init(http:Client slackClient, map<string> channelIdMap) {
         self.chatClient = slackClient;
         self.idMap = channelIdMap;
     }
@@ -294,7 +294,7 @@ public type FileClient client object {
     private http:Client fileClient;
     private map<string> idMap;
 
-    function __init(http:Client slackClient, map<string> channelIdMap) {
+    function init(http:Client slackClient, map<string> channelIdMap) {
         self.fileClient = slackClient;
         self.idMap = channelIdMap;
     }

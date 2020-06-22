@@ -41,7 +41,7 @@ function getChannelId(http:Client slackClient, string channelName) returns @tain
             return (ch.id).toString();
         }
     }
-    return Error(message = "Channel " + channelName + " does not exist");
+    return Error("Channel " + channelName + " does not exist");
 }
 
 function archiveConversation(http:Client slackClient, string channelId) returns @tainted Error? {
@@ -94,7 +94,7 @@ function getUserIds(http:Client slackClient, string[] users) returns @tainted st
         }
     } 
     if (usersList == EMPTY_STRING) {
-        return Error(message = "Unable to find user ids of the given users");
+        return Error("Unable to find user ids of the given users");
     }
     return usersList;
 }
@@ -121,7 +121,7 @@ function getUserId(http:Client slackClient, string user) returns @tainted string
             return (member.id).toString();
         }
     } 
-    return Error(message = "Unable to find the user id for the user " + user);    
+    return Error("Unable to find the user id for the user " + user);
 }
 
 function listConversationsOfUser(http:Client slackClient, string user, boolean excludeArchived, int? noOfItems = (), 
@@ -228,7 +228,7 @@ function updateMessage(http:Client slackClient, string channelId, Message messag
 }
 
 function handlePostMessage(http:Client slackClient, string url) returns @tainted string|Error {
-    http:Response|error response = slackClient->post(<@untained> url, EMPTY_STRING);
+    http:Response|error response = slackClient->post(<@untainted> url, EMPTY_STRING);
     if (response is error) {
         return setResError(response);
     }
@@ -271,26 +271,26 @@ function mapChannelInfo(http:Response response) returns @tainted Channel|Error {
         var ch = jsonPayload.'channel;
         if (ch is map<json>) {
             convertJsonToCamelCase(ch);
-            Channel|error slackCh = Channel.constructFrom(ch);
+            Channel|error slackCh = ch.cloneWithType(Channel);
             if (slackCh is error) {
-                return Error(message = "Channel does not exist", cause = slackCh);
+                return Error("Channel does not exist", slackCh);
             } else {
                 return slackCh;
             }            
         } else {
-            return Error(message = "Channel does not exist");
+            return Error("Channel does not exist");
         }
     } else {
-        return Error(message = "Retrieving channel information failed: " + 
+        return Error("Retrieving channel information failed: " +
                         (jsonPayload.'error).toString());
     }    
 }
 
 function mapConversationInfo(json channelList) returns Conversations|Error {
     convertJsonToCamelCase(channelList);
-    var conversations = Conversations.constructFrom(channelList);
+    var conversations = channelList.cloneWithType(Conversations);
     if (conversations is error) {
-        return Error(message = "Response cannot be converted to Conversations record", cause = conversations);
+        return Error("Response cannot be converted to Conversations record", conversations);
     } else {
         return conversations;
     }
@@ -325,9 +325,9 @@ function getUserInfo(http:Client slackClient, string userId) returns @tainted Er
     }
     json userJson = <json> user;
     convertJsonToCamelCase(userJson);
-    var  userRec = User.constructFrom(userJson);
+    var  userRec = userJson.cloneWithType(User);
     if (userRec is error) {
-        return Error(message = "Response cannot be converted to User record", cause = userRec);
+        return Error("Response cannot be converted to User record", userRec);
     } else {
         return userRec;
     }
@@ -351,7 +351,7 @@ function checkOk(json respPayload) returns Error? {
     if (ok == false) {
         json|error errorRes = respPayload.'error;
         if (errorRes is json) {
-            return Error(message = errorRes.toString());
+            return Error(errorRes.toString());
         }
     }
 }
@@ -409,9 +409,9 @@ function listFiles(http:Client slackClient, string? channelId, int? count, strin
     }
     json[] fileJson = <json[]> files;
     convertJsonArrayToCamelCase(fileJson);
-    var fileRec = FileInfo[].constructFrom(fileJson);    
+    var fileRec = fileJson.cloneWithType(FileInfoArray);
     if (fileRec is error) {
-        return Error(message = "Response cannot be converted to FileInfo array", cause = fileRec);
+        return Error("Response cannot be converted to FileInfo array", fileRec);
     } else {
         return fileRec;
     }
@@ -424,15 +424,15 @@ function uploadFile(string filePath, http:Client slackClient, string? channelId,
         url = url + CHANNELS_PARAM + channelId;
     }
     if (title is string) {
-        url = (stringutils:contains(url, QUESTION_MARK)) ? url + TITLE_AS_SECOND_PARAM + title : 
+        url = (stringutils:contains(url, QUESTION_MARK)) ? (url + TITLE_AS_SECOND_PARAM + title) : 
                 url + TITLE_AS_FIRST_PARAM + title;
     }  
     if (initialComment is string) {
-        url = (stringutils:contains(url, QUESTION_MARK)) ? url + INITIAL_COMMENT_AS_SECOND_PARAM + initialComment : 
+        url = (stringutils:contains(url, QUESTION_MARK)) ? (url + INITIAL_COMMENT_AS_SECOND_PARAM + initialComment) : 
                 url + INITIAL_COMMENT_AS_FIRST_PARAM + initialComment;
     }
     if (threadTs is string) {
-        url = (stringutils:contains(url, QUESTION_MARK)) ? url + THREAD_TS_AS_SECOND_PARAM + threadTs : 
+        url = (stringutils:contains(url, QUESTION_MARK)) ? (url + THREAD_TS_AS_SECOND_PARAM + threadTs) : 
                 url + THREAD_TS_AS_FIRST_PARAM + threadTs;
     }              
     http:Request request = new;
@@ -459,9 +459,9 @@ function uploadFile(string filePath, http:Client slackClient, string? channelId,
     }
     json fileJson = <json> file;
     convertJsonToCamelCase(fileJson);
-    var fileRec = FileInfo.constructFrom(fileJson);
+    var fileRec = fileJson.cloneWithType(FileInfo);
     if (fileRec is error) {
-        return Error(message = "Unable to convert the response to FileInfo record", cause = fileRec);
+        return Error("Unable to convert the response to FileInfo record", fileRec);
     } else {
         return fileRec;
     }
@@ -486,9 +486,9 @@ function getFileInfo(http:Client slackClient, string fileId) returns @tainted Fi
     }
     json fileJson = <json> file;
     convertJsonToCamelCase(fileJson);
-    var fileRec = FileInfo.constructFrom(fileJson);
+    var fileRec = fileJson.cloneWithType(FileInfo);
     if (fileRec is error) {
-        return Error(message = "Unable to convert the response to FileInfo record", cause = fileRec);
+        return Error("Unable to convert the response to FileInfo record", fileRec);
     } else {
         return fileRec;
     }
@@ -522,12 +522,12 @@ function handleOkResp(http:Client slackClient, string url) returns @tainted Erro
 }
 
 function setResError(error errorResponse) returns Error {
-    return Error(message = "Error received from the slack server", cause = errorResponse);
+    return Error("Error received from the slack server", errorResponse);
 }
 
 function setJsonResError(error errorResponse) returns Error {
-    return Error(message = "Error occurred while accessing the JSON payload of the response", 
-                        cause = errorResponse);
+    return Error("Error occurred while accessing the JSON payload of the response",
+                        errorResponse);
 }
 
 function convertJsonToCamelCase(json req) {

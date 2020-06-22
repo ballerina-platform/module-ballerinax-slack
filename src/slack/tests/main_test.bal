@@ -67,7 +67,7 @@ function testPostTextMessage() {
             test:assertFail(msg = response.toString());
         }
     } else {
-        test:assertFail(msg = <string>response.detail()?.message);
+        test:assertFail(msg = response.message());
     }
 }
 
@@ -82,7 +82,7 @@ function deleteMessageAfterTest() {
 function testListConversations() {
     var response = convClient->listConversations();
     if (response is error) {
-        test:assertFail(msg = <string>response.detail()?.message);
+        test:assertFail(msg = response.message());
     } 
 }
 
@@ -90,7 +90,7 @@ function testListConversations() {
 function testGetConversationInfo() {
     var response = convClient->getConversationInfo(channelName1);
     if (response is error) {
-        test:assertFail(msg = <string>response.detail()?.message);
+        test:assertFail(msg = response.message());
     } 
 }
 
@@ -98,7 +98,7 @@ function testGetConversationInfo() {
 function testGetUserInfo() {
     var response = userClient->getUserInfo(userName);
     if (response is error) {
-        test:assertFail(msg = <string>response.detail()?.message);
+        test:assertFail(msg = response.message());
     } else {
         test:assertEquals(response.name, userName);
     }
@@ -111,7 +111,7 @@ function testGetUserInfo() {
 function testListFiles() {
     var response = fileClient->listFiles(channelName1);
     if (response is error) {
-        test:assertFail(msg = <string>response.detail()?.message);
+        test:assertFail(msg = response.message());
     } 
 }
 
@@ -122,7 +122,7 @@ function testListFiles() {
 function testGetFileInfo() {
     var response = fileClient->getFileInfo(fileId);
     if (response is error) {
-        test:assertFail(msg = <string>response.detail()?.message);
+        test:assertFail(msg = response.message());
     } else {
         test:assertEquals(response.name, "test.txt");
     }
@@ -131,7 +131,7 @@ function testGetFileInfo() {
 function uploadFileToTest() {
     var response = fileClient->uploadFile(filePath, channelName1);
     if (response is error) {
-        test:assertFail(msg = <string>response.detail()?.message);
+        test:assertFail(msg = response.message());
     } else {
         fileId = <@untainted> response.id;
     }
@@ -140,7 +140,7 @@ function uploadFileToTest() {
 function deleteFileAfterTest() {
     var response = fileClient->deleteFile(fileId);
     if (response is error) {
-        test:assertFail(msg = <string>response.detail()?.message);
+        test:assertFail(msg = response.message());
     } 
 }
 
@@ -201,7 +201,7 @@ function testLeaveConveration() {
 function testJoinConversation() {
     var response = convClient->joinConversation(channelName1);
     if (response is error) {
-        test:assertFail(msg = <string>response.detail()?.message);
+        test:assertFail(msg = response.message());
     } 
 }
 
