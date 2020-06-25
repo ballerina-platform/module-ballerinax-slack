@@ -14,9 +14,9 @@ join a conversation, add users to a conversation, archive/unarchive conversation
 5. **slack.FileClient** - This client can be used in file-related operations in Slack. For example, upload files, delete files, get file information, etc.
 
 ## Compatibility
-|                     |    Version     |
-|:-------------------:|:--------------:|
-| Ballerina Language  | 1.2.0          |
+|                     |    Version            |
+|:-------------------:|:---------------------:|
+| Ballerina Language  | Swan Lake Preview1    |
 
 ## Sample
 
