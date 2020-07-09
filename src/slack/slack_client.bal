@@ -44,10 +44,10 @@ public type Client client object {
         self.chatClient = new(self.slackClient, self.channelIdMap);        
     } 
 
-    # The `Client.getConversationsClient()` function can be used to retrieve the conversation client.
+    # The `Client.getConversationClient()` function can be used to retrieve the conversation client.
     #
     # + return - The conversation client
-    public function getConversationsClient() returns ConversationClient {
+    public function getConversationClient() returns ConversationClient {
         return self.conversationClient;
     }
 
