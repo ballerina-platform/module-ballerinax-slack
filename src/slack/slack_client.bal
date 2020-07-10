@@ -17,7 +17,7 @@
 import ballerina/http;
 import ballerina/oauth2;
 
-public type Client client object {
+public type Client object {
     private map<string> channelIdMap = {};
     private http:Client slackClient;
     private ConversationClient conversationClient;
@@ -44,10 +44,10 @@ public type Client client object {
         self.chatClient = new(self.slackClient, self.channelIdMap);        
     } 
 
-    # The `Client.getConversationsClient()` function can be used to retrieve the conversation client.
+    # The `Client.getConversationClient()` function can be used to retrieve the conversation client.
     #
     # + return - The conversation client
-    public function getConversationsClient() returns ConversationClient {
+    public function getConversationClient() returns ConversationClient {
         return self.conversationClient;
     }
 

@@ -26,7 +26,7 @@ Configuration slackConfig1 = {
 };
 
 Client slackClient = new(slackConfig1);
-ConversationClient convClient = slackClient.getConversationsClient();
+ConversationClient convClient = slackClient.getConversationClient();
 ChatClient chatClient = slackClient.getChatClient();
 FileClient fileClient = slackClient.getFileClient();
 UserClient userClient = slackClient.getUserClient();
@@ -152,24 +152,26 @@ function testRemoveUser() {
     } 
 }
 
-@test:Config {
-    after: "renameAfterTest"
-}
-function testRenameConversation() {
-    var response = convClient->renameConversation(channelName1, channelName2);
-    if (response is error) {
-        test:assertFail(msg = response.toString());
-    } else {
-        test:assertEquals(response.name, channelName2);
-    }
-}
+// Commenting this test case as it grows the previousNames field of the response.
+// Uncomment and test it when testing it locally.
+// @test:Config {
+//     after: "renameAfterTest"
+// }
+// function testRenameConversation() {
+//     var response = convClient->renameConversation(channelName1, channelName2);
+//     if (response is error) {
+//         test:assertFail(msg = response.toString());
+//     } else {
+//         test:assertEquals(response.name, channelName2);
+//     }
+// }
 
-function renameAfterTest() {
-    var response = convClient->renameConversation(channelName2, channelName1);
-    if (response is error) {
-        test:assertFail(msg = response.toString());
-    } 
-}
+// function renameAfterTest() {
+//     var response = convClient->renameConversation(channelName2, channelName1);
+//     if (response is error) {
+//         test:assertFail(msg = response.toString());
+//     } 
+// }
 
 @test:Config {
     before: "archiveConvToUseInTests"

@@ -56,7 +56,7 @@ slack:Configuration slackConfig = {
 
 public function main() {
     slack:Client slackClient = new(slackConfig);
-    slack:ConversationClient conv = slackClient.getConversationsClient();
+    slack:ConversationClient conv = slackClient.getConversationClient();
     slack:ChatClient chat = slackClient.getChatClient();
     slack:FileClient file = slackClient.getFileClient();
     slack:UserClient user = slackClient.getUserClient();
@@ -95,7 +95,7 @@ public function main() {
     if (userResponse is slack:Error) {
         log:printError("Error occured when getting user information ", userResponse);
     } else {
-        log:printInfo("Found user information of the user " + userResponse.name);
+        log:printInfo("Found user information of the user ", userResponse.name);
     }
 }
 ```
