@@ -17,7 +17,7 @@
 import ballerina/http;
 import ballerina/oauth2;
 
-public type Client client object {
+public type Client object {
     private map<string> channelIdMap = {};
     private http:Client slackClient;
     private ConversationClient conversationClient;
