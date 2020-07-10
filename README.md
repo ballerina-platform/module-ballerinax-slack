@@ -56,10 +56,10 @@ slack:Configuration slackConfig = {
 
 public function main() {
     slack:Client slackClient = new(slackConfig);
-    slack:ConversationClient conv = slackClient.getConversationClient();
-    slack:ChatClient chat = slackClient.getChatClient();
-    slack:FileClient file = slackClient.getFileClient();
-    slack:UserClient user = slackClient.getUserClient();
+    slack:ConversationClient convClient = slackClient.getConversationClient();
+    slack:ChatClient chatClient = slackClient.getChatClient();
+    slack:FileClient fileClient = slackClient.getFileClient();
+    slack:UserClient userClient = slackClient.getUserClient();
 
     slack:Message messageParams = {
         channelName: "channelName",
@@ -67,7 +67,7 @@ public function main() {
     };
 
     // Post a message to a channel.
-    string|error postResponse = chat->postMessage(messageParams);
+    string|slack:Error postResponse = chatClient->postMessage(messageParams);
     if (postResponse is string) {
         log:printInfo("Message sent");
     } else {
@@ -75,7 +75,7 @@ public function main() {
     }
 
     // List all the conversations.
-    Conversations|error listConvResponse = conv->listConversations();
+    slack:Conversations|slack:Error listConvResponse = convClient->listConversations();
     if (listConvResponse is slack:Error) {
         log:printError("Error occured when listing conversations", listConvResponse);
     } else {
@@ -83,7 +83,7 @@ public function main() {
     }
 
     // Upload a file to a channel.
-    FileInfo|error fileResponse = file->uploadFile("filePath", "channelName");
+    slack:FileInfo|slack:Error fileResponse = fileClient->uploadFile("filePath", "channelName");
     if (fileResponse is slack:Error) {
         log:printError("Error occured when uploading the file ", fileResponse);
     } else {
@@ -91,7 +91,7 @@ public function main() {
     }
 
     // Get user information.
-    User|error userResponse = user->getUserInfo("userName");
+    slack:User|slack:Error userResponse = userClient->getUserInfo("userName");
     if (userResponse is slack:Error) {
         log:printError("Error occured when getting user information ", userResponse);
     } else {
