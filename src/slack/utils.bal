@@ -190,7 +190,7 @@ function postMessage(http:Client slackClient, string channelId, Message message)
     return handlePostMessage(slackClient, url);
 }
 
-function createQuery(Message message) returns string {  
+isolated function createQuery(Message message) returns string {  
     string queryString = "";  
     foreach [string, any] [key, value] in message.entries() {
         if (key != CHANNEL_NAME) {
@@ -205,7 +205,7 @@ function createQuery(Message message) returns string {
     return queryString;
 }
 
-function getEncodedUri(string value) returns string {
+isolated function getEncodedUri(string value) returns string {
     string|error encoded = encoding:encodeUriComponent(value, UTF8);
     if (encoded is string) {
         return encoded;
@@ -214,7 +214,7 @@ function getEncodedUri(string value) returns string {
     }
 }
 
-function fillWithUnderscore(string camelCaseString) returns string {
+isolated function fillWithUnderscore(string camelCaseString) returns string {
     string stringWithUnderScore = stringutils:replaceAll(camelCaseString, "([A-Z])", "_$1");
     return stringWithUnderScore.toLowerAscii();
 }
@@ -343,7 +343,7 @@ function renameConversation(http:Client slackClient, string channelId, string ne
     }
 }
 
-function checkOk(json respPayload) returns Error? {
+isolated function checkOk(json respPayload) returns Error? {
     json|error ok = respPayload.ok;
     if (ok is error) {
         return setJsonResError(ok);
@@ -494,7 +494,7 @@ function getFileInfo(http:Client slackClient, string fileId) returns @tainted Fi
     }
 }
 
-function getContentDispositionForFormData(string partName, string filePath) returns (mime:ContentDisposition) {
+isolated function getContentDispositionForFormData(string partName, string filePath) returns (mime:ContentDisposition) {
     mime:ContentDisposition contentDisposition = new;
     contentDisposition.name = partName;
     contentDisposition.disposition = DISPOSITION;
@@ -502,7 +502,7 @@ function getContentDispositionForFormData(string partName, string filePath) retu
     return contentDisposition;
 }
 
-function getFileName(string filePath) returns string {
+isolated function getFileName(string filePath) returns string {
     int lastIndex = stringutils:lastIndexOf(filePath, BACK_SLASH);
     return filePath.substring(lastIndex + 1);
 }
@@ -521,11 +521,11 @@ function handleOkResp(http:Client slackClient, string url) returns @tainted Erro
     var checkOkResp = checkOk(jsonPayload);
 }
 
-function setResError(error errorResponse) returns Error {
+isolated function setResError(error errorResponse) returns Error {
     return Error("Error received from the slack server", errorResponse);
 }
 
-function setJsonResError(error errorResponse) returns Error {
+isolated function setJsonResError(error errorResponse) returns Error {
     return Error("Error occurred while accessing the JSON payload of the response",
                         errorResponse);
 }
@@ -558,7 +558,7 @@ function convertJsonArrayToCamelCase(json[] jsonArr) {
     }
 }
 
-function convertToCamelCase(string input) returns string {
+isolated function convertToCamelCase(string input) returns string {
     string returnResult = "";
     string[] splitResult = stringutils:split(input, "_");
     int i = 0;
