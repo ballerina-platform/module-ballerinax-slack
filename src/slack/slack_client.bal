@@ -126,7 +126,7 @@ public client class ConversationClient {
     # + return - A `slack:Error` if it is a failure or the `Conversations` record if it is a success
     public remote function listConversations() returns @tainted Conversations|Error {
         http:Client convClient = self.conversationClient;
-        http:Response|error response = convClient->get(LIST_CONVERSATIONS_PATH);
+        http:Response|http:Payload|error response = convClient->get(LIST_CONVERSATIONS_PATH);
         if (response is error) {
            return setResError(response);  
         }
