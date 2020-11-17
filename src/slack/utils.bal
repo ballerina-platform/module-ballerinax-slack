@@ -70,7 +70,7 @@ function handleArchiveResponse(http:Client slackClient, string url) returns @tai
 
 function getUserIds(http:Client slackClient, string[] users) returns @tainted string|Error {
     string usersList = EMPTY_STRING;
-    http:Response|http:Payload|http:Payload|error response = slackClient->get(LIST_USERS_PATH);
+    http:Response|http:Payload|error response = slackClient->get(LIST_USERS_PATH);
     if (response is error) {
         return setResError(response);
     }
