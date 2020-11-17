@@ -54,7 +54,7 @@ public client class Client {
     # The `Client.getFileClient()` function can be used to retrieve the file client.
     #
     # + return - The file client
-    public isolated  function getFileClient() returns FileClient {
+    public isolated function getFileClient() returns FileClient {
         return self.fileClient;
     }
 
