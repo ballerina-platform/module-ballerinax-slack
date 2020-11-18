@@ -17,7 +17,7 @@
 import ballerina/http;
 import ballerina/oauth2;
 
-public type Client object {
+public client class Client {
     private map<string> channelIdMap = {};
     private http:Client slackClient;
     private ConversationClient conversationClient;
@@ -47,38 +47,38 @@ public type Client object {
     # The `Client.getConversationClient()` function can be used to retrieve the conversation client.
     #
     # + return - The conversation client
-    public function getConversationClient() returns ConversationClient {
+    public isolated function getConversationClient() returns ConversationClient {
         return self.conversationClient;
     }
 
     # The `Client.getFileClient()` function can be used to retrieve the file client.
     #
     # + return - The file client
-    public function getFileClient() returns FileClient {
+    public isolated function getFileClient() returns FileClient {
         return self.fileClient;
     }
 
     # The `Client.getChatClient()` function can be used to retrieve the chat client.
     #
     # + return - The chat client
-    public function getChatClient() returns ChatClient {
+    public isolated function getChatClient() returns ChatClient {
         return self.chatClient;
     }
 
     # The `Client.getUserClient()` function can be used to retrieve the user client.
     #
     # + return - The user client
-    public function getUserClient() returns UserClient {
+    public isolated function getUserClient() returns UserClient {
         return self.userClient;
     }
-};
+}
 
-public type ConversationClient client object {
+public client class ConversationClient {
 
     private http:Client conversationClient;
     private map<string> idMap;
 
-    function init(http:Client slackClient, map<string> channelIdMap) {
+    isolated function init(http:Client slackClient, map<string> channelIdMap) {
         self.conversationClient = slackClient;  
         self.idMap = channelIdMap;
     }
@@ -126,7 +126,7 @@ public type ConversationClient client object {
     # + return - A `slack:Error` if it is a failure or the `Conversations` record if it is a success
     public remote function listConversations() returns @tainted Conversations|Error {
         http:Client convClient = self.conversationClient;
-        http:Response|error response = convClient->get(LIST_CONVERSATIONS_PATH);
+        http:Response|http:Payload|error response = convClient->get(LIST_CONVERSATIONS_PATH);
         if (response is error) {
            return setResError(response);  
         }
@@ -203,13 +203,13 @@ public type ConversationClient client object {
         self.idMap[channelName] = channelId;
         return channelId;
     }
-};
+}
 
-public type UserClient client object {
+public client class UserClient {
 
     private http:Client userClient;
 
-    function init(http:Client slackClient) {
+    isolated function init(http:Client slackClient) {
         self.userClient = slackClient;
     }
 
@@ -238,15 +238,15 @@ public type UserClient client object {
         return listConversationsOfUser(self.userClient, <@untainted> resolvedUserId, excludeArchived, 
                                             noOfItems, types);
     }
-};
+}
 
-public type ChatClient client object {
+public client class ChatClient {
 
     private http:Client chatClient;
     private string channelId = EMPTY_STRING;
     private map<string> idMap;
 
-    function init(http:Client slackClient, map<string> channelIdMap) {
+    isolated function init(http:Client slackClient, map<string> channelIdMap) {
         self.chatClient = slackClient;
         self.idMap = channelIdMap;
     }
@@ -287,14 +287,14 @@ public type ChatClient client object {
         self.idMap[channelName] = channelId;
         return channelId;
     }
-};
+}
 
-public type FileClient client object {
+public client class FileClient {
 
     private http:Client fileClient;
     private map<string> idMap;
 
-    function init(http:Client slackClient, map<string> channelIdMap) {
+    isolated function init(http:Client slackClient, map<string> channelIdMap) {
         self.fileClient = slackClient;
         self.idMap = channelIdMap;
     }
@@ -363,4 +363,4 @@ public type FileClient client object {
         self.idMap[channelName] = channelId;
         return channelId;            
     }
-};
+}

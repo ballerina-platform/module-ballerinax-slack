@@ -20,7 +20,7 @@ import ballerina/mime;
 import ballerina/stringutils;
 
 function getChannelId(http:Client slackClient, string channelName) returns @tainted string|Error {
-    http:Response|error response = slackClient->get(LIST_CONVERSATIONS_PATH);
+    http:Response|http:Payload|error response = slackClient->get(LIST_CONVERSATIONS_PATH);
     if (response is error) {
         return setResError(response);
     }
@@ -55,7 +55,7 @@ function unArchiveConversation(http:Client slackClient, string channelId) return
 }
 
 function handleArchiveResponse(http:Client slackClient, string url) returns @tainted Error? {
-    http:Response|error response = slackClient->post(url, EMPTY_STRING);
+    http:Response|http:Payload|error response = slackClient->post(url, EMPTY_STRING);
     if (response is error) {
         return setResError(response);
     }
@@ -70,7 +70,7 @@ function handleArchiveResponse(http:Client slackClient, string url) returns @tai
 
 function getUserIds(http:Client slackClient, string[] users) returns @tainted string|Error {
     string usersList = EMPTY_STRING;
-    http:Response|error response = slackClient->get(LIST_USERS_PATH);
+    http:Response|http:Payload|error response = slackClient->get(LIST_USERS_PATH);
     if (response is error) {
         return setResError(response);
     }
@@ -100,7 +100,7 @@ function getUserIds(http:Client slackClient, string[] users) returns @tainted st
 }
 
 function getUserId(http:Client slackClient, string user) returns @tainted string|Error {
-    http:Response|error response = slackClient->get(LIST_USERS_PATH);
+    http:Response|http:Payload|error response = slackClient->get(LIST_USERS_PATH);
     if (response is error) {
         return setResError(response);
     }
@@ -136,7 +136,7 @@ function listConversationsOfUser(http:Client slackClient, string user, boolean e
     if (user != EMPTY_STRING) {
         url = url + USER_ARG + user;
     }
-    http:Response|error response = slackClient->get(url);
+    http:Response|http:Payload|error response = slackClient->get(url);
     if (response is error) {
         return setResError(response);
     }
@@ -158,7 +158,7 @@ function removeUserFromConversation(http:Client slackClient, string user, string
 function inviteUsersToConversation(http:Client slackClient, string channelId, string users) 
                                         returns @tainted Error|Channel {
     string url = INVITE_USERS_TO_CHANNEL_PATH + channelId + USER_IDS_ARG + users;
-    http:Response|error response = slackClient->post(url, EMPTY_STRING);
+    http:Response|http:Payload|error response = slackClient->post(url, EMPTY_STRING);
     if (response is error) {
         return setResError(response);
     } 
@@ -176,11 +176,12 @@ function getConversationInfo(http:Client slackClient, string channelId, boolean?
                                  boolean? memberCount = false) returns @tainted Channel|Error {
     string url = GET_CONVERSATION_INFO_PATH + channelId + INCLUDE_LOCALE + includeLocale.toString() + 
                     INCLUDE_NUM_MEMBERS + memberCount.toString();
-    http:Response|error response = slackClient->get(url);
+    http:Response|http:Payload|error response = slackClient->get(url);
     if (response is error) {
         return setResError(response);
     } else {
-        return mapChannelInfo(response);
+        http:Response resp = <http:Response> response;
+        return mapChannelInfo(resp);
     }
 }
 
@@ -190,7 +191,7 @@ function postMessage(http:Client slackClient, string channelId, Message message)
     return handlePostMessage(slackClient, url);
 }
 
-function createQuery(Message message) returns string {  
+isolated function createQuery(Message message) returns string {  
     string queryString = "";  
     foreach [string, any] [key, value] in message.entries() {
         if (key != CHANNEL_NAME) {
@@ -205,7 +206,7 @@ function createQuery(Message message) returns string {
     return queryString;
 }
 
-function getEncodedUri(string value) returns string {
+isolated function getEncodedUri(string value) returns string {
     string|error encoded = encoding:encodeUriComponent(value, UTF8);
     if (encoded is string) {
         return encoded;
@@ -214,7 +215,7 @@ function getEncodedUri(string value) returns string {
     }
 }
 
-function fillWithUnderscore(string camelCaseString) returns string {
+isolated function fillWithUnderscore(string camelCaseString) returns string {
     string stringWithUnderScore = stringutils:replaceAll(camelCaseString, "([A-Z])", "_$1");
     return stringWithUnderScore.toLowerAscii();
 }
@@ -228,7 +229,7 @@ function updateMessage(http:Client slackClient, string channelId, Message messag
 }
 
 function handlePostMessage(http:Client slackClient, string url) returns @tainted string|Error {
-    http:Response|error response = slackClient->post(<@untainted> url, EMPTY_STRING);
+    http:Response|http:Payload|error response = slackClient->post(<@untainted> url, EMPTY_STRING);
     if (response is error) {
         return setResError(response);
     }
@@ -248,9 +249,11 @@ function handlePostMessage(http:Client slackClient, string url) returns @tainted
 }
 
 function createChannel(http:Client slackClient, string url) returns @tainted Channel|Error {
-    http:Response|error response = slackClient->post(url, EMPTY_STRING);
+    http:Response|http:Payload|error response = slackClient->post(url, EMPTY_STRING);
     if (response is http:Response) {
         return mapChannelInfo(response);
+    } else if (response is http:Payload) {
+        return Error("Response cannot be in http payload");
     } else {
         return setResError(response);
     }
@@ -308,7 +311,7 @@ function leaveConversation(http:Client slackClient, string channelId) returns @t
 
 function getUserInfo(http:Client slackClient, string userId) returns @tainted Error|User {
     string url = GET_USER_INFO_PATH + userId;
-    http:Response|error response = slackClient->get(url);
+    http:Response|http:Payload|error response = slackClient->get(url);
     if (response is error) {
         return setResError(response);
     }
@@ -335,15 +338,17 @@ function getUserInfo(http:Client slackClient, string userId) returns @tainted Er
 
 function renameConversation(http:Client slackClient, string channelId, string newName) returns @tainted Channel|Error {
     string url = RENAME_CHANNEL_PATH + channelId + NAME_ARG + newName;
-    http:Response|error response = slackClient->post(url, EMPTY_STRING);
+    http:Response|http:Payload|error response = slackClient->post(url, EMPTY_STRING);
     if (response is http:Response) {
         return mapChannelInfo(response);
+    } else if (response is http:Payload) {       
+        return Error("Response cannot be in http payload");
     } else {
         return setResError(response);
     }
 }
 
-function checkOk(json respPayload) returns Error? {
+isolated function checkOk(json respPayload) returns Error? {
     json|error ok = respPayload.ok;
     if (ok is error) {
         return setJsonResError(ok);
@@ -392,7 +397,7 @@ function listFiles(http:Client slackClient, string? channelId, int? count, strin
         url = (stringutils:contains(url, QUESTION_MARK)) ? url + USER_AS_SECOND_PARAM + user.toString() : 
                 url + USER_AS_FIRST_PARAM + user.toString();
     }         
-    http:Response|error response = slackClient->post(url, EMPTY_STRING);
+    http:Response|http:Payload|error response = slackClient->post(url, EMPTY_STRING);
     if (response is error) {
         return setResError(response);
     }
@@ -442,7 +447,7 @@ function uploadFile(string filePath, http:Client slackClient, string? channelId,
     filePart.setFileAsEntityBody(filePath);
     mime:Entity[] bodyParts = [<@untainted> filePart];
     request.setBodyParts(bodyParts, contentType = mime:MULTIPART_FORM_DATA);
-    http:Response|error response = slackClient->post(url, request);
+    http:Response|http:Payload|error response = slackClient->post(url, request);
     if (response is error) {
         return setResError(response);
     }
@@ -469,7 +474,7 @@ function uploadFile(string filePath, http:Client slackClient, string? channelId,
 
 function getFileInfo(http:Client slackClient, string fileId) returns @tainted FileInfo|Error {
     string url = GET_FILE_INFO_PATH + fileId;
-    http:Response|error response = slackClient->get(url);
+    http:Response|http:Payload|error response = slackClient->get(url);
     if (response is error) {
         return setResError(response);
     }
@@ -494,7 +499,7 @@ function getFileInfo(http:Client slackClient, string fileId) returns @tainted Fi
     }
 }
 
-function getContentDispositionForFormData(string partName, string filePath) returns (mime:ContentDisposition) {
+isolated function getContentDispositionForFormData(string partName, string filePath) returns (mime:ContentDisposition) {
     mime:ContentDisposition contentDisposition = new;
     contentDisposition.name = partName;
     contentDisposition.disposition = DISPOSITION;
@@ -502,13 +507,13 @@ function getContentDispositionForFormData(string partName, string filePath) retu
     return contentDisposition;
 }
 
-function getFileName(string filePath) returns string {
+isolated function getFileName(string filePath) returns string {
     int lastIndex = stringutils:lastIndexOf(filePath, BACK_SLASH);
     return filePath.substring(lastIndex + 1);
 }
 
 function handleOkResp(http:Client slackClient, string url) returns @tainted Error? {
-    http:Response|error response = slackClient->post(url, EMPTY_STRING);
+    http:Response|http:Payload|error response = slackClient->post(url, EMPTY_STRING);
     if (response is error) {
         return setResError(response);
     }
@@ -521,11 +526,11 @@ function handleOkResp(http:Client slackClient, string url) returns @tainted Erro
     var checkOkResp = checkOk(jsonPayload);
 }
 
-function setResError(error errorResponse) returns Error {
+isolated function setResError(error errorResponse) returns Error {
     return Error("Error received from the slack server", errorResponse);
 }
 
-function setJsonResError(error errorResponse) returns Error {
+isolated function setJsonResError(error errorResponse) returns Error {
     return Error("Error occurred while accessing the JSON payload of the response",
                         errorResponse);
 }
@@ -558,7 +563,7 @@ function convertJsonArrayToCamelCase(json[] jsonArr) {
     }
 }
 
-function convertToCamelCase(string input) returns string {
+isolated function convertToCamelCase(string input) returns string {
     string returnResult = "";
     string[] splitResult = stringutils:split(input, "_");
     int i = 0;
