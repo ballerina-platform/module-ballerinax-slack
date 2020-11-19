@@ -17,7 +17,7 @@ jobs:
                   args:
                       build -a -c
               env:
-                  slackToken: ${{ secrets.slackToken }}
+                  slackToken: ${{ secrets.SLACK_TOKEN }}
             - name: Ballerina Push
               uses: ballerina-platform/ballerina-action/@swan-lake-connector-release
               with:
