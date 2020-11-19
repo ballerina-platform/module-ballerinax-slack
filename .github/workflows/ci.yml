@@ -15,4 +15,5 @@ jobs:
                   args:
                       build -a -c
               env:
-                  slackToken: ${{ secrets.slackToken }}
+                  SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+                  SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}
