@@ -1,0 +1,1 @@
+{"ballerinax/slack:0.9.3:User":{"id":"string","teamId":"string","name":"string","deleted":"boolean","realName":"string","tz":"string","tzLabel":"string","profile":"ballerinax/slack:0.9.3:Profile","isAdmin":"boolean","isOwner":"boolean","isPrimaryOwner":"boolean","isRestricted":"boolean","isBot":"boolean","isAppUser":"boolean","has2fa":"boolean"}}

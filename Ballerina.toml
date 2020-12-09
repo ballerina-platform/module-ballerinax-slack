@@ -1,7 +1,11 @@
-[project]
-org-name = "ballerinax"
+[package]
+org = "ballerinax"
+name = "slack"
 version = "0.9.3"
 license= ["Apache-2.0"]
 authors = ["Ballerina"]
 keywords = ["slack"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-slack"
+
+[build-options]
+observabilityIncluded = true

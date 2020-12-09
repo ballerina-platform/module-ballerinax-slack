@@ -1,0 +1,1 @@
+{"ballerinax/slack:0.9.3" : [{"function":{"name":"getUserInfo","requiredParams":[{"user":"string"}],"returnType":"ballerinax/slack:0.9.3:User"}},{"function":{"name":"listConversations","requiredParams":[{"excludeArchived":"boolean"},{"noOfItems":"int?"},{"types":"string?"},{"user":"string?"}],"returnType":"ballerinax/slack:0.9.3:Conversations"}}]}

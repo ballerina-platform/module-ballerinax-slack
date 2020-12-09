@@ -1,0 +1,1 @@
+{"ballerinax/slack:0.9.3:Channel":{"id":"string","name":"string","isChannel":"boolean","isGroup":"boolean","isArchived":"boolean","isGeneral":"boolean","nameNormalized":"string","parentConversation":"string?","creator":"string","isMember":"boolean","isPrivate":"boolean","topic":"ballerinax/slack:0.9.3:Topic","purpose":"ballerinax/slack:0.9.3:Purpose"}}
