@@ -36,7 +36,7 @@ string channelName2 = "channel2";
 string channelId = "CU31FE5EC";
 string userName = system:getEnv("SLACK_USERNAME");
 string fileId = "";
-string filePath = "src/slack/tests/resources/test.txt";
+string filePath = "tests/resources/test.txt";
 string threadId = "";
 
 Message messageParams = {
