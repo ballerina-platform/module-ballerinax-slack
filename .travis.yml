@@ -17,4 +17,4 @@ script:
   - sudo dpkg -i ballerina-linux-installer-x64-swan-lake-preview7.deb
   - sudo apt-get install -f
   - ballerina --version
-  - ballerina build -c --skip-tests slack
+  - ballerina build -c --skip-tests
