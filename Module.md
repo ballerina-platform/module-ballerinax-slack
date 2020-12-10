@@ -14,7 +14,7 @@ There are 5 clients provided by Ballerina to interact with different API groups 
 ## Compatibility
 |                     |    Version            |
 |:-------------------:|:---------------------:|
-| Ballerina Language  | Swan Lake Preview5    |
+| Ballerina Language  | Swan Lake Preview7    |
 
 ## Sample
 
