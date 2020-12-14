@@ -12,15 +12,15 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: Ballerina Build
-              uses: ballerina-platform/ballerina-action/@swan-lake-connector-release
+              uses: ballerina-platform/ballerina-action/@slp7
               with:
                   args:
-                      build -c
+                      build -c --skip-tests
               env:
                   SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
                   SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}
             - name: Ballerina Push
-              uses: ballerina-platform/ballerina-action/@swan-lake-connector-release
+              uses: ballerina-platform/ballerina-action/@slp7
               with:
                   args:
                       push
