@@ -4,25 +4,24 @@
         "displayName": "Slack",
         "module": "ballerinax-slack",
         "icon": "slack.png",
-        "clients":[
+        "clients": [
             {
                 "name": "Client",
-                "displayName" : "Client",
+                "displayName": "Base Client",
                 "operations": [
                     {
                         "name": "getConversationClient",
                         "displayName": "Get Conversation Client",
-                        "parameters" : [],
+                        "parameters": [],
                         "returnValue": {
                             "name": "ConversationClient",
                             "displayName": "Conversation Client"
                         }
-        
                     },
                     {
                         "name": "getFileClient",
                         "displayName": "Get File Client",
-                        "parameters" : [],
+                        "parameters": [],
                         "returnValue": {
                             "name": "FileClient",
                             "displayName": "File Client"
@@ -31,7 +30,7 @@
                     {
                         "name": "getChatClient",
                         "displayName": "Get Chat Client",
-                        "parameters" : [],
+                        "parameters": [],
                         "returnValue": {
                             "name": "ChatClient",
                             "displayName": "Chat Client"
@@ -40,7 +39,7 @@
                     {
                         "name": "getUserClient",
                         "displayName": "Get User Client",
-                        "parameters" : [],
+                        "parameters": [],
                         "returnValue": {
                             "name": "UserClient",
                             "displayName": "User Client"
@@ -49,13 +48,13 @@
                 ]
             },
             {
-                "name" : "ConversationClient",
+                "name": "ConversationClient",
                 "displayName": "Conversation Client",
-                "operations" : [
+                "operations": [
                     {
                         "name": "createConversation",
                         "displayName": "Create Conversation",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "name",
                                 "displayName": "Name"
@@ -73,7 +72,7 @@
                     {
                         "name": "archiveConversation",
                         "displayName": "Archive Conversation",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelName",
                                 "displayName": "Channel Name"
@@ -84,18 +83,18 @@
                     {
                         "name": "unArchiveConversation",
                         "displayName": "Unarchive Conversation",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelName",
                                 "displayName": "Channel Name"
                             }
                         ],
-                        "returnValue": { }
+                        "returnValue": {}
                     },
                     {
                         "name": "renameConversation",
                         "displayName": "Rename Conversation",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelName",
                                 "displayName": "Channel Name"
@@ -105,7 +104,7 @@
                                 "displayName": "New Name"
                             }
                         ],
-                        "returnValue": { 
+                        "returnValue": {
                             "name": "Channel",
                             "displayName": "Channel"
                         }
@@ -113,8 +112,8 @@
                     {
                         "name": "listConversations",
                         "displayName": "List Conversations",
-                        "parameters" : [],
-                        "returnValue": { 
+                        "parameters": [],
+                        "returnValue": {
                             "name": "Conversations",
                             "displayName": "Conversations"
                         }
@@ -122,7 +121,7 @@
                     {
                         "name": "leaveConversation",
                         "displayName": "Leave Conversation",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelName",
                                 "displayName": "Channel Name"
@@ -133,7 +132,7 @@
                     {
                         "name": "getConversationInfo",
                         "displayName": "Get Conversation Info",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelName",
                                 "displayName": "Channel Name"
@@ -147,7 +146,7 @@
                                 "displayName": "Count of Members"
                             }
                         ],
-                        "returnValue": { 
+                        "returnValue": {
                             "name": "Channel",
                             "displayName": "Channel"
                         }
@@ -155,7 +154,7 @@
                     {
                         "name": "removeUserFromConversation",
                         "displayName": "Remove User from Conversation",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelName",
                                 "displayName": "Channel Name"
@@ -170,7 +169,7 @@
                     {
                         "name": "joinConversation",
                         "displayName": "Join Conversation",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelName",
                                 "displayName": "Channel Name"
@@ -181,7 +180,7 @@
                     {
                         "name": "inviteUsersToConversation",
                         "displayName": "Invite Users to Conversation",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelName",
                                 "displayName": "Channel Name"
@@ -191,7 +190,7 @@
                                 "displayName": "Users"
                             }
                         ],
-                        "returnValue": { 
+                        "returnValue": {
                             "name": "Channel",
                             "displayName": "Channel"
                         }
@@ -199,7 +198,7 @@
                     {
                         "name": "resolveChannelId",
                         "displayName": "Resolve Channel Id",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelMap",
                                 "displayName": "List of Channels"
@@ -209,22 +208,21 @@
                                 "displayName": "Channel Name"
                             }
                         ],
-                        "returnValue": { 
+                        "returnValue": {
                             "name": "string",
                             "displayName": "Channel Id"
                         }
                     }
                 ]
-
             },
             {
                 "name": "UserClient",
-                "displayName" : "User Client",
+                "displayName": "User Client",
                 "operations": [
                     {
                         "name": "getUserInfo",
                         "displayName": "Get User Information",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "user",
                                 "displayName": "User"
@@ -238,7 +236,7 @@
                     {
                         "name": "listConversations",
                         "displayName": "List Converstions",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "excludeArchived",
                                 "displayName": "Exclude Archived"
@@ -261,17 +259,16 @@
                             "displayName": "Conversations"
                         }
                     }
-
                 ]
             },
             {
                 "name": "ChatClient",
-                "displayName" : "Chat Client",
+                "displayName": "Chat Client",
                 "operations": [
                     {
                         "name": "postMessage",
                         "displayName": "Post Message",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "message",
                                 "displayName": "message"
@@ -285,7 +282,7 @@
                     {
                         "name": "updateMessage",
                         "displayName": "Update Message",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "message",
                                 "displayName": "message"
@@ -299,22 +296,22 @@
                     {
                         "name": "deleteMessage",
                         "displayName": "Delete Message",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelName",
                                 "displayName": "Channel Name"
                             },
                             {
                                 "name": "threadTs",
-                                "displayName": "Timestamp of the Message"                            }
-
+                                "displayName": "Timestamp of the Message"
+                            }
                         ],
                         "returnValue": {}
                     },
                     {
                         "name": "resolveChannelId",
                         "displayName": "Resolve Channel Id",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelMap",
                                 "displayName": "List of Channels"
@@ -324,22 +321,21 @@
                                 "displayName": "Channel Name"
                             }
                         ],
-                        "returnValue": { 
+                        "returnValue": {
                             "name": "string",
                             "displayName": "Channel Id"
                         }
                     }
-
                 ]
             },
             {
                 "name": "FileClient",
-                "displayName" : "File Client",
+                "displayName": "File Client",
                 "operations": [
                     {
                         "name": "deleteFile",
                         "displayName": "Delete File",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "fileId",
                                 "displayName": "File Id"
@@ -350,13 +346,13 @@
                     {
                         "name": "getFileInfo",
                         "displayName": "Get File Information",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "fileId",
                                 "displayName": "File Id"
                             }
                         ],
-                        "returnValue": { 
+                        "returnValue": {
                             "name": "FileInfo",
                             "displayName": "FileInfo"
                         }
@@ -364,7 +360,7 @@
                     {
                         "name": "listFiles",
                         "displayName": "List Files",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelName",
                                 "displayName": "Channel Name"
@@ -389,9 +385,8 @@
                                 "name": "user",
                                 "displayName": "User"
                             }
-
                         ],
-                        "returnValue": { 
+                        "returnValue": {
                             "name": "FileInfo[]",
                             "displayName": "FileInfo"
                         }
@@ -399,7 +394,7 @@
                     {
                         "name": "uploadFile",
                         "displayName": "Upload File",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "filePath",
                                 "displayName": "File Path"
@@ -420,9 +415,8 @@
                                 "name": "threadTs",
                                 "displayName": "ThreadTs"
                             }
-
                         ],
-                        "returnValue": { 
+                        "returnValue": {
                             "name": "FileInfo",
                             "displayName": "FileInfo"
                         }
@@ -430,7 +424,7 @@
                     {
                         "name": "resolveChannelId",
                         "displayName": "Resolve Channel Id",
-                        "parameters" : [
+                        "parameters": [
                             {
                                 "name": "channelMap",
                                 "displayName": "List of Channels"
@@ -440,16 +434,13 @@
                                 "displayName": "Channel Name"
                             }
                         ],
-                        "returnValue": { 
+                        "returnValue": {
                             "name": "string",
                             "displayName": "Channel Id"
                         }
                     }
-
-
                 ]
             }
         ]
-       
     }
 }
