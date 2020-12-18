@@ -2,12 +2,13 @@
     "connector": {
         "name": "slack",
         "displayName": "Slack",
-        "module": "ballerinax-slack",
+        "organization":"ballerinax",
+        "module": "slack",
         "icon": "slack.png",
         "clients": [
             {
                 "name": "Client",
-                "displayName": "Base Client",
+                "displayName": "Slack Client",
                 "operations": [
                     {
                         "name": "getConversationClient",
@@ -197,7 +198,7 @@
                     },
                     {
                         "name": "resolveChannelId",
-                        "displayName": "Resolve Channel Id",
+                        "displayName": "Resolve Channel ID",
                         "parameters": [
                             {
                                 "name": "channelMap",
@@ -210,7 +211,7 @@
                         ],
                         "returnValue": {
                             "name": "string",
-                            "displayName": "Channel Id"
+                            "displayName": "Channel ID"
                         }
                     }
                 ]
@@ -276,7 +277,7 @@
                         ],
                         "returnValue": {
                             "name": "string",
-                            "displayName": "Thread Id"
+                            "displayName": "Thread ID"
                         }
                     },
                     {
@@ -290,7 +291,7 @@
                         ],
                         "returnValue": {
                             "name": "string",
-                            "displayName": "Thread Id"
+                            "displayName": "Thread ID"
                         }
                     },
                     {
@@ -310,7 +311,7 @@
                     },
                     {
                         "name": "resolveChannelId",
-                        "displayName": "Resolve Channel Id",
+                        "displayName": "Resolve Channel ID",
                         "parameters": [
                             {
                                 "name": "channelMap",
@@ -323,7 +324,7 @@
                         ],
                         "returnValue": {
                             "name": "string",
-                            "displayName": "Channel Id"
+                            "displayName": "Channel ID"
                         }
                     }
                 ]
@@ -338,7 +339,7 @@
                         "parameters": [
                             {
                                 "name": "fileId",
-                                "displayName": "File Id"
+                                "displayName": "File ID"
                             }
                         ],
                         "returnValue": {}
@@ -349,12 +350,12 @@
                         "parameters": [
                             {
                                 "name": "fileId",
-                                "displayName": "File Id"
+                                "displayName": "File ID"
                             }
                         ],
                         "returnValue": {
                             "name": "FileInfo",
-                            "displayName": "FileInfo"
+                            "displayName": "File Information"
                         }
                     },
                     {
@@ -388,7 +389,7 @@
                         ],
                         "returnValue": {
                             "name": "FileInfo[]",
-                            "displayName": "FileInfo"
+                            "displayName": "File Information"
                         }
                     },
                     {
@@ -418,12 +419,12 @@
                         ],
                         "returnValue": {
                             "name": "FileInfo",
-                            "displayName": "FileInfo"
+                            "displayName": "File Information"
                         }
                     },
                     {
                         "name": "resolveChannelId",
-                        "displayName": "Resolve Channel Id",
+                        "displayName": "Resolve Channel ID",
                         "parameters": [
                             {
                                 "name": "channelMap",
@@ -436,11 +437,12 @@
                         ],
                         "returnValue": {
                             "name": "string",
-                            "displayName": "Channel Id"
+                            "displayName": "Channel ID"
                         }
                     }
                 ]
             }
-        ]
+        ],
+        "listener": {}
     }
 }
