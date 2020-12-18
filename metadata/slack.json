@@ -2,6 +2,7 @@
     "connector": {
         "name": "slack",
         "displayName": "Slack",
+        "organization":"ballerinax",
         "module": "slack",
         "icon": "slack.png",
         "clients": [
