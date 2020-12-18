@@ -8,7 +8,7 @@
         "clients": [
             {
                 "name": "Client",
-                "displayName": "Base Client",
+                "displayName": "Slack Client",
                 "operations": [
                     {
                         "name": "getConversationClient",
@@ -355,7 +355,7 @@
                         ],
                         "returnValue": {
                             "name": "FileInfo",
-                            "displayName": "FileInfo"
+                            "displayName": "File Information"
                         }
                     },
                     {
@@ -389,7 +389,7 @@
                         ],
                         "returnValue": {
                             "name": "FileInfo[]",
-                            "displayName": "FileInfo"
+                            "displayName": "File Information"
                         }
                     },
                     {
@@ -419,7 +419,7 @@
                         ],
                         "returnValue": {
                             "name": "FileInfo",
-                            "displayName": "FileInfo"
+                            "displayName": "File Information"
                         }
                     },
                     {
