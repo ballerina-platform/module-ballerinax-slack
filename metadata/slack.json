@@ -1,0 +1,446 @@
+{
+    "connector": {
+        "name": "slack",
+        "displayName": "Slack",
+        "module": "ballerinax-slack",
+        "icon": "slack.png",
+        "clients": [
+            {
+                "name": "Client",
+                "displayName": "Base Client",
+                "operations": [
+                    {
+                        "name": "getConversationClient",
+                        "displayName": "Get Conversation Client",
+                        "parameters": [],
+                        "returnValue": {
+                            "name": "ConversationClient",
+                            "displayName": "Conversation Client"
+                        }
+                    },
+                    {
+                        "name": "getFileClient",
+                        "displayName": "Get File Client",
+                        "parameters": [],
+                        "returnValue": {
+                            "name": "FileClient",
+                            "displayName": "File Client"
+                        }
+                    },
+                    {
+                        "name": "getChatClient",
+                        "displayName": "Get Chat Client",
+                        "parameters": [],
+                        "returnValue": {
+                            "name": "ChatClient",
+                            "displayName": "Chat Client"
+                        }
+                    },
+                    {
+                        "name": "getUserClient",
+                        "displayName": "Get User Client",
+                        "parameters": [],
+                        "returnValue": {
+                            "name": "UserClient",
+                            "displayName": "User Client"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "ConversationClient",
+                "displayName": "Conversation Client",
+                "operations": [
+                    {
+                        "name": "createConversation",
+                        "displayName": "Create Conversation",
+                        "parameters": [
+                            {
+                                "name": "name",
+                                "displayName": "Name"
+                            },
+                            {
+                                "name": "isPrivate",
+                                "displayName": "Is Private"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "Channel",
+                            "displayName": "Channel"
+                        }
+                    },
+                    {
+                        "name": "archiveConversation",
+                        "displayName": "Archive Conversation",
+                        "parameters": [
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            }
+                        ],
+                        "returnValue": {}
+                    },
+                    {
+                        "name": "unArchiveConversation",
+                        "displayName": "Unarchive Conversation",
+                        "parameters": [
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            }
+                        ],
+                        "returnValue": {}
+                    },
+                    {
+                        "name": "renameConversation",
+                        "displayName": "Rename Conversation",
+                        "parameters": [
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            },
+                            {
+                                "name": "newName",
+                                "displayName": "New Name"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "Channel",
+                            "displayName": "Channel"
+                        }
+                    },
+                    {
+                        "name": "listConversations",
+                        "displayName": "List Conversations",
+                        "parameters": [],
+                        "returnValue": {
+                            "name": "Conversations",
+                            "displayName": "Conversations"
+                        }
+                    },
+                    {
+                        "name": "leaveConversation",
+                        "displayName": "Leave Conversation",
+                        "parameters": [
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            }
+                        ],
+                        "returnValue": {}
+                    },
+                    {
+                        "name": "getConversationInfo",
+                        "displayName": "Get Conversation Info",
+                        "parameters": [
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            },
+                            {
+                                "name": "includeLocale",
+                                "displayName": "Include Locale"
+                            },
+                            {
+                                "name": "memberCount",
+                                "displayName": "Count of Members"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "Channel",
+                            "displayName": "Channel"
+                        }
+                    },
+                    {
+                        "name": "removeUserFromConversation",
+                        "displayName": "Remove User from Conversation",
+                        "parameters": [
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            },
+                            {
+                                "name": "user",
+                                "displayName": "User"
+                            }
+                        ],
+                        "returnValue": {}
+                    },
+                    {
+                        "name": "joinConversation",
+                        "displayName": "Join Conversation",
+                        "parameters": [
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            }
+                        ],
+                        "returnValue": {}
+                    },
+                    {
+                        "name": "inviteUsersToConversation",
+                        "displayName": "Invite Users to Conversation",
+                        "parameters": [
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            },
+                            {
+                                "name": "users",
+                                "displayName": "Users"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "Channel",
+                            "displayName": "Channel"
+                        }
+                    },
+                    {
+                        "name": "resolveChannelId",
+                        "displayName": "Resolve Channel Id",
+                        "parameters": [
+                            {
+                                "name": "channelMap",
+                                "displayName": "List of Channels"
+                            },
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "string",
+                            "displayName": "Channel Id"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "UserClient",
+                "displayName": "User Client",
+                "operations": [
+                    {
+                        "name": "getUserInfo",
+                        "displayName": "Get User Information",
+                        "parameters": [
+                            {
+                                "name": "user",
+                                "displayName": "User"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "User",
+                            "displayName": "User"
+                        }
+                    },
+                    {
+                        "name": "listConversations",
+                        "displayName": "List Converstions",
+                        "parameters": [
+                            {
+                                "name": "excludeArchived",
+                                "displayName": "Exclude Archived"
+                            },
+                            {
+                                "name": "noOfItems",
+                                "displayName": "No of Items"
+                            },
+                            {
+                                "name": "types",
+                                "displayName": "Types"
+                            },
+                            {
+                                "name": "user",
+                                "displayName": "User"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "Conversations",
+                            "displayName": "Conversations"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "ChatClient",
+                "displayName": "Chat Client",
+                "operations": [
+                    {
+                        "name": "postMessage",
+                        "displayName": "Post Message",
+                        "parameters": [
+                            {
+                                "name": "message",
+                                "displayName": "message"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "string",
+                            "displayName": "Thread Id"
+                        }
+                    },
+                    {
+                        "name": "updateMessage",
+                        "displayName": "Update Message",
+                        "parameters": [
+                            {
+                                "name": "message",
+                                "displayName": "message"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "string",
+                            "displayName": "Thread Id"
+                        }
+                    },
+                    {
+                        "name": "deleteMessage",
+                        "displayName": "Delete Message",
+                        "parameters": [
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            },
+                            {
+                                "name": "threadTs",
+                                "displayName": "Timestamp of the Message"
+                            }
+                        ],
+                        "returnValue": {}
+                    },
+                    {
+                        "name": "resolveChannelId",
+                        "displayName": "Resolve Channel Id",
+                        "parameters": [
+                            {
+                                "name": "channelMap",
+                                "displayName": "List of Channels"
+                            },
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "string",
+                            "displayName": "Channel Id"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "FileClient",
+                "displayName": "File Client",
+                "operations": [
+                    {
+                        "name": "deleteFile",
+                        "displayName": "Delete File",
+                        "parameters": [
+                            {
+                                "name": "fileId",
+                                "displayName": "File Id"
+                            }
+                        ],
+                        "returnValue": {}
+                    },
+                    {
+                        "name": "getFileInfo",
+                        "displayName": "Get File Information",
+                        "parameters": [
+                            {
+                                "name": "fileId",
+                                "displayName": "File Id"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "FileInfo",
+                            "displayName": "FileInfo"
+                        }
+                    },
+                    {
+                        "name": "listFiles",
+                        "displayName": "List Files",
+                        "parameters": [
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            },
+                            {
+                                "name": "count",
+                                "displayName": "Number of Files Per Page"
+                            },
+                            {
+                                "name": "tsFrom",
+                                "displayName": "From Timestamp"
+                            },
+                            {
+                                "name": "tsTo",
+                                "displayName": "To Timestamp"
+                            },
+                            {
+                                "name": "types",
+                                "displayName": "Types"
+                            },
+                            {
+                                "name": "user",
+                                "displayName": "User"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "FileInfo[]",
+                            "displayName": "FileInfo"
+                        }
+                    },
+                    {
+                        "name": "uploadFile",
+                        "displayName": "Upload File",
+                        "parameters": [
+                            {
+                                "name": "filePath",
+                                "displayName": "File Path"
+                            },
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            },
+                            {
+                                "name": "title",
+                                "displayName": "Title"
+                            },
+                            {
+                                "name": "initialComment",
+                                "displayName": "Initial Comment"
+                            },
+                            {
+                                "name": "threadTs",
+                                "displayName": "ThreadTs"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "FileInfo",
+                            "displayName": "FileInfo"
+                        }
+                    },
+                    {
+                        "name": "resolveChannelId",
+                        "displayName": "Resolve Channel Id",
+                        "parameters": [
+                            {
+                                "name": "channelMap",
+                                "displayName": "List of Channels"
+                            },
+                            {
+                                "name": "channelName",
+                                "displayName": "Channel Name"
+                            }
+                        ],
+                        "returnValue": {
+                            "name": "string",
+                            "displayName": "Channel Id"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
