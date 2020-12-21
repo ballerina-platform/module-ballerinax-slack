@@ -12,7 +12,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: Ballerina Build
-              uses: ballerina-platform/ballerina-action/@slp8
+              uses: ballerina-platform/ballerina-action/@swan-lake-connector-release
               with:
                   args:
                       build -c --skip-tests
@@ -20,7 +20,7 @@ jobs:
                   SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
                   SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}
             - name: Ballerina Push
-              uses: ballerina-platform/ballerina-action/@slp8
+              uses: ballerina-platform/ballerina-action/@swan-lake-connector-release
               with:
                   args:
                       push
