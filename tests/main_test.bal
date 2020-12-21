@@ -15,9 +15,10 @@
 // under the License.
 
 import ballerina/test;
-import ballerina/system;
+//import ballerina/system;
+import ballerina/config;
 
-string token = system:getEnv("SLACK_TOKEN");
+string token = config:getAsString("SLACK_TOKEN");
 
 Configuration slackConfig1 = {
     oauth2Config: {
@@ -34,7 +35,7 @@ UserClient userClient = slackClient.getUserClient();
 string channelName1 = "test-slack-connector";
 string channelName2 = "channel2";
 string channelId = "CU31FE5EC";
-string userName = system:getEnv("SLACK_USERNAME");
+string userName = config:getAsString("SLACK_USERNAME");
 string fileId = "";
 string filePath = "tests/resources/test.txt";
 string threadId = "";

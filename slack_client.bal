@@ -88,7 +88,7 @@ public client class ConversationClient {
     # + name - Name of the conversation(channel) to be created
     # + isPrivate - `true` if a private channel, `false` if a public channel
     # + return - A `slack:Error` if it is a failure or the `Channel` record if it is a success
-    public remote function createConversation(string name, boolean isPrivate = false) returns @tainted Channel|Error {
+    remote function createConversation(string name, boolean isPrivate = false) returns @tainted Channel|Error {
         string url = CREATE_CONVERSATION_PATH + name + IS_PRIVATE_CONVERSATION + isPrivate.toString();
         return createChannel(self.conversationClient, url);
     }
@@ -97,7 +97,7 @@ public client class ConversationClient {
     #
     # + channelName - Name of the conversation to archive
     # + return - A `slack:Error` if it is a failure or `nil` if it is a success
-    public remote function archiveConversation(string channelName) returns @tainted Error? {
+    remote function archiveConversation(string channelName) returns @tainted Error? {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return archiveConversation(self.conversationClient, <@untainted> resolvedChannelId);
     }
@@ -106,7 +106,7 @@ public client class ConversationClient {
     #
     # + channelName - Name of the conversation to unarchive
     # + return - A `slack:Error` if it is a failure or `nil` if it is a success
-    public remote function unArchiveConversation(string channelName) returns @tainted Error? {
+    remote function unArchiveConversation(string channelName) returns @tainted Error? {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return unArchiveConversation(self.conversationClient, <@untainted> resolvedChannelId);
     }
@@ -116,7 +116,7 @@ public client class ConversationClient {
     # + channelName - Name of the conversation/channel
     # + newName - 	New name for the conversation.
     # + return - A `slack:Error` if it is a failure or the `Channel` record if it is a success
-    public remote function renameConversation(string channelName, string newName) returns @tainted Channel|Error {
+    remote function renameConversation(string channelName, string newName) returns @tainted Channel|Error {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return renameConversation(self.conversationClient, <@untainted> resolvedChannelId, newName);
     }
@@ -124,9 +124,9 @@ public client class ConversationClient {
     # The `ConversationClient.listConversations()` function can be used to list all the channels in a slack team.
     #
     # + return - A `slack:Error` if it is a failure or the `Conversations` record if it is a success
-    public remote function listConversations() returns @tainted Conversations|Error {
+    remote function listConversations() returns @tainted Conversations|Error {
         http:Client convClient = self.conversationClient;
-        http:Response|http:Payload|error response = convClient->get(LIST_CONVERSATIONS_PATH);
+        http:Response|http:PayloadType|error response = convClient->get(LIST_CONVERSATIONS_PATH);
         if (response is error) {
            return setResError(response);  
         }
@@ -143,7 +143,7 @@ public client class ConversationClient {
     #
     # + channelName - Name of the conversation 
     # + return - A 'slack:Error' if it is a failure or 'nil' if it is a success
-    public remote function leaveConversation(string channelName) returns @tainted Error? {
+    remote function leaveConversation(string channelName) returns @tainted Error? {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return leaveConversation(self.conversationClient, <@untainted> resolvedChannelId);
     }
@@ -154,7 +154,7 @@ public client class ConversationClient {
     # + includeLocale - Set this to `true` to receive the locale for this conversation. Defaults to `false`
     # + memberCount - Set to `true` to include the member count for the specified conversation. Defaults to `false`
     # + return - A `slack:Error` if it is a failure or the `Channel` record if it is a success
-    public remote function getConversationInfo(string channelName, boolean includeLocale = false, 
+    remote function getConversationInfo(string channelName, boolean includeLocale = false, 
                                     boolean memberCount = false) returns @tainted Channel|Error {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return getConversationInfo(self.conversationClient, <@untainted> resolvedChannelId);
@@ -165,7 +165,7 @@ public client class ConversationClient {
     # + channelName - Name of the conversation 
     # + user - Name of the user to be removed
     # + return - A `slack:Error` if it is a failure or `nil` if it is a success
-    public remote function removeUserFromConversation(string channelName, string user) returns @tainted Error? {
+    remote function removeUserFromConversation(string channelName, string user) returns @tainted Error? {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         string userId = check getUserId(self.conversationClient, user); 
         return removeUserFromConversation(self.conversationClient, <@untainted> userId, <@untainted> resolvedChannelId);
@@ -175,7 +175,7 @@ public client class ConversationClient {
     #
     # + channelName - Name of the conversation 
     # + return - A 'slack:Error' if it is a failure or 'nil' if it is a success
-    public remote function joinConversation(string channelName) returns @tainted Error? {
+    remote function joinConversation(string channelName) returns @tainted Error? {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return joinConversation(self.conversationClient, <@untainted> resolvedChannelId);
     }
@@ -185,7 +185,7 @@ public client class ConversationClient {
     # + channelName - Name of the conversation 
     # + users - An array of user names
     # + return - A `slack:Error` if it is a failure or the `Channel` record if it is a success
-    public remote function inviteUsersToConversation(string channelName, string[] users) 
+    remote function inviteUsersToConversation(string channelName, string[] users) 
                                 returns @tainted Channel|Error {
         string channelId = EMPTY_STRING;
         string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
@@ -217,7 +217,7 @@ public client class UserClient {
     #
     # + user - Name of the user
     # + return - A 'slack:Error' if it is a failure or the 'User' record if it is a success
-    public remote function getUserInfo(string user) returns @tainted User|Error {
+    remote function getUserInfo(string user) returns @tainted User|Error {
         string userId = check getUserId(self.userClient, user);
         return getUserInfo(self.userClient, <@untainted> userId); 
     }
@@ -229,7 +229,7 @@ public client class UserClient {
     # + types - A comma-separated list of any combination of public_channel, private_channel, mpim, im
     # + user - Name of the user
     # + return - A `slack:Error` if it is a failure or the `Conversations` record if it is a success
-    public remote function listConversations(boolean excludeArchived = false, int? noOfItems = (), string? types = (),
+    remote function listConversations(boolean excludeArchived = false, int? noOfItems = (), string? types = (),
                                  string? user = ()) returns @tainted Conversations|Error {
         string resolvedUserId = EMPTY_STRING;
         if (user is string) {
@@ -255,7 +255,7 @@ public client class ChatClient {
     #
     # + message - Message parameters to be posted on Slack
     # + return - Thread ID of the posted message or a `slack:Error` 
-    public remote function postMessage(Message message) returns @tainted string|Error {
+    remote function postMessage(Message message) returns @tainted string|Error {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, message.channelName);
         return postMessage(self.chatClient, resolvedChannelId, message);
     }
@@ -264,7 +264,7 @@ public client class ChatClient {
     #
     # + message - Message parameters to be updated on Slack
     # + return - The thread ID of the posted message or a `slack:Error`
-    public remote function updateMessage(Message message) returns @tainted string|Error {
+    remote function updateMessage(Message message) returns @tainted string|Error {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, message.channelName);
         return updateMessage(self.chatClient, resolvedChannelId, message);
     }
@@ -274,7 +274,7 @@ public client class ChatClient {
     # + channelName - Name of the conversation/channel
     # + threadTs - Timestamp of the message to be deleted
     # + return - A `slack:Error` if it is a failure or 'nil' if it is a success
-    public remote function deleteMessage(string channelName, string threadTs) returns @tainted Error? {
+    remote function deleteMessage(string channelName, string threadTs) returns @tainted Error? {
         string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
         return deleteMessage(self.chatClient, <@untainted> resolvedChannelId, threadTs);
     }
@@ -303,7 +303,7 @@ public client class FileClient {
     #
     # + fileId - ID of the file to be deleted
     # + return - A `slack:Error` if it is a failure or 'nil' if it is a success
-    public remote function deleteFile(string fileId) returns @tainted Error? {
+    remote function deleteFile(string fileId) returns @tainted Error? {
         return deleteFile(self.fileClient, <@untainted> fileId);
     }
 
@@ -311,7 +311,7 @@ public client class FileClient {
     #
     # + fileId - ID of the file
     # + return - A `slack:Error` if it is a failure or the 'FileInfo' record if it is a success
-    public remote function getFileInfo(string fileId) returns @tainted FileInfo|Error {
+    remote function getFileInfo(string fileId) returns @tainted FileInfo|Error {
         return getFileInfo(self.fileClient, <@untainted> fileId);
     }
 
@@ -324,7 +324,7 @@ public client class FileClient {
     # + types - Type to filter files (ex: types=spaces,snippets)
     # + user - User name to filter files created by a single user
     # + return - A `slack:Error` if it is a failure or the 'FilesList' record if it is a success
-    public remote function listFiles(string? channelName = (), int? count = (), string? tsFrom = (), string? tsTo = (), 
+    remote function listFiles(string? channelName = (), int? count = (), string? tsFrom = (), string? tsTo = (), 
                 string? types = (), string? user = ()) returns @tainted FileInfo[]|Error {
         string channelId = EMPTY_STRING;
         string userId = EMPTY_STRING;
@@ -345,7 +345,7 @@ public client class FileClient {
     # + initialComment - The message text introducing the file
     # + threadTs - Thread ID of the conversation, if replying to a thread
     # + return - A `slack:Error` if it is a failure or the 'File' record if it is a success
-    public remote function uploadFile(string filePath, string? channelName = (), string? title = (), 
+    remote function uploadFile(string filePath, string? channelName = (), string? title = (), 
                             string? initialComment = (), string? threadTs = ()) returns @tainted FileInfo|Error {
         if (channelName is string) {
             string resolvedChannelId = check self.resolveChannelId(self.idMap, channelName);
