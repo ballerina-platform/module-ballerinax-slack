@@ -3,13 +3,6 @@
 The Ballerina Slack connector allows you to work with Slack `conversations/channels`, users, user groups, files, and messages through the Slack Web API.
 It handles the OAuth 2.0 authentication.
 
-There are 5 clients provided by Ballerina to interact with different API groups in the Slack Web API.
-
-1. **slack:Client** - This client is the top-most client in the Slack module. This can be used to get the relevant client associated with the operation that you wish to execute.
-2. **slack:ChatClient** - Chat client can be used in messaging-related operations. For example,  post messages on slack, delete messages, send attachments, etc.
-3. **slack:ConversationClient** - This client can be used in `conversations/channels`-related operations. For example, create conversations, join a conversation, add users to a conversation, archive/unarchive conversations, etc.
-4. **slack:UserClient** - This client can be used in `users/user groups`-related operations. For example, get user information etc.
-5. **slack.FileClient** - This client can be used in file-related operations in Slack. For example, upload files, delete files, get file information, etc.
 
 ## Compatibility
 |                     |    Version            |
@@ -59,8 +52,7 @@ slack:Client slackClient = new(slackConfig);
 The `listConversation` remote function can be used to list all the channels in a Slack team. 
 
 ```ballerina
-slack:ConversationClient convClient = slackClient.getConversationsClient();
-slack:Conversations|slack:Error response = convClient->listConversations();
+slack:Conversations|slack:Error response = slackClient->listConversations();
 if (response is slack:Conversations) {    
     io:println("Conversations ", response);
 } else {
@@ -73,12 +65,11 @@ if (response is slack:Conversations) {
 The `postMessage` remote function can be used to send a message to a Slack channel. 
 
 ```ballerina
-slack:ChatClient chatClient = slackClient.getChatClient();
 slack:Message messageParams = {
     channelName: "channelName",
     text: "Hello"
 };
-string|slack:Error postResponse = chatClient->postMessage(messageParams);
+string|slack:Error postResponse = slackClient->postMessage(messageParams);
 if (postResponse is string) {
     io:println("Message posted to channel ", postResponse);
 } else {
@@ -91,8 +82,7 @@ if (postResponse is string) {
 The `getUserInfo` remote function can be used to get information about a user. 
 
 ```ballerina
-slack:UserClient userClient = slackClient.getUserClient();
-slack:User|slack:Error response = userClient->getUserInfo("<userName>");
+slack:User|slack:Error response = slackClient->getUserInfo("<userName>");
 if (response is slack:User) {    
     io:println("User id ", response.id);
 } else {
@@ -105,8 +95,7 @@ if (response is slack:User) {
 The `uploadFile` remote function can be used to upload or create a file. 
 
 ```ballerina
-slack:FileClient fileClient = slackClient.getFileClient();
-slack:FileInfo|slack:Error response = fileClient->uploadFile("<filePath>", "<channelName>");
+slack:FileInfo|slack:Error response = slackClient->uploadFile("<filePath>", "<channelName>");
 if (response is slack:FileInfo) {    
     io:println("File id ", response.id);
 } else {
