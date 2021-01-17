@@ -13,24 +13,15 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerina/test;
 //import ballerina/system;
 import ballerina/config;
 
 string token = config:getAsString("SLACK_TOKEN");
 
-Configuration slackConfig1 = {
-    oauth2Config: {
-        accessToken: token
-    }
-};
+Configuration slackConfig1 = {oauth2Config: {accessToken: token}};
 
-Client slackClient = new(slackConfig1);
-ConversationClient convClient = slackClient.getConversationClient();
-ChatClient chatClient = slackClient.getChatClient();
-FileClient fileClient = slackClient.getFileClient();
-UserClient userClient = slackClient.getUserClient();
+Client slackClient = new (slackConfig1);
 
 string channelName1 = "test-slack-connector";
 string channelName2 = "channel2";
@@ -43,8 +34,17 @@ string threadId = "";
 Message messageParams = {
     channelName: "test-slack-connector",
     text: "Hello",
-    attachments: [{"pretext": "pre-hello", "text": "text-world"}],
-    blocks: [{"type": "section", "text": {"type": "plain_text", "text": "Hello world"}}]
+    attachments: [{
+        "pretext": "pre-hello",
+        "text": "text-world"
+    }],
+    blocks: [{
+        "type": "section",
+        "text": {
+            "type": "plain_text",
+            "text": "Hello world"
+        }
+    }]
 };
 
 Message udateMessageParams = {
@@ -53,15 +53,13 @@ Message udateMessageParams = {
     text: "updated message"
 };
 
-@test:Config {
-    after: "deleteMessageAfterTest"
-}
+@test:Config {after: "deleteMessageAfterTest"}
 function testPostTextMessage() {
-    var response = chatClient->postMessage(messageParams);
+    var response = slackClient->postMessage(messageParams);
     if (response is string) {
-        threadId = <@untainted> response;
+        threadId = <@untainted>response;
         udateMessageParams.threadTs = threadId;
-        var updateResponse = chatClient->updateMessage(udateMessageParams);
+        var updateResponse = slackClient->updateMessage(udateMessageParams);
         if (updateResponse is string) {
             test:assertEquals(updateResponse, threadId);
         } else {
@@ -73,7 +71,7 @@ function testPostTextMessage() {
 }
 
 function deleteMessageAfterTest() {
-    var response = chatClient->deleteMessage(channelName1, threadId);
+    var response = slackClient->deleteMessage(channelName1, threadId);
     if (response is error) {
         test:assertFail(msg = response.toString());
     }
@@ -81,23 +79,23 @@ function deleteMessageAfterTest() {
 
 @test:Config {}
 function testListConversations() {
-    var response = convClient->listConversations();
+    var response = slackClient->listConversations();
     if (response is error) {
         test:assertFail(msg = response.message());
-    } 
+    }
 }
 
 @test:Config {}
 function testGetConversationInfo() {
-    var response = convClient->getConversationInfo(channelName1);
+    var response = slackClient->getConversationInfo(channelName1);
     if (response is error) {
         test:assertFail(msg = response.message());
-    } 
+    }
 }
 
 @test:Config {}
 function testGetUserInfo() {
-    var response = userClient->getUserInfo(userName);
+    var response = slackClient->getUserInfo(userName);
     if (response is error) {
         test:assertFail(msg = response.message());
     } else {
@@ -106,22 +104,22 @@ function testGetUserInfo() {
 }
 
 @test:Config {
-    before:"uploadFileToTest",
+    before: "uploadFileToTest",
     after: "deleteFileAfterTest"
 }
 function testListFiles() {
-    var response = fileClient->listFiles(channelName1);
+    var response = slackClient->listFiles(channelName1);
     if (response is error) {
         test:assertFail(msg = response.message());
-    } 
+    }
 }
 
 @test:Config {
-    before:"uploadFileToTest",
+    before: "uploadFileToTest",
     after: "deleteFileAfterTest"
 }
 function testGetFileInfo() {
-    var response = fileClient->getFileInfo(fileId);
+    var response = slackClient->getFileInfo(fileId);
     if (response is error) {
         test:assertFail(msg = response.message());
     } else {
@@ -130,27 +128,27 @@ function testGetFileInfo() {
 }
 
 function uploadFileToTest() {
-    var response = fileClient->uploadFile(filePath, channelName1);
+    var response = slackClient->uploadFile(filePath, channelName1);
     if (response is error) {
         test:assertFail(msg = response.message());
     } else {
-        fileId = <@untainted> response.id;
+        fileId = <@untainted>response.id;
     }
 }
 
 function deleteFileAfterTest() {
-    var response = fileClient->deleteFile(fileId);
+    var response = slackClient->deleteFile(fileId);
     if (response is error) {
         test:assertFail(msg = response.message());
-    } 
+    }
 }
 
 @test:Config {}
 function testRemoveUser() {
-    var response = convClient->removeUserFromConversation(channelName1, userName);
+    var response = slackClient->removeUserFromConversation(channelName1, userName);
     if (response is error) {
         test:assertEquals(response.toString(), "error cant_kick_self ");
-    } 
+    }
 }
 
 // Commenting this test case as it grows the previousNames field of the response.
@@ -159,59 +157,55 @@ function testRemoveUser() {
 //     after: "renameAfterTest"
 // }
 // function testRenameConversation() {
-//     var response = convClient->renameConversation(channelName1, channelName2);
+//     var response = slackClient->renameConversation(channelName1, channelName2);
 //     if (response is error) {
 //         test:assertFail(msg = response.toString());
 //     } else {
 //         test:assertEquals(response.name, channelName2);
 //     }
 // }
-
+// @test:Config{}
 // function renameAfterTest() {
-//     var response = convClient->renameConversation(channelName2, channelName1);
+//     var response = slackClient->renameConversation(channelName2, channelName1);
 //     if (response is error) {
 //         test:assertFail(msg = response.toString());
 //     } 
 // }
 
-@test:Config {
-    before: "archiveConvToUseInTests"
-}
+@test:Config {before: "archiveConvToUseInTests"}
 function testUnarchiveConveration() {
-    var response = convClient->unArchiveConversation(channelName1);
+    var response = slackClient->unArchiveConversation(channelName1);
     if (response is error) {
         test:assertFail(msg = response.toString());
-    } 
+    }
 }
 
 function archiveConvToUseInTests() {
-    var response = convClient->archiveConversation(channelName1);
+    var response = slackClient->archiveConversation(channelName1);
     if (response is error) {
         test:assertFail(msg = response.toString());
-    } 
+    }
 }
 
-@test:Config {
-    after: "testJoinConversation"
-}
+@test:Config {after: "testJoinConversation"}
 function testLeaveConveration() {
-    var response = convClient->leaveConversation(channelName1);
+    var response = slackClient->leaveConversation(channelName1);
     if (response is error) {
         test:assertFail(msg = response.toString());
-    } 
+    }
 }
 
 function testJoinConversation() {
-    var response = convClient->joinConversation(channelName1);
+    var response = slackClient->joinConversation(channelName1);
     if (response is error) {
         test:assertFail(msg = response.message());
-    } 
+    }
 }
 
 @test:Config {}
 function testListConverationsOfAUser() {
-    var response = userClient->listConversations(noOfItems = 10, types = "public_channel", user = userName);
+    var response = slackClient->listUserConversations(noOfItems = 10, types = "public_channel", user = userName);
     if (response is error) {
         test:assertFail(msg = response.toString());
-    } 
+    }
 }
