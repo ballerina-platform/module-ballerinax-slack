@@ -14,6 +14,12 @@
 // specific language governing permissions and limitations
 // under the License.
 
+public type ValidationRequest record {
+    string token;
+    string challenge;
+    string 'type;  
+};
+
 public type RegularSlackEvent record {
     string 'type;
     string channel;
