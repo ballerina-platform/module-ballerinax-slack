@@ -27,40 +27,27 @@ listener Listener slackListener = new(9090, token);
 
 service /slack on slackListener {
     resource function post events(http:Caller caller, http:Request request) returns error?{
-        //**Event is triggering twice - need to check
-        error | json rqstJson = request.getJsonPayload();
-        log:print(rqstJson.toString());
-
-        if rqstJson is json {
-            string rqstType = rqstJson.'type.toString();
-            if (rqstType == "url_verification"){
-                var success = slackListener.verifyRequestURL(caller, <@untainted> rqstJson);
-                if success is error {
-                    log:printError("Error Occurred" + success.toString());
-                }
+           
+        var event = slackListener.getEventData(caller, request);
+        if(event is SlackEvent){
+            
+            string eventType = event.'type;
+            if(eventType == APP_MENTION_EVENT){
+                log:print("App Mention Event Triggered");
             }
-            else if (rqstType == "event_callback"){
-                error|SlackEvent event =  slackListener.getEventData(caller, rqstJson);
-                if event is SlackEvent{
-                    string eventType = event.'type;
-                    if(eventType == APP_MENTION_EVENT){
-                        log:print("App Mention Event Triggered");
-                    }
-                    else if (eventType == APP_HOME_OPENED_EVENT){
-                        log:print("App Home Opened Event Triggered");
-                    }
-                    else if (eventType == MESSAGE_EVENT){
-                        //triggered when messaged to a app home 
-                        log:print("Message Event Triggered");
-                    }
-                }
-                else{
-                    log:print(event.toString());
-                }
-                
-                
+            else if (eventType == APP_HOME_OPENED_EVENT){
+                log:print("App Home Opened Event Triggered");
+            }
+            else if (eventType == MESSAGE_EVENT){
+                //triggered when messaged to a app home 
+                msgReceived = true;
+                log:print("Message Event Triggered");
             }
         }
+        else{
+            log:print("Error occured : " + event.toString());
+        }
+    
     }
 }
 

@@ -43,4 +43,4 @@ public type FileDetails record {
     string id;
 };
 
-public type SlackEvent RegularSlackEvent|FileEvent;
+public type SlackEvent RegularSlackEvent|FileEvent|ValidationRequest;
