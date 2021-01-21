@@ -23,22 +23,26 @@ boolean msgReceived = false;
 
 string token = config:getAsString("VERIFICATION_TOKEN");
 
-listener Listener slackListener = new(9090, token);
+ListenerConfiguration config = {
+    verificationToken: token
+};
+
+listener Listener slackListener = new(9090, config);
 
 service /slack on slackListener {
     resource function post events(http:Caller caller, http:Request request) returns error?{
            
         var event = slackListener.getEventData(caller, request);
+
         if(event is SlackEvent){
-            
             string eventType = event.'type;
-            if(eventType == APP_MENTION_EVENT){
+            if(eventType == APP_MENTION){
                 log:print("App Mention Event Triggered");
             }
-            else if (eventType == APP_HOME_OPENED_EVENT){
+            else if (eventType == APP_HOME_OPENED){
                 log:print("App Home Opened Event Triggered");
             }
-            else if (eventType == MESSAGE_EVENT){
+            else if (eventType == MESSAGE){
                 //triggered when messaged to a app home 
                 msgReceived = true;
                 log:print("Message Event Triggered");

@@ -14,21 +14,36 @@
 // specific language governing permissions and limitations
 // under the License.
 
+# Record representing the configuration for the Slack Listener.
+#
+# + verificationToken - the verification token mentioned in your slack app settings - basic information section
+public type ListenerConfiguration record {|
+    string verificationToken;
+|};
+
 public type ValidationRequest record {
     string token;
     string challenge;
-    string 'type;  
+    string 'type;
 };
 
 public type RegularSlackEvent record {
     string 'type;
-    string channel;
-    string user;
+    string channel?;
+    Channel detailedChannel?;
+    string user?;
     string ts?;
     string text?;
     string event_ts?;
     string channel_type?;
     string tab?;
+    string connected_team_id?;
+};
+
+public type Channel record {
+    string id;
+    string name;
+    string created;
 };
 
 public type FileEvent record {
@@ -36,7 +51,6 @@ public type FileEvent record {
     string fileId;
     FileDetails file?;
     string event_ts?;
-     
 };
 
 public type FileDetails record {
