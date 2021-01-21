@@ -122,7 +122,7 @@ The following sections provide you details on how to use the Slack Listener Supp
 1. Create your own slack app enable event subscription in your slack app settings. 
 2. Subscribe to the bot events that you are planning to listen.
 3. Download and install [Ballerina](https://ballerinalang.org/downloads/).
-4. Install npm and setup the ngrok
+4. Install npm and setup the [ngrok](https://ngrok.com/download).
 
 
 ### Pull the Module
