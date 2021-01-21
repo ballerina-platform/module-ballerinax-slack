@@ -126,9 +126,9 @@ The following sections provide you details on how to use the Slack Listener Supp
 
 
 ### Pull the Module
-Execute the below command to pull the Slack module from Ballerina Central:
+Execute the below command to pull the Slack Listener module from Ballerina Central:
 ```ballerina
-$ ballerina pull ballerinax/slack
+$ ballerina pull ballerinax/slack.'listener
 ```
 
 ### Register the Request URL
