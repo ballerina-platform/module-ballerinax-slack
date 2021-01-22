@@ -29,8 +29,7 @@ public type ValidationRequest record {
 
 public type RegularSlackEvent record {
     string 'type;
-    string channel?;
-    Channel detailedChannel?;
+    string|Channel channel?;
     string user?;
     string ts?;
     string text?;
@@ -38,17 +37,60 @@ public type RegularSlackEvent record {
     string channel_type?;
     string tab?;
     string connected_team_id?;
+    string call_id?;
+    string external_unique_id?;
+    string latest?;
+    string previously_connected_team_id?;
+    string is_ext_shared?;
+    string email_domain?;
+    string enterprise_id?;
+    Edited edited?;
+    string subtype?;
+    string team?;
+    string inviter?;
+    string file_id?;
+    FileDetails file?;
+};
+
+public type Edited record {
+    string user;
+    string ts;
 };
 
 public type Channel record {
     string id;
     string name;
-    string created;
+    int created;
+    string creator?;
+};
+
+public type InviteRequestedEvent record {
+    string 'type;
+    InviteRequest invite_request;
+};
+
+public type InviteRequest record {
+    string id;
+    string email;
+    int date_created;
+    string[] requester_ids;
+    string[] channel_ids;
+    string invite_type;
+    string real_name;
+    int date_expire;
+    string request_reason?;
+    Team team?;
+};
+
+public type Team record {
+    string id;
+    string name?;
+    string domain?;
 };
 
 public type FileEvent record {
     string 'type;
-    string fileId;
+    string file_id;
     FileDetails file?;
     string event_ts?;
 };
@@ -57,4 +99,4 @@ public type FileDetails record {
     string id;
 };
 
-public type SlackEvent RegularSlackEvent|FileEvent|ValidationRequest;
+public type SlackEvent RegularSlackEvent|ValidationRequest|InviteRequestedEvent;

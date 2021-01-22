@@ -23,8 +23,15 @@ public const string CHANNEL_ARCHIVED = "channel_archive";
 public const string CHANNEL_UNARCHIVED = "channel_unarchive";
 public const string CHANNEL_RENAME = "channel_rename";
 public const string CHANNEL_JOIN = "channel_joined";
-public const string FILE_CREATED = "file_created";
-public const string FILE_DELETED = "file_deleted";
-public const string CHANNEL_LEFT = "channel_left";
 public const string CHANNEL_MARKED = "channel_marked";
 public const string CHANNEL_SHARED = "channel_shared";
+public const string CHANNEL_LEFT = "channel_left";
+public const string FILE_CREATED = "file_created";
+public const string FILE_DELETED = "file_deleted";
+public const string FILE_SHARED = "file_shared";
+public const string FILE_UNSHARED = "file_unshared";
+public const string INVITE_REQUESTED = "invite_requested";
+public const string REACTION_ADDED = "reaction_added";
+public const string REACTION_REMOVED = "reaction_removed";
+
+

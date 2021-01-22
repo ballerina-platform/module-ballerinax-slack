@@ -37,14 +37,15 @@ service /slack on slackListener {
         if(event is SlackEvent){
             string eventType = event.'type;
             if(eventType == APP_MENTION){
+                //triggered when your app mentioned in a chat
                 log:print("App Mention Event Triggered");
             }
             else if (eventType == APP_HOME_OPENED){
+                //triggered when your app home opened
                 log:print("App Home Opened Event Triggered");
             }
             else if (eventType == MESSAGE){
                 //triggered when messaged to a app home 
-                msgReceived = true;
                 log:print("Message Event Triggered");
             }
         }
@@ -58,8 +59,9 @@ service /slack on slackListener {
 @test:Config { 
     enable:false
 }
-function testAssertTrue() {
-    test:assertTrue(msgReceived, msg = "AssertTrue failed");
-    log:print(msgReceived.toString());
+function testMessageEvent() {
+    test:assertTrue(msgReceived, msg = "Message Event Trigger Failed");
 }
+
+
 
