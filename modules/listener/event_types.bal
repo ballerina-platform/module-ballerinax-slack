@@ -21,11 +21,11 @@ public type ListenerConfiguration record {|
     string verificationToken;
 |};
 
-public type ValidationRequest record {
+public type ValidationRequest record {|
     string token;
     string challenge;
     string 'type;
-};
+|};
 
 public type RegularSlackEvent record {
     string 'type;
