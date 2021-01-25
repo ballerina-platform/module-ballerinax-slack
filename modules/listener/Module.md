@@ -83,7 +83,6 @@ service /slack on slackListener {
         else {
             log:print("Error occured : " + event.toString());
         }
-    
     }
 }
 
