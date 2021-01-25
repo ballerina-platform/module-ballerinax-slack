@@ -3,6 +3,8 @@
 *.balx
 # Log file
 *.log
+*.1
+*.2
 
 #conf file
 ballerina.conf
