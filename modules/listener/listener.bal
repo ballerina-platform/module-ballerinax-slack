@@ -55,7 +55,7 @@ public class SlackEventListener {
     # + return - A `error` if it is a failure or the `SlackEvent` record if it is a success
     public isolated function getEventData(http:Caller caller, http:Request slackRequest) returns @untainted error|SlackEvent {
         error|json request = slackRequest.getJsonPayload();
-
+        //calculation to identify the delay of event receiving from Slack
         int slackTimeStamp = check 'int:fromString(slackRequest.getHeader(HEADER_TIMESTAMP));
         int nowTimeStamp = check 'int:fromString(time:currentTime().time.toString().substring(0, 10));
         int timeDiff = nowTimeStamp - slackTimeStamp;

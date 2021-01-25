@@ -21,16 +21,15 @@ import ballerina/config;
 boolean msgReceived = false;
 
 string token = config:getAsString("VERIFICATION_TOKEN");
+int port = check 'int:fromString(config:getAsString("PORT"));
 
 ListenerConfiguration config = {verificationToken: token};
 
-listener SlackEventListener slackListener = new (9090, config);
+listener SlackEventListener slackListener = new (port, config);
 
 service /slack on slackListener {
     resource function post events(http:Caller caller, http:Request request) returns error? {
-
         var event = slackListener.getEventData(caller, request);
-
         if (event is SlackEvent) {
             string eventType = event.'type;
             if (eventType == APP_MENTION) {
@@ -46,7 +45,6 @@ service /slack on slackListener {
         } else {
             log:print("Error occured : " + event.toString());
         }
-
     }
 }
 
@@ -54,6 +52,3 @@ service /slack on slackListener {
 function testMessageEvent() {
     test:assertTrue(msgReceived, msg = "Message Event Trigger Failed");
 }
-
-
-

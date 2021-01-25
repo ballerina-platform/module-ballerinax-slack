@@ -156,12 +156,13 @@ import ballerina/log;
 import ballerinax/slack.'listener as SlackListener;
 
 string token = config:getAsString("VERIFICATION_TOKEN");
+int port = check 'int:fromString(config:getAsString("PORT"));
 
 SlackListener:ListenerConfiguration config = {
     verificationToken: token
 };
 
-listener SlackListener:SlackEventListener slackListener = new(9090, config);
+listener SlackListener:SlackEventListener slackListener = new(port, config);
 
 service /slack on slackListener {
     resource function post events(http:Caller caller, http:Request request) returns @untainted error?{
