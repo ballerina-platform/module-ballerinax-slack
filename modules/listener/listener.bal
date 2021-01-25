@@ -86,7 +86,6 @@ public class SlackEventListener {
         http:Response response = new;
         error|ValidationRequest validationRqst = rqstJson.cloneWithType(ValidationRequest);
         if (validationRqst is ValidationRequest) {
-
             response.statusCode = http:STATUS_OK;
             response.setPayload({challenge: <@untainted>validationRqst.challenge});
 
