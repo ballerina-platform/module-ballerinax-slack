@@ -1,4 +1,4 @@
-// Copyright (c) 2019, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+// Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 //
 // WSO2 Inc. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -19,7 +19,7 @@ import ballerina/time;
 
 //todo:Verify by signing secret
 
-public class Listener {
+public class SlackEventListener {
     private http:Listener httpListener;
     private string token;
 
@@ -51,24 +51,24 @@ public class Listener {
     # The `listener.getEventData(http:Caller caller, http:Request request)` function processes 
     #
     # + caller - http:Caller for acknowleding to the events received
-    # + request - http:Request which contains all the event related data
+    # + slackRequest - http:Request which contains all the event related data
     # + return - A `error` if it is a failure or the `SlackEvent` record if it is a success
-    public isolated function getEventData(http:Caller caller, http:Request request) returns @untainted error|SlackEvent {
-        error|json rqstJson = request.getJsonPayload();
+    public isolated function getEventData(http:Caller caller, http:Request slackRequest) returns @untainted error|SlackEvent {
+        error|json request = slackRequest.getJsonPayload();
 
-        int slackTimeStamp = check 'int:fromString(request.getHeader(HEADER_TIMESTAMP));
+        int slackTimeStamp = check 'int:fromString(slackRequest.getHeader(HEADER_TIMESTAMP));
         int nowTimeStamp = check 'int:fromString(time:currentTime().time.toString().substring(0, 10));
         int timeDiff = nowTimeStamp - slackTimeStamp;
 
-        if rqstJson is json {
+        if request is json {
             //validate the request by comparing the token received with your app token and by checking whether the timestamp is withing 5 minutes (60 * 5 seconds) range
-            if (rqstJson.token == self.token && timeDiff < 60 * 5) {
-                string rqstType = rqstJson.'type.toString();
+            if (request.token == self.token && timeDiff < 60 * 5) {
+                string rqstType = request.'type.toString();
                 if (rqstType == URL_VERIFICATION) {
-                    return self.verifyURL(caller, rqstJson);
+                    return self.verifyURL(caller, request);
 
                 } else if (rqstType == EVENT_CALLBACK) {
-                    return self.getEventCallBackData(caller, rqstJson);
+                    return self.getEventCallBackData(caller, request);
                 } else {
                     return error("Unidentified Request Type");
                 }
@@ -78,7 +78,7 @@ public class Listener {
             }
 
         } else {
-            return rqstJson;
+            return request;
         }
     }
 

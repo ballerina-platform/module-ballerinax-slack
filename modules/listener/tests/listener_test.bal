@@ -1,4 +1,4 @@
-// Copyright (c) 2019, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+// Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 //
 // WSO2 Inc. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -13,7 +13,6 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerina/http;
 import ballerina/log;
 import ballerina/test;
@@ -23,42 +22,35 @@ boolean msgReceived = false;
 
 string token = config:getAsString("VERIFICATION_TOKEN");
 
-ListenerConfiguration config = {
-    verificationToken: token
-};
+ListenerConfiguration config = {verificationToken: token};
 
-listener Listener slackListener = new(9090, config);
+listener SlackEventListener slackListener = new (9090, config);
 
 service /slack on slackListener {
-    resource function post events(http:Caller caller, http:Request request) returns error?{
-           
+    resource function post events(http:Caller caller, http:Request request) returns error? {
+
         var event = slackListener.getEventData(caller, request);
 
-        if(event is SlackEvent){
+        if (event is SlackEvent) {
             string eventType = event.'type;
-            if(eventType == APP_MENTION){
+            if (eventType == APP_MENTION) {
                 //triggered when your app mentioned in a chat
                 log:print("App Mention Event Triggered");
-            }
-            else if (eventType == APP_HOME_OPENED){
+            } else if (eventType == APP_HOME_OPENED) {
                 //triggered when your app home opened
                 log:print("App Home Opened Event Triggered");
-            }
-            else if (eventType == MESSAGE){
+            } else if (eventType == MESSAGE) {
                 //triggered when messaged to a app home 
                 log:print("Message Event Triggered");
             }
-        }
-        else{
+        } else {
             log:print("Error occured : " + event.toString());
         }
-    
+
     }
 }
 
-@test:Config { 
-    enable:false
-}
+@test:Config {enable: false}
 function testMessageEvent() {
     test:assertTrue(msgReceived, msg = "Message Event Trigger Failed");
 }

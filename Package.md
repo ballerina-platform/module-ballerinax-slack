@@ -161,15 +161,13 @@ SlackListener:ListenerConfiguration config = {
     verificationToken: token
 };
 
-listener SlackListener:Listener slackListener = new(9090, config);
+listener SlackListener:SlackEventListener slackListener = new(9090, config);
 
 service /slack on slackListener {
     resource function post events(http:Caller caller, http:Request request) returns @untainted error?{
         log:print("Request : " + request.getJsonPayload().toString());
-
         var event = slackListener.getEventData(caller, request);
         if(event is SlackListener:SlackEvent){
-
             string eventType = event.'type;
             if(eventType == SlackListener:APP_MENTION){
                 log:print("App Mention Event Triggered : " + event.toString());
