@@ -70,7 +70,7 @@ public class SlackEventListener {
                 return error("Unidentified Request Type");
             }
         } else {
-            var e = caller->respond(http:STATUS_BAD_REQUEST);
+            check caller->respond(http:STATUS_BAD_REQUEST);
             return error("Invalid Request");
         }
     }
