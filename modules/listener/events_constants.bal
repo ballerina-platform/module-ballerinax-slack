@@ -11,8 +11,8 @@
 // software distributed under the License is distributed on an
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
-// specific language governing permissions and limitations
-// under the License.
+// specific language governing permissions and limitations under the License.
+
 const string HEADER_TIMESTAMP = "X-Slack-Request-Timestamp";
 const string URL_VERIFICATION = "url_verification";
 const string EVENT_CALLBACK = "event_callback";
@@ -33,5 +33,3 @@ public const string FILE_UNSHARED = "file_unshared";
 public const string INVITE_REQUESTED = "invite_requested";
 public const string REACTION_ADDED = "reaction_added";
 public const string REACTION_REMOVED = "reaction_removed";
-
-

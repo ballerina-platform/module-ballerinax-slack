@@ -54,67 +54,45 @@ public class SlackEventListener {
     # + slackRequest - http:Request which contains all the event related data
     # + return - A `error` if it is a failure or the `SlackEvent` record if it is a success
     public isolated function getEventData(http:Caller caller, http:Request slackRequest) returns @untainted error|SlackEvent {
-        error|json request = slackRequest.getJsonPayload();
+        json request = check slackRequest.getJsonPayload();
         //calculation to identify the delay of event receiving from Slack
         int slackTimeStamp = check 'int:fromString(slackRequest.getHeader(HEADER_TIMESTAMP));
         int nowTimeStamp = check 'int:fromString(time:currentTime().time.toString().substring(0, 10));
         int timeDiff = nowTimeStamp - slackTimeStamp;
-
-        if request is json {
-            //validate the request by comparing the token received with your app token and by checking whether the timestamp is withing 5 minutes (60 * 5 seconds) range
-            if (request.token == self.token && timeDiff < 60 * 5) {
-                string rqstType = request.'type.toString();
-                if (rqstType == URL_VERIFICATION) {
-                    return self.verifyURL(caller, request);
-
-                } else if (rqstType == EVENT_CALLBACK) {
-                    return self.getEventCallBackData(caller, request);
-                } else {
-                    return error("Unidentified Request Type");
-                }
+        //validate the request by comparing the token received with your app token and by checking whether the timestamp is withing 5 minutes (60 * 5 seconds) range
+        if (request.token == self.token && timeDiff < 60 * 5) {
+            string reqType = request.'type.toString();
+            if (reqType == URL_VERIFICATION) {
+                return self.verifyURL(caller, request);
+            } else if (reqType == EVENT_CALLBACK) {
+                return self.getEventCallBackData(caller, request);
             } else {
-                var e = caller->respond(http:STATUS_BAD_REQUEST);
-                return error("Invalid Request");
+                return error("Unidentified Request Type");
             }
-
         } else {
-            return request;
+            var e = caller->respond(http:STATUS_BAD_REQUEST);
+            return error("Invalid Request");
         }
     }
 
-    isolated function verifyURL(http:Caller caller, json rqstJson) returns @untainted error|SlackEvent {
+    isolated function verifyURL(http:Caller caller, json req) returns @untainted error|SlackEvent {
         http:Response response = new;
-        error|ValidationRequest validationRqst = rqstJson.cloneWithType(ValidationRequest);
-        if (validationRqst is ValidationRequest) {
-            response.statusCode = http:STATUS_OK;
-            response.setPayload({challenge: <@untainted>validationRqst.challenge});
-
-            var e = caller->respond(response);
-            if e is error {
-                return e;
-            } else {
-                log:print("Request URL Verified");
-                return validationRqst;        
-            }
-        } else {
-            return error("Invalid Request : ", validationRqst);
-        }
+        ValidationRequest validationRqst = check req.cloneWithType(ValidationRequest);
+        response.statusCode = http:STATUS_OK;
+        response.setPayload({challenge: <@untainted>validationRqst.challenge});
+        check caller->respond(response);
+        log:print("Request URL Verified");
+        return validationRqst;        
     }
 
-    isolated function getEventCallBackData(http:Caller caller, json rqstJson) returns @untainted error|SlackEvent {
+    isolated function getEventCallBackData(http:Caller caller, json req) returns @untainted error|SlackEvent {
         var e = caller->respond(http:STATUS_ACCEPTED);
         if e is error {
             log:printError(e.toString());
         }
-        error|string eventType = rqstJson.event.'type.toString();
-        if eventType is string {
-            json eventJson = check rqstJson.event;
-            error|SlackEvent event = check eventJson.cloneWithType(SlackEvent);
-            return event;
-
-        } else {
-            return error("Unable to Locate Event Type : ", eventType);
-        }
-
+        string eventType = req.event.'type.toString();
+        json eventJson = check req.event;
+        SlackEvent event = check eventJson.cloneWithType(SlackEvent);
+        return event;
     }
 }

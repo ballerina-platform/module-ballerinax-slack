@@ -168,9 +168,9 @@ service /slack on slackListener {
     resource function post events(http:Caller caller, http:Request request) returns @untainted error?{
         log:print("Request : " + request.getJsonPayload().toString());
         var event = slackListener.getEventData(caller, request);
-        if(event is SlackListener:SlackEvent){
+        if (event is SlackListener:SlackEvent){
             string eventType = event.'type;
-            if(eventType == SlackListener:APP_MENTION){
+            if (eventType == SlackListener:APP_MENTION){
                 log:print("App Mention Event Triggered : " + event.toString());
             }
             else if (eventType == SlackListener:APP_HOME_OPENED){
@@ -180,7 +180,7 @@ service /slack on slackListener {
                 log:print("Message Event Triggered : " + event.toString());
             }
         }
-        else{
+        else {
             log:print("Error occured : " + event.toString());
         }
     
