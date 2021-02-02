@@ -142,8 +142,24 @@ $ ballerina pull ballerinax/slack
 ### Receiving events
 * After successful verification of Request URL your ballerina service will receive event triggers. 
 * ballerina/slack.'listener ``` getEventData(caller, request) ``` method 
-    - Map raw data received from slack to the matching event type
+    - Verify whether the request is came from Slack event API by comparing the verification tokens
+    - Ensure the timestamp of the request is within 5 minutes time lapse. 
+    - Map raw data received from slack to the matching record type
     - If a received event payload does not map with any defined event type method will return error. However in any such case user can access raw data using the request.
+* Please find the following map of slack event types with record types declared in `ballerinax/slack.'listener` module. 
+
+    | Record type           | Slack Events                                                          |
+    | --------------------- | --------------------------------------------------------------------- |
+    | AppEvent              | app_home_opened, app_mention                                          |
+    | CallEvent             | call_rejected                                                         |
+    | MessageEvent          | message                                                               |
+    | FileEvent             | file_change, file_comment_added, file_comment_deleted,                |
+    |                       | file_created, file_deleted, file_public, file_shared, file_unshared   |   
+    | DNDEvent              | dnd_updated, dnd_updated_user                                         |
+    | InviteRequestedEvent  | invite_requested                                                      |
+    | ReactionEvent         | reaction_added, reaction_removed                                      |
+    | MemberEvent           | member_left_channel, member_joined_channel                            |
+    | GenericSlackEvent     | For remaining slack events                                            |
 
 ## Samples
 
@@ -153,7 +169,7 @@ Following sample code is written to receive triggered event data from Slack Even
 ```ballerina
 import ballerina/http;
 import ballerina/log;
-import ballerinax/slack.'listener as SlackListener;
+import ballerinax/slack.'listener as slack;
 
 string token = config:getAsString("VERIFICATION_TOKEN");
 int port = check 'int:fromString(config:getAsString("PORT"));
@@ -162,26 +178,20 @@ SlackListener:ListenerConfiguration config = {
     verificationToken: token
 };
 
-listener SlackListener:SlackEventListener slackListener = new(port, config);
+listener slack:SlackEventListener slackListener = new(port, config);
 
 service /slack on slackListener {
-    resource function post events(http:Caller caller, http:Request request) returns @untainted error? {
-        log:print("Request : " + request.getJsonPayload().toString());
+    resource function post events(http:Caller caller, http:Request request) returns error? {
         var event = slackListener.getEventData(caller, request);
-        if (event is SlackListener:SlackEvent) {
-            string eventType = event.'type;
-            if (eventType == SlackListener:APP_MENTION) {
-                log:print("App Mention Event Triggered : " + event.toString());
-            }
-            else if (eventType == SlackListener:APP_HOME_OPENED) {
-                log:print("App Home Opened Event Triggered : " + event.toString());
-            }
-            else if (eventType == SlackListener:MESSAGE) {
-                log:print("Message Event Triggered : " + event.toString());
-            }
-        }
-        else {
-            log:print("Error occured : " + event.toString());
+        if (event is slack:MessageEvent) {
+            msgReceived = true;
+            log:print("Message Event Triggered. Event Data : " + event.toString());
+        } else if (event is slack:AppEvent) {
+            log:print("App Mention Event Triggered. Event Data : " + event.toString());
+        } else if (event is slack:FileEvent) {
+            log:print("File Event Triggered. Event Data : " + event.toString());
+        } else {
+            log:print("Slack Event Occured. Event Data : " + event.toString());
         }
     }
 }

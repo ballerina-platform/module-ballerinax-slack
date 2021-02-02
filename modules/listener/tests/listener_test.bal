@@ -31,20 +31,15 @@ listener SlackEventListener slackListener = new (port, config);
 service /slack on slackListener {
     resource function post events(http:Caller caller, http:Request request) returns error? {
         var event = slackListener.getEventData(caller, request);
-        if (event is SlackEvent) {
-            string eventType = event.'type;
-            if (eventType == APP_MENTION) {
-                //triggered when your app mentioned in a chat
-                log:print("App Mention Event Triggered");
-            } else if (eventType == APP_HOME_OPENED) {
-                //triggered when your app home opened
-                log:print("App Home Opened Event Triggered");
-            } else if (eventType == MESSAGE) {
-                //triggered when messaged to a app home 
-                log:print("Message Event Triggered");
-            }
+        if (event is MessageEvent) {
+            msgReceived = true;
+            log:print("Message Event Triggered. Event Data : " + event.toString());
+        } else if (event is AppEvent) {
+            log:print("App Mention Event Triggered. Event Data : " + event.toString());
+        } else if (event is FileEvent) {
+            log:print("File Event Triggered. Event Data : " + event.toString());
         } else {
-            log:print("Error occured : " + event.toString());
+            log:print("Slack Event Occured. Event Data : " + event.toString());
         }
     }
 }

@@ -169,7 +169,7 @@ Following sample code is written to receive triggered event data from Slack Even
 ```ballerina
 import ballerina/http;
 import ballerina/log;
-import ballerinax/slack.'listener as SlackListener;
+import ballerinax/slack.'listener as slack;
 
 string token = config:getAsString("VERIFICATION_TOKEN");
 int port = check 'int:fromString(config:getAsString("PORT"));
@@ -178,26 +178,20 @@ SlackListener:ListenerConfiguration config = {
     verificationToken: token
 };
 
-listener SlackListener:SlackEventListener slackListener = new(port, config);
+listener slack:SlackEventListener slackListener = new(port, config);
 
 service /slack on slackListener {
-    resource function post events(http:Caller caller, http:Request request) returns @untainted error? {
-        log:print("Request : " + request.getJsonPayload().toString());
+    resource function post events(http:Caller caller, http:Request request) returns error? {
         var event = slackListener.getEventData(caller, request);
-        if (event is SlackListener:SlackEvent) {
-            string eventType = event.'type;
-            if (eventType == SlackListener:APP_MENTION) {
-                log:print("App Mention Event Triggered : " + event.toString());
-            }
-            else if (eventType == SlackListener:APP_HOME_OPENED) {
-                log:print("App Home Opened Event Triggered : " + event.toString());
-            }
-            else if (eventType == SlackListener:MESSAGE) {
-                log:print("Message Event Triggered : " + event.toString());
-            }
-        }
-        else {
-            log:print("Error occured : " + event.toString());
+        if (event is slack:MessageEvent) {
+            msgReceived = true;
+            log:print("Message Event Triggered. Event Data : " + event.toString());
+        } else if (event is slack:AppEvent) {
+            log:print("App Mention Event Triggered. Event Data : " + event.toString());
+        } else if (event is slack:FileEvent) {
+            log:print("File Event Triggered. Event Data : " + event.toString());
+        } else {
+            log:print("Slack Event Occured. Event Data : " + event.toString());
         }
     }
 }
