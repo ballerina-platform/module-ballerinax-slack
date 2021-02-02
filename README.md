@@ -142,8 +142,24 @@ $ ballerina pull ballerinax/slack.'listener
 ### Receiving events
 * After successful verification of Request URL your ballerina service will receive event triggers. 
 * ballerina/slack.'listener ``` getEventData(caller, request) ``` method 
-    - Map raw data received from slack to the matching event type
+    - Verify whether the request is came from Slack event API by comparing the verification tokens
+    - Ensure the timestamp of the request is within 5 minutes time lapse. 
+    - Map raw data received from slack to the matching record type
     - If a received event payload does not map with any defined event type method will return error. However in any such case user can access raw data using the request.
+* Please find the following map of slack event types with record types declared in `ballerinax/slack.'listener` module. 
+
+    | Record type           | Slack Events                                                          |
+    | --------------------- | --------------------------------------------------------------------- |
+    | AppEvent              | app_home_opened, app_mention                                          |
+    | CallEvent             | call_rejected                                                         |
+    | MessageEvent          | message                                                               |
+    | FileEvent             | file_change, file_comment_added, file_comment_deleted,                |
+    |                       | file_created, file_deleted, file_public, file_shared, file_unshared   |   
+    | DNDEvent              | dnd_updated, dnd_updated_user                                         |
+    | InviteRequestedEvent  | invite_requested                                                      |
+    | ReactionEvent         | reaction_added, reaction_removed                                      |
+    | MemberEvent           | member_left_channel, member_joined_channel                            |
+    | GenericSlackEvent     | For remaining slack events                                            |
 
 ## Samples
 
