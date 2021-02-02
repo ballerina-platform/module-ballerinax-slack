@@ -94,27 +94,24 @@ public class SlackEventListener {
         string eventType = req.event.'type.toString();
         json eventJson = check req.event;
 
-        if ((eventType is MessageOrMemberEventType) && (eventJson.cloneWithType(MessageOrMemberEvent) is 
-        MessageOrMemberEvent)) {
-            log:print("MessageOrMemberEventType");
-            return eventJson.cloneWithType(MessageOrMemberEvent);
+        if ((eventType is MessageEventType) && (eventJson.cloneWithType(MessageEvent) is MessageEvent)) {
+            return eventJson.cloneWithType(MessageEvent);
         } else if ((eventType is AppEventType) && (eventJson.cloneWithType(AppEvent) is AppEvent)) {
-            log:print("AppEvent");
             return eventJson.cloneWithType(AppEvent);
         } else if ((eventType is FileEventType) && (eventJson.cloneWithType(FileEvent) is FileEvent)) {
-            log:print("FileEvent");
             return eventJson.cloneWithType(FileEvent);
         } else if ((eventType is CallEventType) && (eventJson.cloneWithType(CallEvent) is CallEvent)) {
             return eventJson.cloneWithType(CallEvent);
         } else if ((eventType is DNDEventType) && (eventJson.cloneWithType(DNDEvent) is DNDEvent)) {
             return eventJson.cloneWithType(DNDEvent);
-        } else if ((eventType is InviteRequestedEventType) && (eventJson.cloneWithType(InviteRequestedEvent) is 
-        InviteRequestedEvent)) {
+        } else if ((eventType is InviteRequestedEventType) && (eventJson.cloneWithType(InviteRequestedEvent) is InviteRequestedEvent)) {
             return eventJson.cloneWithType(InviteRequestedEvent);
         } else if ((eventType is ReactionEventType) && (eventJson.cloneWithType(ReactionEvent) is ReactionEvent)) {
-            log:print("ReactionEvent");
             return eventJson.cloneWithType(ReactionEvent);
+        } else if ((eventType is MemberEventType) && (eventJson.cloneWithType(MemberEvent) is MemberEvent)) {
+            return eventJson.cloneWithType(MemberEvent);
         }
+        
         GenericSlackEvent event = check eventJson.cloneWithType(GenericSlackEvent);
         return event;
     }

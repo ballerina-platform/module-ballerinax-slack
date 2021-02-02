@@ -47,7 +47,7 @@ public type CallEvent record {
     string external_unique_id;
 };
 
-public type MessageOrMemberEvent record {
+public type MessageEvent record {
     string 'type;
     string channel;
     string user;
@@ -59,6 +59,13 @@ public type MessageOrMemberEvent record {
     string deleted_ts?;
     string event_ts?;
     boolean is_starred?;
+    string channel_type?;
+};
+
+public type MemberEvent record {
+    string 'type;
+    string user;
+    string channel;
     string channel_type?;
     string team?;
     string inviter?;
@@ -171,14 +178,14 @@ public type ReactionItem record {
     string file_comment?;
 };
 
-public type SlackEvent GenericSlackEvent|ValidationRequest|InviteRequestedEvent|AppEvent|CallEvent|MessageOrMemberEvent|
-FileEvent|DNDEvent|ReactionEvent;
+public type SlackEvent GenericSlackEvent|ValidationRequest|InviteRequestedEvent|AppEvent|CallEvent|MessageEvent|
+FileEvent|DNDEvent|ReactionEvent|MemberEvent;
 
 type AppEventType "app_home_opened"|"app_mention";
 
 type CallEventType "call_rejected";
 
-type MessageOrMemberEventType "message"|"member_joined_channel"|"member_left_channel";
+type MessageEventType "message";
 
 type FileEventType "file_change"|"file_comment_added"|"file_comment_deleted"|"file_created"|"file_deleted"|"file_public"|"file_shared"|"file_unshared";
 
@@ -187,3 +194,5 @@ type DNDEventType "dnd_updated"|"dnd_updated_user";
 type InviteRequestedEventType "invite_requested";
 
 type ReactionEventType "reaction_added"|"reaction_removed";
+
+type MemberEventType "member_left_channel"|"member_joined_channel";
