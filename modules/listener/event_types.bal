@@ -96,6 +96,14 @@ public type ReactionEvent record {
     string event_ts;
 };
 
+public type FileEvent record {
+    string 'type;
+    string file_id;
+    FileDetails file?;
+    string|string[]|json|json[] comment?;
+    string event_ts?;
+};
+
 public type GenericSlackEvent record {
     string 'type;
     string|Channel channel?;
@@ -158,14 +166,6 @@ public type Team record {
     string domain?;
 };
 
-public type FileEvent record {
-    string 'type;
-    string file_id;
-    FileDetails file?;
-    string|string[]|json|json[] comment?;
-    string event_ts?;
-};
-
 public type FileDetails record {
     string id;
 };
@@ -178,21 +178,20 @@ public type ReactionItem record {
     string file_comment?;
 };
 
-public type SlackEvent GenericSlackEvent|ValidationRequest|InviteRequestedEvent|AppEvent|CallEvent|MessageEvent|
-FileEvent|DNDEvent|ReactionEvent|MemberEvent;
+public type SlackEvent GenericSlackEvent|ValidationRequest|InviteRequestedEvent|AppEvent|CallEvent|MessageEvent|FileEvent|DNDEvent|ReactionEvent|MemberEvent;
 
-type AppEventType "app_home_opened"|"app_mention";
+public type AppEventType APP_MENTION|APP_HOME_OPENED;
 
-type CallEventType "call_rejected";
+public type CallEventType CALL_REJECTED;
 
-type MessageEventType "message";
+public type MessageEventType MESSAGE;
 
-type FileEventType "file_change"|"file_comment_added"|"file_comment_deleted"|"file_created"|"file_deleted"|"file_public"|"file_shared"|"file_unshared";
+public type FileEventType FILE_CHANGED|FILE_COMMENT_ADDED|FILE_COMMENT_DELETED|FILE_CREATED|FILE_DELETED|FILE_PUBLIC|FILE_SHARED|FILE_UNSHARED;
 
-type DNDEventType "dnd_updated"|"dnd_updated_user";
+public type DNDEventType DND_UPDATED|DND_UPDATED_USER;
 
-type InviteRequestedEventType "invite_requested";
+public type InviteRequestedEventType INVITE_REQUESTED;
 
-type ReactionEventType "reaction_added"|"reaction_removed";
+public type ReactionEventType REACTION_ADDED|REACTION_REMOVED;
 
-type MemberEventType "member_left_channel"|"member_joined_channel";
+public type MemberEventType MEMBER_LEFT_CHANNEL|MEMBER_JOINED_CHANNEL;
