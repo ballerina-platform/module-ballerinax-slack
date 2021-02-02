@@ -14,6 +14,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
+// todo - implement support to the resource related events, subteam related events, team related events, workflow related events
+
 # Record representing the configuration for the Slack Listener.
 #
 # + verificationToken - the verification token mentioned in your slack app settings - basic information section
@@ -27,29 +29,87 @@ public type ValidationRequest record {|
     string 'type;
 |};
 
-public type RegularSlackEvent record {
+public type AppEvent record {
+    string 'type;
+    string user;
+    string channel;
+    string event_ts;
+    string tab?;
+    string text?;
+    string ts?;
+};
+
+public type CallEvent record {
+    string 'type;
+    string call_id;
+    string user_id;
+    string channel_id;
+    string external_unique_id;
+};
+
+public type MessageOrMemberEvent record {
+    string 'type;
+    string channel;
+    string user;
+    string text;
+    string ts;
+    Edited edited?;
+    string subtype?;
+    boolean hidden?;
+    string deleted_ts?;
+    string event_ts?;
+    boolean is_starred?;
+    string channel_type?;
+    string team?;
+    string inviter?;
+};
+
+public type DNDEvent record {
+    string 'type;
+    string user;
+    DND_Detail dnd_status;
+};
+
+public type GridMigrationEvent record {
+    string 'type;
+    string enterprise_id;
+};
+
+public type InviteRequestedEvent record {
+    string 'type;
+    InviteRequest invite_request;
+};
+
+public type ReactionEvent record {
+    string 'type;
+    string user;
+    string reaction;
+    string item_user?;
+    ReactionItem item;
+    string event_ts;
+};
+
+public type GenericSlackEvent record {
     string 'type;
     string|Channel channel?;
     string user?;
-    string ts?;
-    string text?;
-    string event_ts?;
-    string channel_type?;
-    string tab?;
-    string connected_team_id?;
-    string call_id?;
-    string external_unique_id?;
     string latest?;
+    string ts?;
+    string event_ts?;
+    string connected_team_id?;
     string previously_connected_team_id?;
-    string is_ext_shared?;
-    string email_domain?;
-    string enterprise_id?;
-    Edited edited?;
+    boolean is_ext_shared?;
     string subtype?;
-    string team?;
-    string inviter?;
-    string file_id?;
-    FileDetails file?;
+    string[] names?;
+    string message_ts?;
+    string thread_ts?;
+    json[]|json links?;
+    boolean is_bot_user_member?;
+    boolean has_pins?;
+    string|string[] scopes?;
+    string trigger_id?;
+    json[]|json item?;
+    string subteam_id?;
 };
 
 public type Edited record {
@@ -64,9 +124,12 @@ public type Channel record {
     string creator?;
 };
 
-public type InviteRequestedEvent record {
-    string 'type;
-    InviteRequest invite_request;
+public type DND_Detail record {
+    boolean dnd_enabled;
+    int? next_dnd_start_ts;
+    int? next_dnd_end_ts;
+    boolean snooze_enabled?;
+    int? snooze_endtime?;
 };
 
 public type InviteRequest record {
@@ -92,6 +155,7 @@ public type FileEvent record {
     string 'type;
     string file_id;
     FileDetails file?;
+    string|string[]|json|json[] comment?;
     string event_ts?;
 };
 
@@ -99,4 +163,27 @@ public type FileDetails record {
     string id;
 };
 
-public type SlackEvent RegularSlackEvent|ValidationRequest|InviteRequestedEvent;
+public type ReactionItem record {
+    string 'type;
+    string channel?;
+    string ts?;
+    string file?;
+    string file_comment?;
+};
+
+public type SlackEvent GenericSlackEvent|ValidationRequest|InviteRequestedEvent|AppEvent|CallEvent|MessageOrMemberEvent|
+FileEvent|DNDEvent|ReactionEvent;
+
+type AppEventType "app_home_opened"|"app_mention";
+
+type CallEventType "call_rejected";
+
+type MessageOrMemberEventType "message"|"member_joined_channel"|"member_left_channel";
+
+type FileEventType "file_change"|"file_comment_added"|"file_comment_deleted"|"file_created"|"file_deleted"|"file_public"|"file_shared"|"file_unshared";
+
+type DNDEventType "dnd_updated"|"dnd_updated_user";
+
+type InviteRequestedEventType "invite_requested";
+
+type ReactionEventType "reaction_added"|"reaction_removed";

@@ -83,7 +83,7 @@ public class SlackEventListener {
         response.setPayload({challenge: <@untainted>validationRqst.challenge});
         check caller->respond(response);
         log:print("Request URL Verified");
-        return validationRqst;        
+        return validationRqst;
     }
 
     isolated function getEventCallBackData(http:Caller caller, json req) returns @untainted error|SlackEvent {
@@ -93,7 +93,29 @@ public class SlackEventListener {
         }
         string eventType = req.event.'type.toString();
         json eventJson = check req.event;
-        SlackEvent event = check eventJson.cloneWithType(SlackEvent);
+
+        if ((eventType is MessageOrMemberEventType) && (eventJson.cloneWithType(MessageOrMemberEvent) is 
+        MessageOrMemberEvent)) {
+            log:print("MessageOrMemberEventType");
+            return eventJson.cloneWithType(MessageOrMemberEvent);
+        } else if ((eventType is AppEventType) && (eventJson.cloneWithType(AppEvent) is AppEvent)) {
+            log:print("AppEvent");
+            return eventJson.cloneWithType(AppEvent);
+        } else if ((eventType is FileEventType) && (eventJson.cloneWithType(FileEvent) is FileEvent)) {
+            log:print("FileEvent");
+            return eventJson.cloneWithType(FileEvent);
+        } else if ((eventType is CallEventType) && (eventJson.cloneWithType(CallEvent) is CallEvent)) {
+            return eventJson.cloneWithType(CallEvent);
+        } else if ((eventType is DNDEventType) && (eventJson.cloneWithType(DNDEvent) is DNDEvent)) {
+            return eventJson.cloneWithType(DNDEvent);
+        } else if ((eventType is InviteRequestedEventType) && (eventJson.cloneWithType(InviteRequestedEvent) is 
+        InviteRequestedEvent)) {
+            return eventJson.cloneWithType(InviteRequestedEvent);
+        } else if ((eventType is ReactionEventType) && (eventJson.cloneWithType(ReactionEvent) is ReactionEvent)) {
+            log:print("ReactionEvent");
+            return eventJson.cloneWithType(ReactionEvent);
+        }
+        GenericSlackEvent event = check eventJson.cloneWithType(GenericSlackEvent);
         return event;
     }
 }
