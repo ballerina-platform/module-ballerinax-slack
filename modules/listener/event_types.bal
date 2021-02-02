@@ -108,6 +108,7 @@ public type GenericSlackEvent record {
     string 'type;
     string|Channel channel?;
     string user?;
+    string text?;
     string latest?;
     string ts?;
     string event_ts?;
