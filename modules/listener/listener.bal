@@ -94,25 +94,32 @@ public class SlackEventListener {
         string eventType = req.event.'type.toString();
         json eventJson = check req.event;
 
-        if ((eventType is MessageEventType) && (eventJson.cloneWithType(MessageEvent) is MessageEvent)) {
-            return eventJson.cloneWithType(MessageEvent);
-        } else if ((eventType is AppEventType) && (eventJson.cloneWithType(AppEvent) is AppEvent)) {
-            return eventJson.cloneWithType(AppEvent);
-        } else if ((eventType is FileEventType) && (eventJson.cloneWithType(FileEvent) is FileEvent)) {
-            return eventJson.cloneWithType(FileEvent);
-        } else if ((eventType is CallEventType) && (eventJson.cloneWithType(CallEvent) is CallEvent)) {
-            return eventJson.cloneWithType(CallEvent);
-        } else if ((eventType is DNDEventType) && (eventJson.cloneWithType(DNDEvent) is DNDEvent)) {
-            return eventJson.cloneWithType(DNDEvent);
-        } else if ((eventType is InviteRequestedEventType) && (eventJson.cloneWithType(InviteRequestedEvent) is InviteRequestedEvent)) {
-            return eventJson.cloneWithType(InviteRequestedEvent);
-        } else if ((eventType is ReactionEventType) && (eventJson.cloneWithType(ReactionEvent) is ReactionEvent)) {
-            return eventJson.cloneWithType(ReactionEvent);
-        } else if ((eventType is MemberEventType) && (eventJson.cloneWithType(MemberEvent) is MemberEvent)) {
-            return eventJson.cloneWithType(MemberEvent);
+        SlackEvent|error event;
+
+        if (eventType is MessageEventType) {
+            event = eventJson.cloneWithType(MessageEvent);
+        } else if (eventType is AppEventType) {
+            event = eventJson.cloneWithType(AppEvent);
+        } else if (eventType is FileEventType) {
+            event = eventJson.cloneWithType(FileEvent);
+        } else if (eventType is CallEventType) {
+            event = eventJson.cloneWithType(CallEvent);
+        } else if (eventType is DNDEventType) {
+            event = eventJson.cloneWithType(DNDEvent);
+        } else if (eventType is InviteRequestedEventType) {
+            event = eventJson.cloneWithType(InviteRequestedEvent);
+        } else if (eventType is ReactionEventType) {
+            event = eventJson.cloneWithType(ReactionEvent);
+        } else if (eventType is MemberEventType) {
+            event = eventJson.cloneWithType(MemberEvent);
+        } else {
+            event = check eventJson.cloneWithType(GenericSlackEvent);
         }
-        
-        GenericSlackEvent event = check eventJson.cloneWithType(GenericSlackEvent);
+
+        if (event is error) {
+            event = check eventJson.cloneWithType(GenericSlackEvent);
+        }
+
         return event;
     }
 }

@@ -50,8 +50,8 @@ public type CallEvent record {
 public type MessageEvent record {
     string 'type;
     string channel;
-    string user;
-    string text;
+    string user?;
+    string text?;
     string ts;
     Edited edited?;
     string subtype?;
@@ -64,7 +64,7 @@ public type MessageEvent record {
 
 public type MemberEvent record {
     string 'type;
-    string user;
+    string user?;
     string channel;
     string channel_type?;
     string team?;
