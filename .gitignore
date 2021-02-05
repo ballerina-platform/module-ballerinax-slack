@@ -2,7 +2,7 @@
 *.class
 *.balx
 # Log file
-*.log
+*.log*
 
 #conf file
 ballerina.conf
