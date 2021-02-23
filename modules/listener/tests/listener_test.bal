@@ -16,14 +16,15 @@
 
 import ballerina/http;
 import ballerina/log;
+import ballerina/os;
 import ballerina/test;
 
 boolean msgReceived = false;
 
-configurable string verificationToken = ?;
-configurable int port = ?;
+string token = os:getEnv("VERIFICATION_TOKEN");
+int port = check 'int:fromString(os:getEnv("PORT"));
 
-ListenerConfiguration config = {verificationToken: verificationToken};
+ListenerConfiguration config = {verificationToken: token};
 
 listener SlackEventListener slackListener = new (port, config);
 

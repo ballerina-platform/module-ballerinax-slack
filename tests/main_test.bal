@@ -14,14 +14,12 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/os;
 import ballerina/test;
-
-configurable string slackToken = ?;
-configurable string slackUsername = ?;
 
 Configuration slackConfig = {
     bearerTokenConfig: {
-        token: slackToken
+        token: os:getEnv("SLACK_TOKEN")
     }
 };
 
@@ -29,7 +27,7 @@ Client slackClient = check new (slackConfig);
 
 string channelName1 = "test-slack-connector";
 string channelName2 = "channel2";
-string userName = slackUsername;
+string userName = os:getEnv("SLACK_USERNAME");
 string fileId = "";
 string filePath = "tests/resources/test.txt";
 string threadId = "";
