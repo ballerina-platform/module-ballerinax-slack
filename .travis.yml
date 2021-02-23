@@ -18,3 +18,4 @@ script:
   - sudo apt-get install -f
   - bal --version
   - bal build -c --skip-tests
+  
