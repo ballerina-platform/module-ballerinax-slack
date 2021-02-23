@@ -24,8 +24,8 @@ public class SlackEventListener {
     private http:Listener httpListener;
     private string token;
 
-    public isolated function init(int port, ListenerConfiguration config) {
-        self.httpListener = checkpanic new (port);
+    public isolated function init(int port, ListenerConfiguration config) returns error? {
+        self.httpListener = check new (port);
         self.token = config.verificationToken;
     }
 
