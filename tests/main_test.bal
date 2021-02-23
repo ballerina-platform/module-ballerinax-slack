@@ -25,7 +25,7 @@ Configuration slackConfig = {
     }
 };
 
-Client slackClient = new (slackConfig);
+Client slackClient = check new (slackConfig);
 
 string channelName1 = "test-slack-connector";
 string channelName2 = "channel2";

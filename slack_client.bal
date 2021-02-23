@@ -20,9 +20,12 @@ public client class Client {
     private map<string> channelIdMap = {};
     private http:Client slackClient;
 
-    public function init(Configuration config) {
-        self.slackClient = checkpanic new (BASE_URL, {
-            auth: config.bearerTokenConfig
+    public function init(Configuration config) returns error? {
+        http:ClientSecureSocket? socketConfig = config?.secureSocketConfig;
+
+        self.slackClient =  check new (BASE_URL, {
+            auth: config.bearerTokenConfig,
+            secureSocket: socketConfig
         });
     }
 

@@ -218,8 +218,10 @@ public type Parse NONE|FULL;
 # Holds the parameters used to create a `Client`.
 #
 # + bearerTokenConfig - Bearer token configuration
+# + secureSocketConfig - Optional. Secure Socket configuration.
 public type Configuration record {|
    http:BearerTokenConfig bearerTokenConfig;
+   http:ClientSecureSocket secureSocketConfig?;
 |};
 
 type FileInfoArray FileInfo[];
