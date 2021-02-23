@@ -195,7 +195,7 @@ public type FileInfo record {
 # + unfurlLinks - `true` to enable unfurling of primarily text-based content or otherwise `false`
 # + unfurlMedia - `false` to disable unfurling of media content
 # + username - Bot's user name. This must be used in conjunction with `asUser` set to `false`or otherwise ignored
-public type Message record {|
+public type Message record {
     string channelName;
     string text;
     string threadTs?;
@@ -210,7 +210,7 @@ public type Message record {|
     boolean unfurlLinks?;
     boolean unfurlMedia?;
     string username?;
-|};
+};
 
 # Refers how messages should be treated: `none`, which is the default value or `full` 
 public type Parse NONE|FULL;
