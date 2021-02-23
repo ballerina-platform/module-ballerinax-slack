@@ -13,20 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 import ballerina/test;
-//import ballerina/system;
-import ballerina/config;
 
-string token = config:getAsString("SLACK_TOKEN");
+configurable string slackToken = ?;
+configurable string slackUsername = ?;
 
-Configuration slackConfig1 = {oauth2Config: {accessToken: token}};
+Configuration slackConfig = {
+    bearerTokenConfig: {
+        token: slackToken
+    }
+};
 
-Client slackClient = new (slackConfig1);
+Client slackClient = new (slackConfig);
 
 string channelName1 = "test-slack-connector";
 string channelName2 = "channel2";
-string channelId = "CU31FE5EC";
-string userName = config:getAsString("SLACK_USERNAME");
+string userName = slackUsername;
 string fileId = "";
 string filePath = "tests/resources/test.txt";
 string threadId = "";
@@ -53,7 +56,9 @@ Message udateMessageParams = {
     text: "updated message"
 };
 
-@test:Config {after: "deleteMessageAfterTest"}
+@test:Config {
+    after: deleteMessageAfterTest
+}
 function testPostTextMessage() {
     var response = slackClient->postMessage(messageParams);
     if (response is string) {
@@ -104,8 +109,8 @@ function testGetUserInfo() {
 }
 
 @test:Config {
-    before: "uploadFileToTest",
-    after: "deleteFileAfterTest"
+    before: uploadFileToTest,
+    after: deleteFileAfterTest
 }
 function testListFiles() {
     var response = slackClient->listFiles(channelName1);
@@ -115,8 +120,8 @@ function testListFiles() {
 }
 
 @test:Config {
-    before: "uploadFileToTest",
-    after: "deleteFileAfterTest"
+    before: uploadFileToTest,
+    after: deleteFileAfterTest
 }
 function testGetFileInfo() {
     var response = slackClient->getFileInfo(fileId);
@@ -172,7 +177,9 @@ function testRemoveUser() {
 //     } 
 // }
 
-@test:Config {before: "archiveConvToUseInTests"}
+@test:Config {
+    before: archiveConvToUseInTests
+}
 function testUnarchiveConveration() {
     var response = slackClient->unArchiveConversation(channelName1);
     if (response is error) {
@@ -187,7 +194,9 @@ function archiveConvToUseInTests() {
     }
 }
 
-@test:Config {after: "testJoinConversation"}
+@test:Config {
+    after: testJoinConversation
+}
 function testLeaveConveration() {
     var response = slackClient->leaveConversation(channelName1);
     if (response is error) {

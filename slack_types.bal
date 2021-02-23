@@ -14,7 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/oauth2;
 import ballerina/http;
 
 # Contains information about the channel topic.
@@ -218,11 +217,9 @@ public type Parse NONE|FULL;
 
 # Holds the parameters used to create a `Client`.
 #
-# + oauth2Config - OAuth2 client configuration
-# + proxyConfig - Proxy configuration if connecting through a proxy
+# + bearerTokenConfig - Bearer token configuration
 public type Configuration record {|
-   oauth2:DirectTokenConfig oauth2Config;
-   http:ProxyConfig? proxyConfig = ();
+   http:BearerTokenConfig bearerTokenConfig;
 |};
 
 type FileInfoArray FileInfo[];
