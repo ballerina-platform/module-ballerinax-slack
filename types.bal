@@ -14,7 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/oauth2;
 import ballerina/http;
 
 # Contains information about the channel topic.
@@ -196,7 +195,7 @@ public type FileInfo record {
 # + unfurlLinks - `true` to enable unfurling of primarily text-based content or otherwise `false`
 # + unfurlMedia - `false` to disable unfurling of media content
 # + username - Bot's user name. This must be used in conjunction with `asUser` set to `false`or otherwise ignored
-public type Message record {|
+public type Message record {
     string channelName;
     string text;
     string threadTs?;
@@ -211,18 +210,18 @@ public type Message record {|
     boolean unfurlLinks?;
     boolean unfurlMedia?;
     string username?;
-|};
+};
 
 # Refers how messages should be treated: `none`, which is the default value or `full` 
 public type Parse NONE|FULL;
 
 # Holds the parameters used to create a `Client`.
 #
-# + oauth2Config - OAuth2 client configuration
-# + proxyConfig - Proxy configuration if connecting through a proxy
+# + bearerTokenConfig - Bearer token configuration
+# + secureSocketConfig - Optional. Secure Socket configuration.
 public type Configuration record {|
-   oauth2:DirectTokenConfig oauth2Config;
-   http:ProxyConfig? proxyConfig = ();
+   http:BearerTokenConfig bearerTokenConfig;
+   http:ClientSecureSocket secureSocketConfig?;
 |};
 
 type FileInfoArray FileInfo[];

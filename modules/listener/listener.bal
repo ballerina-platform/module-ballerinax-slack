@@ -24,8 +24,8 @@ public class SlackEventListener {
     private http:Listener httpListener;
     private string token;
 
-    public isolated function init(int port, ListenerConfiguration config) {
-        self.httpListener = new (port);
+    public isolated function init(int port, ListenerConfiguration config) returns error? {
+        self.httpListener = check new (port);
         self.token = config.verificationToken;
     }
 
@@ -57,12 +57,12 @@ public class SlackEventListener {
     public isolated function getEventData(http:Caller caller, http:Request slackRequest) returns @untainted error|SlackEvent {
         json request = check slackRequest.getJsonPayload();
         //calculation to identify the delay of event receiving from Slack
-        int slackTimeStamp = check 'int:fromString(slackRequest.getHeader(HEADER_TIMESTAMP));
+        int slackTimeStamp = check 'int:fromString(check slackRequest.getHeader(HEADER_TIMESTAMP));
         int nowTimeStamp = check 'int:fromString(time:currentTime().time.toString().substring(0, 10));
         int timeDiff = nowTimeStamp - slackTimeStamp;
         //validate the request by comparing the token received with your app token and by checking whether the timestamp is withing 5 minutes (60 * 5 seconds) range
         if (request.token == self.token && timeDiff < 60 * 5) {
-            string reqType = request.'type.toString();
+            string reqType = <string> check request.'type;
             if (reqType == URL_VERIFICATION) {
                 return self.verifyURL(caller, request);
             } else if (reqType == EVENT_CALLBACK) {
@@ -91,7 +91,7 @@ public class SlackEventListener {
         if e is error {
             log:printError(e.toString());
         }
-        string eventType = req.event.'type.toString();
+        string eventType = <string> check req.event.'type;
         json eventJson = check req.event;
 
         SlackEvent|error event;

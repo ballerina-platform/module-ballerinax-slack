@@ -8,7 +8,7 @@ Slack Connector provides to modules to access
 
 |                             |           Version           |
 |:---------------------------:|:---------------------------:|
-| Ballerina Language          |        Swan Lake Preview8   |
+| Ballerina Language          |        Swan Lake Alpha 2    |
 
 
 ## Module Overview - `ballerinax/slack`
@@ -50,10 +50,11 @@ The Slack Client Connector can be used to interact with the Slack Web API.
 ```ballerina
 import ballerina/log;
 import ballerinax/slack;
+import ballerina/os;
 
 slack:Configuration slackConfig = {
-    oauth2Config: {
-        accessToken: "<access-token>"
+    bearerTokenConfig: {
+        token: os:getEnv("SLACK_TOKEN")
     }
 };
 
@@ -66,7 +67,7 @@ public function main() {
     };
 
     // Post a message to a channel.
-    string|slack:Error postResponse = slackClient->postMessage(messageParams);
+    var postResponse = slackClient->postMessage(messageParams);
     if (postResponse is string) {
         log:printInfo("Message sent");
     } else {
@@ -74,24 +75,24 @@ public function main() {
     }
 
     // List all the conversations.
-    slack:Conversations|slack:Error listConvResponse = slackClient->listConversations();
-    if (listConvResponse is slack:Error) {
+    var listConvResponse = slackClient->listConversations();
+    if (listConvResponse is error) {
         log:printError("Error occured when listing conversations", listConvResponse);
     } else {
         log:printInfo(listConvResponse);
     }
 
     // Upload a file to a channel.
-    slack:FileInfo|slack:Error fileResponse = slackClient->uploadFile("filePath", "channelName");
-    if (fileResponse is slack:Error) {
+    var fileResponse = slackClient->uploadFile("filePath", "channelName");
+    if (fileResponse is error) {
         log:printError("Error occured when uploading the file ", fileResponse);
     } else {
         log:printInfo("Uploaded file " + fileResponse.id);
     }
 
     // Get user information.
-    slack:User|slack:Error userResponse = slackClient->getUserInfo("userName");
-    if (userResponse is slack:Error) {
+    var userResponse = slackClient->getUserInfo("userName");
+    if (userResponse is error) {
         log:printError("Error occured when getting user information ", userResponse);
     } else {
         log:printInfo("Found user information of the user ", userResponse.name);
@@ -122,13 +123,13 @@ The following sections provide you details on how to use the Slack Listener Supp
 1. Create your own slack app enable event subscription in your slack app settings. 
 2. Subscribe to the bot events that you are planning to listen.
 3. Download and install [Ballerina](https://ballerinalang.org/downloads/).
-4. Install npm and setup the ngrok
+4. Install npm and setup the [ngrok](https://ngrok.com/download).
 
 
 ### Pull the Module
-Execute the below command to pull the Slack module from Ballerina Central:
+Execute the below command to pull the Slack Listener module from Ballerina Central:
 ```ballerina
-$ ballerina pull ballerinax/slack
+$ ballerina pull ballerinax/slack.'listener
 ```
 
 ### Register the Request URL
@@ -169,10 +170,11 @@ Following sample code is written to receive triggered event data from Slack Even
 ```ballerina
 import ballerina/http;
 import ballerina/log;
+import ballerina/os;
 import ballerinax/slack.'listener as slack;
 
-string token = config:getAsString("VERIFICATION_TOKEN");
-int port = check 'int:fromString(config:getAsString("PORT"));
+string token = os:getEnv("VERIFICATION_TOKEN");
+int port = check 'int:fromString(os:getEnv("PORT"));
 
 SlackListener:ListenerConfiguration config = {
     verificationToken: token
