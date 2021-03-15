@@ -72,7 +72,7 @@ public client class Client {
     # + return - an error if it is a failure or the `Channel` record if it is a success
     @display {label: "Rename conversation"}
     remote function renameConversation(@display {label: "Channel name"} string channelName, 
-                                       @display {label: "Nem name"}string newName) 
+                                       @display {label: "New name"} string newName) 
                                        returns @tainted @display {label: "Channel"} Channel|error {
         string resolvedChannelId = check self.resolveChannelId(channelName);
         return renameConversation(self.slackClient, <@untainted>resolvedChannelId, newName);
@@ -121,7 +121,7 @@ public client class Client {
     # + return - an error if it is a failure or `nil` if it is a success
     @display {label: "Remove user from connversation"}
     remote function removeUserFromConversation(@display {label: "Channel name"} string channelName, 
-                                                @display {label: "Name of the user"} string user) 
+                                                @display {label: "Username"} string user) 
                                                 returns @tainted error? {
         string resolvedChannelId = check self.resolveChannelId(channelName);
         string userId = check getUserId(self.slackClient, user);
@@ -178,7 +178,7 @@ public client class Client {
     remote function listUserConversations(@display {label: "Exclude archived"} boolean excludeArchived = false, 
                                           @display {label: "No of items"} int? noOfItems = (), 
                                           @display {label: "Types"} string? types = (), 
-                                          @display {label: "Name of the user"} string? user = ()) 
+                                          @display {label: "Username"} string? user = ()) 
                                           returns @tainted @display {label: "Conversations"} Conversations|error {
         string resolvedUserId = EMPTY_STRING;
         if (user is string) {
@@ -259,7 +259,7 @@ public client class Client {
                               @display {label: "Timestamp from"} string? tsFrom = (), 
                               @display {label: "Timestamp to "} string? tsTo = (), 
                               @display {label: "Types"} string? types = (), 
-                              @display {label: "Username"}string? user = ()) 
+                              @display {label: "Username"} string? user = ()) 
                               returns @tainted @display {label: "List of files"} FileInfo[]|error {
         string channelId = EMPTY_STRING;
         string userId = EMPTY_STRING;
