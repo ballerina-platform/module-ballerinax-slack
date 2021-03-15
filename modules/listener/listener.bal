@@ -19,7 +19,7 @@ import ballerina/log;
 import ballerina/time;
 
 //todo:Verify by signing secret
-
+@display {label: "Slack Listener"}
 public class SlackEventListener {
     private http:Listener httpListener;
     private string token;
