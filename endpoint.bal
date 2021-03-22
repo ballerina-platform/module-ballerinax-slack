@@ -16,7 +16,7 @@
 
 import ballerina/http;
 
-@display {label: "Slack Client"}
+@display {label: "Slack Client", iconPath: "SlackLogo.png"}
 public client class Client {
     private map<string> channelIdMap = {};
     private http:Client slackClient;
