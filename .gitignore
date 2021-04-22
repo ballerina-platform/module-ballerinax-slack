@@ -14,7 +14,6 @@ ballerina.conf
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 *.zip
@@ -43,3 +42,9 @@ target/
 *Ballerina.lock
 #test CI file
 test.yml
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
