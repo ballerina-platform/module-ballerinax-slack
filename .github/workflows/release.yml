@@ -30,6 +30,7 @@ jobs:
               env:
                   SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
                   SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}
+                  JAVA_HOME: /usr/lib/jvm/default-jvm
             - name: Ballerina Push
               uses: ballerina-platform/ballerina-action/@master
               with:
