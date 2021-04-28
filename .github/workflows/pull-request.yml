@@ -1,8 +1,6 @@
-name: Deployment
+name: CI
 
-on:
-  release:
-    types: [published]
+on: [pull_request]
 
 jobs:
     build:
@@ -14,29 +12,21 @@ jobs:
               with:
                   java-version: 11
             - name: Grant execute permission for gradlew
-              run: chmod +x gradlew
+              run: chmod +x gradlew     
             - name: Build with Gradle
               env:
                   packageUser: ${{ secrets.BALLERINA_BOT_USERNAME }}
                   packagePAT: ${{ secrets.BALLERINA_BOT_TOKEN }}
                   JAVA_OPTS: -DBALLERINA_DEV_COMPILE_BALLERINA_ORG=true
               run: |
-                  ./gradlew build
+                  ./gradlew build 
             - name: Ballerina Build
               uses: ballerina-platform/ballerina-action/@master
               with:
                   args:
-                      build -c --skip-tests ./slack
+                      build -c 
               env:
+                  JAVA_HOME: /usr/lib/jvm/default-jvm
                   SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
                   SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}
-                  JAVA_HOME: /usr/lib/jvm/default-jvm
-            - name: Ballerina Push
-              uses: ballerina-platform/ballerina-action/@master
-              with:
-                  args:
-                      push
-              env:
                   WORKING_DIR: ./slack
-                  JAVA_HOME: /usr/lib/jvm/default-jvm
-                  BALLERINA_CENTRAL_ACCESS_TOKEN: ${{ secrets.BALLERINA_CENTRAL_ACCESS_TOKEN }}
