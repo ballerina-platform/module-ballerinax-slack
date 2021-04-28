@@ -33,6 +33,7 @@ string channelName2 = "channel2";
 string fileId = "";
 string filePath = "tests/resources/test.txt";
 string threadId = "";
+string userId = "";
 
 Message messageParams = {
     channelName: channelName1,
@@ -57,6 +58,30 @@ Message updateMessageParams = {
 };
 
 @test:Config {}
+function testGetConversationHistory() returns @tainted error? {
+    stream<MessageInfo,error>|error? resultStream = slackClient->getConversationHistory(channelName1);
+    if (resultStream is stream<MessageInfo,error>) {        
+        record {|MessageInfo value;|} res = check resultStream.next(); 
+        test:assertEquals(res.value.'type, "message");
+    } else {
+        test:assertFail("Error in getting stream");
+    }
+}
+
+@test:Config {}
+function testGetConversationMembers() returns error? {
+    stream<string,error>|error? resultStream = slackClient->getConversationMembers(channelName1);
+    if (resultStream is stream<string,error>) {   
+        error? e = resultStream.forEach(isolated function (string memberId) {});
+        if (e is error) {
+            test:assertFail(e.message());
+        }
+    } else {
+        test:assertFail(msg = "Error in getting stream");
+    }
+}
+
+@test:Config {dependsOn: [testGetConversationMembers]}
 function testPostTextMessage() {
     var response = slackClient->postMessage(messageParams);
     if (response is string) {
@@ -100,8 +125,19 @@ function testGetConversationInfo() {
 }
 
 @test:Config {}
-function testGetUserInfo() {
-    var response = slackClient->getUserInfo(slackUserName);
+function testGetUserInfoByUsername() {
+    var response = slackClient->getUserInfoByUsername(slackUserName);
+    if (response is error) {
+        test:assertFail(msg = response.message());
+    } else {
+        userId = <@untainted>response.id;
+        test:assertEquals(response.name, slackUserName);
+    }
+}
+
+@test:Config {dependsOn: [testGetUserInfoByUsername]}
+function testGetUserInfoByUserId() {
+    var response = slackClient->getUserInfoByUserId(userId);
     if (response is error) {
         test:assertFail(msg = response.message());
     } else {
@@ -198,7 +234,7 @@ function testArchiveConversation() {
     }
 }
 
-@test:Config {}
+@test:Config {dependsOn: [testGetUserInfoByUserId]}
 function testLeaveConversation() {
     var response = slackClient->leaveConversation(channelName1);
     if (response is error) {

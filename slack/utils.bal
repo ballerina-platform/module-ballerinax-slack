@@ -88,8 +88,8 @@ isolated function getUserId(http:Client slackClient, string user) returns @taint
     return error("Unable to find the user id for the user " + user);
 }
 
-function listConversationsOfUser(http:Client slackClient, string user, boolean excludeArchived, int? noOfItems = (), 
-                                 string? types = ()) returns @tainted Conversations|error {
+isolated function listConversationsOfUser(http:Client slackClient, string user, boolean excludeArchived, 
+                                         int? noOfItems = (), string? types = ()) returns @tainted Conversations|error {
     string url = LIST_USER_CONVERSATIONS_PATH + EXCLUDE_ARCHIVED + excludeArchived.toString();
     if (noOfItems is int) {
         url = url + LIMIT + noOfItems.toString();
@@ -112,8 +112,8 @@ isolated function removeUserFromConversation(http:Client slackClient, string use
     return handleOkResp(slackClient, url);
 }
 
-function inviteUsersToConversation(http:Client slackClient, string channelId, string users) 
-                                        returns @tainted error|Channel {
+isolated function inviteUsersToConversation(http:Client slackClient, string channelId, string users) 
+                                            returns @tainted error|Channel {
     string url = INVITE_USERS_TO_CHANNEL_PATH + channelId + USER_IDS_ARG + users;
     http:Response response = <http:Response> check slackClient->post(url, EMPTY_STRING);
     json payload = check response.getJsonPayload();
@@ -121,8 +121,8 @@ function inviteUsersToConversation(http:Client slackClient, string channelId, st
     return mapChannelInfo(response);
 }
 
-function getConversationInfo(http:Client slackClient, string channelId, boolean? includeLocale = false,
-                             boolean? memberCount = false) returns @tainted Channel|error {
+isolated function getConversationInfo(http:Client slackClient, string channelId, boolean? includeLocale = false,
+                                      boolean? memberCount = false) returns @tainted Channel|error {
     string url = GET_CONVERSATION_INFO_PATH + channelId + INCLUDE_LOCALE + includeLocale.toString() + 
                     INCLUDE_NUM_MEMBERS + memberCount.toString();
     http:Response|http:PayloadType|error response = slackClient->get(url);
@@ -132,6 +132,16 @@ function getConversationInfo(http:Client slackClient, string channelId, boolean?
         http:Response resp = <http:Response> response;
         return mapChannelInfo(resp);
     }
+}
+
+isolated function lookupUserByEmail(http:Client slackClient, string email) returns @tainted User|error? {
+    string url = LOOKUP_BY_EMAIL_PATH + email;
+    http:Response response = check slackClient->get(url);
+    json payload = check response.getJsonPayload();
+    _ = check checkOk(payload);
+    json user = check payload.user;
+    convertJsonToCamelCase(user);
+    return check user.cloneWithType(User);
 }
 
 isolated function postMessage(http:Client slackClient, string channelId, Message message) 
@@ -145,8 +155,7 @@ isolated function createQuery(Message message) returns string {
     foreach [string, any] [key, value] in message.entries() {
         if (key != CHANNEL_NAME) {
             if (key == BLOCKS || key == ATTACHMENTS) {
-                queryString = queryString + AND + fillWithUnderscore(key) + EQUAL + 
-                               getEncodedUri(value.toJsonString());
+                queryString = queryString + AND + fillWithUnderscore(key) + EQUAL + getEncodedUri(value.toJsonString());
             } else {
                 queryString = queryString + AND + fillWithUnderscore(key) + EQUAL + getEncodedUri(value.toString());
             }              
@@ -185,7 +194,7 @@ isolated function handlePostMessage(http:Client slackClient, string url) returns
     return threadId.toString();
 }
 
-function createChannel(http:Client slackClient, string url) returns @tainted Channel|error {
+isolated function createChannel(http:Client slackClient, string url) returns @tainted Channel|error {
     http:Response|http:PayloadType|error response = slackClient->post(url, EMPTY_STRING);
     if (response is http:Response) {
         return mapChannelInfo(response);
@@ -196,7 +205,7 @@ function createChannel(http:Client slackClient, string url) returns @tainted Cha
     }
 }
 
-function mapChannelInfo(http:Response response) returns @tainted Channel|error {
+isolated function mapChannelInfo(http:Response response) returns @tainted Channel|error {
     json payload = check response.getJsonPayload();
     json ok = check payload.ok;
     if (ok == true) {                    
@@ -217,7 +226,7 @@ function mapChannelInfo(http:Response response) returns @tainted Channel|error {
     }    
 }
 
-function mapConversationInfo(json channelList) returns Conversations|error {
+isolated function mapConversationInfo(json channelList) returns Conversations|error {
     convertJsonToCamelCase(channelList);
     var conversations = channelList.cloneWithType(Conversations);
     if (conversations is error) {
@@ -237,7 +246,7 @@ isolated function leaveConversation(http:Client slackClient, string channelId) r
     return handleOkResp(slackClient, url);
 }
 
-function getUserInfo(http:Client slackClient, string userId) returns @tainted error|User {
+isolated function getUserInfo(http:Client slackClient, string userId) returns @tainted error|User {
     string url = GET_USER_INFO_PATH + userId;
     http:Response response = <http:Response> check slackClient->get(url);
     json userInfo = check response.getJsonPayload();
@@ -252,7 +261,8 @@ function getUserInfo(http:Client slackClient, string userId) returns @tainted er
     }
 }
 
-function renameConversation(http:Client slackClient, string channelId, string newName) returns @tainted Channel|error {
+isolated function renameConversation(http:Client slackClient, string channelId, string newName) returns @tainted 
+            Channel|error {
     string url = RENAME_CHANNEL_PATH + channelId + NAME_ARG + newName;
     http:Response|http:PayloadType|error response = slackClient->post(url, EMPTY_STRING);
     if (response is http:Response) {
@@ -287,8 +297,8 @@ isolated function deleteFile(http:Client slackClient, string fileId) returns @ta
     return handleOkResp(slackClient, url);
 }
 
-function listFiles(http:Client slackClient, string? channelId, int? count, string? tsFrom, string? tsTo, string? types, 
-                   string? user) returns @tainted FileInfo[]|error {
+isolated function listFiles(http:Client slackClient, string? channelId, int? count, string? tsFrom, string? tsTo, 
+                            string? types, string? user) returns @tainted FileInfo[]|error {
     string url = LIST_FILES_PATH;
     if (channelId is string && channelId != EMPTY_STRING) {
         url = url + CHANNEL_ARG + channelId;
@@ -327,8 +337,8 @@ function listFiles(http:Client slackClient, string? channelId, int? count, strin
     }
 }
 
-function uploadFile(string filePath, http:Client slackClient, string? channelId, string? title = (), 
-                    string? initialComment = (), string? threadTs = ()) returns @tainted FileInfo|error {
+isolated function uploadFile(string filePath, http:Client slackClient, string? channelId, string? title = (), 
+                             string? initialComment = (), string? threadTs = ()) returns @tainted FileInfo|error {
     string url = UPLOAD_FILES_PATH;
     if (channelId is string) {
         url = url + CHANNELS_PARAM + channelId;
@@ -367,7 +377,7 @@ function uploadFile(string filePath, http:Client slackClient, string? channelId,
     }
 }
 
-function getFileInfo(http:Client slackClient, string fileId) returns @tainted FileInfo|error {
+isolated function getFileInfo(http:Client slackClient, string fileId) returns @tainted FileInfo|error {
     string url = GET_FILE_INFO_PATH + fileId;
     http:Response response = <http:Response> check slackClient->get(url);
     json fileInfo = check response.getJsonPayload();
@@ -417,7 +427,7 @@ isolated function setJsonResError(error errorResponse) returns error {
     return error("Error occurred while accessing the JSON payload of the response", errorResponse);
 }
 
-function convertJsonToCamelCase(json req) {
+isolated function convertJsonToCamelCase(json req) {
     map<json> mapValue = <map<json>>req;
     foreach var [key, value] in mapValue.entries() {
         string converted = convertToCamelCase(key);
@@ -439,7 +449,7 @@ function convertJsonToCamelCase(json req) {
     }
 }
 
-function convertJsonArrayToCamelCase(json[] jsonArr) {
+isolated function convertJsonArrayToCamelCase(json[] jsonArr) {
     foreach var item in jsonArr {
         convertJsonToCamelCase(item);
     }

@@ -74,7 +74,7 @@ service class HttpService {
     # + caller - HTTP caller
     # + request - HTTP request
     # + return - Error if it is a failure
-    isolated resource function post events (http:Caller caller, http:Request request) returns error? {
+    isolated resource function post events (http:Caller caller, http:Request request) returns @tainted error? {
         json payload = check request.getJsonPayload();
         SlackEvent slackEvent = {"event": payload};
         string eventOrVerification = check payload.'type;
@@ -90,7 +90,8 @@ service class HttpService {
             response.statusCode = http:STATUS_OK;
             check caller->respond(response);
 
-            string eventType = check payload.event.'type;
+            json eventTypeJson = check payload.event.'type;
+            string eventType = eventTypeJson.toString();
 
             // Handle the events based on the category of the event.
             if (eventType.startsWith("app_")) {

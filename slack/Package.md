@@ -20,12 +20,12 @@ Slack Events.
 
 * Java 11 Installed - Java Development Kit (JDK) with version 11 is required.
 
-* Ballerina SL Alpha 4 Installed - Ballerina Swan Lake Alpha 4 is required. 
+* Ballerina SL Alpha 5 Installed - Ballerina Swan Lake Alpha 5 is required. 
 
 ## Supported Versions
 |                             |           Version           |
 |:---------------------------:|:---------------------------:|
-| Ballerina Language          |        Swan Lake Alpha 4    |
+| Ballerina Language          |        Swan Lake Alpha 5    |
 
 ## Obtaining Slack Token
 1. Visit https://api.slack.com/apps and create a Slack App.
