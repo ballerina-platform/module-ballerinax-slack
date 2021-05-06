@@ -225,3 +225,40 @@ public type Configuration record {|
 |};
 
 type FileInfoArray FileInfo[];
+
+# Contains information about messages in a Channel.
+# 
+# + user - UserId of the author
+# + text - Message text
+# + type - Type of the message
+# + ts - Time stamp of the message
+public type MessageInfo record {
+    string user;
+    string text;
+    string 'type;
+    string ts;
+};
+
+# Represents Conversation history response.
+#
+# + messages - List of MessageInfo
+# + ok - If it is success or not
+# + hasMore - False if it is end of pagination or True if it has more records
+# + responseMetadata - Response metadata
+type ConversationHistoryResponse record {
+    MessageInfo[] messages;
+    boolean ok;
+    boolean hasMore;
+    ResponseMetadata responseMetadata?;
+};
+
+# Represents Conversation members response.
+#
+# + members - List of memberId of members
+# + ok - If it is success or not
+# + responseMetadata - Response metadata
+type ConversationMembersResponse record {
+    string[] members;
+    boolean ok;
+    ResponseMetadata responseMetadata;
+};

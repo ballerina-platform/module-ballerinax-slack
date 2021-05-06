@@ -27,11 +27,11 @@ slack:Configuration slackConfig = {
 public function main() returns error? {
     slack:Client slackClient = check new(slackConfig);
 
-    // Get user information.
-    var userInfo = slackClient->getUserInfo("username");
-    if (userInfo is error) {
-        log:printError(userInfo.toString());
-    } else {
+    // Lookup user by email.
+    var userInfo = slackClient->lookupUserByEmail("email");
+    if (userInfo is slack:User) {
         log:printInfo(userInfo.toString());
+    } else {
+        log:printError(userInfo.toString());
     }
 }

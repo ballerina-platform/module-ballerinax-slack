@@ -1,15 +1,15 @@
 [package]
 org= "ballerinax"
 name= "slack"
-version= "0.9.7"
+version= "0.9.8"
+export= ["slack", "slack.listener"]
 license= ["Apache-2.0"]
 authors = ["Ballerina"]
 keywords = ["slack"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-slack"
 
-
 [[platform.java11.dependency]]
-path = "../java-wrapper/build/libs/java-wrapper-0.9.7.jar"
+path = "../java-wrapper/build/libs/java-wrapper-0.9.8.jar"
 groupId = "io.ballerinax.slack"
 artifactId = "java-wrapper"
-version = "0.9.7"
+version = "0.9.8"
