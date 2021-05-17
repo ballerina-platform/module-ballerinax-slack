@@ -22,7 +22,7 @@ isolated function callOnAppHomeOpened(SimpleHttpService httpService, SlackEvent 
     'class: "io.ballerinax.slack.HttpNativeOperationHandler"
 } external;
 
-isolated function callOnAppMention(SimpleHttpService httpService, SlackEvent event) returns error? 
+isolated function callOnAppMention(SimpleHttpService httpService, AppMentionEvent event) returns error? 
     = @java:Method {
     'class: "io.ballerinax.slack.HttpNativeOperationHandler"
 } external;
@@ -54,7 +54,7 @@ isolated function callOnChannelArchive(SimpleHttpService httpService, SlackEvent
     'class: "io.ballerinax.slack.HttpNativeOperationHandler"
 } external;
 
-isolated function callOnChannelCreated(SimpleHttpService httpService, SlackEvent event) returns error? 
+isolated function callOnChannelCreated(SimpleHttpService httpService, ChannelCreatedEvent event) returns error? 
     = @java:Method {
     'class: "io.ballerinax.slack.HttpNativeOperationHandler"
 } external;
@@ -107,7 +107,7 @@ isolated function callOnEmailDomainChanged(SimpleHttpService httpService, SlackE
 } external;
 
 // Emoji Events
-isolated function callOnEmojiChanged(SimpleHttpService httpService, SlackEvent event) returns error? 
+isolated function callOnEmojiChanged(SimpleHttpService httpService, EmojiChangedEvent event) returns error? 
     = @java:Method {
     'class: "io.ballerinax.slack.HttpNativeOperationHandler"
 } external;
@@ -148,7 +148,7 @@ isolated function callOnFilePublic(SimpleHttpService httpService, SlackEvent eve
     'class: "io.ballerinax.slack.HttpNativeOperationHandler"
 } external;
 
-isolated function callOnFileShared(SimpleHttpService httpService, SlackEvent event) returns error? 
+isolated function callOnFileShared(SimpleHttpService httpService, FileSharedEvent event) returns error? 
     = @java:Method {
     'class: "io.ballerinax.slack.HttpNativeOperationHandler"
 } external;
@@ -244,8 +244,8 @@ isolated function callOnLinkShared(SimpleHttpService httpService, SlackEvent eve
 } external;
 
 // Member Events
-isolated function callOnMemberJoinedChannel(SimpleHttpService httpService, SlackEvent event) returns error? 
-    = @java:Method {
+isolated function callOnMemberJoinedChannel(SimpleHttpService httpService, MemberJoinedChannelEvent event) 
+    returns error? = @java:Method {
     'class: "io.ballerinax.slack.HttpNativeOperationHandler"
 } external;
 
@@ -255,7 +255,7 @@ isolated function callOnMemberLeftChannel(SimpleHttpService httpService, SlackEv
 } external;
 
 // Message events
-isolated function callOnMessage(SimpleHttpService httpService, SlackEvent event) returns error? 
+isolated function callOnMessage(SimpleHttpService httpService, MessageEvent event) returns error? 
     = @java:Method {
     'class: "io.ballerinax.slack.HttpNativeOperationHandler"
 } external;
@@ -272,7 +272,7 @@ isolated function callOnPinRemoved(SimpleHttpService httpService, SlackEvent eve
 } external;
 
 // Reaction Events
-isolated function callOnReactionAdded(SimpleHttpService httpService, SlackEvent event) returns error? 
+isolated function callOnReactionAdded(SimpleHttpService httpService, ReactionAddedEvent event) returns error? 
     = @java:Method {
     'class: "io.ballerinax.slack.HttpNativeOperationHandler"
 } external;
@@ -357,7 +357,7 @@ isolated function callOnTeamDomainChange(SimpleHttpService httpService, SlackEve
     'class: "io.ballerinax.slack.HttpNativeOperationHandler"
 } external;
 
-isolated function callOnTeamJoin(SimpleHttpService httpService, SlackEvent event) returns error? 
+isolated function callOnTeamJoin(SimpleHttpService httpService, TeamJoinEvent event) returns error? 
     = @java:Method {
     'class: "io.ballerinax.slack.HttpNativeOperationHandler"
 } external;
