@@ -25,7 +25,7 @@ slack:ListenerConfiguration configuration = {
 listener slack:Listener slackListener = new (configuration);
 
 service /slack on slackListener {
-    isolated remote function onMessage(slack:SlackEvent eventInfo) returns error? {
+    isolated remote function onMessage(slack:MessageEvent eventInfo) returns error? {
         log:printInfo("New Message");
         log:printInfo(eventInfo.toString());
     }
