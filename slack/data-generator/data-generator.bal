@@ -76,11 +76,11 @@ string Message = rootPath + "Message"+fileExtension;
 
 public function main() returns error? {
     _ = check generateMessageInfoData();
+    _ = check generateMessageData();
     _ = check generateChannelInfoData();
     _ = check generateConversationsData();
     _ = check generateUserData();
-    // _ = check generateFileInfoData();
-    _ = check generateMessageData();
+    _ = check generateFileInfoData();
 }
 
 function generateMessageInfoData() returns error? {
@@ -135,9 +135,9 @@ function generateUserData() returns error? {
 
 function generateFileInfoData() returns error? {
     log:printInfo("SampleDataGenerator -> generateFileInfoData()");
-    var res1 = check slackClient->getFileInfo(testFileId1);
-    var res2 = check slackClient->getFileInfo(testFileId2);
-    var res3 = check slackClient->getFileInfo(testFileId3);
+    var res1 = check slackClient->uploadFile(MessageInfo);
+    var res2 = check slackClient->uploadFile(Channel);
+    var res3 = check slackClient->uploadFile(User);
 
     string array = SQUARE_BRACKET_LEFT + res1.toJsonString() + COMMA 
                                 + res2.toJsonString() + COMMA + res3.toJsonString() 
