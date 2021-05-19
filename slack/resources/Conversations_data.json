@@ -1,0 +1,16 @@
+{
+    "ballerinax/slack:0.9.8:Conversations": [
+        {
+            "channels": "ballerinax/slack:0.9.8:Channel[]",
+            "responseMetadata": "ballerinax/slack:0.9.8:ResponseMetadata"
+        },
+        {
+            "channels": "ballerinax/slack:0.9.8:Channel[]",
+            "responseMetadata": "ballerinax/slack:0.9.8:ResponseMetadata"
+        },
+        {
+            "channels": "ballerinax/slack:0.9.8:Channel[]",
+            "responseMetadata": "ballerinax/slack:0.9.8:ResponseMetadata"
+        }
+    ]
+}
