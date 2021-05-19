@@ -25,7 +25,7 @@ slack:ListenerConfiguration configuration = {
 listener slack:Listener slackListener = new (configuration);
 
 service /slack on slackListener {
-    isolated remote function onChannelCreated(slack:SlackEvent eventInfo) returns error? {
+    isolated remote function onChannelCreated(slack:ChannelCreatedEvent eventInfo) returns error? {
         log:printInfo("A Channel was created");
         log:printInfo(eventInfo.toString());
     }

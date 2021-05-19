@@ -25,7 +25,7 @@ slack:ListenerConfiguration configuration = {
 listener slack:Listener slackListener = new (configuration);
 
 service /slack on slackListener {
-    isolated remote function onEmojiChanged(slack:SlackEvent eventInfo) returns error? {
+    isolated remote function onEmojiChanged(slack:EmojiChangedEvent eventInfo) returns error? {
         log:printInfo("A custom emoji has been added or changed");
         log:printInfo(eventInfo.toString());
     }

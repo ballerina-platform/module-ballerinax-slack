@@ -25,7 +25,7 @@ slack:ListenerConfiguration configuration = {
 listener slack:Listener slackListener = new (configuration);
 
 service /slack on slackListener {
-    isolated remote function onMemberJoinedChannel(slack:SlackEvent eventInfo) returns error? {
+    isolated remote function onMemberJoinedChannel(slack:MemberJoinedChannelEvent eventInfo) returns error? {
         log:printInfo("A user joined a public or private channel");
         log:printInfo(eventInfo.toString());
     }

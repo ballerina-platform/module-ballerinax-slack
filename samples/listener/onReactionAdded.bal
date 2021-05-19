@@ -25,7 +25,7 @@ slack:ListenerConfiguration configuration = {
 listener slack:Listener slackListener = new (configuration);
 
 service /slack on slackListener {
-    isolated remote function onReactionAdded(slack:SlackEvent eventInfo) returns error? {
+    isolated remote function onReactionAdded(slack:ReactionAddedEvent eventInfo) returns error? {
         log:printInfo("A member has added an emoji reaction to an item");
         log:printInfo(eventInfo.toString());
     }

@@ -25,8 +25,8 @@ slack:ListenerConfiguration configuration = {
 listener slack:Listener slackListener = new (configuration);
 
 service /slack on slackListener {
-    isolated remote function onTeamJoin(slack:TeamJoinEvent eventInfo) returns error? {
-        log:printInfo("A new member has joined");
+    isolated remote function onFileShared(slack:FileSharedEvent eventInfo) returns error? {
+        log:printInfo("A file was shared");
         log:printInfo(eventInfo.toString());
     }
 }

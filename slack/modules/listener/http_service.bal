@@ -76,7 +76,6 @@ service class HttpService {
     # + return - Error if it is a failure
     isolated resource function post events (http:Caller caller, http:Request request) returns @tainted error? {
         json payload = check request.getJsonPayload();
-        SlackEvent slackEvent = {"event": payload};
         string eventOrVerification = check payload.'type;
 
         if (payload.token !== self.verificationToken) {
@@ -95,20 +94,28 @@ service class HttpService {
 
             // Handle the events based on the category of the event.
             if (eventType.startsWith("app_")) {
+                AppMentionEvent slackEvent = check payload.cloneWithType(AppMentionEvent);
                 check self.handleAppEvents(eventType, slackEvent);
             } else if (eventType.startsWith("channel_")) {
+                ChannelCreatedEvent slackEvent = check payload.cloneWithType(ChannelCreatedEvent);
                 check self.handleChannelEvents(eventType, slackEvent);
             } else if (eventType.startsWith("emoji_")) {
+                EmojiChangedEvent slackEvent = check payload.cloneWithType(EmojiChangedEvent);
                 check self.handleEmojiEvents(eventType, slackEvent);
             } else if (eventType.startsWith("file_")) {
+                FileSharedEvent slackEvent = check payload.cloneWithType(FileSharedEvent);
                 check self.handleFileEvents(eventType, slackEvent);
             } else if (eventType.startsWith("member_")) {
+                MemberJoinedChannelEvent slackEvent = check payload.cloneWithType(MemberJoinedChannelEvent);
                 check self.handleMemberEvents(eventType, slackEvent);
             } else if (eventType == "message") {
+                MessageEvent slackEvent = check payload.cloneWithType(MessageEvent);
                 check callOnMessage(self.httpService, slackEvent);
             } else if (eventType.startsWith("reaction_")) {
+                ReactionAddedEvent slackEvent = check payload.cloneWithType(ReactionAddedEvent);
                 check self.handleReactionEvents(eventType, slackEvent);
             } else if (eventType.startsWith("team_")) {
+                TeamJoinEvent slackEvent = check payload.cloneWithType(TeamJoinEvent);
                 check self.handleTeamEvents(eventType, slackEvent);
             }
         } else {
@@ -121,7 +128,7 @@ service class HttpService {
     # + eventType - Type of the Slack event
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
-    isolated function handleAppEvents(string eventType, SlackEvent slackEvent) returns error? {
+    isolated function handleAppEvents(string eventType, AppMentionEvent slackEvent) returns error? {
         if (self.isOnAppMentionAvailable && eventType == "app_mention") {
             check callOnAppMention(self.httpService, slackEvent);
         }
@@ -132,7 +139,7 @@ service class HttpService {
     # + eventType - Type of the Slack event
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
-    isolated function handleChannelEvents(string eventType, SlackEvent slackEvent) returns error? {
+    isolated function handleChannelEvents(string eventType, ChannelCreatedEvent slackEvent) returns error? {
         if (self.isOnChannelCreatedAvailable && eventType == "channel_created") {
             check callOnChannelCreated(self.httpService, slackEvent);
         }
@@ -143,7 +150,7 @@ service class HttpService {
     # + eventType - Type of the Slack event
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
-    isolated function handleEmojiEvents(string eventType, SlackEvent slackEvent) returns error? {
+    isolated function handleEmojiEvents(string eventType, EmojiChangedEvent slackEvent) returns error? {
         if (self.isOnEmojiChangedAvailable && eventType == "emoji_changed") {
             check callOnEmojiChanged(self.httpService, slackEvent);
         }
@@ -154,7 +161,7 @@ service class HttpService {
     # + eventType - Type of the Slack event
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
-    isolated function handleFileEvents(string eventType, SlackEvent slackEvent) returns error? {
+    isolated function handleFileEvents(string eventType, FileSharedEvent slackEvent) returns error? {
         if (self.isOnFileSharedAvailable && eventType == "file_shared") {
             check callOnFileShared(self.httpService, slackEvent);
         } 
@@ -165,7 +172,7 @@ service class HttpService {
     # + eventType - Type of the Slack event
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
-    isolated function handleMemberEvents(string eventType, SlackEvent slackEvent) returns error? {
+    isolated function handleMemberEvents(string eventType, MemberJoinedChannelEvent slackEvent) returns error? {
         if (self.isOnMemberJoinedChannelAvailable && eventType == "member_joined_channel") {
             check callOnMemberJoinedChannel(self.httpService, slackEvent);
         }
@@ -176,7 +183,7 @@ service class HttpService {
     # + eventType - Type of the Slack event
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
-    isolated function handleReactionEvents(string eventType, SlackEvent slackEvent) returns error? {
+    isolated function handleReactionEvents(string eventType, ReactionAddedEvent slackEvent) returns error? {
         if (self.isOnReactionAddedAvailable && eventType == "reaction_added") {
             check callOnReactionAdded(self.httpService, slackEvent);
         }
@@ -187,7 +194,7 @@ service class HttpService {
     # + eventType - Type of the Slack event
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
-    isolated function handleTeamEvents(string eventType, SlackEvent slackEvent) returns error? {
+    isolated function handleTeamEvents(string eventType, TeamJoinEvent slackEvent) returns error? {
         if (self.isOnTeamJoinAvailable && eventType == "team_join") {
             check callOnTeamJoin(self.httpService, slackEvent);
         }

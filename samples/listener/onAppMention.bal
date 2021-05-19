@@ -25,7 +25,7 @@ slack:ListenerConfiguration configuration = {
 listener slack:Listener slackListener = new (configuration);
 
 service /slack on slackListener {
-    isolated remote function onAppMention(slack:SlackEvent eventInfo) returns error? {
+    isolated remote function onAppMention(slack:AppMentionEvent eventInfo) returns error? {
         log:printInfo("App Mentioned");
         log:printInfo(eventInfo.toString());
     }

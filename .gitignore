@@ -48,3 +48,5 @@ test.yml
 
 # Ignore Gradle build output directory
 build
+
+slack/tests/Config.toml
