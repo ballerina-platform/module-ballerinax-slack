@@ -86,5 +86,3 @@ const string CURSOR = "&cursor=";
 const string INCLUSIVE = "&inclusive=true";
 const string TYPES = "types=";
 const string UTF8 = "UTF8";
-const string NONE = "none";
-const string FULL = "full";
