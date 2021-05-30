@@ -219,8 +219,11 @@ public type Parse NONE|FULL;
 #
 # + bearerTokenConfig - Bearer token configuration
 # + secureSocketConfig - Optional. Secure Socket configuration.
+@display{label: "Connection Config"}
 public type Configuration record {|
+   @display {label: "Auth Config"}
    http:BearerTokenConfig bearerTokenConfig;
+   @display{label: "SSL Config"}
    http:ClientSecureSocket secureSocketConfig?;
 |};
 
