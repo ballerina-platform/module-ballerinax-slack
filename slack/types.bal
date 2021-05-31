@@ -204,16 +204,22 @@ public type Message record {
     string iconImoji?;
     string iconUrl?;
     boolean linkNames?;
-    boolean mrkdwn = true;
-    Parse parse = NONE;
-    boolean replyBroadcast = false;
+    boolean mrkdwn?;
+    Parse parse?;
+    boolean replyBroadcast?;
     boolean unfurlLinks?;
     boolean unfurlMedia?;
     string username?;
 };
 
-# Refers how messages should be treated: `none`, which is the default value or `full` 
-public type Parse NONE|FULL;
+# Represents values for Parse
+# 
+# + NONE - none
+# + FULL - full
+public enum Parse {
+    NONE = "none",
+    FULL = "full"
+}
 
 # Holds the parameters used to create a `Client`.
 #
