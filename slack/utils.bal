@@ -20,7 +20,7 @@ import ballerina/regex;
 import ballerina/url;
 
 isolated function getChannelId(http:Client slackClient, string channelName) returns @tainted string|error {
-    http:Response response = <http:Response> check slackClient->get(LIST_CONVERSATIONS_PATH);
+    http:Response response = check slackClient->get(LIST_CONVERSATIONS_PATH);
     json channelList = check response.getJsonPayload();
     map<json> channelListJson = <map<json>> channelList;
     var checkOkResp = check checkOk(channelListJson);
@@ -46,14 +46,14 @@ isolated function unArchiveConversation(http:Client slackClient, string channelI
 }
 
 isolated function handleArchiveResponse(http:Client slackClient, string url) returns @tainted error? {
-    http:Response response = <http:Response> check slackClient->post(url, EMPTY_STRING);
+    http:Response response = check slackClient->post(url, EMPTY_STRING);
     json payload = check response.getJsonPayload();
     var checkOk = check checkOk(payload);       
 }
 
 isolated function getUserIds(http:Client slackClient, string[] users) returns @tainted string|error {
     string usersList = EMPTY_STRING;
-    http:Response response = <http:Response> check slackClient->get(LIST_USERS_PATH);
+    http:Response response = check slackClient->get(LIST_USERS_PATH);
     json payload = check response.getJsonPayload();
     map<json> jsonPayload = <map<json>> payload;
     var checkOk = check checkOk(jsonPayload);
@@ -74,7 +74,7 @@ isolated function getUserIds(http:Client slackClient, string[] users) returns @t
 }
 
 isolated function getUserId(http:Client slackClient, string user) returns @tainted string|error {
-    http:Response response = <http:Response> check slackClient->get(LIST_USERS_PATH);
+    http:Response response = check slackClient->get(LIST_USERS_PATH);
     json payload = check response.getJsonPayload();
     map<json> jsonPayload = <map<json>> payload;
     var checkOk = check checkOk(jsonPayload);
@@ -100,7 +100,7 @@ isolated function listConversationsOfUser(http:Client slackClient, string user, 
     if (user != EMPTY_STRING) {
         url = url + USER_ARG + user;
     }
-    http:Response response = <http:Response> check slackClient->get(url);
+    http:Response response = check slackClient->get(url);
     json payload = check response.getJsonPayload();
     var checkOk = check checkOk(payload);
     return mapConversationInfo(payload);      
@@ -115,7 +115,7 @@ isolated function removeUserFromConversation(http:Client slackClient, string use
 isolated function inviteUsersToConversation(http:Client slackClient, string channelId, string users) 
                                             returns @tainted error|Channel {
     string url = INVITE_USERS_TO_CHANNEL_PATH + channelId + USER_IDS_ARG + users;
-    http:Response response = <http:Response> check slackClient->post(url, EMPTY_STRING);
+    http:Response response = check slackClient->post(url, EMPTY_STRING);
     json payload = check response.getJsonPayload();
     var checkOk = check checkOk(payload);
     return mapChannelInfo(response);
@@ -125,12 +125,11 @@ isolated function getConversationInfo(http:Client slackClient, string channelId,
                                       boolean? memberCount = false) returns @tainted Channel|error {
     string url = GET_CONVERSATION_INFO_PATH + channelId + INCLUDE_LOCALE + includeLocale.toString() + 
                     INCLUDE_NUM_MEMBERS + memberCount.toString();
-    http:Response|http:PayloadType|error response = slackClient->get(url);
+    http:Response|error response = slackClient->get(url);
     if (response is error) {
         return setResError(response);
     } else {
-        http:Response resp = <http:Response> response;
-        return mapChannelInfo(resp);
+        return mapChannelInfo(response);
     }
 }
 
@@ -187,7 +186,7 @@ isolated function updateMessage(http:Client slackClient, string channelId, Messa
 }
 
 isolated function handlePostMessage(http:Client slackClient, string url) returns @tainted string|error {
-    http:Response response = <http:Response> check slackClient->post(<@untainted> url, EMPTY_STRING);
+    http:Response response = check slackClient->post(<@untainted> url, EMPTY_STRING);
     json payload = check response.getJsonPayload();
     var okResp = check checkOk(payload);
     json threadId = check payload.ts;
@@ -195,11 +194,9 @@ isolated function handlePostMessage(http:Client slackClient, string url) returns
 }
 
 isolated function createChannel(http:Client slackClient, string url) returns @tainted Channel|error {
-    http:Response|http:PayloadType|error response = slackClient->post(url, EMPTY_STRING);
+    http:Response|error response = slackClient->post(url, EMPTY_STRING);
     if (response is http:Response) {
         return mapChannelInfo(response);
-    } else if (response is http:PayloadType) {
-        return error("Response cannot be in http payload");
     } else {
         return setResError(response);
     }
@@ -248,7 +245,7 @@ isolated function leaveConversation(http:Client slackClient, string channelId) r
 
 isolated function getUserInfo(http:Client slackClient, string userId) returns @tainted error|User {
     string url = GET_USER_INFO_PATH + userId;
-    http:Response response = <http:Response> check slackClient->get(url);
+    http:Response response = check slackClient->get(url);
     json userInfo = check response.getJsonPayload();
     var checkOk = check checkOk(userInfo);
     json user = check userInfo.user;
@@ -264,11 +261,9 @@ isolated function getUserInfo(http:Client slackClient, string userId) returns @t
 isolated function renameConversation(http:Client slackClient, string channelId, string newName) returns @tainted 
             Channel|error {
     string url = RENAME_CHANNEL_PATH + channelId + NAME_ARG + newName;
-    http:Response|http:PayloadType|error response = slackClient->post(url, EMPTY_STRING);
+    http:Response|error response = slackClient->post(url, EMPTY_STRING);
     if (response is http:Response) {
         return mapChannelInfo(response);
-    } else if (response is http:PayloadType) {       
-        return error("Response cannot be in http payload");
     } else {
         return setResError(response);
     }
@@ -323,7 +318,7 @@ isolated function listFiles(http:Client slackClient, string? channelId, int? cou
         url = (string:includes(url, QUESTION_MARK)) ? url + USER_AS_SECOND_PARAM + user.toString() : 
                 url + USER_AS_FIRST_PARAM + user.toString();
     }         
-    http:Response response = <http:Response> check slackClient->post(url, EMPTY_STRING);
+    http:Response response = check slackClient->post(url, EMPTY_STRING);
     json fileList = check response.getJsonPayload();
     var checkOk = check checkOk(fileList);
     json files = check fileList.files;
@@ -362,7 +357,7 @@ isolated function uploadFile(string filePath, http:Client slackClient, string? c
     filePart.setFileAsEntityBody(filePath);
     mime:Entity[] bodyParts = [<@untainted> filePart];
     request.setBodyParts(bodyParts, contentType = mime:MULTIPART_FORM_DATA);
-    http:Response response = <http:Response> check slackClient->post(url, request);
+    http:Response response = check slackClient->post(url, request);
 
     json fileInfo = check response.getJsonPayload();
     json fileInfoPayload = fileInfo;  
@@ -379,7 +374,7 @@ isolated function uploadFile(string filePath, http:Client slackClient, string? c
 
 isolated function getFileInfo(http:Client slackClient, string fileId) returns @tainted FileInfo|error {
     string url = GET_FILE_INFO_PATH + fileId;
-    http:Response response = <http:Response> check slackClient->get(url);
+    http:Response response = check slackClient->get(url);
     json fileInfo = check response.getJsonPayload();
     var checkOk = check checkOk(fileInfo);
     var file = fileInfo.file;
@@ -414,7 +409,7 @@ isolated function getFileName(string filePath) returns string {
 }
 
 isolated function handleOkResp(http:Client slackClient, string url) returns @tainted error? {
-    http:Response response = <http:Response> check slackClient->post(url, EMPTY_STRING);
+    http:Response response = check slackClient->post(url, EMPTY_STRING);
     json payload = check response.getJsonPayload();
     error? checkOkResp = checkOk(payload);
 }
