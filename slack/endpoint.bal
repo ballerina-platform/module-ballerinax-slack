@@ -17,7 +17,7 @@
 import ballerina/http;
 
 # Client for Slack connector.  
-@display {label: "Slack Client", iconPath: "SlackLogo.png"}
+@display {label: "Slack", iconPath: "logo.png"}
 public client class Client {
     private map<string> channelIdMap = {};
     private http:Client slackClient;
@@ -33,49 +33,49 @@ public client class Client {
 
     // Conversation specific functions
 
-    # Create a conversation.
+    # Create a channel.
     #
-    # + name - Name of the conversation(channel) to be created
+    # + name - Name of the channel to be created
     # + isPrivate - `true` if a private channel, `false` if a public channel
     # + return - An error if it is a failure or the `Channel` record if it is a success
-    @display {label: "Create conversation"}
-    remote isolated function createConversation(@display {label: "Channel name"} string name, 
-                                                @display {label: "Is private"} boolean isPrivate = false) 
+    @display {label: "Create Channel"}
+    remote isolated function createConversation(@display {label: "Channel Name"} string name, 
+                                                @display {label: "Is Private"} boolean isPrivate = false) 
                                                 returns @tainted @display {label: "Channel"} Channel|error {
         string url = CREATE_CONVERSATION_PATH + name + IS_PRIVATE_CONVERSATION + isPrivate.toString();
         return createChannel(self.slackClient, url);
     }
 
-    # Archive a conversation.
+    # Archive a channel.
     #
-    # + channelName - Name of the conversation to archive
+    # + channelName - Name of the channel to archive
     # + return - An error if it is a failure or `nil` if it is a success
-    @display {label: "Archive conversation"}
-    remote isolated function archiveConversation(@display {label: "Channel name"} string channelName) returns @tainted 
+    @display {label: "Archive Channel"}
+    remote isolated function archiveConversation(@display {label: "Channel Name"} string channelName) returns @tainted 
                                                  error? {
         string resolvedChannelId = check self.resolveChannelId(channelName);
         return archiveConversation(self.slackClient, <@untainted>resolvedChannelId);
     }
 
-    # Unarchive a conversation.
+    # Unarchive a channel.
     #
-    # + channelName - Name of the conversation to unarchive
+    # + channelName - Name of the channel to unarchive
     # + return - An error if it is a failure or `nil` if it is a success
-    @display {label: "Unarchive conversation"}
-    remote isolated function unArchiveConversation(@display {label: "Channel name"} string channelName) returns @tainted 
+    @display {label: "Unarchive Channel"}
+    remote isolated function unArchiveConversation(@display {label: "Channel Name"} string channelName) returns @tainted  
                                                    error? {
         string resolvedChannelId = check self.resolveChannelId(channelName);
         return unArchiveConversation(self.slackClient, <@untainted>resolvedChannelId);
     }
 
-    # Rename a conversation.
+    # Rename a channel.
     #
-    # + channelName - Old name of the conversation/channel
-    # + newName - 	New name for the conversation
+    # + channelName - Old name of the channel
+    # + newName - 	New name for the channel
     # + return - An error if it is a failure or the `Channel` record if it is a success
-    @display {label: "Rename conversation"}
-    remote isolated function renameConversation(@display {label: "Channel name"} string channelName, 
-                                                @display {label: "New name"} string newName) 
+    @display {label: "Rename Channel"}
+    remote isolated function renameConversation(@display {label: "Channel Name"} string channelName, 
+                                                @display {label: "New Name"} string newName)  
                                                 returns @tainted @display {label: "Channel"} Channel|error {
         string resolvedChannelId = check self.resolveChannelId(channelName);
         return renameConversation(self.slackClient, <@untainted>resolvedChannelId, newName);
@@ -84,59 +84,60 @@ public client class Client {
     # List all the channels in a slack team.
     #
     # + return - An error if it is a failure or the `Conversations` record if it is a success
-    @display {label: "List conversations"}
+    @display {label: "List Channels"}
     remote isolated function listConversations() returns @tainted @display {label: "Conversations"} Conversations|error {
         http:Response response = <http:Response> check self.slackClient->get(LIST_CONVERSATIONS_PATH);
         json payload = check response.getJsonPayload();
+        _ = check checkOk(payload);
         return mapConversationInfo(payload);
     }
 
-    # Leave a conversation.
+    # Leave a channel.
     #
-    # + channelName - Name of the conversation 
+    # + channelName - Name of the channel 
     # + return - An error if it is a failure or 'nil' if it is a success
-    @display {label: "Leave conversation"}
-    remote isolated function leaveConversation(@display {label: "Channel name"} string channelName) returns @tainted 
+    @display {label: "Leave Channel"}
+    remote isolated function leaveConversation(@display {label: "Channel Name"} string channelName) returns @tainted 
                                                error? {
         string resolvedChannelId = check self.resolveChannelId(channelName);
         return leaveConversation(self.slackClient, <@untainted>resolvedChannelId);
     }
 
-    # Get information about a conversation.
+    # Get information about a channel.
     #
-    # + channelName - Name of the conversation
+    # + channelName - Name of the channel
     # + includeLocale - Set this to `true` to receive the locale for this conversation. Defaults to `false`
     # + memberCount - Set to `true` to include the member count for the specified conversation. Defaults to `false`
     # + return - An error if it is a failure or the `Channel` record if it is a success
-    @display {label: "Get conversation information"}
-    remote isolated function getConversationInfo(@display {label: "Channel name"} string channelName, 
-                                                 @display {label: "Include locale"} boolean includeLocale = false, 
-                                                 @display {label: "Include member count"} boolean memberCount = false) 
+    @display {label: "Get Channel Info"}
+    remote isolated function getConversationInfo(@display {label: "Channel Name"} string channelName, 
+                                                 @display {label: "Include Locale"} boolean includeLocale = false, 
+                                                 @display {label: "Include Member Count"} boolean memberCount = false)  
                                                  returns @tainted @display {label: "Channel"} Channel|error {
         string resolvedChannelId = check self.resolveChannelId(channelName);
         return getConversationInfo(self.slackClient, <@untainted>resolvedChannelId);
     }
 
-    # Remove a user from a conversation.
+    # Remove a user from a channel.
     #
-    # + channelName - Name of the conversation 
-    # + user - Name of the user to be removed
+    # + channelName - Name of the channel 
+    # + user - Username of the user to be removed
     # + return - An error if it is a failure or `nil` if it is a success
-    @display {label: "Remove user from connversation"}
-    remote isolated function removeUserFromConversation(@display {label: "Channel name"} string channelName, 
-                                                        @display {label: "Name of the user"} string user) 
+    @display {label: "Remove User From Channel"}
+    remote isolated function removeUserFromConversation(@display {label: "Channel Name"} string channelName, 
+                                                        @display {label: "Username"} string user)  
                                                         returns @tainted error? {
         string resolvedChannelId = check self.resolveChannelId(channelName);
         string userId = check getUserId(self.slackClient, user);
         return removeUserFromConversation(self.slackClient, <@untainted>userId, <@untainted>resolvedChannelId);
     }
 
-    # Join an existing conversation.
+    # Join an existing channel.
     #
-    # + channelName - Name of the conversation 
+    # + channelName - Name of the channel 
     # + return - An error if it is a failure or 'nil' if it is a success
-    @display {label: "Join conversation"}
-    remote isolated function joinConversation(@display {label: "Channel name"} string channelName) returns @tainted 
+    @display {label: "Join Channel"}
+    remote isolated function joinConversation(@display {label: "Channel Name"} string channelName) returns @tainted 
                                               error? {
         string resolvedChannelId = check self.resolveChannelId(channelName);
         return joinConversation(self.slackClient, <@untainted>resolvedChannelId);
@@ -144,12 +145,12 @@ public client class Client {
 
     # Invite users to a channel.
     #
-    # + channelName - Name of the conversation 
-    # + users - An array of user names
+    # + channelName - Name of the channel 
+    # + users - An array of usernames
     # + return - An error if it is a failure or the `Channel` record if it is a success
-    @display {label: "Invite users to conversation"}
-    remote isolated function inviteUsersToConversation(@display {label: "Channel name"} string channelName, 
-                                                       @display {label: "List of users"} string[] users) 
+    @display {label: "Invite Users"}
+    remote isolated function inviteUsersToConversation(@display {label: "Channel Name"} string channelName, 
+                                                       @display {label: "List Of Usernames"} string[] users)  
                                                        returns @tainted @display {label: "Channel"} Channel|error {
         string channelId = EMPTY_STRING;
         string resolvedChannelId = check self.resolveChannelId(channelName);
@@ -164,10 +165,10 @@ public client class Client {
     # + startOfTimeRange - Start of time range as epoch
     # + endOfTimeRange - End of time range as epoch
     # + return - Stream of MessageInfo if it is a success or an error if it is a failure
-    @display {label: "Get message history of a channel"}
-    remote isolated function getConversationHistory(@display {label: "Channel name"} string channelName, 
-                                                    @display {label: "Start of time range"} string? startOfTimeRange = (), 
-                                                    @display {label: "End of time range"}string? endOfTimeRange = ()) 
+    @display {label: "Get Messages"}
+    remote isolated function getConversationHistory(@display {label: "Channel Name"} string channelName, 
+                                                    @display {label: "Starting From (Timestamp)"} string? startOfTimeRange = (), 
+                                                    @display {label: "Ending At (Timestamp)"}string? endOfTimeRange = ())  
                                                     returns @tainted @display {label: "Stream of MessageInfo"} 
                                                     stream<MessageInfo,error>|error? {
         string channelId = check self.resolveChannelId(channelName);
@@ -175,13 +176,13 @@ public client class Client {
             <@untainted>channelId, startOfTimeRange, endOfTimeRange));
     }
 
-    # Get memberId of all the members of a channel.
+    # Get userId of all the members of a channel.
     # 
     # + channelName - Name of the channel
-    # + return - Stream of memberId if it is a success or an error if it is a failure
-    @display {label: "Get members of a channel"}
-    remote isolated function getConversationMembers(@display {label: "Channel name"} string channelName) 
-                                                    returns @tainted @display {label: "Stream of memberId"} 
+    # + return - Stream of userId if it is a success or an error if it is a failure
+    @display {label: "Get Members"}
+    remote isolated function getConversationMembers(@display {label: "Channel Name"} string channelName) 
+                                                    returns @tainted @display {label: "Stream of userId"}  
                                                     stream<string,error>|error? {
         string channelId = check self.resolveChannelId(channelName);
         return new stream<string,error>(new ConversationMembersStream(<@untainted>self.slackClient, 
@@ -194,7 +195,7 @@ public client class Client {
     #
     # + username - Slack username of the user
     # + return - An error if it is a failure or the 'User' record if it is a success
-    @display {label: "Get user information by username"}
+    @display {label: "Get User By Username"}
     remote isolated function getUserInfoByUsername(@display {label: "Username"} string username) returns @tainted 
                                                    @display {label: "User"} User|error {
         string userId = check getUserId(self.slackClient, username);
@@ -205,22 +206,22 @@ public client class Client {
     #
     # + userId - Slack userId of the user
     # + return - An error if it is a failure or the 'User' record if it is a success
-    @display {label: "Get user information by userId"}
-    remote isolated function getUserInfoByUserId(@display {label: "UserId"} string userId) returns @tainted 
+    @display {label: "Get User By Id"}
+    remote isolated function getUserInfoByUserId(@display {label: "User Id"} string userId) returns @tainted
                                                  @display {label: "User"} User|error {
         return getUserInfo(self.slackClient, <@untainted>userId);
     }
 
-    # List conversations which can be accessed by a user.
+    # List channels which can be accessed by a user.
     #
     # + excludeArchived - Set to `true` to exclude archived channels from the list
     # + noOfItems - Maximum number of items to return 
-    # + types - A comma-separated list of any combination of public_channel, private_channel, mpim, im
-    # + user - Name of the user
+    # + types - A comma-separated list of any combination of `public_channel`, `private_channel`
+    # + user - Username
     # + return - An error if it is a failure or the `Conversations` record if it is a success
-    @display {label: "List user's conversations"}
-    remote isolated function listUserConversations(@display {label: "Exclude archived"} boolean excludeArchived = false, 
-                                                   @display {label: "No of items"} int? noOfItems = (), 
+    @display {label: "List User's Channels"}
+    remote isolated function listUserConversations(@display {label: "Exclude Archived"} boolean excludeArchived = false, 
+                                                   @display {label: "No Of Items"} int? noOfItems = (), 
                                                    @display {label: "Types"} string? types = (), 
                                                    @display {label: "Username"} string? user = ()) returns @tainted 
                                                    @display {label: "Conversations"} Conversations|error {
@@ -235,7 +236,7 @@ public client class Client {
     # 
     # + email - An email address belonging to a user in the workspace
     # + return - User record if it is a success or an error if it is a failure
-    @display {label: "Lookup user by email"}
+    @display {label: "Lookup User By Email"}
     remote isolated function lookupUserByEmail(@display {label: "Email"} string email) returns @tainted 
                                                @display {label: "User"} User|error? {
         return lookupUserByEmail(self.slackClient, <@untainted> email);
@@ -247,7 +248,7 @@ public client class Client {
     #
     # + message - Message parameters to be posted on Slack
     # + return - Thread ID of the posted message or an error
-    @display {label: "Post message"}
+    @display {label: "Post Message"}
     remote isolated function postMessage(@display {label: "Message"} Message message) 
                                          returns @tainted @display {label: "Thread ID"} string|error {
         string resolvedChannelId = check self.resolveChannelId(message.channelName);
@@ -258,8 +259,8 @@ public client class Client {
     #
     # + message - Message parameters to be updated on Slack
     # + return - The thread ID of the posted message or an error
-    @display {label: "Update message"}
-    remote isolated function updateMessage(@display {label: "Message"} Message message) 
+    @display {label: "Update Message"}
+    remote isolated function updateMessage(@display {label: "Message"} UpdateMessage message) 
                                            returns @tainted @display {label: "Thread ID"} string|error {
         string resolvedChannelId = check self.resolveChannelId(message.channelName);
         return updateMessage(self.slackClient, resolvedChannelId, message);
@@ -267,12 +268,12 @@ public client class Client {
 
     # Delete a message.
     #
-    # + channelName - Name of the conversation/channel
+    # + channelName - Name of the channel
     # + threadTs - Timestamp of the message to be deleted
     # + return - An error if it is a failure or 'nil' if it is a success
-    @display {label: "Delete message"}
-    remote isolated function deleteMessage(@display {label: "Channel name"} string channelName, 
-                                           @display {label: "Message timestamp"} string threadTs) 
+    @display {label: "Delete Message"}
+    remote isolated function deleteMessage(@display {label: "Channel Name"} string channelName, 
+                                           @display {label: "Message Timestamp"} string threadTs) 
                                            returns @tainted error? {
         string resolvedChannelId = check self.resolveChannelId(channelName);
         return deleteMessage(self.slackClient, <@untainted>resolvedChannelId, threadTs);
@@ -282,10 +283,10 @@ public client class Client {
 
     # Delete a file.
     #
-    # + fileId - ID of the file to be deleted
+    # + fileId - Id of the file to be deleted
     # + return - An error if it is a failure or 'nil' if it is a success
-    @display {label: "Delete file"}
-    remote isolated function deleteFile(@display {label: "File ID"} string fileId) returns @tainted error? {
+    @display {label: "Delete File"}
+    remote isolated function deleteFile(@display {label: "File Id"} string fileId) returns @tainted error? {
         return deleteFile(self.slackClient, <@untainted>fileId);
     }
 
@@ -293,8 +294,8 @@ public client class Client {
     #
     # + fileId - ID of the file
     # + return - An `error` if it is a failure or the 'FileInfo' record if it is a success
-    @display {label: "Get file information"}
-    remote isolated function getFileInfo(@display {label: "File ID"} string fileId) returns @tainted 
+    @display {label: "Get File Info"}
+    remote isolated function getFileInfo(@display {label: "File Id"} string fileId) returns @tainted 
                                          @display {label: "File information"} FileInfo|error {
         return getFileInfo(self.slackClient, <@untainted>fileId);
     }
@@ -306,15 +307,15 @@ public client class Client {
     # + tsFrom - Filter files created after this timestamp (inclusive)
     # + tsTo - Filter files created before this timestamp (inclusive)
     # + types - Type to filter files (ex: types=spaces,snippets)
-    # + user - User name to filter files created by a single user
+    # + user - Username to filter files created by a single user
     # + return - An error if it is a failure or the 'FilesList' record if it is a success
-    @display {label: "List files"}
-    remote isolated function listFiles(@display {label: "Channel name"} string? channelName = (), 
-                                       @display {label: "Number of items per page"} int? count = (), 
-                                       @display {label: "Timestamp from"} string? tsFrom = (), 
-                                       @display {label: "Timestamp to "} string? tsTo = (), 
+    @display {label: "List Files"}
+    remote isolated function listFiles(@display {label: "Channel Name"} string? channelName = (), 
+                                       @display {label: "Items Per Page"} int? count = (), 
+                                       @display {label: "Created After (Timestamp)"} string? tsFrom = (), 
+                                       @display {label: "Created Before (Timestamp)"} string? tsTo = (),
                                        @display {label: "Types"} string? types = (), 
-                                       @display {label: "Name of the user"} string? user = ()) 
+                                       @display {label: "Username"} string? user = ()) 
                                        returns @tainted @display {label: "List of files"} FileInfo[]|error {
         string channelId = EMPTY_STRING;
         string userId = EMPTY_STRING;
@@ -329,18 +330,18 @@ public client class Client {
 
     # Upload or create a file.
     #
-    # + filePath - Name of the conversation/channel
+    # + filePath - File path
     # + channelName - Channel name 
     # + title - Title of the file
     # + initialComment - The message text introducing the file
     # + threadTs - Thread ID of the conversation, if replying to a thread
     # + return - An error if it is a failure or the 'File' record if it is a success
-    @display {label: "Upload file"}
-    remote isolated function uploadFile(@display {label: "File path"} string filePath, 
-                                        @display {label: "Channel name"} string? channelName = (), 
+    @display {label: "Upload File"}
+    remote isolated function uploadFile(@display {label: "File Path"} string filePath, 
+                                        @display {label: "Channel Name"} string? channelName = (), 
                                         @display {label: "Title"} string? title = (), 
-                                        @display {label: "Initial comment"} string? initialComment = (), 
-                                        @display {label: "Thread timestamp"} string? threadTs = ()) 
+                                        @display {label: "Initial Comment"} string? initialComment = (), 
+                                        @display {label: "Thread Timestamp"} string? threadTs = ()) 
                                         returns @tainted @display {label: "File information"} FileInfo|error {
         if (channelName is string) {
             string resolvedChannelId = check self.resolveChannelId(channelName);

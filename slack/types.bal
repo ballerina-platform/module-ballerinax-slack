@@ -212,6 +212,36 @@ public type Message record {
     string username?;
 };
 
+# Parameters associated with updating a message.
+# 
+# + channelName - Channel name containing the message to be updated
+# + text - Text message
+# + ts - Timestamp of the message to be updated
+# + attachments - A JSON-based array of structured attachments
+# + blocks - A JSON-based array of structured blocks
+# + linkNames - Set to `true` to find and link channel names and usernames
+# + parse - Refers how messages should be treated
+# + replyBroadcast - Broadcast an existing thread reply to make it visible to everyone in the channel
+@display {label: "Update Message"}
+public type UpdateMessage record {
+    @display {label: "Channel Name"}
+    string channelName;
+    @display {label: "Text"}
+    string text;
+    @display {label: "Timestamp Of Message"}
+    string ts;
+    @display {label: "Attachments"}
+    json[] attachments?;
+    @display {label: "Blocks"}
+    json[] blocks?;
+    @display {label: "Link Names"}
+    boolean linkNames?;
+    @display {label: "Parse"}
+    Parse parse?;
+    @display {label: "Reply Broadcast"}
+    boolean replyBroadcast?;
+};
+
 # Represents values for Parse
 # 
 # + NONE - none
@@ -225,8 +255,11 @@ public enum Parse {
 #
 # + bearerTokenConfig - Bearer token configuration
 # + secureSocketConfig - Optional. Secure Socket configuration.
+@display{label: "Connection Config"}
 public type Configuration record {|
+   @display {label: "Auth Config"}
    http:BearerTokenConfig bearerTokenConfig;
+   @display{label: "SSL Config"}
    http:ClientSecureSocket secureSocketConfig?;
 |};
 
@@ -260,7 +293,7 @@ type ConversationHistoryResponse record {
 
 # Represents Conversation members response.
 #
-# + members - List of memberId of members
+# + members - List of userId of members
 # + ok - If it is success or not
 # + responseMetadata - Response metadata
 type ConversationMembersResponse record {
