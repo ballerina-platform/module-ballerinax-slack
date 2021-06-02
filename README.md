@@ -29,13 +29,16 @@ Slack Events.
 |:---------------------------:|:---------------------------:|
 | Ballerina Language          |        Swan Lake Alpha 5    |
 
-## Obtaining Slack Token
+## Obtaining Slack User OAuth Token
 1. Visit https://api.slack.com/apps and create a Slack App.
 2. In the "Add features and functionality" section, Click permissions.
-3. Go to the Scopes section and add necessary OAuth scopes for User Token. ("channels:write", "chat:write", "files:read",
-   "files:write", "users:read")
+3. Go to the Scopes section and add necessary OAuth scopes for User Token.
+
+![image](docs/images/slackUserTokenScopes.png)
+
 4. Install the app to the workspace.
 5. Get your User OAuth token from the OAuth & Permissions section of your Slack App.
+![image](docs/images/Token.png)
 
 ## Module Overview - `ballerinax/slack`
 
