@@ -172,7 +172,7 @@ slack:ListenerConfiguration configuration = {
 listener slack:Listener slackListener = new (configuration);
 
 service /slack on slackListener {
-    isolated remote function onMessage(slack:SlackEvent eventInfo) returns error? {
+    isolated remote function onMessage(slack:MessageEvent eventInfo) returns error? {
         log:printInfo("New Message");
         log:printInfo(eventInfo.toString());
     }
@@ -188,10 +188,12 @@ service /slack on slackListener {
 1. Run your ballerina service (similar to below sample) on prefered port.
 2. Start ngok on same port using the command ``` ./ngrok http 9090 ```
 3. In Event Subscriptions section of your Slack App settings, paste the URL issued by ngrok following with your service path (eg : ```https://365fc542d344.ngrok.io/slack/events```) 
+![image](docs/images/requestURL.png)
 4. Slack Event API will send a url_verification event containing the token and challenge key value pairs.
 5. Slack Listener will automatically verify the URL by comparing the token and send the required response back to slack 
 6. Check whether your Request URL displayed as verified in your Slack.
 7. Subscribe to the events that you are planning to listen and click save changes.
+![image](docs/images/eventSubscribe.png)
 
 ### Receiving events
 * After successful verification of Request URL your ballerina service will receive events. 
@@ -216,7 +218,7 @@ slack:ListenerConfiguration configuration = {
 listener slack:Listener slackListener = new (configuration);
 
 service /slack on slackListener {
-    isolated remote function onMessage(slack:SlackEvent eventInfo) returns error? {
+    isolated remote function onMessage(slack:MessageEvent eventInfo) returns error? {
         log:printInfo("New Message");
         log:printInfo(eventInfo.toString());
     }

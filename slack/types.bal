@@ -185,7 +185,7 @@ public type FileInfo record {
 # + threadTs - Provide another message's `ts` value to make this message a reply
 # + attachments - A JSON-based array of structured attachments
 # + blocks - A JSON-based array of structured blocks
-# + iconImoji - Emoji to use as the icon for this message
+# + iconEmoji - Emoji to use as the icon for this message
 # + iconUrl - URL to an image to use as the icon for this message
 # + linkNames - Set to `true` to find and link channel names and usernames
 # + mrkdwn - Set to `true` to enable Slack markup parsing
@@ -194,21 +194,39 @@ public type FileInfo record {
 #                    in the channel or conversation
 # + unfurlLinks - `true` to enable unfurling of primarily text-based content or otherwise `false`
 # + unfurlMedia - `false` to disable unfurling of media content
+# + asUser - `true` to post the message as the authed user, instead of as a bot
 # + username - Bot's user name. This must be used in conjunction with `asUser` set to `false`or otherwise ignored
+@display {label: "Message"}
 public type Message record {
+    @display {label: "Channel Name"}
     string channelName;
+    @display {label: "Text"}
     string text;
+    @display {label: "Timestamp Of Message"}
     string threadTs?;
+    @display {label: "Attachments"}
     json[] attachments?;
+    @display {label: "Blocks"}
     json[] blocks?;
-    string iconImoji?;
+    @display {label: "Icon Emoji"}
+    string iconEmoji?;
+    @display {label: "Icon Url"}
     string iconUrl?;
+    @display {label: "Link Names"}
     boolean linkNames?;
+    @display {label: "Markup Parsing"}
     boolean mrkdwn?;
+    @display {label: "Parse"}
     Parse parse?;
+    @display {label: "Reply Broadcast"}
     boolean replyBroadcast?;
+    @display {label: "Unfurl Text Content"}
     boolean unfurlLinks?;
+    @display {label: "Unfurl Media Content"}
     boolean unfurlMedia?;
+    @display {label: "As Authed User"}
+    boolean asUser?;
+    @display {label: "Bot Username"}
     string username?;
 };
 
