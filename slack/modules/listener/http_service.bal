@@ -17,54 +17,37 @@
 import ballerina/http;
 import ballerina/log;
 
-service class HttpService {
-    private boolean isOnAppMentionAvailable = false;
-    private boolean isOnChannelCreatedAvailable = false;
-    private boolean isOnEmojiChangedAvailable = false;
-    private boolean isOnFileSharedAvailable = false;
-    private boolean isOnMemberJoinedChannelAvailable = false;
-    private boolean isOnMessageAvailable = false;
-    private boolean isOnReactionAddedAvailable = false;
-    private boolean isOnTeamJoinAvailable = false;
+isolated service class HttpService {
+    private final boolean isOnAppMentionAvailable;
+    private final boolean isOnChannelCreatedAvailable;
+    private final boolean isOnEmojiChangedAvailable;
+    private final boolean isOnFileSharedAvailable;
+    private final boolean isOnMemberJoinedChannelAvailable;
+    private final boolean isOnMessageAvailable;
+    private final boolean isOnReactionAddedAvailable;
+    private final boolean isOnTeamJoinAvailable;
 
-    private SimpleHttpService httpService;
-    private string verificationToken;
+    private final HttpToSlackAdaptor adaptor;
+    private final string verificationToken;
 
-    public isolated function init(SimpleHttpService httpService, string verificationToken) {
-        self.httpService = httpService;
+    isolated function init(HttpToSlackAdaptor adaptor, string verificationToken) {
+        self.adaptor = adaptor;
         self.verificationToken = verificationToken;
 
         // Get names of the resource functions implemented by the user.
-        string[] methodNames = getServiceMethodNames(httpService);
-        foreach var methodName in methodNames {
-            match methodName {
-                "onAppMention" => {
-                    self.isOnAppMentionAvailable = true;
-                }
-                "onChannelCreated" => {
-                    self.isOnChannelCreatedAvailable = true;
-                }
-                "onEmojiChanged" => {
-                    self.isOnEmojiChangedAvailable = true;
-                }
-                "onFileShared" => {
-                    self.isOnFileSharedAvailable = true;
-                }    
-                "onMemberJoinedChannel" => {
-                   self.isOnMemberJoinedChannelAvailable = true;
-                }
-                "onMessage" => {
-                   self.isOnMessageAvailable = true;
-                }
-                "onReactionAdded" => {
-                   self.isOnReactionAddedAvailable = true;
-                }
-                "onTeamJoin" => {
-                   self.isOnTeamJoinAvailable = true;
-                }
-                _ => {
-                    log:printError("Unrecognized method [" + methodName + "] found in the implementation");
-                }
+        string[] methodNames = adaptor.getServiceMethodNames();
+        self.isOnAppMentionAvailable = isMethodAvailable("onAppMention", methodNames);
+        self.isOnChannelCreatedAvailable = isMethodAvailable("onChannelCreated", methodNames);
+        self.isOnEmojiChangedAvailable = isMethodAvailable("onEmojiChanged", methodNames);
+        self.isOnFileSharedAvailable = isMethodAvailable("onFileShared", methodNames);
+        self.isOnMemberJoinedChannelAvailable = isMethodAvailable("onMemberJoinedChannel", methodNames);
+        self.isOnMessageAvailable = isMethodAvailable("onMessage", methodNames);
+        self.isOnReactionAddedAvailable = isMethodAvailable("onReactionAdded", methodNames);
+        self.isOnTeamJoinAvailable = isMethodAvailable("onTeamJoin", methodNames);
+
+        if (methodNames.length() > 0) {
+            foreach string methodName in methodNames {
+                log:printError("Unrecognized method [" + methodName + "] found in user implementation."); 
             }
         }
     }
@@ -110,7 +93,7 @@ service class HttpService {
                 check self.handleMemberEvents(eventType, slackEvent);
             } else if (eventType == "message") {
                 MessageEvent slackEvent = check payload.cloneWithType(MessageEvent);
-                check callOnMessage(self.httpService, slackEvent);
+                check self.adaptor.callOnMessage(slackEvent);
             } else if (eventType.startsWith("reaction_")) {
                 ReactionAddedEvent slackEvent = check payload.cloneWithType(ReactionAddedEvent);
                 check self.handleReactionEvents(eventType, slackEvent);
@@ -130,7 +113,7 @@ service class HttpService {
     # + return - Error if it is a failure
     isolated function handleAppEvents(string eventType, AppMentionEvent slackEvent) returns error? {
         if (self.isOnAppMentionAvailable && eventType == "app_mention") {
-            check callOnAppMention(self.httpService, slackEvent);
+            check self.adaptor.callOnAppMention(slackEvent);
         }
     }
 
@@ -141,7 +124,7 @@ service class HttpService {
     # + return - Error if it is a failure
     isolated function handleChannelEvents(string eventType, ChannelCreatedEvent slackEvent) returns error? {
         if (self.isOnChannelCreatedAvailable && eventType == "channel_created") {
-            check callOnChannelCreated(self.httpService, slackEvent);
+            check self.adaptor.callOnChannelCreated(slackEvent);
         }
     }
 
@@ -152,7 +135,7 @@ service class HttpService {
     # + return - Error if it is a failure
     isolated function handleEmojiEvents(string eventType, EmojiChangedEvent slackEvent) returns error? {
         if (self.isOnEmojiChangedAvailable && eventType == "emoji_changed") {
-            check callOnEmojiChanged(self.httpService, slackEvent);
+            check self.adaptor.callOnEmojiChanged(slackEvent);
         }
     }
 
@@ -163,7 +146,7 @@ service class HttpService {
     # + return - Error if it is a failure
     isolated function handleFileEvents(string eventType, FileSharedEvent slackEvent) returns error? {
         if (self.isOnFileSharedAvailable && eventType == "file_shared") {
-            check callOnFileShared(self.httpService, slackEvent);
+            check self.adaptor.callOnFileShared(slackEvent);
         } 
     }
 
@@ -174,7 +157,7 @@ service class HttpService {
     # + return - Error if it is a failure
     isolated function handleMemberEvents(string eventType, MemberJoinedChannelEvent slackEvent) returns error? {
         if (self.isOnMemberJoinedChannelAvailable && eventType == "member_joined_channel") {
-            check callOnMemberJoinedChannel(self.httpService, slackEvent);
+            check self.adaptor.callOnMemberJoinedChannel(slackEvent);
         }
     }
 
@@ -185,7 +168,7 @@ service class HttpService {
     # + return - Error if it is a failure
     isolated function handleReactionEvents(string eventType, ReactionAddedEvent slackEvent) returns error? {
         if (self.isOnReactionAddedAvailable && eventType == "reaction_added") {
-            check callOnReactionAdded(self.httpService, slackEvent);
+            check self.adaptor.callOnReactionAdded(slackEvent);
         }
     }
 
@@ -196,7 +179,7 @@ service class HttpService {
     # + return - Error if it is a failure
     isolated function handleTeamEvents(string eventType, TeamJoinEvent slackEvent) returns error? {
         if (self.isOnTeamJoinAvailable && eventType == "team_join") {
-            check callOnTeamJoin(self.httpService, slackEvent);
+            check self.adaptor.callOnTeamJoin(slackEvent);
         }
     }
 
@@ -212,4 +195,20 @@ service class HttpService {
         check caller->respond(response);
         log:printInfo("Request URL Verified");
     }
+}
+
+# Retrieves whether the particular remote method is available.
+#
+# + methodName - Name of the required method
+# + methods - All available methods
+# + return - `true` if method available or else `false`
+isolated function isMethodAvailable(string methodName, string[] methods) returns boolean {
+    boolean isAvailable = methods.indexOf(methodName) is int;
+    if (isAvailable) {
+        var index = methods.indexOf(methodName);
+        if (index is int) {
+            _ = methods.remove(index);
+        }
+    }
+    return isAvailable;
 }
