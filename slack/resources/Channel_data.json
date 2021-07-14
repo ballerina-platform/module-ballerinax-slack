@@ -1,5 +1,5 @@
 {
-    "ballerinax/slack:0.9.8:Channel": [
+    "ballerinax/slack:0.9.9-SNAPSHOT:Channel": [
         {
             "id": "C022D1M023B",
             "name": "test-slack-connector",

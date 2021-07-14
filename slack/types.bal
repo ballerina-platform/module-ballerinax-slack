@@ -185,7 +185,7 @@ public type FileInfo record {
 # + threadTs - Provide another message's `ts` value to make this message a reply
 # + attachments - A JSON-based array of structured attachments
 # + blocks - A JSON-based array of structured blocks
-# + iconImoji - Emoji to use as the icon for this message
+# + iconEmoji - Emoji to use as the icon for this message
 # + iconUrl - URL to an image to use as the icon for this message
 # + linkNames - Set to `true` to find and link channel names and usernames
 # + mrkdwn - Set to `true` to enable Slack markup parsing
@@ -194,22 +194,70 @@ public type FileInfo record {
 #                    in the channel or conversation
 # + unfurlLinks - `true` to enable unfurling of primarily text-based content or otherwise `false`
 # + unfurlMedia - `false` to disable unfurling of media content
+# + asUser - `true` to post the message as the authed user, instead of as a bot
 # + username - Bot's user name. This must be used in conjunction with `asUser` set to `false`or otherwise ignored
+@display {label: "Message"}
 public type Message record {
+    @display {label: "Channel Name"}
     string channelName;
+    @display {label: "Text"}
     string text;
+    @display {label: "Timestamp Of Message"}
     string threadTs?;
+    @display {label: "Attachments"}
     json[] attachments?;
+    @display {label: "Blocks"}
     json[] blocks?;
-    string iconImoji?;
+    @display {label: "Icon Emoji"}
+    string iconEmoji?;
+    @display {label: "Icon Url"}
     string iconUrl?;
+    @display {label: "Link Names"}
     boolean linkNames?;
+    @display {label: "Markup Parsing"}
     boolean mrkdwn?;
+    @display {label: "Parse"}
     Parse parse?;
+    @display {label: "Reply Broadcast"}
     boolean replyBroadcast?;
+    @display {label: "Unfurl Text Content"}
     boolean unfurlLinks?;
+    @display {label: "Unfurl Media Content"}
     boolean unfurlMedia?;
+    @display {label: "As Authed User"}
+    boolean asUser?;
+    @display {label: "Bot Username"}
     string username?;
+};
+
+# Parameters associated with updating a message.
+# 
+# + channelName - Channel name containing the message to be updated
+# + text - Text message
+# + ts - Timestamp of the message to be updated
+# + attachments - A JSON-based array of structured attachments
+# + blocks - A JSON-based array of structured blocks
+# + linkNames - Set to `true` to find and link channel names and usernames
+# + parse - Refers how messages should be treated
+# + replyBroadcast - Broadcast an existing thread reply to make it visible to everyone in the channel
+@display {label: "Update Message"}
+public type UpdateMessage record {
+    @display {label: "Channel Name"}
+    string channelName;
+    @display {label: "Text"}
+    string text;
+    @display {label: "Timestamp Of Message"}
+    string ts;
+    @display {label: "Attachments"}
+    json[] attachments?;
+    @display {label: "Blocks"}
+    json[] blocks?;
+    @display {label: "Link Names"}
+    boolean linkNames?;
+    @display {label: "Parse"}
+    Parse parse?;
+    @display {label: "Reply Broadcast"}
+    boolean replyBroadcast?;
 };
 
 # Represents values for Parse
@@ -225,8 +273,11 @@ public enum Parse {
 #
 # + bearerTokenConfig - Bearer token configuration
 # + secureSocketConfig - Optional. Secure Socket configuration.
+@display{label: "Connection Config"}
 public type Configuration record {|
+   @display {label: "Auth Config"}
    http:BearerTokenConfig bearerTokenConfig;
+   @display{label: "SSL Config"}
    http:ClientSecureSocket secureSocketConfig?;
 |};
 
@@ -260,7 +311,7 @@ type ConversationHistoryResponse record {
 
 # Represents Conversation members response.
 #
-# + members - List of memberId of members
+# + members - List of userId of members
 # + ok - If it is success or not
 # + responseMetadata - Response metadata
 type ConversationMembersResponse record {

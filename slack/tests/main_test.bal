@@ -51,9 +51,9 @@ Message messageParams = {
     }]
 };
 
-Message updateMessageParams = {
+UpdateMessage updateMessageParams = {
     channelName: channelName1,
-    threadTs: "",
+    ts: "",
     text: "updated message"
 };
 
@@ -86,7 +86,7 @@ function testPostTextMessage() {
     var response = slackClient->postMessage(messageParams);
     if (response is string) {
         threadId = <@untainted>response;
-        updateMessageParams.threadTs = threadId;
+        updateMessageParams.ts = threadId;
         var updateResponse = slackClient->updateMessage(updateMessageParams);
         if (updateResponse is string) {
             test:assertEquals(updateResponse, threadId);

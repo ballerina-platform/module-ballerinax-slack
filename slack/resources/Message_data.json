@@ -1,5 +1,5 @@
 {
-    "ballerinax/slack:0.9.8:Message": [
+    "ballerinax/slack:0.9.9-SNAPSHOT:Message": [
         {
             "channelName": "test-slack-connector",
             "text": "Hello123",
@@ -10,10 +10,11 @@
             "replyBroadcast": false,
             "unfurlMedia" : false,
             "unfurlLinks" : false,
-            "iconImoji" : "",
+            "iconEmoji" : "",
             "linkNames" : false,
             "iconUrl": "https://is5-ssl.mzstatic.com/image/thumb/Purple3/v4/d3/72/5c/d3725c8f-c642-5d69-1904-aa36e4297885/source/256x256bb.jpg",
             "threadTs": "1482960137.003543",
+            "asUser": false,
             "username": ""
         },
         {
@@ -26,10 +27,11 @@
             "replyBroadcast": false,
             "unfurlMedia" : false,
             "unfurlLinks" : false,
-            "iconImoji" : "",
+            "iconEmoji" : "",
             "linkNames" : false,
             "iconUrl": "https://is5-ssl.mzstatic.com/image/thumb/Purple3/v4/d3/72/5c/d3725c8f-c642-5d69-1904-aa36e4297885/source/256x256bb.jpg",
             "threadTs": "1482960137.003543",
+            "asUser": false,
             "username": ""
         },
         {
@@ -42,10 +44,11 @@
             "replyBroadcast": false,
             "unfurlMedia" : false,
             "unfurlLinks" : false,
-            "iconImoji" : "",
+            "iconEmoji" : "",
             "linkNames" : false,
             "iconUrl": "https://is5-ssl.mzstatic.com/image/thumb/Purple3/v4/d3/72/5c/d3725c8f-c642-5d69-1904-aa36e4297885/source/256x256bb.jpg",
             "threadTs": "1482960137.003543",
+            "asUser": false,
             "username": ""
         }
     ]

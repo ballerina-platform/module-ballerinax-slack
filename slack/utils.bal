@@ -85,7 +85,7 @@ isolated function getUserId(http:Client slackClient, string user) returns @taint
             return <string> check (member.id);
         }
     } 
-    return error("Unable to find the user id for the user " + user);
+    return error("Unable to find the user: " + user);
 }
 
 isolated function listConversationsOfUser(http:Client slackClient, string user, boolean excludeArchived, 
@@ -149,7 +149,7 @@ isolated function postMessage(http:Client slackClient, string channelId, Message
     return handlePostMessage(slackClient, url);
 }
 
-isolated function createQuery(Message message) returns string {  
+isolated function createQuery(Message|UpdateMessage message) returns string {  
     string queryString = "";  
     foreach [string, any] [key, value] in message.entries() {
         if (key != CHANNEL_NAME) {
@@ -177,7 +177,7 @@ isolated function fillWithUnderscore(string camelCaseString) returns string {
     return stringWithUnderScore.toLowerAscii();
 }
 
-isolated function updateMessage(http:Client slackClient, string channelId, Message message) 
+isolated function updateMessage(http:Client slackClient, string channelId, UpdateMessage message) 
                                 returns @tainted string|error {
     string updateQuery = createQuery(message);
     updateQuery = regex:replaceAll(updateQuery, THREAD_TS_ARG, THREAD_TS_ARG_FOR_UPDATING);    
@@ -219,7 +219,7 @@ isolated function mapChannelInfo(http:Response response) returns @tainted Channe
             return error("Channel does not exist");
         }
     } else {
-        return error("Retrieving channel information failed: " + <string> check (payload.'error));
+        return error("Slack Error: " + <string> check (payload.'error));
     }    
 }
 

@@ -1,5 +1,5 @@
 {
-    "ballerinax/slack:0.9.8:ResponseMetadata": [
+    "ballerinax/slack:0.9.9-SNAPSHOT:ResponseMetadata": [
         {
             "nextCursor": "dXNlcjpVMEc5V0ZYTlo="
         },
