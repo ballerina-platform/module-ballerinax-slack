@@ -16,12 +16,18 @@
 
 import ballerina/http;
 
-# Client for Slack connector.  
+# Ballerina Slack connector provides the capabiliy to access Slack Web API.
+# This connector lets you access the Slack Web API using a Slack User Oath token.
 @display {label: "Slack", iconPath: "logo.png"}
-public client class Client {
+public isolated client class Client {
     private map<string> channelIdMap = {};
-    private http:Client slackClient;
+    private final http:Client slackClient;
 
+    # Initializes the connector. During initialization, you have to pass a Slack User Oauth Token.
+    # Visit https://api.slack.com/apps and create a Slack App.
+    # Obtain your User OAuth token from the `OAuth & Permissions` section of your Slack App.
+    # 
+    # + config - Configuration required to initialize the `Client` endpoint
     public isolated function init(Configuration config) returns error? {
         http:ClientSecureSocket? socketConfig = config?.secureSocketConfig;
 
@@ -31,9 +37,15 @@ public client class Client {
         });
     }
 
+    private isolated function getChannelIdMap() returns map<string> {
+        lock {
+            return self.channelIdMap.cloneReadOnly();
+        }
+    }
+
     // Conversation specific functions
 
-    # Create a channel.
+    # Creates a channel.
     #
     # + name - Name of the channel to be created
     # + isPrivate - `true` if a private channel, `false` if a public channel
@@ -46,7 +58,7 @@ public client class Client {
         return createChannel(self.slackClient, url);
     }
 
-    # Archive a channel.
+    # Archives a channel.
     #
     # + channelName - Name of the channel to archive
     # + return - An error if it is a failure or `nil` if it is a success
@@ -57,7 +69,7 @@ public client class Client {
         return archiveConversation(self.slackClient, <@untainted>resolvedChannelId);
     }
 
-    # Unarchive a channel.
+    # Unarchives a channel.
     #
     # + channelName - Name of the channel to unarchive
     # + return - An error if it is a failure or `nil` if it is a success
@@ -68,7 +80,7 @@ public client class Client {
         return unArchiveConversation(self.slackClient, <@untainted>resolvedChannelId);
     }
 
-    # Rename a channel.
+    # Renames a channel.
     #
     # + channelName - Old name of the channel
     # + newName - 	New name for the channel
@@ -81,7 +93,7 @@ public client class Client {
         return renameConversation(self.slackClient, <@untainted>resolvedChannelId, newName);
     }
 
-    # List all the channels in a slack team.
+    # Lists all the channels in a slack team.
     #
     # + return - An error if it is a failure or the `Conversations` record if it is a success
     @display {label: "List Channels"}
@@ -92,7 +104,7 @@ public client class Client {
         return mapConversationInfo(payload);
     }
 
-    # Leave a channel.
+    # Leaves a channel.
     #
     # + channelName - Name of the channel 
     # + return - An error if it is a failure or 'nil' if it is a success
@@ -103,7 +115,7 @@ public client class Client {
         return leaveConversation(self.slackClient, <@untainted>resolvedChannelId);
     }
 
-    # Get information about a channel.
+    # Gets information about a channel.
     #
     # + channelName - Name of the channel
     # + includeLocale - Set this to `true` to receive the locale for this conversation. Defaults to `false`
@@ -118,7 +130,7 @@ public client class Client {
         return getConversationInfo(self.slackClient, <@untainted>resolvedChannelId);
     }
 
-    # Remove a user from a channel.
+    # Removes a user from a channel.
     #
     # + channelName - Name of the channel 
     # + user - Username of the user to be removed
@@ -132,7 +144,7 @@ public client class Client {
         return removeUserFromConversation(self.slackClient, <@untainted>userId, <@untainted>resolvedChannelId);
     }
 
-    # Join an existing channel.
+    # Joins an existing channel.
     #
     # + channelName - Name of the channel 
     # + return - An error if it is a failure or 'nil' if it is a success
@@ -143,7 +155,7 @@ public client class Client {
         return joinConversation(self.slackClient, <@untainted>resolvedChannelId);
     }
 
-    # Invite users to a channel.
+    # Invites users to a channel.
     #
     # + channelName - Name of the channel 
     # + users - An array of usernames
@@ -159,7 +171,7 @@ public client class Client {
         return inviteUsersToConversation(<@untainted>self.slackClient, <@untainted>channelId, <@untainted>userIds);
     }
 
-    # Get message history of a channel.
+    # Gets message history of a channel.
     # 
     # + channelName - Name of the channel
     # + startOfTimeRange - Start of time range as epoch
@@ -176,7 +188,7 @@ public client class Client {
             <@untainted>channelId, startOfTimeRange, endOfTimeRange));
     }
 
-    # Get userId of all the members of a channel.
+    # Gets userId of all the members of a channel.
     # 
     # + channelName - Name of the channel
     # + return - Stream of userId if it is a success or an error if it is a failure
@@ -191,7 +203,7 @@ public client class Client {
 
     // User specific functions
 
-    # Get information about a user by username.
+    # Gets information about a user by username.
     #
     # + username - Slack username of the user
     # + return - An error if it is a failure or the 'User' record if it is a success
@@ -202,7 +214,7 @@ public client class Client {
         return getUserInfo(self.slackClient, <@untainted>userId);
     }
 
-    # Get information about a user by userId.
+    # Gets information about a user by userId.
     #
     # + userId - Slack userId of the user
     # + return - An error if it is a failure or the 'User' record if it is a success
@@ -212,7 +224,7 @@ public client class Client {
         return getUserInfo(self.slackClient, <@untainted>userId);
     }
 
-    # List channels which can be accessed by a user.
+    # Lists channels which can be accessed by a user.
     #
     # + excludeArchived - Set to `true` to exclude archived channels from the list
     # + noOfItems - Maximum number of items to return 
@@ -232,7 +244,7 @@ public client class Client {
         return listConversationsOfUser(self.slackClient, <@untainted>resolvedUserId, excludeArchived, noOfItems, types);
     }
 
-    # Retrieve a single user by looking them up by their registered email address.
+    # Retrieves a single user by looking them up by their registered email address.
     # 
     # + email - An email address belonging to a user in the workspace
     # + return - User record if it is a success or an error if it is a failure
@@ -244,7 +256,7 @@ public client class Client {
 
     // Chat specific functions
 
-    # Send a message to a channel.
+    # Sends a message to a channel.
     #
     # + message - Message parameters to be posted on Slack
     # + return - Thread ID of the posted message or an error
@@ -255,7 +267,7 @@ public client class Client {
         return postMessage(self.slackClient, resolvedChannelId, message);
     }
 
-    # Update a message.
+    # Updates a message.
     #
     # + message - Message parameters to be updated on Slack
     # + return - The thread ID of the posted message or an error
@@ -266,7 +278,7 @@ public client class Client {
         return updateMessage(self.slackClient, resolvedChannelId, message);
     }
 
-    # Delete a message.
+    # Deletes a message.
     #
     # + channelName - Name of the channel
     # + threadTs - Timestamp of the message to be deleted
@@ -281,7 +293,7 @@ public client class Client {
 
     // File specific function
 
-    # Delete a file.
+    # Deletes a file.
     #
     # + fileId - Id of the file to be deleted
     # + return - An error if it is a failure or 'nil' if it is a success
@@ -290,7 +302,7 @@ public client class Client {
         return deleteFile(self.slackClient, <@untainted>fileId);
     }
 
-    # Get information of a file.
+    # Gets information of a file.
     #
     # + fileId - ID of the file
     # + return - An `error` if it is a failure or the 'FileInfo' record if it is a success
@@ -300,7 +312,7 @@ public client class Client {
         return getFileInfo(self.slackClient, <@untainted>fileId);
     }
 
-    # List files.
+    # Lists files.
     #
     # + channelName - Name of the channel
     # + count - Number of items to return per page
@@ -328,7 +340,7 @@ public client class Client {
         return listFiles(self.slackClient, <@untainted>channelId, count, tsFrom, tsTo, types, <@untainted>userId);
     }
 
-    # Upload or create a file.
+    # Uploads or creates a file.
     #
     # + filePath - File path
     # + channelName - Channel name 
@@ -351,16 +363,18 @@ public client class Client {
         return uploadFile(filePath, self.slackClient, channelName, title, initialComment, threadTs);
     }
 
-    # Get relevant channelId for a channelName.
+    # Gets relevant channelId for a channelName.
     # 
     # + channelName - Name of the Channel
     # + return - Channel Id if it is a success or an error if it is a failure
     private isolated function resolveChannelId(string channelName) returns @tainted string|error {
-        if (self.channelIdMap.hasKey(channelName)) {
-            return self.channelIdMap.get(channelName);
+        if (self.getChannelIdMap().hasKey(channelName)) {
+            return self.getChannelIdMap().get(channelName);  
         }
         string channelId = check getChannelId(self.slackClient, channelName);
-        self.channelIdMap[channelName] = channelId;
+        lock {
+            self.channelIdMap[channelName] = channelId;
+        }
         return channelId;
     }
 }
