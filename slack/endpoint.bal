@@ -22,6 +22,9 @@ public client class Client {
     private map<string> channelIdMap = {};
     private http:Client slackClient;
 
+    # Initialize the Slack Connector client.
+    #
+    # + config - Configuration required to initialize the `Client` endpoint
     public isolated function init(Configuration config) returns error? {
         http:ClientSecureSocket? socketConfig = config?.secureSocketConfig;
 

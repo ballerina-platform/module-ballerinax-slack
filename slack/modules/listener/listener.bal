@@ -23,6 +23,9 @@ public class Listener {
     private string verificationToken;
     private HttpService httpService;
 
+    # Initialize the Listener.
+    #
+    # + config - Configuration required to initialize the Listener
     public isolated function init(ListenerConfiguration config) returns error? {
         self.httpListener = check new (config.port);
         self.verificationToken = config.verificationToken;
