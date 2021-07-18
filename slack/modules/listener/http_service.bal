@@ -70,7 +70,6 @@ isolated service class HttpService {
         } else if (eventOrVerification == EVENT_CALLBACK) {
             http:Response response = new;
             response.statusCode = http:STATUS_OK;
-            check caller->respond(response);
 
             json eventTypeJson = check payload.event.'type;
             string eventType = eventTypeJson.toString();
@@ -101,6 +100,7 @@ isolated service class HttpService {
                 TeamJoinEvent slackEvent = check payload.cloneWithType(TeamJoinEvent);
                 check self.handleTeamEvents(eventType, slackEvent);
             }
+            check caller->respond(response);
         } else {
             return error("Unidentified Request Type");
         }

@@ -45,7 +45,7 @@ slack:ListenerConfiguration configuration = {
 listener slack:Listener slackListener = new (configuration);
 
 service /slack on slackListener {
-    isolated remote function onMessage(slack:SlackEvent eventInfo) returns error? {
+    isolated remote function onMessage(slack:MessageEvent eventInfo) returns error? {
         log:printInfo("New Message");
         log:printInfo(eventInfo.toString());
     }
@@ -89,10 +89,33 @@ slack:ListenerConfiguration configuration = {
 listener slack:Listener slackListener = new (configuration);
 
 service /slack on slackListener {
-    isolated remote function onMessage(slack:SlackEvent eventInfo) returns error? {
+    isolated remote function onMessage(slack:MessageEvent eventInfo) returns error? {
         log:printInfo("New Message");
         log:printInfo(eventInfo.toString());
     }
+}
+```
+> **NOTE:**
+If the user's logic inside any remote method of the connector listener throws an error, connector internal logic will 
+covert that error into a HTTP 500 error response and respond to the webhook (so that event may get redelivered), 
+otherwise it will respond with HTTP 200 OK. Due to this architecture, if the user logic in listener remote operations
+includes heavy processing, the user may face HTTP timeout issues for webhook responses. In such cases, it is advised to
+process events asynchronously as shown below.
+
+```ballerina
+import ballerinax/slack.'listener as slack;
+slack:ListenerConfiguration configuration = {
+    port: 9090,
+    verificationToken: "VERIFICATION_TOKEN"
+};
+listener slack:Listener slackListener = new (configuration);
+service /slack on slackListener {
+    remote function onMessage(slack:MessageEvent eventInfo) returns error? {
+        _ = @strand { thread: "any" } start userLogic(eventInfo);
+    }
+}
+function userLogic(slack:MessageEvent eventInfo) returns error? {
+    // Write your logic here
 }
 ```
 
