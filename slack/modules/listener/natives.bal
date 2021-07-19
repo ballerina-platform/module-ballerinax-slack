@@ -16,414 +16,423 @@
 
 import ballerina/jballerina.java;
 
-// App Events
-isolated function callOnAppHomeOpened(SimpleHttpService httpService, SlackEvent event) returns error? 
-    = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+isolated class HttpToSlackAdaptor {
+    isolated function init(SimpleHttpService serviceObj) returns error? {
+        externInit(self, serviceObj);
+    }
 
-isolated function callOnAppMention(SimpleHttpService httpService, AppMentionEvent event) returns error? 
+    // App Events
+    isolated function callOnAppHomeOpened(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnAppRateLimited(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnAppMention(AppMentionEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnAppRequested(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnAppRateLimited(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnAppUninstalled(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnAppRequested(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Call Events
-isolated function callOnCallRejected(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnAppUninstalled(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Channel Events
-isolated function callOnChannelArchive(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Call Events
+    isolated function callOnCallRejected(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnChannelCreated(SimpleHttpService httpService, ChannelCreatedEvent event) returns error? 
+    // Channel Events
+    isolated function callOnChannelArchive(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnChannelDeleted(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnChannelCreated(ChannelCreatedEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnChannelHistoryChanged(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnChannelDeleted(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnChannelIdChanged(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnChannelHistoryChanged(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnChannelLeft(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnChannelIdChanged(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnChannelRename(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnChannelLeft(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnChannelUnarchive(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnChannelRename(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// DND Events
-isolated function callOnDndUpdated(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnChannelUnarchive(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnDndUpdatedUser(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // DND Events
+    isolated function callOnDndUpdated(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Email Domain Events
-isolated function callOnEmailDomainChanged(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnDndUpdatedUser(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Emoji Events
-isolated function callOnEmojiChanged(SimpleHttpService httpService, EmojiChangedEvent event) returns error? 
+    // Email Domain Events
+    isolated function callOnEmailDomainChanged(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// File Events
-isolated function callOnFileChange(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Emoji Events
+    isolated function callOnEmojiChanged(EmojiChangedEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnFileCommentAdded(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // File Events
+    isolated function callOnFileChange(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnFileCommentDeleted(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnFileCommentAdded(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnFileCommentEdited(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnFileCommentDeleted(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnFileCreated(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnFileCommentEdited(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnFileDeleted(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnFileCreated(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnFilePublic(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnFileDeleted(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnFileShared(SimpleHttpService httpService, FileSharedEvent event) returns error? 
+    isolated function callOnFilePublic(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnFileUnshared(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnFileShared(FileSharedEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Grid Migration Events
-isolated function callOnGridMigrationFinished(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnFileUnshared(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnGridMigrationStarted(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Grid Migration Events
+    isolated function callOnGridMigrationFinished(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
- // Group Events
-isolated function callOnGroupArchive(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnGridMigrationStarted(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnGroupClose(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Group Events
+    isolated function callOnGroupArchive(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnGroupDeleted(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnGroupClose(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnGroupHistoryChanged(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnGroupDeleted(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnGroupLeft(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnGroupHistoryChanged(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnGroupOpen(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnGroupLeft(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnGroupRename(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnGroupOpen(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnGroupUnarchive(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnGroupRename(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Im Events
-isolated function callOnImClose(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnGroupUnarchive(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnImCreated(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Im Events
+    isolated function callOnImClose(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnImHistoryChanged(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnImCreated(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnImOpen(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnImHistoryChanged(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Invite Events
-isolated function callOnInviteRequested(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnImOpen(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Link Events
-isolated function callOnLinkShared(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Invite Events
+    isolated function callOnInviteRequested(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Member Events
-isolated function callOnMemberJoinedChannel(SimpleHttpService httpService, MemberJoinedChannelEvent event) 
+    // Link Events
+    isolated function callOnLinkShared(SlackEvent event) returns error? 
+    = @java:Method {
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
+
+    // Member Events
+    isolated function callOnMemberJoinedChannel(MemberJoinedChannelEvent event) 
     returns error? = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnMemberLeftChannel(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnMemberLeftChannel(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Message events
-isolated function callOnMessage(SimpleHttpService httpService, MessageEvent event) returns error? 
+    // Message events
+    isolated function callOnMessage(MessageEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Pin Events
-isolated function callOnPinAdded(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Pin Events
+    isolated function callOnPinAdded(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnPinRemoved(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnPinRemoved(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Reaction Events
-isolated function callOnReactionAdded(SimpleHttpService httpService, ReactionAddedEvent event) returns error? 
+    // Reaction Events
+    isolated function callOnReactionAdded(ReactionAddedEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnReactionRemoved(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnReactionRemoved(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Resources Events
-isolated function callOnResourcesAdded(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Resources Events
+    isolated function callOnResourcesAdded(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnResourcesRemoved(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnResourcesRemoved(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Scope Events
-isolated function callOnScopeDenied(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Scope Events
+    isolated function callOnScopeDenied(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnScopeGranted(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnScopeGranted(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Star Events
-isolated function callOnStarAdded(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Star Events
+    isolated function callOnStarAdded(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnStarRemoved(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnStarRemoved(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Subteam Events
-isolated function callOnSubteamCreated(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Subteam Events
+    isolated function callOnSubteamCreated(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnSubteamMembersChanged(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnSubteamMembersChanged(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnSubteamSelfAdded(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnSubteamSelfAdded(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnSubteamSelfRemoved(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnSubteamSelfRemoved(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnSubteamUpdated(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnSubteamUpdated(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Team Events
-isolated function callOnTeamAccessGranted(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Team Events
+    isolated function callOnTeamAccessGranted(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnTeamAccessRevoked(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnTeamAccessRevoked(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnTeamDomainChange(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnTeamDomainChange(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnTeamJoin(SimpleHttpService httpService, TeamJoinEvent event) returns error? 
+    isolated function callOnTeamJoin(TeamJoinEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnTeamRename(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnTeamRename(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Tokens Evens
-isolated function callOnTokensRevoked(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Tokens Evens
+    isolated function callOnTokensRevoked(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// User Events
-isolated function callOnUserChange(SimpleHttpService httpService, SlackEvent event) returns error?
+    // User Events
+    isolated function callOnUserChange(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnUserResourceDenied(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnUserResourceDenied(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnUserResourceGranted(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnUserResourceGranted(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnUserResourceRemoved(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnUserResourceRemoved(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-// Workflow Events
-isolated function callOnWorkflowDeleted(SimpleHttpService httpService, SlackEvent event) returns error? 
+    // Workflow Events
+    isolated function callOnWorkflowDeleted(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnWorkflowPublished(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnWorkflowPublished(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnWorkflowStepDeleted(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnWorkflowStepDeleted(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnWorkflowStepExecute(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnWorkflowStepExecute(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-isolated function callOnWorkflowUnPublished(SimpleHttpService httpService, SlackEvent event) returns error? 
+    isolated function callOnWorkflowUnPublished(SlackEvent event) returns error? 
     = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
-} external;
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
 
-# Invoke native method to retrive implemented method names in the subscriber service
-#
-# + httpService - current http service
-# + return - {@code string[]} containing the method-names in current implementation
-isolated function getServiceMethodNames(SimpleHttpService httpService) returns string[] = @java:Method {
-    'class: "io.ballerinax.slack.HttpNativeOperationHandler"
+    # Invoke native method to retrive implemented method names in the subscriber service
+    #
+    # + return - {@code string[]} containing the method-names in current implementation
+    isolated function getServiceMethodNames() returns string[] = @java:Method {
+        'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
+    } external;
+}
+
+isolated function externInit(HttpToSlackAdaptor adaptor, SimpleHttpService serviceObj) = @java:Method {
+    'class: "io.ballerinax.slack.NativeHttpToSlackAdaptor"
 } external;
