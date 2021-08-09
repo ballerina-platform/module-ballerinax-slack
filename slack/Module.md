@@ -37,7 +37,7 @@ slack:Client slackClient = check new(slackConfig);
 ```
 
 ### Step 3: Invoke connector operation
-Now you can use the operations available within the connector. Note that they are in the form of remote operations.
+1. Now you can use the operations available within the connector. Note that they are in the form of remote operations.
 
 Following is an example on how to post a message using the connector.
 
@@ -51,5 +51,6 @@ public function main() returns error? {
     string threadTs = slackClient->postMessage(messageParams);
 }
 ```
+2. Use `bal run` command to compile and run the Ballerina program. 
 
 **[You can find a list of samples here](https://github.com/ballerina-platform/module-ballerinax-slack/tree/master/samples)**
