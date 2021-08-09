@@ -16,13 +16,20 @@
 
 import ballerina/http;
 
-# Listener for Slack connector
+# Balleina Slack Listener provides the capability to access Slack Events API.
 @display {label: "Slack Listener"}
 public class Listener {
     private http:Listener httpListener;
     private string verificationToken;
     private HttpService httpService;
 
+    # Initializes the Slack Listener. During initialization, you have to pass Slack Verification token and port.
+    # Visit https://api.slack.com/apps, create your own Slack App and enable Event Subscription by going to 
+    # `Event Subscriptions` section in your Slack App. 
+    # Add events that you are planning to listen in the `Subscribe to events on behalf of users` section and save changes.
+    # Obtain `Verification Token` from the `Basic Information` section of your Slack App.
+    # 
+    # + config - Configuration required to initialize the Listener
     public isolated function init(ListenerConfiguration config) returns error? {
         self.httpListener = check new (config.port);
         self.verificationToken = config.verificationToken;
