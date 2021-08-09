@@ -42,7 +42,7 @@ listener slack:Listener slackListener = new (configuration);
 ```
 
 ### Step 3: Implement a listener remote function
-* Now you can implement a listener remote function supported by this connector.
+1. Now you can implement a listener remote function supported by this connector.
 
 * `onMessage`, `onChannelCreated`, `onEmojiChanged`, `onFileShared`, `onMemberJoinedChannel`, `onAppMention`,
 `onReactionAdded`, `onTeamJoin` are the supported remote functions.
@@ -68,6 +68,7 @@ service /slack on slackListener {
     }
 }
 ```
+2. Use `bal run` command to compile and run the Ballerina program. 
 
 * Register the request URL
     1. Run your ballerina service (similar to above sample) on prefered port.
