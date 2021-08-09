@@ -9,7 +9,7 @@ It provides the capability to query information and perform some actions in a Sl
 ### Compatibility
 |                             |           Version           |
 |:---------------------------:|:---------------------------:|
-| Ballerina Language          |  Ballerina Swan Lake Beta2  |
+| Ballerina Language          |  Ballerina Swan Lake Beta3  |
 
 ## Report issues
 
