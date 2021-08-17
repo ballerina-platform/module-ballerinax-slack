@@ -182,9 +182,9 @@ public isolated client class Client {
                                                     @display {label: "Starting From (Timestamp)"} string? startOfTimeRange = (), 
                                                     @display {label: "Ending At (Timestamp)"}string? endOfTimeRange = ()) 
                                                     returns @tainted @display {label: "Stream of MessageInfo"} 
-                                                    stream<MessageInfo,error>|error? {
+                                                    stream<MessageInfo,error?>|error {
         string channelId = check self.resolveChannelId(channelName);
-        return new stream<MessageInfo,error>(new ConversationHistoryStream(<@untainted>self.slackClient, 
+        return new stream<MessageInfo,error?>(check new ConversationHistoryStream(<@untainted>self.slackClient, 
             <@untainted>channelId, startOfTimeRange, endOfTimeRange));
     }
 
@@ -195,9 +195,9 @@ public isolated client class Client {
     @display {label: "Get Members"}
     remote isolated function getConversationMembers(@display {label: "Channel Name"} string channelName) 
                                                     returns @tainted @display {label: "Stream of userId"} 
-                                                    stream<string,error>|error? {
+                                                    stream<string,error?>|error {
         string channelId = check self.resolveChannelId(channelName);
-        return new stream<string,error>(new ConversationMembersStream(<@untainted>self.slackClient, 
+        return new stream<string,error?>(check new ConversationMembersStream(<@untainted>self.slackClient, 
             <@untainted>channelId));
     }
 
