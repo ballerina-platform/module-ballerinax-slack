@@ -26,13 +26,14 @@ class ConversationHistoryStream {
     private string? endOfTimeRange;
     private string? nextCursor;
 
-    isolated function init(http:Client httpClient, string channelId, string? startOfTimeRange, string? endOfTimeRange) {
+    isolated function init(http:Client httpClient, string channelId, string? startOfTimeRange, string? endOfTimeRange) 
+            returns error? {
         self.httpClient = httpClient;
         self.channelId = channelId;
         self.startOfTimeRange = startOfTimeRange;
         self.endOfTimeRange = endOfTimeRange;
         self.nextCursor = ();
-        self.currentEntries =  checkpanic self.fetchMessages();
+        self.currentEntries =  check self.fetchMessages();
     }
 
     public isolated function next() returns @tainted record {| MessageInfo value; |}|error? {
@@ -87,11 +88,11 @@ class ConversationMembersStream {
     private string channelId;
     private string? nextCursor;
 
-    isolated function init(http:Client httpClient, string channelId) {
+    isolated function init(http:Client httpClient, string channelId) returns error? {
         self.httpClient = httpClient;
         self.channelId = channelId;
         self.nextCursor = ();
-        self.currentEntries =  checkpanic self.fetchMembers();
+        self.currentEntries =  check self.fetchMembers();
     }
 
     public isolated function next() returns @tainted record {| string value; |}|error? {

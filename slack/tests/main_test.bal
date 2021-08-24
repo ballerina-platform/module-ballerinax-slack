@@ -58,11 +58,13 @@ UpdateMessage updateMessageParams = {
 };
 
 @test:Config {}
-function testGetConversationHistory() returns @tainted error? {
-    stream<MessageInfo,error>|error? resultStream = slackClient->getConversationHistory(channelName1);
-    if (resultStream is stream<MessageInfo,error>) {        
-        record {|MessageInfo value;|} res = check resultStream.next(); 
-        test:assertEquals(res.value.'type, "message");
+function testGetConversationHistory() returns error? {
+    stream<MessageInfo,error?> resultStream = check slackClient->getConversationHistory(channelName1);
+    if (resultStream is stream<MessageInfo,error?>) {        
+        record {|MessageInfo value;|}|error? res = check resultStream.next(); 
+        if (res is record {|MessageInfo value;|}) {
+            test:assertEquals(res.value.'type, "message");
+        }
     } else {
         test:assertFail("Error in getting stream");
     }
@@ -70,8 +72,8 @@ function testGetConversationHistory() returns @tainted error? {
 
 @test:Config {}
 function testGetConversationMembers() returns error? {
-    stream<string,error>|error? resultStream = slackClient->getConversationMembers(channelName1);
-    if (resultStream is stream<string,error>) {   
+    stream<string,error?>resultStream = check slackClient->getConversationMembers(channelName1);
+    if (resultStream is stream<string,error?>) {   
         error? e = resultStream.forEach(isolated function (string memberId) {});
         if (e is error) {
             test:assertFail(e.message());

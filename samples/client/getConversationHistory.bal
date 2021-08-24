@@ -28,9 +28,9 @@ public function main() returns error? {
     slack:Client slackClient = check new(slackConfig);
 
     // Get conversation history.
-    stream<slack:MessageInfo,error>|error? resultStream = slackClient->getConversationHistory("channelName", 
+    stream<slack:MessageInfo,error?> resultStream = check slackClient->getConversationHistory("channelName", 
             "<startOfTimeRange in epoch>", "<endOfTimeRange in epoch>");
-    if (resultStream is stream<slack:MessageInfo,error>) {        
+    if (resultStream is stream<slack:MessageInfo,error?>) {        
         error? e = resultStream.forEach(isolated function (slack:MessageInfo messageInfo) {
             log:printInfo(messageInfo.toString());
         });
