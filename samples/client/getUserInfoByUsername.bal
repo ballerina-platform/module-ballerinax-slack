@@ -18,8 +18,8 @@ import ballerina/log;
 import ballerinax/slack;
 import ballerina/os;
 
-slack:Configuration slackConfig = {
-    bearerTokenConfig: {
+slack:ConnectionConfig slackConfig = {
+    auth: {
         token: os:getEnv("SLACK_TOKEN")
     }
 };

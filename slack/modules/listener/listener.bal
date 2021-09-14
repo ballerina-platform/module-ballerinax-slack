@@ -17,7 +17,7 @@
 import ballerina/http;
 
 # Balleina Slack Listener provides the capability to access Slack Events API.
-@display {label: "Slack Listener"}
+@display {label: "Slack Listener", iconPath: "resources/slack.png"}
 public class Listener {
     private http:Listener httpListener;
     private string verificationToken;
