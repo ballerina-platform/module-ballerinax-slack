@@ -25,10 +25,10 @@ import ballerinax/slack;
 ```
 
 ### Step 2: Create a new connector instance
-Create a `slack:Configuration` using your `Slack User Oauth Token` and initialize the connector with it.
+Create a `slack:ConnectionConfig` using your `Slack User Oauth Token` and initialize the connector with it.
 ```ballerina
-slack:Configuration slackConfig = {
-    bearerTokenConfig: {
+slack:ConnectionConfig slackConfig = {
+    auth: {
         token: "SLACK_USER_OAUTH_TOKEN"
     }
 };

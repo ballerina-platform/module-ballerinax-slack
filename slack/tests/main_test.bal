@@ -20,8 +20,8 @@ import ballerina/test;
 string slackToken = os:getEnv("SLACK_TOKEN");
 string slackUserName = os:getEnv("SLACK_USERNAME");
 
-Configuration slackConfig = {
-    bearerTokenConfig: {
+ConnectionConfig slackConfig = {
+    auth: {
         token: slackToken
     }
 };

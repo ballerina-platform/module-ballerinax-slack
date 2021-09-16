@@ -18,7 +18,7 @@ import ballerina/http;
 
 # Ballerina Slack connector provides the capabiliy to access Slack Web API.
 # This connector lets you access the Slack Web API using a Slack User Oath token.
-@display {label: "Slack", iconPath: "logo.png"}
+@display {label: "Slack", iconPath: "resources/slack.png"}
 public isolated client class Client {
     private map<string> channelIdMap = {};
     private final http:Client slackClient;
@@ -28,13 +28,8 @@ public isolated client class Client {
     # Obtain your User OAuth token from the `OAuth & Permissions` section of your Slack App.
     # 
     # + config - Configuration required to initialize the `Client` endpoint
-    public isolated function init(Configuration config) returns error? {
-        http:ClientSecureSocket? socketConfig = config?.secureSocketConfig;
-
-        self.slackClient =  check new (BASE_URL, {
-            auth: config.bearerTokenConfig,
-            secureSocket: socketConfig
-        });
+    public isolated function init(ConnectionConfig config) returns error? {
+        self.slackClient =  check new (BASE_URL, config);
     }
 
     private isolated function getChannelIdMap() returns map<string> {

@@ -22,8 +22,8 @@ import ballerinax/slack;
 string slackToken = os:getEnv("SLACK_TOKEN");
 string slackUserName = os:getEnv("SLACK_USERNAME");
 
-slack:Configuration slackConfig = {
-    bearerTokenConfig: {
+slack:ConnectionConfig slackConfig = {
+    auth: {
         token: slackToken
     }
 };
