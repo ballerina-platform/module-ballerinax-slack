@@ -59,7 +59,7 @@ UpdateMessage updateMessageParams = {
 
 @test:Config {}
 function testGetConversationHistory() returns @tainted error? {
-    stream<MessageInfo,error>|error? resultStream = slackClient->getConversationHistory(channelName1);
+    stream<MessageInfo,error?>|error? resultStream = slackClient->getConversationHistory(channelName1);
     if (resultStream is stream<MessageInfo,error>) {        
         record {|MessageInfo value;|} res = check resultStream.next(); 
         test:assertEquals(res.value.'type, "message");
@@ -70,7 +70,7 @@ function testGetConversationHistory() returns @tainted error? {
 
 @test:Config {}
 function testGetConversationMembers() returns error? {
-    stream<string,error>|error? resultStream = slackClient->getConversationMembers(channelName1);
+    stream<string,error?>|error? resultStream = slackClient->getConversationMembers(channelName1);
     if (resultStream is stream<string,error>) {   
         error? e = resultStream.forEach(isolated function (string memberId) {});
         if (e is error) {

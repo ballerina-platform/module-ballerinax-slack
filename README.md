@@ -22,12 +22,12 @@ Slack Events.
 
 * Java 11 Installed - Java Development Kit (JDK) with version 11 is required.
 
-* Ballerina SL Alpha 5 Installed - Ballerina Swan Lake Alpha 5 is required. 
+* Ballerina SL Beta 3 Installed - Ballerina Swan Lake Beta 3 is required. 
 
 ## Supported Versions
 |                             |           Version           |
 |:---------------------------:|:---------------------------:|
-| Ballerina Language          |        Swan Lake Alpha 5    |
+| Ballerina Language          |        Swan Lake Beta 3     |
 
 ## Obtaining Slack User OAuth Token
 1. Visit https://api.slack.com/apps and create a Slack App.
@@ -240,11 +240,11 @@ service /slack on slackListener {
 
         > **Note:** Set the JAVA_HOME environment variable to the path name of the directory into which you installed JDK.
 
-2. Download and install [Ballerina SL Alpha 5](https://ballerina.io/). 
+2. Download and install [Ballerina SL Beta 3](https://ballerina.io/). 
 
 ### Building the Source
 
-Execute the commands below to build from the source after installing Ballerina SL Alpha 5.
+Execute the commands below to build from the source after installing Ballerina SL Beta 3.
 
 1. To build the ballerina package:
 ```shell script
