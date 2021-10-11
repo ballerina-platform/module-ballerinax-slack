@@ -1,11 +1,11 @@
 [package]
 org= "ballerinax"
 name= "slack"
-version= "0.9.9-SNAPSHOT"
+version= "2.0.0"
 export= ["slack", "slack.listener"]
 license= ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = ["communication/team chat", "cost/freemium"]
+keywords = ["Communication/Team Chat", "Cost/Freemium"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-slack"
 
 [[platform.java11.dependency]]
