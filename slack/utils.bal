@@ -125,7 +125,7 @@ isolated function getConversationInfo(http:Client slackClient, string channelId,
                                       boolean? memberCount = false) returns @tainted Channel|error {
     string url = GET_CONVERSATION_INFO_PATH + channelId + INCLUDE_LOCALE + includeLocale.toString() + 
                     INCLUDE_NUM_MEMBERS + memberCount.toString();
-    http:Response|http:PayloadType|error response = slackClient->get(url);
+    http:Response|error response = slackClient->get(url);
     if (response is error) {
         return setResError(response);
     } else {

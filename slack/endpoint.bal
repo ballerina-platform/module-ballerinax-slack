@@ -18,9 +18,9 @@ import ballerina/http;
 
 # Client for Slack connector.  
 @display {label: "Slack", iconPath: "logo.png"}
-public client class Client {
+public isolated client class Client {
     private map<string> channelIdMap = {};
-    private http:Client slackClient;
+    private final http:Client slackClient;
 
     public isolated function init(Configuration config) returns error? {
         http:ClientSecureSocket? socketConfig = config?.secureSocketConfig;
@@ -29,6 +29,12 @@ public client class Client {
             auth: config.bearerTokenConfig,
             secureSocket: socketConfig
         });
+    }
+
+    private isolated function getChannelIdMap() returns map<string> {
+        lock {
+            return self.channelIdMap.cloneReadOnly();
+        }
     }
 
     // Conversation specific functions
@@ -356,11 +362,13 @@ public client class Client {
     # + channelName - Name of the Channel
     # + return - Channel Id if it is a success or an error if it is a failure
     private isolated function resolveChannelId(string channelName) returns @tainted string|error {
-        if (self.channelIdMap.hasKey(channelName)) {
-            return self.channelIdMap.get(channelName);
+        if (self.getChannelIdMap().hasKey(channelName)) {
+            return self.getChannelIdMap().get(channelName);
         }
         string channelId = check getChannelId(self.slackClient, channelName);
-        self.channelIdMap[channelName] = channelId;
+        lock {
+            self.channelIdMap[channelName] = channelId;
+        }
         return channelId;
     }
 }
