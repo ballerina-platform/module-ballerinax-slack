@@ -84,5 +84,5 @@ const string LATEST = "&latest=";
 const string OLDEST = "&oldest=";
 const string CURSOR = "&cursor=";
 const string INCLUSIVE = "&inclusive=true";
-const string TYPES = "types=";
+const string TYPES = "&types=";
 const string UTF8 = "UTF8";
