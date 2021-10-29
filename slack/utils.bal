@@ -376,12 +376,8 @@ isolated function getFileInfo(http:Client slackClient, string fileId) returns @t
     string url = GET_FILE_INFO_PATH + fileId;
     http:Response response = check slackClient->get(url);
     json fileInfo = check response.getJsonPayload();
-    var checkOk = check checkOk(fileInfo);
-    var file = fileInfo.file;
-    if (file is error) {
-        return setJsonResError(file);
-    }
-    json fileJson = <json> check file;
+    check checkOk(fileInfo);
+    json fileJson = <json> check fileInfo.file;
     convertJsonToCamelCase(fileJson);
     var fileRec = fileJson.cloneWithType(FileInfo);
     if (fileRec is error) {
