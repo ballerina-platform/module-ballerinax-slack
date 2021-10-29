@@ -19,6 +19,7 @@ import ballerina/jballerina.java;
 isolated class HttpToSlackAdaptor {
     isolated function init(SimpleHttpService serviceObj) returns error? {
         externInit(self, serviceObj);
+        return;
     }
 
     // App Events

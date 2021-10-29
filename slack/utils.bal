@@ -48,7 +48,8 @@ isolated function unArchiveConversation(http:Client slackClient, string channelI
 isolated function handleArchiveResponse(http:Client slackClient, string url) returns @tainted error? {
     http:Response response = check slackClient->post(url, EMPTY_STRING);
     json payload = check response.getJsonPayload();
-    var checkOk = check checkOk(payload);       
+    var checkOk = check checkOk(payload);   
+    return;    
 }
 
 isolated function getUserIds(http:Client slackClient, string[] users) returns @tainted string|error {
@@ -280,6 +281,7 @@ isolated function checkOk(json respPayload) returns error? {
             return error(errorRes.toString());
         }
     }
+    return;
 }
 
 isolated function deleteMessage(http:Client slackClient, string channelId, string threadTs) returns @tainted error? {
@@ -408,6 +410,7 @@ isolated function handleOkResp(http:Client slackClient, string url) returns @tai
     http:Response response = check slackClient->post(url, EMPTY_STRING);
     json payload = check response.getJsonPayload();
     error? checkOkResp = checkOk(payload);
+    return;
 }
 
 isolated function setResError(error errorResponse) returns error {

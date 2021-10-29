@@ -68,6 +68,7 @@ function testGetConversationHistory() returns error? {
     } else {
         test:assertFail("Error in getting stream");
     }
+    return;
 }
 
 @test:Config {}
@@ -77,6 +78,7 @@ function testGetConversationMembers() returns error? {
     if (e is error) {
         test:assertFail(e.message());
     }
+    return;
 }
 
 @test:Config {dependsOn: [testGetConversationMembers]}

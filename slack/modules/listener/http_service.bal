@@ -104,6 +104,7 @@ isolated service class HttpService {
         } else {
             return error("Unidentified Request Type");
         }
+        return;
     }
 
     # Handle App related events.
@@ -115,6 +116,7 @@ isolated service class HttpService {
         if (self.isOnAppMentionAvailable && eventType == "app_mention") {
             check self.adaptor.callOnAppMention(slackEvent);
         }
+        return;
     }
 
     # Handle Channel related events.
@@ -126,6 +128,7 @@ isolated service class HttpService {
         if (self.isOnChannelCreatedAvailable && eventType == "channel_created") {
             check self.adaptor.callOnChannelCreated(slackEvent);
         }
+        return;
     }
 
     # Handle Emoji related events.
@@ -137,6 +140,7 @@ isolated service class HttpService {
         if (self.isOnEmojiChangedAvailable && eventType == "emoji_changed") {
             check self.adaptor.callOnEmojiChanged(slackEvent);
         }
+        return;
     }
 
     # Handle File related events.
@@ -148,6 +152,7 @@ isolated service class HttpService {
         if (self.isOnFileSharedAvailable && eventType == "file_shared") {
             check self.adaptor.callOnFileShared(slackEvent);
         } 
+        return;
     }
 
     # Handle Member related events.
@@ -159,6 +164,7 @@ isolated service class HttpService {
         if (self.isOnMemberJoinedChannelAvailable && eventType == "member_joined_channel") {
             check self.adaptor.callOnMemberJoinedChannel(slackEvent);
         }
+        return;
     }
 
     # Handle Reaction related events.
@@ -170,6 +176,7 @@ isolated service class HttpService {
         if (self.isOnReactionAddedAvailable && eventType == "reaction_added") {
             check self.adaptor.callOnReactionAdded(slackEvent);
         }
+        return;
     }
 
     # Handle Team related events.
@@ -181,6 +188,7 @@ isolated service class HttpService {
         if (self.isOnTeamJoinAvailable && eventType == "team_join") {
             check self.adaptor.callOnTeamJoin(slackEvent);
         }
+        return;
     }
 
     # Respond to the URL verification request with the challenge in the payload.
@@ -194,6 +202,7 @@ isolated service class HttpService {
         response.setPayload({challenge: check <@untainted>payload.challenge});
         check caller->respond(response);
         log:printInfo("Request URL Verified");
+        return;
     }
 }
 
