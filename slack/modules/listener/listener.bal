@@ -33,12 +33,14 @@ public class Listener {
     public isolated function init(ListenerConfiguration config) returns error? {
         self.httpListener = check new (config.port);
         self.verificationToken = config.verificationToken;
+        return;
     }
 
     public isolated function attach(SimpleHttpService s, string[]|string? name = ()) returns @tainted error? {
         HttpToSlackAdaptor adaptor = check new (s);
         self.httpService = new HttpService(adaptor, self.verificationToken);
         check self.httpListener.attach(self.httpService, name);
+        return;
     }
 
     public isolated function detach(service object {} s) returns error? {

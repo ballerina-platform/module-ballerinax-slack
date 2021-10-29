@@ -30,6 +30,7 @@ public isolated client class Client {
     # + config - Configuration required to initialize the `Client` endpoint
     public isolated function init(ConnectionConfig config) returns error? {
         self.slackClient =  check new (BASE_URL, config);
+        return;
     }
 
     private isolated function getChannelIdMap() returns map<string> {

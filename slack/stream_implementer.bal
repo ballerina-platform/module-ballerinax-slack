@@ -34,6 +34,7 @@ class ConversationHistoryStream {
         self.endOfTimeRange = endOfTimeRange;
         self.nextCursor = ();
         self.currentEntries =  check self.fetchMessages();
+        return;
     }
 
     public isolated function next() returns @tainted record {| MessageInfo value; |}|error? {
@@ -50,6 +51,7 @@ class ConversationHistoryStream {
             self.index += 1;
             return message;
         }
+        return;
     }
 
     isolated function fetchMessages() returns @tainted MessageInfo[]|error {
@@ -93,6 +95,7 @@ class ConversationMembersStream {
         self.channelId = channelId;
         self.nextCursor = ();
         self.currentEntries =  check self.fetchMembers();
+        return;
     }
 
     public isolated function next() returns @tainted record {| string value; |}|error? {
@@ -109,6 +112,7 @@ class ConversationMembersStream {
             self.index += 1;
             return member;
         }
+        return;
     }
 
     isolated function fetchMembers() returns @tainted string[]|error {
