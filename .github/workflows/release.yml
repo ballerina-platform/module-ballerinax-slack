@@ -26,7 +26,7 @@ jobs:
               uses: ballerina-platform/ballerina-action/@master
               with:
                   args:
-                      build -c --skip-tests ./slack
+                      pack ./slack
               env:
                   SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
                   SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}

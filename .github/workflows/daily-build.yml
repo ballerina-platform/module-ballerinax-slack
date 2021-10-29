@@ -40,7 +40,7 @@ jobs:
               uses: ballerina-platform/ballerina-action/@nightly
               with:
                   args:
-                      build -c 
+                      pack --with-tests
               env:
                 JAVA_HOME: /usr/lib/jvm/default-jvm
                 SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
