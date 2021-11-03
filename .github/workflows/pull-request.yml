@@ -24,7 +24,15 @@ jobs:
               uses: ballerina-platform/ballerina-action/@nightly
               with:
                   args:
-                      pack --with-tests
+                      pack
+              env:
+                  JAVA_HOME: /usr/lib/jvm/default-jvm
+                  WORKING_DIR: ./slack
+            - name: Ballerina Test
+              uses: ballerina-platform/ballerina-action/@nightly
+              with:
+                  args:
+                      test
               env:
                   JAVA_HOME: /usr/lib/jvm/default-jvm
                   SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}

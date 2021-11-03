@@ -35,12 +35,12 @@ Execute the commands below to build from the source.
 
 2. To build the ballerina package:
 ```shell script
-    bal pack --with-tests ./slack
+    bal pack ./slack
 ```
 
-3. To build the ballerina package without the tests:
+3. To run tests after build:
 ```shell script
-    bal build ./slack
+    bal test ./slack
 ```
 
 ## Contributing to Ballerina

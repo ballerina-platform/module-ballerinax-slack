@@ -35,12 +35,23 @@ jobs:
                 JAVA_OPTS: -DBALLERINA_DEV_COMPILE_BALLERINA_ORG=true
               run: |
                 ./gradlew build
+
             # Build the ballerina project
             - name: Ballerina Build
               uses: ballerina-platform/ballerina-action/@nightly
               with:
                   args:
-                      pack --with-tests
+                      pack
+              env:
+                JAVA_HOME: /usr/lib/jvm/default-jvm
+                WORKING_DIR: ./slack
+
+            # Test the ballerina project
+            - name: Ballerina Test
+              uses: ballerina-platform/ballerina-action/@nightly
+              with:
+                  args:
+                      test
               env:
                 JAVA_HOME: /usr/lib/jvm/default-jvm
                 SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
