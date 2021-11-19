@@ -18,6 +18,8 @@ import ballerina/http;
 import ballerina/log;
 
 isolated service class HttpService {
+    *http:Service;
+    
     private final boolean isOnAppMentionAvailable;
     private final boolean isOnChannelCreatedAvailable;
     private final boolean isOnEmojiChangedAvailable;

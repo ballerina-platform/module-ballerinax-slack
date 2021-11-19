@@ -21,7 +21,7 @@ import ballerina/http;
 public class Listener {
     private http:Listener httpListener;
     private string verificationToken;
-    private HttpService httpService;
+    private HttpService? httpService;
 
     # Initializes the Slack Listener. During initialization, you have to pass Slack Verification token and port.
     # Visit https://api.slack.com/apps, create your own Slack App and enable Event Subscription by going to 
@@ -33,18 +33,23 @@ public class Listener {
     public isolated function init(ListenerConfiguration config) returns error? {
         self.httpListener = check new (config.port);
         self.verificationToken = config.verificationToken;
+        self.httpService = ();
         return;
     }
 
     public isolated function attach(SimpleHttpService s, string[]|string? name = ()) returns @tainted error? {
         HttpToSlackAdaptor adaptor = check new (s);
-        self.httpService = new HttpService(adaptor, self.verificationToken);
-        check self.httpListener.attach(self.httpService, name);
+        HttpService currentHttpService = new HttpService(adaptor, self.verificationToken);
+        self.httpService = currentHttpService;
+        check self.httpListener.attach(currentHttpService, name);
         return;
     }
 
-    public isolated function detach(service object {} s) returns error? {
-        return self.httpListener.detach(s);
+    public isolated function detach(SimpleHttpService s) returns error? {
+        HttpService? currentHttpService = self.httpService;
+        if currentHttpService is HttpService {
+            return self.httpListener.detach(currentHttpService);
+        }
     }
 
     public isolated function 'start() returns error? {
