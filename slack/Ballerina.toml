@@ -6,6 +6,7 @@ export= ["slack", "slack.listener"]
 license= ["Apache-2.0"]
 authors = ["Ballerina"]
 keywords = ["Communication/Team Chat", "Cost/Freemium"]
+icon = "icon.png"
 repository = "https://github.com/ballerina-platform/module-ballerinax-slack"
 
 [[platform.java11.dependency]]
