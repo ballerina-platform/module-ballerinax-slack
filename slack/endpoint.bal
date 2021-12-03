@@ -18,7 +18,7 @@ import ballerina/http;
 
 # Ballerina Slack connector provides the capabiliy to access Slack Web API.
 # This connector lets you access the Slack Web API using a Slack User Oath token.
-@display {label: "Slack", iconPath: "resources/slack.png"}
+@display {label: "Slack", iconPath: "icon.png"}
 public isolated client class Client {
     private map<string> channelIdMap = {};
     private final http:Client slackClient;
