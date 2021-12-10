@@ -23,7 +23,7 @@ isolated function getChannelId(http:Client slackClient, string channelName) retu
     http:Response response = check slackClient->get(LIST_CONVERSATIONS_PATH);
     json channelList = check response.getJsonPayload();
     map<json> channelListJson = <map<json>> channelList;
-    var checkOkResp = check checkOk(channelListJson);
+    _ = check checkOk(channelListJson);
     json channels = check channelListJson.channels;
 
     json[] channelsArr = <json[]> channels;
@@ -48,7 +48,7 @@ isolated function unArchiveConversation(http:Client slackClient, string channelI
 isolated function handleArchiveResponse(http:Client slackClient, string url) returns @tainted error? {
     http:Response response = check slackClient->post(url, EMPTY_STRING);
     json payload = check response.getJsonPayload();
-    var checkOk = check checkOk(payload);   
+    _ = check checkOk(payload);   
     return;    
 }
 
@@ -57,7 +57,7 @@ isolated function getUserIds(http:Client slackClient, string[] users) returns @t
     http:Response response = check slackClient->get(LIST_USERS_PATH);
     json payload = check response.getJsonPayload();
     map<json> jsonPayload = <map<json>> payload;
-    var checkOk = check checkOk(jsonPayload);
+    _ = check checkOk(jsonPayload);
     json members = check jsonPayload.members;
     json[] memberList = <json[]> members;
     foreach var user in users {
@@ -78,7 +78,7 @@ isolated function getUserId(http:Client slackClient, string user) returns @taint
     http:Response response = check slackClient->get(LIST_USERS_PATH);
     json payload = check response.getJsonPayload();
     map<json> jsonPayload = <map<json>> payload;
-    var checkOk = check checkOk(jsonPayload);
+    _ = check checkOk(jsonPayload);
     json members = check jsonPayload.members;
     json[] memArr = <json[]> members;
     foreach var member in memArr {
@@ -103,7 +103,7 @@ isolated function listConversationsOfUser(http:Client slackClient, string user, 
     }
     http:Response response = check slackClient->get(url);
     json payload = check response.getJsonPayload();
-    var checkOk = check checkOk(payload);
+    _ = check checkOk(payload);
     return mapConversationInfo(payload);      
 }
 
@@ -118,7 +118,7 @@ isolated function inviteUsersToConversation(http:Client slackClient, string chan
     string url = INVITE_USERS_TO_CHANNEL_PATH + channelId + USER_IDS_ARG + users;
     http:Response response = check slackClient->post(url, EMPTY_STRING);
     json payload = check response.getJsonPayload();
-    var checkOk = check checkOk(payload);
+    _ = check checkOk(payload);
     return mapChannelInfo(response);
 }
 
@@ -189,7 +189,7 @@ isolated function updateMessage(http:Client slackClient, string channelId, Updat
 isolated function handlePostMessage(http:Client slackClient, string url) returns @tainted string|error {
     http:Response response = check slackClient->post(<@untainted> url, EMPTY_STRING);
     json payload = check response.getJsonPayload();
-    var okResp = check checkOk(payload);
+    _ = check checkOk(payload);
     json threadId = check payload.ts;
     return threadId.toString();
 }
@@ -248,7 +248,7 @@ isolated function getUserInfo(http:Client slackClient, string userId) returns @t
     string url = GET_USER_INFO_PATH + userId;
     http:Response response = check slackClient->get(url);
     json userInfo = check response.getJsonPayload();
-    var checkOk = check checkOk(userInfo);
+    _ = check checkOk(userInfo);
     json user = check userInfo.user;
     convertJsonToCamelCase(user);
     var  userRec = user.cloneWithType(User);
@@ -322,7 +322,7 @@ isolated function listFiles(http:Client slackClient, string? channelId, int? cou
     }         
     http:Response response = check slackClient->post(url, EMPTY_STRING);
     json fileList = check response.getJsonPayload();
-    var checkOk = check checkOk(fileList);
+    _  = check checkOk(fileList);
     json files = check fileList.files;
     json[] fileJson = <json[]> files;
     convertJsonArrayToCamelCase(fileJson);
@@ -363,7 +363,7 @@ isolated function uploadFile(string filePath, http:Client slackClient, string? c
 
     json fileInfo = check response.getJsonPayload();
     json fileInfoPayload = fileInfo;  
-    var checkOk = check checkOk(fileInfoPayload);    
+    _ = check checkOk(fileInfoPayload);    
     json file = check fileInfoPayload.file;
     convertJsonToCamelCase(file);
     var fileRec = file.cloneWithType(FileInfo);
@@ -409,7 +409,7 @@ isolated function getFileName(string filePath) returns string {
 isolated function handleOkResp(http:Client slackClient, string url) returns @tainted error? {
     http:Response response = check slackClient->post(url, EMPTY_STRING);
     json payload = check response.getJsonPayload();
-    error? checkOkResp = checkOk(payload);
+    _ = check checkOk(payload);
     return;
 }
 
@@ -426,7 +426,7 @@ isolated function convertJsonToCamelCase(json req) {
     foreach var [key, value] in mapValue.entries() {
         string converted = convertToCamelCase(key);
         if (converted != key) {
-            any|error removeResult = mapValue.remove(key);
+            _ = mapValue.remove(key);
             mapValue[converted] = value;
         }
         if (value is json[]) {
