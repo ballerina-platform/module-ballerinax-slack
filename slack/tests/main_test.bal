@@ -191,7 +191,7 @@ function testDeleteFile() {
 function testRemoveUser() {
     var response = slackClient->removeUserFromConversation(channelName1, slackUserName);
     if (response is error) {
-        test:assertEquals(response.toString(), "error cant_kick_self ");
+        test:assertTrue(response.toString().includes("cant_kick_self"));
     }
 }
 
