@@ -9,7 +9,7 @@ It provides the capability to query information and perform some actions in a Sl
 ### Compatibility
 |                             |           Version           |
 |:---------------------------:|:---------------------------:|
-| Ballerina Language          |  Ballerina Swan Lake Beta3  |
+| Ballerina Language          |  Ballerina Swan Lake Beta6  |
 
 ## Report issues
 To report bugs, request new features, start new discussions, view project boards, etc., go to the [Ballerina Extended Library repository](https://github.com/ballerina-platform/ballerina-extended-library)
