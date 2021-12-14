@@ -152,7 +152,7 @@ isolated function postMessage(http:Client slackClient, string channelId, Message
 
 isolated function createQuery(Message|UpdateMessage message) returns string {  
     string queryString = "";  
-    foreach [string, any] [key, value] in message.entries() {
+    foreach [string, anydata] [key, value] in (<map<anydata>>message).entries() {
         if (key != CHANNEL_NAME) {
             if (key == BLOCKS || key == ATTACHMENTS) {
                 queryString = queryString + AND + fillWithUnderscore(key) + EQUAL + getEncodedUri(value.toJsonString());
