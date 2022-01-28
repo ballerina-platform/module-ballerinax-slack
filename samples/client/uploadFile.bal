@@ -28,10 +28,6 @@ public function main() returns error? {
     slack:Client slackClient = check new(slackConfig);
 
     // Upload a file to a channel.
-    var fileResponse = slackClient->uploadFile("filePath", "channelName");
-    if (fileResponse is error) {
-        log:printError(fileResponse.toString());
-    } else {
-        log:printInfo("Uploaded file " + fileResponse.id);
-    }
+    slack:FileInfo fileResponse = check slackClient->uploadFile("filePath", "channelName");
+    log:printInfo(fileResponse.toString());
 }

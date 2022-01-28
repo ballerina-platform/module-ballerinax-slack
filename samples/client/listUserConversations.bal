@@ -28,10 +28,6 @@ public function main() returns error? {
     slack:Client slackClient = check new(slackConfig);
 
     // List User Conversations.
-    var response = slackClient->listUserConversations(noOfItems = 10, types = "public_channel", user = "user name");
-    if (response is error) {
-        log:printError(response.toString());
-    } else {
-        log:printInfo(response.toString());
-    }
+    slack:Conversations response = check slackClient->listUserConversations(noOfItems = 10, types = "public_channel", user = "user name");
+    log:printInfo(response.toString());
 }

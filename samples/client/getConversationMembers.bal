@@ -28,11 +28,8 @@ public function main() returns error? {
     slack:Client slackClient = check new(slackConfig);
 
     // Get members of a channel.
-    stream<string,error?> resultStream = check slackClient->getConversationMembers("channelName", 
-            "<startOfTimeRange in epoch>", "<endOfTimeRange in epoch>");
-    if (resultStream is stream<string,error?>) {        
-        error? e = resultStream.forEach(isolated function (string memberId) {
-            log:printInfo(memberId);
-        });
-    }
+    stream<string,error?> resultStream = check slackClient->getConversationMembers("channelName");
+    check resultStream.forEach(isolated function (string memberId) {
+        log:printInfo(memberId);
+    });
 }

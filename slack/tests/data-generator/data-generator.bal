@@ -84,7 +84,7 @@ public function main() returns error? {
 function generateMessageInfoData() returns error? {
     log:printInfo("SampleDataGenerator -> generateMessageInfoData()");
     stream<slack:MessageInfo,error>|error? resultStream = slackClient->getConversationHistory(channelName1);
-    if (resultStream is stream<slack:MessageInfo,error>) {        
+    if resultStream is stream<slack:MessageInfo,error> {        
         record {|slack:MessageInfo value;|} res1 = check resultStream.next();
         record {|slack:MessageInfo value;|} res2 = check resultStream.next();
         record {|slack:MessageInfo value;|} res3 = check resultStream.next();
@@ -133,9 +133,9 @@ function generateUserData() returns error? {
 
 function generateFileInfoData() returns error? {
     log:printInfo("SampleDataGenerator -> generateFileInfoData()");
-    var res1 = check slackClient->uploadFile(MessageInfo);
-    var res2 = check slackClient->uploadFile(Channel);
-    var res3 = check slackClient->uploadFile(User);
+    slack:FileInfo res1 = check slackClient->uploadFile(MessageInfo);
+    slack:FileInfo res2 = check slackClient->uploadFile(Channel);
+    slack:FileInfo res3 = check slackClient->uploadFile(User);
 
     string array = SQUARE_BRACKET_LEFT + res1.toJsonString() + COMMA 
                                 + res2.toJsonString() + COMMA + res3.toJsonString() 

@@ -28,10 +28,7 @@ public function main() returns error? {
     slack:Client slackClient = check new(slackConfig);
 
     // List files from a Channel.
-    var fileList = slackClient->listFiles("channelName");
-    if (fileList is error) {
-        log:printError(fileList.toString());
-    } else {
-        log:printInfo(fileList.toString());
-    }
+    slack:FileInfo[] fileList = check slackClient->listFiles("channelName");
+    log:printInfo(fileList.toString());
+    
 }

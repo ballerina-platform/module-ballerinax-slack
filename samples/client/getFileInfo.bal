@@ -28,10 +28,6 @@ public function main() returns error? {
     slack:Client slackClient = check new(slackConfig);
 
     // Get file information.
-    var fileInfo = slackClient->getFileInfo("fileId");
-    if (fileInfo is error) {
-        log:printError(fileInfo.toString());
-    } else {
-        log:printInfo(fileInfo.toString());
-    }
+    slack:FileInfo fileInfo = check slackClient->getFileInfo("fileId");
+    log:printInfo(fileInfo.toString());
 }

@@ -14,7 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/log;
 import ballerinax/slack;
 import ballerina/os;
 
@@ -28,8 +27,5 @@ public function main() returns error? {
     slack:Client slackClient = check new(slackConfig);
 
     // Join conversation.
-    var response = slackClient->joinConversation("channelName");
-    if (response is error) {
-        log:printError(response.toString());
-    }
+    check slackClient->joinConversation("channelName");
 }

@@ -38,13 +38,13 @@ class ConversationHistoryStream {
     }
 
     public isolated function next() returns @tainted record {| MessageInfo value; |}|error? {
-        if (self.index < self.currentEntries.length()) {
+        if self.index < self.currentEntries.length() {
             record {| MessageInfo value; |} message = {value: self.currentEntries[self.index]};
             self.index += 1;
             return message;
         }
 
-        if (self.nextCursor is string) {
+        if self.nextCursor is string {
             self.index = 0;
             self.currentEntries = check self.fetchMessages();
             record {| MessageInfo value; |} message = {value: self.currentEntries[self.index]};
@@ -56,16 +56,16 @@ class ConversationHistoryStream {
 
     isolated function fetchMessages() returns @tainted MessageInfo[]|error {
         string url = GET_CONVERSATION_HISTORY_PATH + self.channelId;
-        if (self.nextCursor is string) {
+        if self.nextCursor is string {
             url = url + CURSOR + self.nextCursor.toString();
         }
-        if (self.startOfTimeRange is string) {
+        if self.startOfTimeRange is string {
             url = url + OLDEST + self.startOfTimeRange.toString();
         }
-        if (self.endOfTimeRange is string) {
+        if self.endOfTimeRange is string {
             url = url + LATEST + self.endOfTimeRange.toString();
         }
-        if (self.startOfTimeRange is string || self.endOfTimeRange is string) {
+        if self.startOfTimeRange is string || self.endOfTimeRange is string {
             url = url + INCLUSIVE;
         }
         http:Response response = check self.httpClient->get(url); 
@@ -73,7 +73,7 @@ class ConversationHistoryStream {
         _ = check checkOk(payload); 
         convertJsonToCamelCase(payload);
         ConversationHistoryResponse res = check payload.cloneWithType(ConversationHistoryResponse);
-        if (res.hasMore === true) {
+        if res.hasMore === true {
             var responseMetadata = check payload.responseMetadata;
             self.nextCursor = check responseMetadata.nextCursor;
         } else {
@@ -99,13 +99,13 @@ class ConversationMembersStream {
     }
 
     public isolated function next() returns @tainted record {| string value; |}|error? {
-        if (self.index < self.currentEntries.length()) {
+        if self.index < self.currentEntries.length() {
             record {| string value; |} member = {value: self.currentEntries[self.index]};
             self.index += 1;
             return member;
         }
 
-        if (self.nextCursor is string) {
+        if self.nextCursor is string {
             self.index = 0;
             self.currentEntries = check self.fetchMembers();
             record {| string value; |} member = {value: self.currentEntries[self.index]};
@@ -117,7 +117,7 @@ class ConversationMembersStream {
 
     isolated function fetchMembers() returns @tainted string[]|error {
         string url = GET_CONVERSATION_MEMBERS_PATH + self.channelId;
-        if (self.nextCursor is string) {
+        if self.nextCursor is string {
             url = url + CURSOR + self.nextCursor.toString();
         }
         http:Response response = check self.httpClient->get(url); 
@@ -126,7 +126,7 @@ class ConversationMembersStream {
         convertJsonToCamelCase(payload);
         ConversationMembersResponse res = check payload.cloneWithType(ConversationMembersResponse);
         string nextCursor = res.responseMetadata.nextCursor;
-        if (nextCursor !== EMPTY_STRING) {
+        if nextCursor !== EMPTY_STRING {
             self.nextCursor = nextCursor;
         } else {
             self.nextCursor = ();
