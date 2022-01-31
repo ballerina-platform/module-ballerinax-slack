@@ -47,7 +47,7 @@ isolated service class HttpService {
         self.isOnReactionAddedAvailable = isMethodAvailable("onReactionAdded", methodNames);
         self.isOnTeamJoinAvailable = isMethodAvailable("onTeamJoin", methodNames);
 
-        if (methodNames.length() > 0) {
+        if methodNames.length() > 0 {
             foreach string methodName in methodNames {
                 log:printError("Unrecognized method [" + methodName + "] found in user implementation."); 
             }
@@ -63,13 +63,13 @@ isolated service class HttpService {
         json payload = check request.getJsonPayload();
         string eventOrVerification = check payload.'type;
 
-        if (payload.token !== self.verificationToken) {
+        if payload.token !== self.verificationToken {
             return error("Verification token mismatch");
         }
 
-        if (eventOrVerification == URL_VERIFICATION) {
+        if eventOrVerification == URL_VERIFICATION {
             check self.verifyURL(caller, payload);
-        } else if (eventOrVerification == EVENT_CALLBACK) {
+        } else if eventOrVerification == EVENT_CALLBACK {
             http:Response response = new;
             response.statusCode = http:STATUS_OK;
 
@@ -77,28 +77,28 @@ isolated service class HttpService {
             string eventType = eventTypeJson.toString();
 
             // Handle the events based on the category of the event.
-            if (eventType.startsWith("app_")) {
+            if eventType.startsWith("app_") {
                 AppMentionEvent slackEvent = check payload.cloneWithType(AppMentionEvent);
                 check self.handleAppEvents(eventType, slackEvent);
-            } else if (eventType.startsWith("channel_")) {
+            } else if eventType.startsWith("channel_") {
                 ChannelCreatedEvent slackEvent = check payload.cloneWithType(ChannelCreatedEvent);
                 check self.handleChannelEvents(eventType, slackEvent);
-            } else if (eventType.startsWith("emoji_")) {
+            } else if eventType.startsWith("emoji_") {
                 EmojiChangedEvent slackEvent = check payload.cloneWithType(EmojiChangedEvent);
                 check self.handleEmojiEvents(eventType, slackEvent);
-            } else if (eventType.startsWith("file_")) {
+            } else if eventType.startsWith("file_") {
                 FileSharedEvent slackEvent = check payload.cloneWithType(FileSharedEvent);
                 check self.handleFileEvents(eventType, slackEvent);
-            } else if (eventType.startsWith("member_")) {
+            } else if eventType.startsWith("member_") {
                 MemberJoinedChannelEvent slackEvent = check payload.cloneWithType(MemberJoinedChannelEvent);
                 check self.handleMemberEvents(eventType, slackEvent);
-            } else if (eventType == "message") {
+            } else if eventType == "message" {
                 MessageEvent slackEvent = check payload.cloneWithType(MessageEvent);
                 check self.adaptor.callOnMessage(slackEvent);
-            } else if (eventType.startsWith("reaction_")) {
+            } else if eventType.startsWith("reaction_") {
                 ReactionAddedEvent slackEvent = check payload.cloneWithType(ReactionAddedEvent);
                 check self.handleReactionEvents(eventType, slackEvent);
-            } else if (eventType.startsWith("team_")) {
+            } else if eventType.startsWith("team_") {
                 TeamJoinEvent slackEvent = check payload.cloneWithType(TeamJoinEvent);
                 check self.handleTeamEvents(eventType, slackEvent);
             }
@@ -115,7 +115,7 @@ isolated service class HttpService {
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
     isolated function handleAppEvents(string eventType, AppMentionEvent slackEvent) returns error? {
-        if (self.isOnAppMentionAvailable && eventType == "app_mention") {
+        if self.isOnAppMentionAvailable && eventType == "app_mention" {
             check self.adaptor.callOnAppMention(slackEvent);
         }
         return;
@@ -127,7 +127,7 @@ isolated service class HttpService {
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
     isolated function handleChannelEvents(string eventType, ChannelCreatedEvent slackEvent) returns error? {
-        if (self.isOnChannelCreatedAvailable && eventType == "channel_created") {
+        if self.isOnChannelCreatedAvailable && eventType == "channel_created" {
             check self.adaptor.callOnChannelCreated(slackEvent);
         }
         return;
@@ -139,7 +139,7 @@ isolated service class HttpService {
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
     isolated function handleEmojiEvents(string eventType, EmojiChangedEvent slackEvent) returns error? {
-        if (self.isOnEmojiChangedAvailable && eventType == "emoji_changed") {
+        if self.isOnEmojiChangedAvailable && eventType == "emoji_changed" {
             check self.adaptor.callOnEmojiChanged(slackEvent);
         }
         return;
@@ -151,7 +151,7 @@ isolated service class HttpService {
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
     isolated function handleFileEvents(string eventType, FileSharedEvent slackEvent) returns error? {
-        if (self.isOnFileSharedAvailable && eventType == "file_shared") {
+        if self.isOnFileSharedAvailable && eventType == "file_shared" {
             check self.adaptor.callOnFileShared(slackEvent);
         } 
         return;
@@ -163,7 +163,7 @@ isolated service class HttpService {
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
     isolated function handleMemberEvents(string eventType, MemberJoinedChannelEvent slackEvent) returns error? {
-        if (self.isOnMemberJoinedChannelAvailable && eventType == "member_joined_channel") {
+        if self.isOnMemberJoinedChannelAvailable && eventType == "member_joined_channel" {
             check self.adaptor.callOnMemberJoinedChannel(slackEvent);
         }
         return;
@@ -175,7 +175,7 @@ isolated service class HttpService {
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
     isolated function handleReactionEvents(string eventType, ReactionAddedEvent slackEvent) returns error? {
-        if (self.isOnReactionAddedAvailable && eventType == "reaction_added") {
+        if self.isOnReactionAddedAvailable && eventType == "reaction_added" {
             check self.adaptor.callOnReactionAdded(slackEvent);
         }
         return;
@@ -187,7 +187,7 @@ isolated service class HttpService {
     # + slackEvent - Slack event record
     # + return - Error if it is a failure
     isolated function handleTeamEvents(string eventType, TeamJoinEvent slackEvent) returns error? {
-        if (self.isOnTeamJoinAvailable && eventType == "team_join") {
+        if self.isOnTeamJoinAvailable && eventType == "team_join" {
             check self.adaptor.callOnTeamJoin(slackEvent);
         }
         return;
@@ -215,9 +215,9 @@ isolated service class HttpService {
 # + return - `true` if method available or else `false`
 isolated function isMethodAvailable(string methodName, string[] methods) returns boolean {
     boolean isAvailable = methods.indexOf(methodName) is int;
-    if (isAvailable) {
-        var index = methods.indexOf(methodName);
-        if (index is int) {
+    if isAvailable {
+        int? index = methods.indexOf(methodName);
+        if index is int {
             _ = methods.remove(index);
         }
     }

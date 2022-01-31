@@ -28,10 +28,6 @@ public function main() returns error? {
     slack:Client slackClient = check new(slackConfig);
 
     // Lookup user by email.
-    var userInfo = slackClient->lookupUserByEmail("email");
-    if (userInfo is slack:User) {
-        log:printInfo(userInfo.toString());
-    } else {
-        log:printError(userInfo.toString());
-    }
+    slack:User? userInfo = check slackClient->lookupUserByEmail("email");
+    log:printInfo(userInfo.toString());
 }

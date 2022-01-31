@@ -234,7 +234,7 @@ public isolated client class Client {
                                                    @display {label: "Username"} string? user = ()) returns @tainted 
                                                    @display {label: "Conversations"} Conversations|error {
         string resolvedUserId = EMPTY_STRING;
-        if (user is string) {
+        if user is string {
             resolvedUserId = check getUserId(self.slackClient, user);
         }
         return listConversationsOfUser(self.slackClient, <@untainted>resolvedUserId, excludeArchived, noOfItems, types);
@@ -327,10 +327,10 @@ public isolated client class Client {
                                        returns @tainted @display {label: "List of files"} FileInfo[]|error {
         string channelId = EMPTY_STRING;
         string userId = EMPTY_STRING;
-        if (channelName is string) {
+        if channelName is string {
             channelId = check self.resolveChannelId(channelName);
         }
-        if (user is string) {
+        if user is string {
             userId = check getUserId(self.slackClient, user);
         }
         return listFiles(self.slackClient, <@untainted>channelId, count, tsFrom, tsTo, types, <@untainted>userId);
@@ -351,7 +351,7 @@ public isolated client class Client {
                                         @display {label: "Initial Comment"} string? initialComment = (), 
                                         @display {label: "Thread Timestamp"} string? threadTs = ()) 
                                         returns @tainted @display {label: "File information"} FileInfo|error {
-        if (channelName is string) {
+        if channelName is string {
             string resolvedChannelId = check self.resolveChannelId(channelName);
             return uploadFile(filePath, self.slackClient, <@untainted>resolvedChannelId, title, initialComment, 
                 threadTs);
@@ -364,7 +364,7 @@ public isolated client class Client {
     # + channelName - Name of the Channel
     # + return - Channel Id if it is a success or an error if it is a failure
     private isolated function resolveChannelId(string channelName) returns @tainted string|error {
-        if (self.getChannelIdMap().hasKey(channelName)) {
+        if self.getChannelIdMap().hasKey(channelName) {
             return self.getChannelIdMap().get(channelName);  
         }
         string channelId = check getChannelId(self.slackClient, channelName);

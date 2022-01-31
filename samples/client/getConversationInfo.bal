@@ -28,10 +28,6 @@ public function main() returns error? {
     slack:Client slackClient = check new(slackConfig);
 
     // Get conversation information.
-    var conversationInfo = slackClient->getConversationInfo("channelName");
-    if (conversationInfo is error) {
-        log:printError(conversationInfo.toString());
-    } else {
-        log:printInfo(conversationInfo.toString());
-    }
+    slack:Channel conversationInfo = check slackClient->getConversationInfo("channelName");
+    log:printInfo(conversationInfo.toString());
 }

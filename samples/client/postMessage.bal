@@ -33,10 +33,6 @@ public function main() returns error? {
     };
 
     // Post a message to a channel.
-    var postResponse = slackClient->postMessage(messageParams);
-    if (postResponse is string) {
-        log:printInfo("Message sent");
-    } else {
-        log:printError(postResponse.toString());
-    }
+    string postResponse = check slackClient->postMessage(messageParams);
+    log:printInfo("Message sent" + postResponse);
 }
