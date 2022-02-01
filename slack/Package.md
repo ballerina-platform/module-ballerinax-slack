@@ -7,9 +7,9 @@ This package allows you to access the Slack Web API and Slack Events API through
 It provides the capability to query information and perform some actions in a Slack workspace. It also allows you to listen to Slack Events.
 
 ### Compatibility
-|                             |           Version           |
-|:---------------------------:|:---------------------------:|
-| Ballerina Language          |  Ballerina Swan Lake Beta6  |
+|                             |   Version          |
+|:---------------------------:|:------------------:|
+| Ballerina Language          | Swan Lake 2201.0.0 |
 
 ## Report issues
 To report bugs, request new features, start new discussions, view project boards, etc., go to the [Ballerina Extended Library repository](https://github.com/ballerina-platform/ballerina-extended-library)
