@@ -197,6 +197,14 @@ public isolated client class Client {
             <@untainted>channelId));
     }
 
+    # Gets name of a channel by id.
+    # 
+    # + channelId - Id of the channel
+    # + return - Name of the channel if it is a success or an error if it is a failure
+    remote isolated function getChannelName(string channelId) returns string|error {
+        return check getChannelName(self.slackClient, channelId);
+    }
+
     // User specific functions
 
     # Gets information about a user by username.
