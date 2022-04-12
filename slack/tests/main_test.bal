@@ -29,6 +29,7 @@ ConnectionConfig slackConfig = {
 Client slackClient = check new (slackConfig);
 
 string channelName1 = "test-slack-connector";
+string channelId1 = "C01K9E9M7QC";
 string channelName2 = "channel2";
 string fileId = "";
 string filePath = "tests/resources/test.txt";
@@ -122,6 +123,12 @@ function testGetConversationInfo() {
     if response is error {
         test:assertFail(msg = response.message());
     }
+}
+
+@test:Config {}
+function testGetChannelName() returns error? {
+    string channelName = check slackClient->getChannelName(channelId1);
+    test:assertEquals(channelName, channelName1);
 }
 
 @test:Config {}

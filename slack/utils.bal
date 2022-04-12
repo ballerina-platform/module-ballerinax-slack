@@ -134,6 +134,22 @@ isolated function getConversationInfo(http:Client slackClient, string channelId,
     }
 }
 
+isolated function getChannelName(http:Client slackClient, string channelId) returns string|error {
+    http:Response response = check slackClient->get(LIST_CONVERSATIONS_PATH);
+    json channelList = check response.getJsonPayload();
+    map<json> channelListJson = <map<json>> channelList;
+    _ = check checkOk(channelListJson);
+    json channels = check channelListJson.channels;
+
+    json[] channelsArr = <json[]> channels;
+    foreach json channel in channelsArr {
+        if channel.id == channelId {
+            return check channel.name.ensureType(string);
+        }
+    }
+    return error("Channel Id " + channelId + " does not exist");
+}
+
 isolated function lookupUserByEmail(http:Client slackClient, string email) returns @tainted User|error? {
     string url = LOOKUP_BY_EMAIL_PATH + email;
     http:Response response = check slackClient->get(url);
