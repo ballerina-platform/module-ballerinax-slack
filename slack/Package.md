@@ -4,7 +4,7 @@ Connects to Slack from Ballerina
 This is a [Ballerina](https://ballerina.io/) connector for Slack.
 
 This package allows you to access the Slack Web API and Slack Events API through Ballerina.
-It provides the capability to query information and perform some actions in a Slack workspace. It also allows you to listen to Slack Events.
+It provides the capability to query information and perform some actions in a Slack workspace.
 
 ### Compatibility
 |                             |   Version          |

@@ -8,11 +8,10 @@ Ballerina Slack Connector
 [Slack](https://api.slack.com/) is a channel-based messaging platform. With Slack, people can work together more effectively, connect all their software tools and services, and find the information they need to do their best work — all within a secure, enterprise-grade environment.
 
 This connector allows you to access the Slack Web API and Slack Events API through Ballerina.
-It provides the capability to query information from and perform some actions in a Slack workspace. It also allows you to listen to Slack Events such as `onMessage`, `onMemberJoinedChannel`, `onChannelCreated` and `onFileShared` etc.
+It provides the capability to query information from and perform some actions in a Slack workspace.
 
 For more information, go to the modules. 
 - [`slack`](slack/Module.md)
-- [`slack.listener`](slack/modules/listener/Module.md)
 
 ## Building from the source
 
@@ -28,17 +27,13 @@ For more information, go to the modules.
 
 Execute the commands below to build from the source.
 
-1. To build the Gradle project:
-```shell script
-    ./gradlew build
-```
 
-2. To build the ballerina package:
+1. To build the ballerina package:
 ```shell script
     bal pack ./slack
 ```
 
-3. To run tests after build:
+2. To run tests after build:
 ```shell script
     bal test ./slack
 ```
