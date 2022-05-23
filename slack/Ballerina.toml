@@ -2,16 +2,9 @@
 distribution = "2201.0.1"
 org= "ballerinax"
 name= "slack"
-version= "2.2.1"
-export= ["slack", "slack.listener"]
+version= "3.0.0"
 license= ["Apache-2.0"]
 authors = ["Ballerina"]
 keywords = ["Communication/Team Chat", "Cost/Freemium"]
 icon = "icon.png"
 repository = "https://github.com/ballerina-platform/module-ballerinax-slack"
-
-[[platform.java11.dependency]]
-path = "../java-wrapper/build/libs/java-wrapper-2.2.1.jar"
-groupId = "io.ballerinax.slack"
-artifactId = "java-wrapper"
-version = "2.2.1"
