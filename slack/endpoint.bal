@@ -29,7 +29,24 @@ public isolated client class Client {
     # 
     # + config - Configuration required to initialize the `Client` endpoint
     public isolated function init(ConnectionConfig config) returns error? {
-        self.slackClient =  check new (BASE_URL, config);
+        http:ClientConfiguration httpClientConfig = {
+            auth: config.auth,
+            httpVersion: config.httpVersion,
+            http1Settings: {...config.http1Settings},
+            http2Settings: config.http2Settings,
+            timeout: config.timeout,
+            forwarded: config.forwarded,
+            poolConfig: config.poolConfig,
+            cache: config.cache,
+            compression: config.compression,
+            circuitBreaker: config.circuitBreaker,
+            retryConfig: config.retryConfig,
+            responseLimits: config.responseLimits,
+            secureSocket: config.secureSocket,
+            proxy: config.proxy,
+            validation: config.validation
+        };
+        self.slackClient =  check new (BASE_URL, httpClientConfig);
         return;
     }
 
