@@ -1,8 +1,8 @@
 [package]
-distribution = "2201.0.1"
+distribution = "2201.2.0"
 org= "ballerinax"
 name= "slack"
-version= "3.0.0"
+version= "3.1.0"
 license= ["Apache-2.0"]
 authors = ["Ballerina"]
 keywords = ["Communication/Team Chat", "Cost/Freemium"]
