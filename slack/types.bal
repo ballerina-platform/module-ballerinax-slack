@@ -14,6 +14,18 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/http;
+import ballerinax/'client.config;
+
+# Represents the Slack Client Connector Endpoint configuration.
+#
+@display {label: "Connection Config"}
+public type ConnectionConfig record {|
+    *config:ConnectionConfig;
+    # Configurations related to client authentication
+    http:BearerTokenConfig auth;
+|};
+
 # Contains information about the channel topic.
 # 
 # + value - Value of the topic
