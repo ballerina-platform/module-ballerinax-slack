@@ -172,7 +172,7 @@ public type FileInfo record {
     string urlPrivate;
     string urlPrivateDownload;
     string permalink;
-    string permalinkPublic;
+    string permalinkPublic?;
     int lines;
     int linesMore;
     int commentsCount;
