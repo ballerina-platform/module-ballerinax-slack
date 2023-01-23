@@ -16,11 +16,15 @@
 
 import ballerina/os;
 import ballerina/test;
+import ballerina/log;
+import ballerina/lang.runtime;
 
 configurable string & readonly slackToken = os:getEnv("SLACK_TOKEN");
 configurable string & readonly slackUserName = os:getEnv("SLACK_USERNAME");
 
 const REMOVE_USER_ASSERT_RESPONSE_SEGMENT = "cant_kick_self";
+const RATE_LIMIT_RESPONSE_SEGMENT = "ratelimited";
+const decimal RATE_LIMITED_REQUESTS_RETRY_INTERVAL = 30;
 
 ConnectionConfig slackConfig = {
     auth: {
@@ -41,17 +45,21 @@ string userId = "";
 Message messageParams = {
     channelName: channelName1,
     text: "Hello",
-    attachments: [{
-        "pretext": "pre-hello",
-        "text": "text-world"
-    }],
-    blocks: [{
-        "type": "section",
-        "text": {
-            "type": "plain_text",
-            "text": "Hello world"
+    attachments: [
+        {
+            "pretext": "pre-hello",
+            "text": "text-world"
         }
-    }]
+    ],
+    blocks: [
+        {
+            "type": "section",
+            "text": {
+                "type": "plain_text",
+                "text": "Hello world"
+            }
+        }
+    ]
 };
 
 UpdateMessage updateMessageParams = {
@@ -62,9 +70,9 @@ UpdateMessage updateMessageParams = {
 
 @test:Config {}
 function testGetConversationHistory() returns error? {
-    stream<MessageInfo,error?>|error resultStream = slackClient->getConversationHistory(channelName1);
-    if resultStream is stream<MessageInfo,error?> {        
-        record {|MessageInfo value;|}|error? res = check resultStream.next(); 
+    stream<MessageInfo, error?>|error resultStream = slackClient->getConversationHistory(channelName1);
+    if resultStream is stream<MessageInfo, error?> {
+        record {|MessageInfo value;|}|error? res = check resultStream.next();
         if res is record {|MessageInfo value;|} {
             test:assertEquals(res.value.'type, "message");
         }
@@ -76,8 +84,9 @@ function testGetConversationHistory() returns error? {
 
 @test:Config {}
 function testGetConversationMembers() returns error? {
-    stream<string,error?>resultStream = check slackClient->getConversationMembers(channelName1);
-    error? e = resultStream.forEach(isolated function (string memberId) {});
+    stream<string, error?> resultStream = check slackClient->getConversationMembers(channelName1);
+    error? e = resultStream.forEach(isolated function(string memberId) {
+    });
     if e is error {
         test:assertFail(e.message());
     }
@@ -200,7 +209,13 @@ function testDeleteFile() {
 function testRemoveUser() {
     error? response = slackClient->removeUserFromConversation(channelName1, slackUserName);
     if response is error {
-        test:assertTrue(response.toString().includes(REMOVE_USER_ASSERT_RESPONSE_SEGMENT), 
+        if (response.message().includes(RATE_LIMIT_RESPONSE_SEGMENT)) {
+            log:printError("Request is rate limited while performing `testRemoveUser` " + response.toString()
+                + "Retrying after " + RATE_LIMITED_REQUESTS_RETRY_INTERVAL.toString() + " seconds");
+            runtime:sleep(RATE_LIMITED_REQUESTS_RETRY_INTERVAL);
+            return testRemoveUser();
+        }
+        test:assertTrue(response.toString().includes(REMOVE_USER_ASSERT_RESPONSE_SEGMENT),
         msg = "Reponse does not contain `" + REMOVE_USER_ASSERT_RESPONSE_SEGMENT + "`. Response received = " + response.toString());
     }
 }
@@ -264,9 +279,15 @@ function testJoinConversation() {
 
 @test:Config {}
 function testListUserConversations() {
-    Conversations|error response = slackClient->listUserConversations(noOfItems = 10, types = "public_channel", 
+    Conversations|error response = slackClient->listUserConversations(noOfItems = 10, types = "public_channel",
         user = slackUserName);
     if response is error {
+        if (response.message().includes(RATE_LIMIT_RESPONSE_SEGMENT)) {
+            log:printError("Request is rate limited while performing `testListUserConversations` " + response.toString()
+                + "Retrying after " + RATE_LIMITED_REQUESTS_RETRY_INTERVAL.toString() + " seconds");
+            runtime:sleep(RATE_LIMITED_REQUESTS_RETRY_INTERVAL);
+            return testListUserConversations();
+        }
         test:assertFail(msg = response.toString());
     }
 }
