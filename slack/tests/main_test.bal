@@ -20,6 +20,8 @@ import ballerina/test;
 configurable string & readonly slackToken = os:getEnv("SLACK_TOKEN");
 configurable string & readonly slackUserName = os:getEnv("SLACK_USERNAME");
 
+const REMOVE_USER_ASSERT_RESPONSE_SEGMENT = "cant_kick_self";
+
 ConnectionConfig slackConfig = {
     auth: {
         token: slackToken
@@ -198,7 +200,8 @@ function testDeleteFile() {
 function testRemoveUser() {
     error? response = slackClient->removeUserFromConversation(channelName1, slackUserName);
     if response is error {
-        test:assertTrue(response.toString().includes("cant_kick_self"));
+        test:assertTrue(response.toString().includes(REMOVE_USER_ASSERT_RESPONSE_SEGMENT), 
+        msg = "Reponse does not contain `" + REMOVE_USER_ASSERT_RESPONSE_SEGMENT + "`. Response received = " + response.toString());
     }
 }
 
