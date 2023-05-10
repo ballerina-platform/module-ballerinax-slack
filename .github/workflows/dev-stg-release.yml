@@ -19,13 +19,13 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: Ballerina Build
-              uses: ballerina-platform/ballerina-action/@2201.2.1
+              uses: ballerina-platform/ballerina-action/@2201.4.1
               with:
                   args:
                       pack ./slack
             - name: Push to Staging
               if: github.event.inputs.bal_central_environment == 'STAGE'
-              uses: ballerina-platform/ballerina-action/@2201.2.1
+              uses: ballerina-platform/ballerina-action/@2201.4.1
               with:
                   args:
                       push
@@ -34,7 +34,7 @@ jobs:
                   BALLERINA_CENTRAL_ACCESS_TOKEN: ${{ secrets.BALLERINA_CENTRAL_STAGE_ACCESS_TOKEN }}
             - name: Push to Dev
               if: github.event.inputs.bal_central_environment == 'DEV'
-              uses: ballerina-platform/ballerina-action/@2201.2.1
+              uses: ballerina-platform/ballerina-action/@2201.4.1
               with:
                   args:
                       push
