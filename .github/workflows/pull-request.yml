@@ -15,11 +15,13 @@ jobs:
               env:
                   WORKING_DIR: ./slack
             - name: Ballerina Test
+              # tests will be skipped if the PR is from a forked repository (as the secrets are not available)
+              if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
               uses: ballerina-platform/ballerina-action/@nightly
-              with:
-                  args:
-                      test
+              run: bal test --test-report --code-coverage --coverage-format=xml ./slack
               env:
                   SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
                   SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}
-                  WORKING_DIR: ./slack
+
+            - name: Upload coverage reports to Codecov
+              uses: codecov/codecov-action@v3
