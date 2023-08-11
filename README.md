@@ -3,7 +3,6 @@ Ballerina Slack Connector
 
 [![Build](https://github.com/ballerina-platform/module-ballerinax-slack/workflows/CI/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-slack/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/ballerina-platform/module-ballerinax-slack/branch/master/graph/badge.svg)](https://codecov.io/gh/ballerina-platform/module-ballerinax-slack)
-[![codecov](https://codecov.io/gh/ballerina-platform/module-ballerinax-slack/branch/master/graph/badge.svg)](https://codecov.io/gh/ballerina-platform/module-ballerinax-slack)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-slack.svg)](https://github.com/ballerina-platform/module-ballerinax-slack/commits/master)
 [![GraalVM Check](https://github.com/ballerina-platform/module-ballerinax-slack/actions/workflows/build-with-bal-test-native.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-slack/actions/workflows/build-with-bal-test-native.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
