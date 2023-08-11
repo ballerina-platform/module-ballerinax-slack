@@ -25,9 +25,10 @@ slack:ConnectionConfig slackConfig = {
 };
 
 public function main() returns error? {
-    slack:Client slackClient = check new(slackConfig);
+    slack:Client slackClient = check new (slackConfig);
 
-    // Get file information.
-    slack:FileInfo fileInfo = check slackClient->getFileInfo("fileId");
-    log:printInfo(fileInfo.toString());
+    // List files from a Channel.
+    slack:FileInfo[] fileList = check slackClient->listFiles("channelName");
+    log:printInfo(fileList.toString());
+
 }

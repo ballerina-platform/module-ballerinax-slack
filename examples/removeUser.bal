@@ -14,7 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/log;
 import ballerinax/slack;
 import ballerina/os;
 
@@ -25,9 +24,8 @@ slack:ConnectionConfig slackConfig = {
 };
 
 public function main() returns error? {
-    slack:Client slackClient = check new(slackConfig);
+    slack:Client slackClient = check new (slackConfig);
 
-    // Upload a file to a channel.
-    slack:FileInfo fileResponse = check slackClient->uploadFile("filePath", "channelName");
-    log:printInfo(fileResponse.toString());
+    // Remove a user from a conversation.
+    check slackClient->removeUserFromConversation("Channel name", "User name");
 }

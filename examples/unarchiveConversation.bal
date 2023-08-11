@@ -24,8 +24,8 @@ slack:ConnectionConfig slackConfig = {
 };
 
 public function main() returns error? {
-    slack:Client slackClient = check new(slackConfig);
+    slack:Client slackClient = check new (slackConfig);
 
-    // Archive conversation.
-    check slackClient->archiveConversation("channelName");
+    // Unarchive conversation.
+    check slackClient->unArchiveConversation("channelName");
 }

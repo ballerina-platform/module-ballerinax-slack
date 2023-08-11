@@ -24,8 +24,8 @@ slack:ConnectionConfig slackConfig = {
 };
 
 public function main() returns error? {
-    slack:Client slackClient = check new(slackConfig);
+    slack:Client slackClient = check new (slackConfig);
 
-    // Remove a user from a conversation.
-    check slackClient->removeUserFromConversation("Channel name", "User name");
+    // Delete file.
+    check slackClient->deleteFile("fileId");
 }

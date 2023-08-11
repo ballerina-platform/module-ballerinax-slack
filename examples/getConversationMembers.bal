@@ -14,6 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/log;
 import ballerinax/slack;
 import ballerina/os;
 
@@ -24,8 +25,11 @@ slack:ConnectionConfig slackConfig = {
 };
 
 public function main() returns error? {
-    slack:Client slackClient = check new(slackConfig);
+    slack:Client slackClient = check new (slackConfig);
 
-    // Unarchive conversation.
-    check slackClient->unArchiveConversation("channelName");
+    // Get members of a channel.
+    stream<string, error?> resultStream = check slackClient->getConversationMembers("channelName");
+    check resultStream.forEach(isolated function(string memberId) {
+        log:printInfo(memberId);
+    });
 }

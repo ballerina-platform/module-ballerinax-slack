@@ -25,9 +25,14 @@ slack:ConnectionConfig slackConfig = {
 };
 
 public function main() returns error? {
-    slack:Client slackClient = check new(slackConfig);
+    slack:Client slackClient = check new (slackConfig);
 
-    // List all the conversations.
-    slack:Conversations listConvResponse = check slackClient->listConversations();
-    log:printInfo(listConvResponse.toString());
+    slack:Message messageParams = {
+        channelName: "channelName",
+        text: "Hello"
+    };
+
+    // Post a message to a channel.
+    string postResponse = check slackClient->postMessage(messageParams);
+    log:printInfo("Message sent" + postResponse);
 }

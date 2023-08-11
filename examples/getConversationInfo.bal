@@ -25,12 +25,9 @@ slack:ConnectionConfig slackConfig = {
 };
 
 public function main() returns error? {
-    slack:Client slackClient = check new(slackConfig);
+    slack:Client slackClient = check new (slackConfig);
 
-    // Get conversation history.
-    stream<slack:MessageInfo,error?> resultStream = check slackClient->getConversationHistory("channelName", 
-            "<startOfTimeRange in epoch>", "<endOfTimeRange in epoch>");    
-    check resultStream.forEach(isolated function (slack:MessageInfo messageInfo) {
-        log:printInfo(messageInfo.toString());
-    });
+    // Get conversation information.
+    slack:Channel conversationInfo = check slackClient->getConversationInfo("channelName");
+    log:printInfo(conversationInfo.toString());
 }

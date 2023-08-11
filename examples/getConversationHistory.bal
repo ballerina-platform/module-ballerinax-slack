@@ -14,6 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/log;
 import ballerinax/slack;
 import ballerina/os;
 
@@ -24,8 +25,12 @@ slack:ConnectionConfig slackConfig = {
 };
 
 public function main() returns error? {
-    slack:Client slackClient = check new(slackConfig);
+    slack:Client slackClient = check new (slackConfig);
 
-    // Delete file.
-    check slackClient->deleteFile("fileId");
+    // Get conversation history.
+    stream<slack:MessageInfo, error?> resultStream = check slackClient->getConversationHistory("channelName",
+            "<startOfTimeRange in epoch>", "<endOfTimeRange in epoch>");
+    check resultStream.forEach(isolated function(slack:MessageInfo messageInfo) {
+        log:printInfo(messageInfo.toString());
+    });
 }
