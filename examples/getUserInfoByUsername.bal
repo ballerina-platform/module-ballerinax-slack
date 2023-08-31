@@ -25,9 +25,9 @@ slack:ConnectionConfig slackConfig = {
 };
 
 public function main() returns error? {
-    slack:Client slackClient = check new(slackConfig);
+    slack:Client slackClient = check new (slackConfig);
 
-    // Get conversation information.
-    slack:Channel conversationInfo = check slackClient->getConversationInfo("channelName");
-    log:printInfo(conversationInfo.toString());
+    // Get user information by username.
+    slack:User userInfo = check slackClient->getUserInfoByUsername("username");
+    log:printInfo(userInfo.toString());
 }

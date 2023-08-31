@@ -25,9 +25,9 @@ slack:ConnectionConfig slackConfig = {
 };
 
 public function main() returns error? {
-    slack:Client slackClient = check new(slackConfig);
+    slack:Client slackClient = check new (slackConfig);
 
-    // Lookup user by email.
-    slack:User? userInfo = check slackClient->lookupUserByEmail("email");
-    log:printInfo(userInfo.toString());
+    // Upload a file to a channel.
+    slack:FileInfo fileResponse = check slackClient->uploadFile("filePath", "channelName");
+    log:printInfo(fileResponse.toString());
 }

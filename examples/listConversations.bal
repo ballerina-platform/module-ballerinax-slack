@@ -25,11 +25,9 @@ slack:ConnectionConfig slackConfig = {
 };
 
 public function main() returns error? {
-    slack:Client slackClient = check new(slackConfig);
+    slack:Client slackClient = check new (slackConfig);
 
-    // Get members of a channel.
-    stream<string,error?> resultStream = check slackClient->getConversationMembers("channelName");
-    check resultStream.forEach(isolated function (string memberId) {
-        log:printInfo(memberId);
-    });
+    // List all the conversations.
+    slack:Conversations listConvResponse = check slackClient->listConversations();
+    log:printInfo(listConvResponse.toString());
 }
