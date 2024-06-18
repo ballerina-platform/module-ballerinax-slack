@@ -20,7 +20,7 @@ run)
 esac
 
 # Read Ballerina package name
-BAL_PACKAGE_NAME=$(awk -F'"' '/^name/ {print $2}' "$BAL_HOME_DIR/Ballerina.toml")
+slack=$(awk -F'"' '/^name/ {print $2}' "$BAL_HOME_DIR/Ballerina.toml")
 
 # Push the package to the local repository
 cd "$BAL_HOME_DIR" &&
@@ -35,8 +35,8 @@ done
 echo "Successfully cleaned the cache directories"
 
 # Update the central repository
-BAL_DESTINATION_DIR="$HOME/.ballerina/repositories/central.ballerina.io/bala/ballerinax/$BAL_PACKAGE_NAME"
-BAL_SOURCE_DIR="$HOME/.ballerina/repositories/local/bala/ballerinax/$BAL_PACKAGE_NAME"
+BAL_DESTINATION_DIR="$HOME/.ballerina/repositories/central.ballerina.io/bala/ballerinax/$slack"
+BAL_SOURCE_DIR="$HOME/.ballerina/repositories/local/bala/ballerinax/$slack"
 [ -d "$BAL_DESTINATION_DIR" ] && rm -r "$BAL_DESTINATION_DIR"
 [ -d "$BAL_SOURCE_DIR" ] && cp -r "$BAL_SOURCE_DIR" "$BAL_DESTINATION_DIR"
 echo "Successfully updated the local central repositories"
