@@ -15,30 +15,80 @@ It provides the capability to query information from and perform some actions in
 For more information, go to the modules. 
 - [`slack`](slack/Module.md)
 
-## Building from the source
+## Build from the source
 
-### Setting up the prerequisites
+### Prerequisites
 
-1. Download and install Java SE Development Kit (JDK) version 11. You can install either [OpenJDK](https://adoptopenjdk.net/) or [Oracle JDK](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html).
+1. Download and install Java SE Development Kit (JDK) version 17. You can download it from either of the following sources:
 
-        > **Note:** Set the JAVA_HOME environment variable to the path name of the directory into which you installed JDK.
+    * [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
+    * [OpenJDK](https://adoptium.net/)
 
-2. Download and install [Ballerina Swan Lake](https://ballerina.io/). 
+   > **Note:** After installation, remember to set the `JAVA_HOME` environment variable to the directory where JDK was installed.
 
-### Building the source
+2. Download and install [Ballerina Swan Lake](https://ballerina.io/).
+
+3. Download and install [Docker](https://www.docker.com/get-started).
+
+   > **Note**: Ensure that the Docker daemon is running before executing any tests.
+
+4. Export Github Personal access token with read package permissions as follows,
+    ```bash
+    export packageUser=<Username>
+    export packagePAT=<Personal access token>
+    ```
+
+### Build options
 
 Execute the commands below to build from the source.
 
+1. To build the package:
 
-1. To build the ballerina package:
-```shell script
-    bal build ./ballerina
-```
+   ```bash
+   ./gradlew clean build
+   ```
 
-2. To run tests after build:
-```shell script
-    bal test ./ballerina
-```
+2. To run the tests:
+
+   ```bash
+   ./gradlew clean test
+   ```
+
+3. To build the without the tests:
+
+   ```bash
+   ./gradlew clean build -x test
+   ```
+
+4. To run tests against different environment:
+
+   ```bash
+   ./gradlew clean test -Pgroups=<Comma separated groups/test cases>
+   ```
+
+5. To debug package with a remote debugger:
+
+   ```bash
+   ./gradlew clean build -Pdebug=<port>
+   ```
+
+6. To debug with the Ballerina language:
+
+   ```bash
+   ./gradlew clean build -PbalJavaDebug=<port>
+   ```
+
+7. Publish the generated artifacts to the local Ballerina Central repository:
+
+    ```bash
+    ./gradlew clean build -PpublishToLocalCentral=true
+    ```
+
+8. Publish the generated artifacts to the Ballerina Central repository:
+
+   ```bash
+   ./gradlew clean build -PpublishToCentral=true
+   ```
 
 ## Contributing to Ballerina
 As an open source project, Ballerina welcomes contributions from the community. 
