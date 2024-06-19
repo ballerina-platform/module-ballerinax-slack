@@ -32,6 +32,12 @@ For more information, go to the modules.
 
    > **Note**: Ensure that the Docker daemon is running before executing any tests.
 
+4. Export Github Personal access token with read package permissions as follows,
+    ```bash
+    export packageUser=<Username>
+    export packagePAT=<Personal access token>
+    ```
+
 ### Build options
 
 Execute the commands below to build from the source.
@@ -83,7 +89,7 @@ Execute the commands below to build from the source.
    ```bash
    ./gradlew clean build -PpublishToCentral=true
    ```
-   
+
 ## Contributing to Ballerina
 As an open source project, Ballerina welcomes contributions from the community. 
 

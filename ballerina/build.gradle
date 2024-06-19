@@ -22,7 +22,7 @@ plugins {
     id 'io.ballerina.plugin'
 }
 
-description = 'slack - Ballerina'
+description = 'Slack - Ballerina'
 
 def packageName = "slack"
 def packageOrg = "ballerinax"
