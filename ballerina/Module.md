@@ -4,11 +4,16 @@
 
 ## Setup guide
 
-To use the Slack Connector you need to be signed in to [Slack API](https://api.slack.com/)
+To use the Slack Connector you need to be signed in to [Slack](https://slack.com/)
+
+![Sign In Page](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-slack/master/docs/setup/resources/sign-in.png)
+
+If you haven't created an account already, you can create it [here](https://slack.com/get-started#/createnew)
+
 
 ### Step 1: Create a Slack App 
 
-1. Navigate to Your Apps and Create a New Slack App
+1. Navigate to Your Apps in [Slack API](https://api.slack.com/) and Create a New Slack App
 
 ![Create Slack App](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-slack/master/docs/setup/resources/create-slack-app.png)
 
