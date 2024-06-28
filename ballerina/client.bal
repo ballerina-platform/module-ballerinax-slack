@@ -55,25 +55,25 @@ public isolated client class Client {
         return;
     }
 
-    resource isolated function get admin\.apps\.approved\.list(map<string|string[]> headers = {}, *Admin_apps_approved_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.apps\.approved\.list(map<string|string[]> headers = {}, *Admin_apps_approved_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.apps.approved.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.apps\.requests\.list(map<string|string[]> headers = {}, *Admin_apps_requests_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.apps\.requests\.list(map<string|string[]> headers = {}, *Admin_apps_requests_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.apps.requests.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.apps\.restricted\.list(map<string|string[]> headers = {}, *Admin_apps_restricted_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.apps\.restricted\.list(map<string|string[]> headers = {}, *Admin_apps_restricted_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.apps.restricted.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.conversations\.ekm\.listOriginalConnectedChannelInfo(map<string|string[]> headers = {}, *Admin_conversations_ekm_listOriginalConnectedChannelInfoQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.conversations\.ekm\.listOriginalConnectedChannelInfo(map<string|string[]> headers = {}, *Admin_conversations_ekm_listOriginalConnectedChannelInfoQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.conversations.ekm.listOriginalConnectedChannelInfo`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -91,7 +91,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.conversations\.restrictAccess\.listGroups(map<string|string[]> headers = {}, *Admin_conversations_restrictAccess_listGroupsQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.conversations\.restrictAccess\.listGroups(map<string|string[]> headers = {}, *Admin_conversations_restrictAccess_listGroupsQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.conversations.restrictAccess.listGroups`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -103,61 +103,61 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.emoji\.list(map<string|string[]> headers = {}, *Admin_emoji_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.emoji\.list(map<string|string[]> headers = {}, *Admin_emoji_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.emoji.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.inviteRequests\.approved\.list(map<string|string[]> headers = {}, *Admin_inviteRequests_approved_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.inviteRequests\.approved\.list(map<string|string[]> headers = {}, *Admin_inviteRequests_approved_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.inviteRequests.approved.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.inviteRequests\.denied\.list(map<string|string[]> headers = {}, *Admin_inviteRequests_denied_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.inviteRequests\.denied\.list(map<string|string[]> headers = {}, *Admin_inviteRequests_denied_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.inviteRequests.denied.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.inviteRequests\.list(map<string|string[]> headers = {}, *Admin_inviteRequests_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.inviteRequests\.list(map<string|string[]> headers = {}, *Admin_inviteRequests_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.inviteRequests.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.teams\.admins\.list(map<string|string[]> headers = {}, *Admin_teams_admins_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.teams\.admins\.list(map<string|string[]> headers = {}, *Admin_teams_admins_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.teams.admins.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.teams\.list(map<string|string[]> headers = {}, *Admin_teams_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.teams\.list(map<string|string[]> headers = {}, *Admin_teams_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.teams.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.teams\.owners\.list(map<string|string[]> headers = {}, *Admin_teams_owners_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.teams\.owners\.list(map<string|string[]> headers = {}, *Admin_teams_owners_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.teams.owners.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.teams\.settings\.info(map<string|string[]> headers = {}, *Admin_teams_settings_infoQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.teams\.settings\.info(map<string|string[]> headers = {}, *Admin_teams_settings_infoQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.teams.settings.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.usergroups\.listChannels(map<string|string[]> headers = {}, *Admin_usergroups_listChannelsQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.usergroups\.listChannels(map<string|string[]> headers = {}, *Admin_usergroups_listChannelsQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.usergroups.listChannels`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.users\.list(map<string|string[]> headers = {}, *Admin_users_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get admin\.users\.list(map<string|string[]> headers = {}, *Admin_users_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.users.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -169,7 +169,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.event\.authorizations\.list(map<string|string[]> headers = {}, *Apps_event_authorizations_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get apps\.event\.authorizations\.list(map<string|string[]> headers = {}, *Apps_event_authorizations_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/apps.event.authorizations.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -197,13 +197,13 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.permissions\.users\.list(map<string|string[]> headers = {}, *Apps_permissions_users_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get apps\.permissions\.users\.list(map<string|string[]> headers = {}, *Apps_permissions_users_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/apps.permissions.users.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.permissions\.users\.request(map<string|string[]> headers = {}, *Apps_permissions_users_requestQueries queries) returns Default\ success\ template|error {
+    resource isolated function get apps\.permissions\.users\.request(map<string|string[]> headers = {}, *Apps_permissions_users_requestQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/apps.permissions.users.request`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -232,7 +232,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get calls\.info(map<string|string[]> headers = {}, *Calls_infoQueries queries) returns Default\ success\ template|error {
+    resource isolated function get calls\.info(map<string|string[]> headers = {}, *Calls_infoQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/calls.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -292,13 +292,13 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get dnd\.teamInfo(map<string|string[]> headers = {}, *Dnd_teamInfoQueries queries) returns Default\ success\ template|error {
+    resource isolated function get dnd\.teamInfo(map<string|string[]> headers = {}, *Dnd_teamInfoQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/dnd.teamInfo`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get emoji\.list(map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function get emoji\.list(map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/emoji.list`;
         return self.clientEp->get(resourcePath, headers);
     }
@@ -315,19 +315,19 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get files\.remote\.info(map<string|string[]> headers = {}, *Files_remote_infoQueries queries) returns Default\ success\ template|error {
+    resource isolated function get files\.remote\.info(map<string|string[]> headers = {}, *Files_remote_infoQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/files.remote.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get files\.remote\.list(map<string|string[]> headers = {}, *Files_remote_listQueries queries) returns Default\ success\ template|error {
+    resource isolated function get files\.remote\.list(map<string|string[]> headers = {}, *Files_remote_listQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/files.remote.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get files\.remote\.share(map<string|string[]> headers = {}, *Files_remote_shareQueries queries) returns Default\ success\ template|error {
+    resource isolated function get files\.remote\.share(map<string|string[]> headers = {}, *Files_remote_shareQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/files.remote.share`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -339,19 +339,19 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get oauth\.access(map<string|string[]> headers = {}, *Oauth_accessQueries queries) returns Default\ success\ template|error {
+    resource isolated function get oauth\.access(map<string|string[]> headers = {}, *Oauth_accessQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/oauth.access`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get oauth\.token(map<string|string[]> headers = {}, *Oauth_tokenQueries queries) returns Default\ success\ template|error {
+    resource isolated function get oauth\.token(map<string|string[]> headers = {}, *Oauth_tokenQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/oauth.token`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get oauth\.v2\.access(map<string|string[]> headers = {}, *Oauth_v2_accessQueries queries) returns Default\ success\ template|error {
+    resource isolated function get oauth\.v2\.access(map<string|string[]> headers = {}, *Oauth_v2_accessQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/oauth.v2.access`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -392,7 +392,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get search\.messages(map<string|string[]> headers = {}, *Search_messagesQueries queries) returns Default\ success\ template|error {
+    resource isolated function get search\.messages(map<string|string[]> headers = {}, *Search_messagesQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/search.messages`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -410,7 +410,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get team\.billableInfo(map<string|string[]> headers = {}, *Team_billableInfoQueries queries) returns Default\ success\ template|error {
+    resource isolated function get team\.billableInfo(map<string|string[]> headers = {}, *Team_billableInfoQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/team.billableInfo`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -487,49 +487,49 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get views\.open(map<string|string[]> headers = {}, *Views_openQueries queries) returns Default\ success\ template|error {
+    resource isolated function get views\.open(map<string|string[]> headers = {}, *Views_openQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/views.open`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get views\.publish(map<string|string[]> headers = {}, *Views_publishQueries queries) returns Default\ success\ template|error {
+    resource isolated function get views\.publish(map<string|string[]> headers = {}, *Views_publishQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/views.publish`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get views\.push(map<string|string[]> headers = {}, *Views_pushQueries queries) returns Default\ success\ template|error {
+    resource isolated function get views\.push(map<string|string[]> headers = {}, *Views_pushQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/views.push`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get views\.update(map<string|string[]> headers = {}, *Views_updateQueries queries) returns Default\ success\ template|error {
+    resource isolated function get views\.update(map<string|string[]> headers = {}, *Views_updateQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/views.update`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get workflows\.stepCompleted(map<string|string[]> headers = {}, *Workflows_stepCompletedQueries queries) returns Default\ success\ template|error {
+    resource isolated function get workflows\.stepCompleted(map<string|string[]> headers = {}, *Workflows_stepCompletedQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/workflows.stepCompleted`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get workflows\.stepFailed(map<string|string[]> headers = {}, *Workflows_stepFailedQueries queries) returns Default\ success\ template|error {
+    resource isolated function get workflows\.stepFailed(map<string|string[]> headers = {}, *Workflows_stepFailedQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/workflows.stepFailed`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get workflows\.updateStep(map<string|string[]> headers = {}, *Workflows_updateStepQueries queries) returns Default\ success\ template|error {
+    resource isolated function get workflows\.updateStep(map<string|string[]> headers = {}, *Workflows_updateStepQueries queries) returns DefaultSuccessResponse|error {
         string resourcePath = string `/workflows.updateStep`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function post admin\.apps\.approve(admin_apps_approve_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.apps\.approve(admin_apps_approve_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.apps.approve`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -537,7 +537,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.apps\.restrict(admin_apps_restrict_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.apps\.restrict(admin_apps_restrict_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.apps.restrict`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -601,7 +601,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.conversations\.restrictAccess\.addGroup(admin_conversations_restrictAccess_addGroup_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.conversations\.restrictAccess\.addGroup(admin_conversations_restrictAccess_addGroup_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.conversations.restrictAccess.addGroup`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -609,7 +609,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.conversations\.restrictAccess\.removeGroup(admin_conversations_restrictAccess_removeGroup_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.conversations\.restrictAccess\.removeGroup(admin_conversations_restrictAccess_removeGroup_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.conversations.restrictAccess.removeGroup`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -625,7 +625,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.conversations\.setTeams(admin_conversations_setTeams_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.conversations\.setTeams(admin_conversations_setTeams_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.conversations.setTeams`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -641,7 +641,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.emoji\.add(admin_emoji_add_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.emoji\.add(admin_emoji_add_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.emoji.add`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -649,7 +649,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.emoji\.addAlias(admin_emoji_addAlias_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.emoji\.addAlias(admin_emoji_addAlias_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.emoji.addAlias`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -657,7 +657,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.emoji\.remove(admin_emoji_remove_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.emoji\.remove(admin_emoji_remove_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.emoji.remove`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -665,7 +665,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.emoji\.rename(admin_emoji_rename_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.emoji\.rename(admin_emoji_rename_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.emoji.rename`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -673,7 +673,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.inviteRequests\.approve(record {string invite_request_id; string team_id?;} payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.inviteRequests\.approve(record {string invite_request_id; string team_id?;} payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.inviteRequests.approve`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -681,7 +681,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.inviteRequests\.deny(record {string invite_request_id; string team_id?;} payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.inviteRequests\.deny(record {string invite_request_id; string team_id?;} payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.inviteRequests.deny`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -689,7 +689,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.teams\.create(admin_teams_create_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.teams\.create(admin_teams_create_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.teams.create`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -697,7 +697,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.teams\.settings\.setDefaultChannels(admin_teams_settings_setDefaultChannels_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.teams\.settings\.setDefaultChannels(admin_teams_settings_setDefaultChannels_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.teams.settings.setDefaultChannels`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -705,7 +705,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.teams\.settings\.setDescription(admin_teams_settings_setDescription_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.teams\.settings\.setDescription(admin_teams_settings_setDescription_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.teams.settings.setDescription`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -713,7 +713,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.teams\.settings\.setDiscoverability(admin_teams_settings_setDiscoverability_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.teams\.settings\.setDiscoverability(admin_teams_settings_setDiscoverability_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.teams.settings.setDiscoverability`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -721,7 +721,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.teams\.settings\.setIcon(admin_teams_settings_setIcon_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.teams\.settings\.setIcon(admin_teams_settings_setIcon_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.teams.settings.setIcon`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -729,7 +729,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.teams\.settings\.setName(admin_teams_settings_setName_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.teams\.settings\.setName(admin_teams_settings_setName_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.teams.settings.setName`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -737,7 +737,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.usergroups\.addChannels(admin_usergroups_addChannels_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.usergroups\.addChannels(admin_usergroups_addChannels_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.usergroups.addChannels`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -745,7 +745,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.usergroups\.addTeams(admin_usergroups_addTeams_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.usergroups\.addTeams(admin_usergroups_addTeams_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.usergroups.addTeams`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -753,7 +753,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.usergroups\.removeChannels(admin_usergroups_removeChannels_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.usergroups\.removeChannels(admin_usergroups_removeChannels_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.usergroups.removeChannels`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -761,7 +761,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.users\.assign(admin_users_assign_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.users\.assign(admin_users_assign_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.users.assign`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -769,7 +769,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.users\.invite(admin_users_invite_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.users\.invite(admin_users_invite_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.users.invite`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -777,7 +777,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.users\.remove(admin_users_remove_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.users\.remove(admin_users_remove_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.users.remove`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -785,7 +785,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.users\.session\.invalidate(admin_users_session_invalidate_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.users\.session\.invalidate(admin_users_session_invalidate_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.users.session.invalidate`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -793,7 +793,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.users\.session\.reset(admin_users_session_reset_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.users\.session\.reset(admin_users_session_reset_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.users.session.reset`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -801,7 +801,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.users\.setAdmin(admin_users_setAdmin_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.users\.setAdmin(admin_users_setAdmin_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.users.setAdmin`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -809,7 +809,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.users\.setExpiration(admin_users_setExpiration_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.users\.setExpiration(admin_users_setExpiration_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.users.setExpiration`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -817,7 +817,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.users\.setOwner(admin_users_setOwner_body payload, Admin_users_setOwnerHeaders headers) returns Default\ success\ template|error {
+    resource isolated function post admin\.users\.setOwner(admin_users_setOwner_body payload, Admin_users_setOwnerHeaders headers) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.users.setOwner`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -826,7 +826,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    resource isolated function post admin\.users\.setRegular(admin_users_setRegular_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post admin\.users\.setRegular(admin_users_setRegular_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/admin.users.setRegular`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -834,7 +834,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post calls\.add(calls_add_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post calls\.add(calls_add_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/calls.add`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -842,7 +842,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post calls\.end(calls_end_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post calls\.end(calls_end_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/calls.end`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -850,7 +850,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post calls\.participants\.add(calls_participants_add_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post calls\.participants\.add(calls_participants_add_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/calls.participants.add`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -858,7 +858,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post calls\.participants\.remove(calls_participants_remove_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post calls\.participants\.remove(calls_participants_remove_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/calls.participants.remove`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -866,7 +866,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post calls\.update(calls_update_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post calls\.update(calls_update_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/calls.update`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1078,7 +1078,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.remote\.add(files_remote_add_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post files\.remote\.add(files_remote_add_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/files.remote.add`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1086,7 +1086,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.remote\.remove(files_remote_remove_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post files\.remote\.remove(files_remote_remove_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/files.remote.remove`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1094,7 +1094,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.remote\.update(files_remote_update_body payload, map<string|string[]> headers = {}) returns Default\ success\ template|error {
+    resource isolated function post files\.remote\.update(files_remote_update_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
         string resourcePath = string `/files.remote.update`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
