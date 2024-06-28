@@ -40,7 +40,7 @@ If you haven't created an account already, you can create it [here](https://slac
 
 3. Click 'Create App'
 
-### Step 2: Adding scopes to the token 
+### Step 2: Add scopes to the token 
 
 1. Once the application is created, go to the "Add Features and Functionality" section and click on "Permissions" to set the token scopes.
 
@@ -69,21 +69,20 @@ Import the `slack` module and `ballerina/io`.
 
 ```ballerina
 import ballerinax/slack;
-import ballerina/io;
 ```
 
 ### Step 2: Instantiate a new connector
 
-Assign the OAuth token obtained to the variable **value**. and then initialize a new instance of the slack client by passing the token.
+Assign the OAuth token obtained to the variable **token**, and then initialize a new instance of the slack client by passing the token.
 
 ```ballerina
-configurable string value = ?;
+configurable string token = ?;
 
 public function main() returns error? {
 
-    slack:Client cl = check new({
+    slack:Client slack = check new({
         auth: {
-            token: value
+            token
         }
     });
 }
@@ -96,9 +95,7 @@ Now, utilize the available connector operations.
 #### Send a Text Message to General Channel
 
 ```ballerina
-var t = check cl->/chat\.postMessage.post({ channel : "general", text: "hello" });
-
-    io:print(t);
+json postMessageResponse = check slack->/chat\.postMessage.post({channel: "general", text: "hello"});
 ```
 
 ### Step 4: Run the Ballerina application
@@ -106,6 +103,7 @@ var t = check cl->/chat\.postMessage.post({ channel : "general", text: "hello" }
 ```bash
 bal run
 ```
+
 
 ## Build from the source
 
