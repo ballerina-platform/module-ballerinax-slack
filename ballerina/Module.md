@@ -52,7 +52,6 @@ Import the `slack` module and `ballerina/io`.
 
 ```ballerina
 import ballerinax/slack;
-import ballerina/io;
 ```
 
 ### Step 2: Instantiate a new connector
