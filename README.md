@@ -21,26 +21,25 @@ For more information, go to the modules.
 
 ## Setup guide
 
-To use the Slack Connector you need to be signed in to [Slack](https://slack.com/)
+To use the Slack Connector you need to be signed in to [Slack](https://slack.com/).
 
 ![Sign In Page](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-slack/master/docs/setup/resources/sign-in.png)
 
-If you haven't created an account already, you can create it [here](https://slack.com/get-started#/createnew)
+If you haven't created an account already, you can create it [here](https://slack.com/get-started#/createnew).
 
+### Step 1: Create a new Slack application
 
-### Step 1: Create a Slack App 
-
-1. Navigate to Your Apps in [Slack API](https://api.slack.com/) and Create a New Slack App
+1. Navigate to your apps in [Slack API](https://api.slack.com/) and create a new Slack app.
 
 ![Create Slack App](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-slack/master/docs/setup/resources/create-slack-app.png)
 
-2. Provide an App Name and choose a workspace of your choice.
+2. Provide an app name and choose a workspace of your choice.
 
 ![Create Slack App Popup](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-slack/master/docs/setup/resources/create-slack-app-2.png)
 
-3. Click 'Create App'
+3. Click on the "Create App" button.
 
-### Step 2: Add scopes to the token 
+### Step 2: Add scopes to the token
 
 1. Once the application is created, go to the "Add Features and Functionality" section and click on "Permissions" to set the token scopes.
 
@@ -50,7 +49,7 @@ If you haven't created an account already, you can create it [here](https://slac
 
 ![User Token Scopes](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-slack/master/docs/setup/resources/token-permissions.png)
 
-3. Install the application to workspace
+3. Install the application to workspace.
 
 ![Install to workspace ](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-slack/master/docs/setup/resources/install-workspace.jpg)
 
@@ -78,14 +77,11 @@ Assign the OAuth token obtained to the variable **token**, and then initialize a
 ```ballerina
 configurable string token = ?;
 
-public function main() returns error? {
-
-    slack:Client slack = check new({
-        auth: {
-            token
-        }
-    });
-}
+slack:Client slack = check new({
+    auth: {
+        token
+    }
+});
 ```
 
 ### Step 3: Invoke the connector operation
