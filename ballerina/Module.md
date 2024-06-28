@@ -48,7 +48,7 @@ To use the `slack` connector in your Ballerina application, modify the `.bal` fi
 
 ### Step 1: Import the module
 
-Import the `slack` module and `ballerina/io`.
+Import the `slack` module.
 
 ```ballerina
 import ballerinax/slack;
