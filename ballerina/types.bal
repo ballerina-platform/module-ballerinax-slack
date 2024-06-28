@@ -1651,6 +1651,11 @@ public type chat_delete_body record {
     decimal ts?;
 };
 
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method.
+public type DefaultSuccessResponse record {
+    defs_ok_true ok;
+};
+
 # Represents the Queries record for the operation: users_list
 public type Users_listQueries record {
     # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
@@ -1719,10 +1724,6 @@ public type Views_publishQueries record {
     string user_id;
     # A string that represents view state to protect against possible race conditions.
     string hash?;
-};
-
-public type Default\ success\ template record {
-    defs_ok_true ok;
 };
 
 # Represents the Queries record for the operation: admin_usergroups_listChannels
