@@ -5,7 +5,7 @@ There are two test environments for running the Slack connector tests. The defau
 You can run the tests in either of these environments and each has its own compatible set of tests.
 
 | Test Groups | Environment                                     |
-| ----------- | ----------------------------------------------- |
+|-------------|-------------------------------------------------|
 | mock_tests  | Mock server for Slack API (Default Environment) |
 | live_tests  | Slack API                                       |
 
@@ -41,7 +41,7 @@ Then, run the following command to run the tests:
 
 #### Using a Config.toml File
 
-Create a `Config.toml` file in the tests directory and add your authentication credentials a
+Create a `Config.toml` file in the tests directory and add your authentication credentials.
 
 ```toml
 isTestOnLiveServer = true
