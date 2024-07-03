@@ -9,7 +9,7 @@ The `ballerinax/slack` connector provides practical examples illustrating usage 
 2. For each example, create a `Config.toml` file the related configuration. Here's an example of how your `Config.toml` file should look:
 
    ```toml
-   token = <token>"
+   token = "<token>"
    ```
 
 ## Running an Example
