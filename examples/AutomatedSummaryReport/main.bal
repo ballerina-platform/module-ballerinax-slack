@@ -1,55 +1,67 @@
 import ballerina/io;
 import ballerinax/slack;
 
+// Define the Slack API token
 string token = ?;
 
+// Define a record type to hold channel information
 type ChannelType record {
-    string id;    
+    string id;
 };
 
+// Define a record type to hold the response structure of the channels list
 type Channels record {|
     boolean ok;
     ChannelType[] channels;
 |};
 
-type TextType record{
+// Define a record type to hold text messages
+type TextType record {
     string text;
 };
 
-type History record{
+// Define a record type to hold the response structure of the conversation history
+type History record {
     boolean ok;
     TextType[] texts;
 };
 
-
-public function automatedStandUpReport() returns error?{
-    slack:Client cl = check new({
-    auth: {
-        token: value
-    }
+// Function to generate and post an automated stand-up report
+public function automatedStandUpReport() returns error? {
+    // Initialize the Slack client with the provided token
+    slack:Client slack = check new ({
+        auth: {
+            token: value
+        }
     });
 
-    json response = check cl->/conversations\.list();
-    Channels castedResponse = check response.cloneWithType(Channels);
+    // Fetch the list of channels
+    json channelResponse = check slack->/conversations\.list();
+    Channels channels = check channelResponse.cloneWithType(Channels);
 
-    string[] latestText; 
+    // Array to store the latest text messages from each channel
+    string[] latestText;
 
-    foreach ChannelType channel in castedResponse.channels{
-        json response1 = check cl->/conversations\.history({channel: channel.id});
-        History castedResponse1 = check response1.cloneWithType(History);
+    // Iterate through each channel to get the latest message
+    foreach ChannelType channel in channels.channels {
+        // Fetch the conversation history for the current channel
+        json historyResponse = check slack->/conversations\.history({channel: channel.id});
+        History history = check historyResponse.cloneWithType(History);
 
-        TextType[] texts = castedResponse1.texts;
+        // Get the latest text message from the conversation history
+        TextType[] texts = history.texts;
         latestText.push(texts[0].text);
     }
 
+    // Construct the stand-up report message
     string textMessage = "Automated Stand Up Report: ";
     int i = 1;
-    foreach string text in latestText{
+    foreach string text in latestText {
         string number = i.toString();
         textMessage = textMessage.join(number + ". " + text + "\n");
         i = i + 1;
     }
 
-    json response3 = check cl->/chat\.postMessage.post({channel: "general", text:textMessage});
-
+    // Post the stand-up report message to the "general" channel
+    json postMessageResult = check slack->/chat\.postMessage.post({channel: "general", text: textMessage});
 }
