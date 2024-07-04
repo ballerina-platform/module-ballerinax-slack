@@ -1,4 +1,4 @@
-# Slack Company Survey
+# Slack company survey feedback
 
 This use case demonstrates how the Slack API can be utilized to perform a company-wide survey by creating a dedicated channel to receive and track feedback replies.
 
@@ -10,7 +10,7 @@ Generate Slack token to authenticate the connector as described in the [Setup gu
 
 ### 2. Configuration
 
-Update your Slack account related configurations in the `Config.toml` file in the example root directory:
+Create a `Config.toml` file in the example root directory, and update your Slack account token as follows:
 
 ```toml
 token = "<token>"
