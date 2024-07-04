@@ -1,14 +1,15 @@
 import ballerina/io;
 import ballerinax/slack;
 
-configurable string value = "";
+configurable string value = ?;
+
+final slack:Client cl = check new ({
+    auth: {
+        token: value
+    }
+});
 
 public function companySurvey() returns error? {
-    slack:Client cl = check new ({
-        auth: {
-            token: value
-        }
-    });
 
     json response1 = check cl->/conversations\.create.post({name: "survey-coordination"});
     io:println(response1);
