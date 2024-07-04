@@ -1,1 +1,1 @@
-../AutomatedSummaryReport.md
+../Slack automated summary report.md

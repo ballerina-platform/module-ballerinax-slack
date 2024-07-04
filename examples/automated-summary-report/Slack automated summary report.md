@@ -1,4 +1,4 @@
-# Automated Summary Report
+# Automated summary report
 
 This use case demonstrates how the Slack API can be utilized to generate a summarized report of daily stand up chats in the general channel.
 
