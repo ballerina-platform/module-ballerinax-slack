@@ -1,4 +1,5 @@
 import ballerina/io;
+import ballerina/log;
 import ballerinax/slack;
 
 // Define the Slack API token
@@ -59,5 +60,11 @@ public function main() returns error? {
     }`;
 
     // Post the stand-up report message to the "general" channel
-    json postMessageResult = check slack->/chat\.postMessage.post({channel: "general", text: textMessage});
+    json|error postMessageResult = slack->/chat\.postMessage.post({channel: "general", text: textMessage});
+
+    if (postMessageResult is error) {
+        log:printError("Failed to post message to Slack", postMessageResult);
+    } else {
+        log:printInfo("Message posted successfully");
+    }
 }
