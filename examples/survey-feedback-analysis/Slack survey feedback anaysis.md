@@ -1,4 +1,4 @@
-# Slack company survey feedback
+# Slack survey feedback analysis
 
 This use case demonstrates how the Slack API can be utilized to perform a company-wide survey by creating a dedicated channel to receive and track feedback replies.
 
