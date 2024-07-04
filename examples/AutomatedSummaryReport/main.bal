@@ -26,15 +26,14 @@ type History record {
     TextType[] texts;
 };
 
-// Function to generate and post an automated stand-up report
-public function automatedStandUpReport() returns error? {
-    // Initialize the Slack client with the provided token
-    slack:Client slack = check new ({
-        auth: {
-            token: value
-        }
-    });
+// Initialize the Slack client with the provided token
+final slack:Client slack = check new Client({
+    auth: {
+        token: value
+    }
+});
 
+public function main() returns error? {
     // Fetch the list of channels
     json channelResponse = check slack->/conversations\.list();
     Channels channels = check channelResponse.cloneWithType(Channels);
@@ -58,8 +57,8 @@ public function automatedStandUpReport() returns error? {
     int i = 1;
     foreach string text in latestText {
         string number = i.toString();
-        textMessage = textMessage.join(number + ". " + text + "\n");
-        i = i + 1;
+        textMessage += string `${number}. ${text}\n`;
+        i += 1;
     }
 
     // Post the stand-up report message to the "general" channel
