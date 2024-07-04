@@ -2,7 +2,7 @@ import ballerina/io;
 import ballerinax/slack;
 
 // Define the Slack API token
-string token = ?;
+configurable string token = ?;
 
 // Define a record type to hold channel information
 type ChannelType record {
@@ -56,8 +56,7 @@ public function main() returns error? {
     string textMessage = "Automated Stand Up Report: ";
     int i = 1;
     foreach string text in latestText {
-        string number = i.toString();
-        textMessage += string `${number}. ${text}\n`;
+        textMessage += string `${i}. ${text}\n`;
         i += 1;
     }
 
