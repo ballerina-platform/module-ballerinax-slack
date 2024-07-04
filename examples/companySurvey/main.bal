@@ -1,6 +1,8 @@
 import ballerina/io;
 import ballerinax/slack;
 
+configurable string value = "";
+
 public function companySurvey() returns error? {
     slack:Client cl = check new ({
         auth: {
