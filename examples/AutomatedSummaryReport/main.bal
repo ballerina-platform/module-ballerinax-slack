@@ -53,12 +53,10 @@ public function main() returns error? {
     }
 
     // Construct the stand-up report message
-    string textMessage = "Automated Stand Up Report: ";
-    int i = 1;
-    foreach string text in latestText {
-        textMessage += string `${i}. ${text}\n`;
-        i += 1;
-    }
+    string textMessage = string `Automated Stand Up Report: ${"\n"}${
+        <string>from [int, string] [index, text] in latestText.enumerate()
+        select string `${index + 1}. ${text}${"\n"}`
+    }`;
 
     // Post the stand-up report message to the "general" channel
     json postMessageResult = check slack->/chat\.postMessage.post({channel: "general", text: textMessage});
