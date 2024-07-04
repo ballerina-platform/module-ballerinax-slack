@@ -36,7 +36,7 @@ final slack:Client slack = check new Client({
 public function main() returns error? {
     // Fetch the list of channels
     json channelResponse = check slack->/conversations\.list();
-    Channels channels = check channelResponse.cloneWithType(Channels);
+    Channels channels = check channelResponse.cloneWithType();
 
     // Array to store the latest text messages from each channel
     string[] latestText;
@@ -45,7 +45,7 @@ public function main() returns error? {
     foreach ChannelType channel in channels.channels {
         // Fetch the conversation history for the current channel
         json historyResponse = check slack->/conversations\.history({channel: channel.id});
-        History history = check historyResponse.cloneWithType(History);
+        History history = check historyResponse.cloneWithType();
 
         // Get the latest text message from the conversation history
         TextType[] texts = history.texts;
