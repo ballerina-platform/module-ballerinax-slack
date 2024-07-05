@@ -1,1 +1,1 @@
-C:/Users/Adib Samoon/Desktop/Projects/module-ballerinax-slack/examples/automated-summary-report/Slack automated summary report.md
+Slack automated summary report.md
