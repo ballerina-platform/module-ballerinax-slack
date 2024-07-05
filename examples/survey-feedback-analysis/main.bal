@@ -20,32 +20,8 @@ import ballerinax/slack;
 
 configurable string token = ?;
 
-string channelName = "survey-coordination";
-string surveyRequestMessage = "Reply to this survey message to give input on the company";
-
-type MessagesItem record {
-    string text;
-    string thread_ts;
-    string ts;
-    string 'type;
-    string user;
-    string parent_user_id?;
-    string last_read?;
-    int reply_count?;
-    boolean subscribed?;
-    int unread_count?;
-};
-
-type Response_metadata record {
-    string next_cursor;
-};
-
-type RepliesResponse record {
-    boolean has_more;
-    MessagesItem[] messages;
-    boolean ok;
-    Response_metadata response_metadata;
-};
+final string channelName = "survey-coordination";
+final string surveyRequestMessage = "Reply to this survey message to give input on the company";
 
 final slack:Client slack = check new ({
     auth: {
@@ -58,14 +34,14 @@ public function main() returns error? {
     // Create a new channel for the survey
     json|error createChannelResponse = check slack->/conversations\.create.post({name: channelName});
     if createChannelResponse is error {
-        log:printError("Error creating the survey conversation: ", createChannelResponse);
+        log:printError(createChannelResponse.message());
         return;
     }
 
     // Post a message to the conversation created and get the timestamp of the message
     json|error sendMsgResponse = slack->/chat\.postMessage.post({channel: channelName, text: surveyRequestMessage});
     if sendMsgResponse is error {
-        log:printError("Error posting the survey message: ", sendMsgResponse);
+        log:printError(sendMsgResponse.message());
         return;
     }
     string messageTimestamp = check sendMsgResponse.message.ts;
@@ -73,13 +49,13 @@ public function main() returns error? {
     // Check for replies to the survey message
     json|error repliesResponse = slack->/conversations\.replies({channel: channelName, ts: messageTimestamp});
     if repliesResponse is error {
-        log:printError("Error getting replies to the survey message: ", repliesResponse);
+        log:printError(repliesResponse.message());
         return;
     }
 
     RepliesResponse|error replies = repliesResponse.cloneWithType();
     if replies is error {
-        log:printError("Error mapping the JSON response to the RepliesResponse type: ", replies);
+        log:printError(replies.message());
         return;
     }
 
