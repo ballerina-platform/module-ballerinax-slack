@@ -82,3 +82,11 @@ json postMessageResponse = check slack->/chat\.postMessage.post({channel: "gener
 ```bash
 bal run
 ```
+
+## Examples
+
+The `Slack` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-slack/tree/master/examples), covering the following use cases:
+
+1. [Automated Survey Report](https://github.com/ballerina-platform/module-ballerinax-slack/tree/master/examples/automated-survey-report) - This use case demonstrates how the Slack API can be utilized to generate a summarized report of daily stand up chats in the general channel.
+
+2. [Survey Feedback Analysis](https://github.com/ballerina-platform/module-ballerinax-slack/tree/master/examples/survey-feedback-analysis) - This use case demonstrates how the Slack API can be utilized to perform a company-wide survey by creating a dedicated channel to receive and track feedback replies.
