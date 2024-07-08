@@ -24,7 +24,7 @@ configurable string token = ?;
 // Initialize the Slack client with the provided token.
 final slack:Client slack = check new Client({
     auth: {
-        token: token
+        token
     }
 });
 
