@@ -20,8 +20,8 @@ import ballerinax/slack;
 
 configurable string token = ?;
 
-final string channelName = "survey-coordination";
-final string surveyRequestMessage = "Reply to this survey message to give input on the company";
+const CHANNEL_NAME = "survey-coordination";
+const SURVEY_REQUEST_MSG = "Reply to this survey message to give input on the company";
 
 final slack:Client slack = check new ({
     auth: {
@@ -34,7 +34,7 @@ public function main() returns error? {
     // Create a new channel for the survey
     json|error createChannelResponse = check slack->/conversations\.create.post({name: channelName});
     if createChannelResponse is error {
-        log:printError(createChannelResponse.message());
+        log:printError("Error creating the survey conversation: " + createChannelResponse.message());
         return;
     }
 
