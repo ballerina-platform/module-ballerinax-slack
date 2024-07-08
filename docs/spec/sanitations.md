@@ -1,4 +1,3 @@
-@@ -0,0 +1,24 @@
 _Author_: @Chilliwiddit \
 _Created_: 2024/06/25 \
 _Edition_: Swan Lake
