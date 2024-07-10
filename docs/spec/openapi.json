@@ -116,7 +116,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -273,7 +273,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -433,7 +433,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -535,7 +535,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -692,7 +692,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -1410,7 +1410,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -2044,7 +2044,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -2145,7 +2145,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -2259,7 +2259,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -2687,7 +2687,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -2909,7 +2909,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -3018,7 +3018,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -3148,7 +3148,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -3252,7 +3252,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -3361,7 +3361,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -3444,7 +3444,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -3550,7 +3550,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -3656,7 +3656,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -3739,7 +3739,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -3845,7 +3845,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -3954,7 +3954,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -4067,7 +4067,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -4177,7 +4177,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -4286,7 +4286,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -4386,7 +4386,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -4495,7 +4495,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -4599,7 +4599,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -4703,7 +4703,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -4812,7 +4812,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -4916,7 +4916,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -5024,7 +5024,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -5132,7 +5132,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -5264,7 +5264,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -5368,7 +5368,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -5484,7 +5484,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -5617,7 +5617,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -5736,7 +5736,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -5840,7 +5840,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -5943,7 +5943,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -6050,7 +6050,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -6154,7 +6154,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -6263,7 +6263,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -6378,7 +6378,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -6482,7 +6482,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -6692,7 +6692,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -7532,7 +7532,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -7641,7 +7641,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -8341,7 +8341,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -8443,7 +8443,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -8533,7 +8533,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -8636,7 +8636,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -8740,7 +8740,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -8851,7 +8851,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -14652,7 +14652,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -14731,7 +14731,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -15605,7 +15605,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -15703,7 +15703,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -15825,7 +15825,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -15928,7 +15928,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -16034,7 +16034,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -16157,7 +16157,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -16927,7 +16927,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -17067,7 +17067,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -17200,7 +17200,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -19553,7 +19553,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -20462,7 +20462,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -24451,7 +24451,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -24594,7 +24594,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -24745,7 +24745,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -24906,7 +24906,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -25004,7 +25004,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -25103,7 +25103,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
@@ -25225,7 +25225,7 @@
                   "required": [
                     "ok"
                   ],
-                  "title": "Default error template",
+                  "title": "DefaultErrorTemplate",
                   "type": "object"
                 }
               }
