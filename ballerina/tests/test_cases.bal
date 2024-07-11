@@ -45,31 +45,31 @@ function setup() returns error? {
     groups: ["live_tests", "mock_tests"]
 }
 function testGetPresence() returns error? {
-    json response = check slack->/users\.getPresence();
-    test:assertTrue(check response.ok, "The ok attribute was not equal to true");
+    APIMethodUsersGetPresence response = check slack->/users\.getPresence();
+    test:assertTrue(response.ok, "The ok attribute was not equal to true");
 }
 
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 function testPostMessage_1() returns error? {
-    json response = check slack->/chat\.postMessage.post({channel: "general", text: "This is a Test"});
-    test:assertTrue(check response.ok, "The ok attribute should be true");
-    test:assertEquals(check response.message.text, "This is a Test", "The message text is not equal to the expected value");
+    ChatPostMessageResponse response = check slack->/chat\.postMessage.post({channel: "general", text: "This is a Test"});
+    test:assertTrue(response.ok, "The ok attribute should be true");
+    test:assertEquals(response.message.text, "This is a Test", "The message text is not equal to the expected value");
 }
 
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 function testUsersList() returns error? {
-    json response = check slack->/users\.list();
-    test:assertTrue(check response.ok, "The ok attribute should be true");
+    UsersListResponse response = check slack->/users\.list();
+    test:assertTrue(response.ok, "The ok attribute should be true");
 }
 
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 function testUsersProfileGet() returns error? {
-    json response = check slack->/users\.profile\.get();
-    test:assertTrue(check response.ok, "The ok attribute should be true");
+    UsersProfileGetResponse response = check slack->/users\.profile\.get();
+    test:assertTrue(response.ok, "The ok attribute should be true");
 }

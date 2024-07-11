@@ -52,6 +52,16 @@ public type usergroups_disable_body record {
     string usergroup;
 };
 
+public type objs_reminder record {|
+    int complete_ts?;
+    defs_user_id creator;
+    defs_reminder_id id;
+    boolean recurring;
+    string text;
+    int time?;
+    defs_user_id user;
+|};
+
 public type reminders_complete_body record {
     # The ID of the reminder to be marked as complete
     string reminder?;
@@ -66,12 +76,26 @@ public type admin_usergroups_addTeams_body record {
     string usergroup_id;
 };
 
+# Schema for successful response from usergroups.users.list method
+public type UsergroupsUsersListResponse record {|
+    defs_ok_true ok;
+    defs_user_id[] users;
+|};
+
 public type admin_teams_settings_setDiscoverability_body record {
     # This workspace's discovery setting. It must be set to one of `open`, `invite_only`, `closed`, or `unlisted`.
     string discoverability;
     # The ID of the workspace to set discoverability on.
     string team_id;
 };
+
+# Schema for successful response from users.profile.set method
+public type UsersProfileSetResponse record {|
+    string email_pending?;
+    defs_ok_true ok;
+    objs_user_profile profile;
+    string username;
+|};
 
 public type admin_conversations_disconnectShared_body record {
     # The channel to be disconnected from some workspaces.
@@ -108,6 +132,17 @@ public type stars_remove_body record {
     string timestamp?;
 };
 
+# Schema for successful response from users.lookupByEmail method
+public type UsersLookupByEmailResponse record {
+    defs_ok_true ok;
+    objs_user user;
+};
+
+# Schema for successful response conversations.archive method
+public type ConversationsArchiveResponse record {|
+    defs_ok_true ok;
+|};
+
 # Represents the Queries record for the operation: apps_permissions_users_list
 public type Apps_permissions_users_listQueries record {
     # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
@@ -137,6 +172,17 @@ public type Admin_conversations_restrictAccess_listGroupsQueries record {
     string team_id?;
     string channel_id;
 };
+
+# Schema for successful response from dnd.info method
+public type DndInfoResponse record {|
+    boolean dnd_enabled;
+    int next_dnd_end_ts;
+    int next_dnd_start_ts;
+    defs_ok_true ok;
+    boolean snooze_enabled?;
+    int snooze_endtime?;
+    int snooze_remaining?;
+|};
 
 # Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint.
 @display {label: "Connection Config"}
@@ -171,6 +217,11 @@ public type ConnectionConfig record {|
     http:ProxyConfig proxy?;
     # Enables the inbound payload validation functionality which provided by the constraint package. Enabled by default
     boolean validation = true;
+|};
+
+# Schema for successful response of admin.conversations.unarchive
+public type AdminConversationsUnarchiveResponse record {|
+    defs_ok_true ok;
 |};
 
 public type files_comments_delete_body record {
@@ -208,11 +259,35 @@ public type Files_remote_listQueries record {
     int 'limit?;
 };
 
+# Schema for successful response of chat.delete method
+public type ChatDeleteResponse record {|
+    defs_channel channel;
+    defs_ok_true ok;
+    defs_ts ts;
+|};
+
 # Represents the Queries record for the operation: dnd_info
 public type Dnd_infoQueries record {
     # User to fetch status for (defaults to current user)
     string user?;
 };
+
+# Schema for successful response of admin.conversations.archive
+public type AdminConversationsArchiveResponse record {|
+    defs_ok_true ok;
+|};
+
+# Schema for successful response from chat.postEphemeral method
+public type ChatPostEphemeralResponse record {|
+    defs_ts message_ts;
+    defs_ok_true ok;
+|};
+
+# Schema for successful response from usergroups.enable method
+public type UsergroupsEnableResponse record {|
+    defs_ok_true ok;
+    objs_subteam usergroup;
+|};
 
 # Represents the Queries record for the operation: workflows_stepCompleted
 public type Workflows_stepCompletedQueries record {
@@ -221,6 +296,8 @@ public type Workflows_stepCompletedQueries record {
     # Context identifier that maps to the correct workflow step execution.
     string workflow_step_execute_id;
 };
+
+public type defs_enterprise_name string;
 
 # Represents the Queries record for the operation: conversations_members
 public type Conversations_membersQueries record {
@@ -232,10 +309,101 @@ public type Conversations_membersQueries record {
     int 'limit?;
 };
 
+public type objs_user_profile record {|
+    boolean always_active?;
+    defs_optional_app_id api_app_id?;
+    string avatar_hash;
+    defs_bot_id bot_id?;
+    string display_name;
+    string display_name_normalized;
+    string? email?;
+    record {}[]? fields;
+    string? first_name?;
+    int? guest_expiration_ts?;
+    string? guest_invited_by?;
+    string? image_1024?;
+    string? image_192?;
+    string? image_24?;
+    string? image_32?;
+    string? image_48?;
+    string? image_512?;
+    string? image_72?;
+    string? image_original?;
+    boolean is_app_user?;
+    boolean is_custom_image?;
+    boolean? is_restricted?;
+    boolean? is_ultra_restricted?;
+    string last_avatar_image_hash?;
+    string? last_name?;
+    int memberships_count?;
+    string? name?;
+    string phone;
+    string pronouns?;
+    string real_name;
+    string real_name_normalized;
+    string skype;
+    string status_default_emoji?;
+    string status_default_text?;
+    string? status_default_text_canonical?;
+    string status_emoji;
+    int status_expiration?;
+    string status_text;
+    string? status_text_canonical?;
+    defs_workspace_id team?;
+    string title;
+    int updated?;
+    string user_id?;
+    string? username?;
+|};
+
+public type objs_conversation (anydata)[];
+
+# Schema for successful response from auth.revoke method
+public type AuthRevokeResponse record {|
+    defs_ok_true ok;
+    boolean revoked;
+|};
+
+# Schema for successful response from usergroups.update method
+public type UsergroupsUpdateResponse record {|
+    defs_ok_true ok;
+    objs_subteam usergroup;
+|};
+
+public type objs_subteam record {|
+    boolean auto_provision;
+    (anydata)[] auto_type;
+    int channel_count?;
+    defs_user_id created_by;
+    int date_create;
+    int date_delete;
+    int date_update;
+    (anydata)[] deleted_by;
+    string description;
+    string enterprise_subteam_id;
+    string 'handle;
+    defs_subteam_id id;
+    boolean is_external;
+    boolean is_subteam;
+    boolean is_usergroup;
+    string name;
+    objs_subteam_prefs prefs;
+    defs_team team_id;
+    defs_user_id updated_by;
+    int user_count?;
+    defs_user_id[] users?;
+|};
+
 public type conversations_archive_body record {
     # ID of conversation to archive
     string channel?;
 };
+
+public type RtmConnectResponse_team record {|
+    string domain;
+    defs_team id;
+    string name;
+|};
 
 public type stars_add_body record {
     # Channel to add star to, or channel where the message to add star to was posted (used with `timestamp`).
@@ -267,6 +435,12 @@ public type Admin_emoji_listQueries record {
     int 'limit?;
 };
 
+public type objs_channel_purpose record {|
+    defs_topic_purpose_creator creator;
+    int last_set;
+    string value;
+|};
+
 public type admin_users_setRegular_body record {
     # The ID (`T1234`) of the workspace.
     string team_id;
@@ -283,6 +457,27 @@ public type Admin_users_setOwnerHeaders record {
 public type objs_file_shares record {|
     record {||} 'private?;
     record {||} 'public?;
+|};
+
+public type AppsPermissionsResourcesListResponse_response_metadata record {|
+    string next_cursor;
+|};
+
+# Schema for successful response from conversations.setPurpose method
+public type ConversationsSetPurposeResponse record {|
+    objs_conversation channel;
+    defs_ok_true ok;
+|};
+
+# Schema for successful response from apps.uninstall method
+public type AppsUninstallResponse record {|
+    defs_ok_true ok;
+|};
+
+# Schema for successful response from usergroups.create method
+public type UsergroupsCreateResponse record {|
+    defs_ok_true ok;
+    objs_subteam usergroup;
 |};
 
 # Represents the Queries record for the operation: chat_scheduledMessages_list
@@ -313,6 +508,17 @@ public type objs_user_profile_short record {|
     defs_workspace_id team;
 |};
 
+# Schema for successful response from pins.remove method
+public type PinsRemoveResponse record {|
+    defs_ok_true ok;
+|};
+
+# Schema for successful response of admin.conversations.create
+public type AdminConversationsCreateResponse record {|
+    defs_channel_id channel_id?;
+    defs_ok_true ok;
+|};
+
 @constraint:String {pattern: re `^B[A-Z0-9]{8,}$`}
 public type defs_bot_id string;
 
@@ -321,6 +527,12 @@ public type admin_conversations_rename_body record {
     string channel_id;
     string name;
 };
+
+# Schema for successful response from files.revokePublicURL method
+public type FilesRevokePublicURLResponse record {|
+    objs_file file;
+    defs_ok_true ok;
+|};
 
 public type conversations_leave_body record {
     # Conversation to leave
@@ -447,6 +659,11 @@ public type admin_apps_restrict_body record {
     string team_id?;
 };
 
+# Schema for successful response of admin.conversations.invite
+public type AdminConversationsInviteResponse record {|
+    defs_ok_true ok;
+|};
+
 # Provides settings related to HTTP/1.x protocol.
 public type ClientHttp1Settings record {|
     # Specifies whether to reuse a connection for multiple requests
@@ -480,12 +697,42 @@ public type admin_users_remove_body record {
     string user_id;
 };
 
+# Schema for successful response from users.setPhoto method
+public type UsersSetPhotoResponse record {|
+    defs_ok_true ok;
+    UsersSetPhotoResponse_profile profile;
+|};
+
 public type admin_teams_settings_setDescription_body record {
     # The new description for the workspace.
     string description;
     # ID for the workspace to set the description for.
     string team_id;
 };
+
+# Schema for successful response from users.setActive method
+public type UsersSetActiveResponse record {|
+    defs_ok_true ok;
+|};
+
+public type TeamProfileGetResponse_profile record {|
+    objs_team_profile_field[] fields;
+|};
+
+public type AppsPermissionsInfoResponse_info record {
+    AppsPermissionsInfoResponse_info_app_home app_home;
+    AppsPermissionsInfoResponse_info_app_home channel;
+    AppsPermissionsInfoResponse_info_app_home group;
+    AppsPermissionsInfoResponse_info_app_home im;
+    AppsPermissionsInfoResponse_info_app_home mpim;
+    AppsPermissionsInfoResponse_info_team team;
+};
+
+# Schema for successful response from conversations.rename method
+public type ConversationsRenameResponse record {|
+    objs_conversation channel;
+    defs_ok_true ok;
+|};
 
 public type calls_participants_remove_body record {
     # `id` returned by the [`calls.add`](/methods/calls.add) method.
@@ -494,14 +741,82 @@ public type calls_participants_remove_body record {
     string users;
 };
 
+public type objs_team record {|
+    boolean archived?;
+    string avatar_base_url?;
+    int created?;
+    int date_create?;
+    boolean deleted?;
+    string? description?;
+    (anydata)[] discoverable?;
+    string domain;
+    string email_domain;
+    defs_enterprise_id enterprise_id?;
+    defs_enterprise_name enterprise_name?;
+    objs_external_org_migrations external_org_migrations?;
+    boolean has_compliance_export?;
+    objs_icon icon;
+    defs_workspace_id id;
+    boolean is_assigned?;
+    int is_enterprise?;
+    boolean is_over_storage_limit?;
+    int limit_ts?;
+    string locale?;
+    int messages_count?;
+    int msg_edit_window_mins?;
+    string name;
+    boolean over_integrations_limit?;
+    boolean over_storage_limit?;
+    string pay_prod_cur?;
+    ""|"std"|"plus"|"compliance"|"enterprise" plan?;
+    objs_primary_owner primary_owner?;
+    objs_team_sso_provider sso_provider?;
+|};
+
+# Schema for successful response from team.info method
+public type TeamInfoResponse record {|
+    defs_ok_true ok;
+    objs_team team;
+|};
+
+# Schema for successful response from team.integrationLogs method
+public type TeamIntegrationLogsResponse record {|
+    @constraint:Array {minLength: 1}
+    TeamIntegrationLogsResponse_logs[] logs;
+    defs_ok_true ok;
+    objs_paging paging;
+|};
+
 @constraint:String {pattern: re `^[D][A-Z0-9]{8,}$`}
 public type defs_dm_id string;
+
+public type objs_team_profile_field record {|
+    string? field_name?;
+    string hint;
+    @constraint:String {pattern: re `^X[a-zA-Z0-9]{9,}$`}
+    string id;
+    boolean is_hidden?;
+    string label;
+    (anydata)[] options?;
+    decimal ordering;
+    string[]? possible_values?;
+    "text"|"date"|"link"|"mailto"|"options_list"|"user" 'type;
+|};
+
+public type ObjsuserItemsnull anydata;
 
 # Represents the Queries record for the operation: pins_list
 public type Pins_listQueries record {
     # Channel to get pinned items for.
     string channel;
 };
+
+# Schema for successful response chat.getPermalink
+public type ChatGetPermalinkResponse record {|
+    defs_channel channel;
+    defs_ok_true ok;
+    string permalink;
+|};
 
 public type conversations_create_body record {
     # Create a private channel instead of a public one
@@ -527,6 +842,11 @@ public type reminders_add_body record {
     string user?;
 };
 
+# Schema for successful response files.delete method
+public type FilesDeleteResponse record {|
+    defs_ok_true ok;
+|};
+
 public type admin_usergroups_addChannels_body record {
     # Comma separated string of channel IDs.
     string channel_ids;
@@ -535,6 +855,23 @@ public type admin_usergroups_addChannels_body record {
     # ID of the IDP group to add default channels for.
     string usergroup_id;
 };
+
+# Schema for successful response from chat.scheduledMessages.list method
+public type ChatScheduledMessagesListResponse record {|
+    defs_ok_true ok;
+    AdminConversationsGetTeamsResponse_response_metadata response_metadata;
+    ChatScheduledMessagesListResponse_scheduled_messages[] scheduled_messages;
+|};
+
+# Schema for successful response of chat.scheduleMessage method
+public type ChatScheduleMessageResponse record {|
+    defs_channel channel;
+    ChatScheduleMessageResponse_message message;
+    defs_ok_true ok;
+    int post_at;
+    @constraint:String {pattern: re `^[Q][A-Z0-9]{8,}$`}
+    string scheduled_message_id;
+|};
 
 public type objs_comment record {|
     string comment;
@@ -548,6 +885,24 @@ public type objs_comment record {|
     objs_reaction[] reactions?;
     int timestamp;
     defs_user_id user;
+|};
+
+public type objs_enterprise_user record {|
+    defs_enterprise_id enterprise_id;
+    defs_enterprise_name enterprise_name;
+    defs_enterprise_user_id id;
+    boolean is_admin;
+    boolean is_owner;
+    defs_team[] teams;
+|};
+
+public type AdminConversationsGetTeamsResponse_response_metadata record {|
+    string next_cursor;
+|};
+
+# Schema for successful response of admin.conversations.rename
+public type AdminConversationsRenameResponse_1 record {|
+    defs_ok_true ok;
 |};
 
 public type usergroups_users_update_body record {
@@ -581,11 +936,40 @@ public type conversations_open_body record {
     string users?;
 };
 
+public type objs_icon record {
+    string image_102?;
+    string image_132?;
+    string image_230?;
+    string image_34?;
+    string image_44?;
+    string image_68?;
+    string image_88?;
+    boolean image_default?;
+};
+
 # Represents the Queries record for the operation: team_info
 public type Team_infoQueries record {
     # Team to get info on, if omitted, will return information about the current team. Will only return team that the authenticated token is allowed to see through external shared channels
     string team?;
 };
+
+public type UsersSetPhotoResponse_profile record {|
+    @constraint:String {pattern: re `^[0-9a-f]{12}$`}
+    string avatar_hash;
+    string image_1024;
+    string image_192;
+    string image_24;
+    string image_32;
+    string image_48;
+    string image_512;
+    string image_72;
+    string image_original;
+|};
+
+# Schema for successful response of admin.conversations.setConversationPrefs
+public type AdminConversationsSetConversationPrefsResponse record {|
+    defs_ok_true ok;
+|};
 
 # Represents the Queries record for the operation: oauth_v2_access
 public type Oauth_v2_accessQueries record {
@@ -614,6 +998,17 @@ public type chat_unfurl_body record {
     string user_auth_url?;
 };
 
+# Schema for successful response from files.info method
+public type FilesInfoResponse record {|
+    objs_comments comments;
+    anydata? content_html?;
+    defs_user_id editor?;
+    objs_file file;
+    defs_ok_true ok;
+    objs_paging paging?;
+    objs_response_metadata response_metadata?;
+|};
+
 # Represents the Queries record for the operation: admin_inviteRequests_denied_list
 public type Admin_inviteRequests_denied_listQueries record {
     # Value of the `next_cursor` field sent as part of the previous api response
@@ -627,9 +1022,25 @@ public type Admin_inviteRequests_denied_listQueries record {
 @constraint:String {pattern: re `^[C][A-Z0-9]{2,}$`}
 public type defs_channel_id string;
 
+public type objs_resources record {|
+    (defs_channel|defs_team)[][] excluded_ids?;
+    (defs_channel|defs_team)[][] ids;
+    boolean wildcard?;
+|};
+
+public type AppsPermissionsInfoResponse_info_app_home record {
+    objs_resources resources?;
+    objs_scopes scopes?;
+};
+
 public type objs_message_icons record {|
     string emoji?;
     string image_64?;
+|};
+
+public type objs_subteam_prefs record {|
+    defs_channel_id[] channels;
+    defs_group_id[] groups;
 |};
 
 # Represents the Queries record for the operation: search_messages
@@ -645,6 +1056,12 @@ public type Search_messagesQueries record {
     string sort?;
     # Change sort direction to ascending (`asc`) or descending (`desc`).
     string sort_dir?;
+};
+
+# Schema for successful response api.permissions.scopes.list method
+public type ApiPermissionsScopesListResponse record {
+    defs_ok_true ok;
+    ApiPermissionsScopesListResponse_scopes scopes;
 };
 
 # Represents the Queries record for the operation: admin_inviteRequests_approved_list
@@ -666,6 +1083,19 @@ public type admin_users_setOwner_body record {
     # Id of the user to promote to owner.
     string user_id;
 };
+
+public type TeamAccessLogsResponse_logins record {|
+    int count;
+    string? country;
+    int date_first;
+    int date_last;
+    string? ip;
+    string? isp;
+    string? region;
+    string user_agent;
+    defs_user_id user_id;
+    string username;
+|};
 
 # Represents the Queries record for the operation: admin_conversations_search
 public type Admin_conversations_searchQueries record {
@@ -711,6 +1141,11 @@ public type Admin_apps_approved_listQueries record {
     string team_id?;
     string enterprise_id?;
 };
+
+# Schema for successful response of admin.conversations.disconnectShared
+public type AdminConversationsRenameResponse record {|
+    defs_ok_true ok;
+|};
 
 public type objs_message_attachments record {|
     string fallback?;
@@ -777,6 +1212,11 @@ public type admin_teams_settings_setName_body record {
     string team_id;
 };
 
+# Schema for successful response from users.deletePhoto method
+public type UsersDeletePhotoResponse record {|
+    defs_ok_true ok;
+|};
+
 public type users_setPhoto_body record {
     # Width/height of crop box (always square)
     string crop_w?;
@@ -789,6 +1229,21 @@ public type users_setPhoto_body record {
     # Authentication token. Requires scope: `users.profile:write`
     string token;
 };
+
+public type AdminConversationsGetConversationPrefsResponse_prefs_can_thread record {
+    string[] 'type?;
+    string[] user?;
+};
+
+public type ChatScheduleMessageResponse_message record {|
+    defs_bot_id bot_id;
+    objs_bot_profile bot_profile?;
+    defs_team team;
+    string text;
+    string 'type;
+    defs_user_id user;
+    string username?;
+|};
 
 # Represents the Queries record for the operation: admin_inviteRequests_list
 public type Admin_inviteRequests_listQueries record {
@@ -807,6 +1262,11 @@ public type Team_accessLogsQueries record {
     string count?;
     string page?;
 };
+
+# Schema for successful response from dialog.open method
+public type DialogOpenResponse record {|
+    defs_ok_true ok;
+|};
 
 # Represents the Queries record for the operation: files_list
 public type Files_listQueries record {
@@ -831,6 +1291,21 @@ public type Team_profile_getQueries record {
     # Filter by visibility.
     string visibility?;
 };
+
+# Schema for successful response from users.setPresence method
+public type UsersSetPresenceResponse record {|
+    defs_ok_true ok;
+|};
+
+public type BotsInfoResponse_bot record {|
+    defs_app_id app_id;
+    boolean deleted;
+    objs_bot_profile_icons icons;
+    defs_bot_id id;
+    string name;
+    int updated;
+    defs_user_id user_id?;
+|};
 
 # Represents the Queries record for the operation: conversations_history
 public type Conversations_historyQueries record {
@@ -859,6 +1334,11 @@ public type conversations_close_body record {
     # Conversation to close.
     string channel?;
 };
+
+# Schema for successful response from reactions.remove method
+public type ReactionsRemoveResponse record {|
+    defs_ok_true ok;
+|};
 
 public type admin_apps_approve_body record {
     # The id of the app to approve.
@@ -893,18 +1373,60 @@ public type reactions_add_body record {
     string timestamp;
 };
 
+# Schema for successful response from users.profile.get method
+public type UsersProfileGetResponse record {|
+    defs_ok_true ok;
+    objs_user_profile profile;
+|};
+
 # This is a very loose definition, in the future, we'll populate this with deeper schema in this definition namespace.
 public type blocks blocks_inner[];
+
+# Schema for successful response from chat.deleteScheduledMessage method
+public type ChatDeleteScheduledMessageResponse record {|
+    defs_ok_true ok;
+|};
+
+@constraint:String {pattern: re `^(A[A-Z0-9]{1,})?$`}
+public type defs_optional_app_id string;
 
 public type files_sharedPublicURL_body record {
     # File to share
     string file?;
 };
 
+# Schema for successful response from conversations.join method
+public type ConversationsJoinResponse record {|
+    objs_conversation channel;
+    defs_ok_true ok;
+    Response\ metadata response_metadata?;
+    string warning?;
+|};
+
+public type AppsPermissionsResourcesListResponse_resources record {
+    string id?;
+    string 'type?;
+};
+
 @constraint:String {pattern: re `^[CGD][A-Z0-9]{8,}$`}
 public type defs_channel string;
 
 public type defs_pinned_info record {|
+|};
+
+# Schema for successful response from stars.list method
+public type StarsListResponse record {|
+    (record {|defs_channel channel; int date_create; objs_message message; "message" 'type;|}|record {|int date_create; objs_file file; "file" 'type;|}|record {|objs_comment comment; int date_create; objs_file file; "file_comment" 'type;|}|record {|defs_channel channel; int date_create; "channel" 'type;|}|record {|defs_dm_id channel; int date_create; "im" 'type;|}|record {|defs_group_id channel; int date_create; "group" 'type;|})[][] items;
+    defs_ok_true ok;
+    objs_paging paging?;
+|};
+
+# Schema for successful response conversations.members method
+public type ConversationsMembersResponse record {|
+    @constraint:Array {minLength: 1}
+    defs_user_id[] members;
+    defs_ok_true ok;
+    AdminConversationsGetTeamsResponse_response_metadata response_metadata;
 |};
 
 public type admin_users_assign_body record {
@@ -937,17 +1459,53 @@ public type Apps_permissions_requestQueries record {
     string scopes;
 };
 
+public type objs_scopes string[];
+
+# Schema for successful response from conversations.list method
+public type ConversationsListResponse record {|
+    objs_conversation[] channels;
+    defs_ok_true ok;
+    AdminConversationsGetTeamsResponse_response_metadata response_metadata?;
+|};
+
 # Represents the Queries record for the operation: users_getPresence
 public type Users_getPresenceQueries record {
     # User to get presence info on. Defaults to the authed user.
     string user?;
 };
 
+public type TeamIntegrationLogsResponse_logs record {|
+    defs_app_id admin_app_id?;
+    defs_app_id app_id;
+    string app_type;
+    string change_type;
+    defs_channel channel?;
+    string date;
+    string scope;
+    string service_id?;
+    string service_type?;
+    defs_user_id user_id;
+    string user_name;
+|};
+
 # Represents the Queries record for the operation: team_billableInfo
 public type Team_billableInfoQueries record {
     # A user to retrieve the billable information for. Defaults to all users.
     string user?;
 };
+
+# Schema for successful response from team.accessLogs method
+public type TeamAccessLogsResponse record {|
+    @constraint:Array {minLength: 1}
+    TeamAccessLogsResponse_logins[] logins;
+    defs_ok_true ok;
+    objs_paging paging;
+|};
+
+# Schema for successful response from apps.permissions.request method
+public type AppsPermissionsRequestResponse record {|
+    defs_ok_true ok;
+|};
 
 # Represents the Queries record for the operation: reactions_list
 public type Reactions_listQueries record {
@@ -1003,6 +1561,9 @@ public type admin_emoji_remove_body record {
     string token;
 };
 
+@constraint:String {pattern: re `^S[A-Z0-9]{2,}$`}
+public type defs_subteam_id string;
+
 # Represents the Queries record for the operation: views_push
 public type Views_pushQueries record {
     # A [view payload](/reference/surfaces/views). This must be a JSON-encoded string.
@@ -1010,6 +1571,14 @@ public type Views_pushQueries record {
     # Exchange a trigger to post to the user.
     string trigger_id;
 };
+
+# Schema for successful response from reminders.delete method
+public type RemindersDeleteResponse record {|
+    defs_ok_true ok;
+|};
+
+@constraint:String {pattern: re `^Rm[A-Z0-9]{8,}$`}
+public type defs_reminder_id string;
 
 public type objs_message record {|
     @constraint:Array {minLength: 1}
@@ -1058,6 +1627,11 @@ public type objs_message record {|
     string username?;
 |};
 
+public type objs_primary_owner record {
+    string email;
+    string id;
+};
+
 public type admin_users_setExpiration_body record {
     # Timestamp when guest account should be disabled.
     int expiration_ts;
@@ -1074,6 +1648,9 @@ public type conversations_setTopic_body record {
     string topic?;
 };
 
+@constraint:String {pattern: re `^[UW][A-Z0-9]{8,}$|^$`}
+public type defs_topic_purpose_creator string;
+
 # Represents the Queries record for the operation: apps_permissions_users_request
 public type Apps_permissions_users_requestQueries record {
     # Token used to trigger the request
@@ -1086,6 +1663,20 @@ public type Apps_permissions_users_requestQueries record {
 
 @constraint:String {pattern: re `^[T][A-Z0-9]{2,}$`}
 public type defs_team string;
+
+public type objs_external_org_migrations record {
+    objs_external_org_migrations_current[] current;
+    int date_updated;
+};
+
+public type objs_paging record {|
+    int count?;
+    int page;
+    int pages?;
+    int per_page?;
+    int spill?;
+    int total;
+|};
 
 public type files_remote_add_body record {
     # Creator defined GUID for the file.
@@ -1104,6 +1695,11 @@ public type files_remote_add_body record {
     string token?;
 };
 
+# Schema for successful response from conversations.unarchive method
+public type ConversationsUnarchiveResponse record {|
+    defs_ok_true ok;
+|};
+
 public type admin_teams_settings_setIcon_body record {
     # Image URL for the icon
     string image_url;
@@ -1116,12 +1712,41 @@ public type admin_teams_settings_setIcon_body record {
 @constraint:String {pattern: re `^[G][A-Z0-9]{8,}$`}
 public type defs_group_id string;
 
+# Schema for successful response of admin.conversations.convertToPrivate
+public type AdminConversationsConvertToPrivateResponse record {|
+    defs_ok_true ok;
+|};
+
+# Schema for successful response from chat.meMessage method
+public type ChatMeMessageResponse record {|
+    defs_channel channel?;
+    defs_ok_true ok;
+    defs_ts ts?;
+|};
+
+# Schema for successful response of admin.conversations.search
+public type AdminConversationsSearchResponse record {|
+    objs_channel[] channels;
+    string next_cursor;
+|};
+
 public type chat_meMessage_body record {
     # Channel to send message to. Can be a public channel, private group or IM channel. Can be an encoded ID, or a name.
     string channel?;
     # Text of the message to send.
     string text?;
 };
+
+# Schema for successful response from chat.unfurl method
+public type ChatUnfurlResponse record {|
+    defs_ok_true ok;
+|};
+
+# Schema for successful response from reminders.info method
+public type RemindersInfoResponse record {|
+    defs_ok_true ok;
+    objs_reminder reminder;
+|};
 
 public type calls_add_body record {
     # The valid Slack user ID of the user who created this Call. When this method is called with a user token, the `created_by` field is optional and defaults to the authed user of the token. Otherwise, the field is required.
@@ -1142,12 +1767,40 @@ public type calls_add_body record {
     string users?;
 };
 
+# Schema for successful response of admin.conversations.delete
+public type AdminConversationsDeleteResponse record {|
+    defs_ok_true ok;
+|};
+
+# Schema for successful response from reactions.add method
+public type ReactionsAddResponse record {|
+    defs_ok_true ok;
+|};
+
+public type objs_user (anydata)[];
+
 public type blocks_inner record {
     string 'type;
 };
 
+# Schema for successful response from pins.add method
+public type PinsAddResponse record {|
+    defs_ok_true ok;
+|};
+
+public type objs_response_metadata (record {|string next_cursor;|}|record {|string[] messages; ("method_deprecated")[] warnings;|}|record {|string[] messages; string next_cursor; ("method_deprecated")[] warnings;|})[];
+
 @constraint:String {pattern: re `^[TE][A-Z0-9]{8,}$`}
 public type defs_workspace_id string;
+
+# Schema for successful response from users.list method
+public type UsersListResponse record {|
+    int cache_ts;
+    @constraint:Array {minLength: 1}
+    objs_user[] members;
+    defs_ok_true ok;
+    objs_response_metadata response_metadata?;
+|};
 
 # Represents the Queries record for the operation: chat_getPermalink
 public type Chat_getPermalinkQueries record {
@@ -1183,6 +1836,13 @@ public type Conversations_infoQueries record {
     boolean include_locale?;
 };
 
+# Schema for successful response from conversations.replies method
+public type ConversationsRepliesResponse record {|
+    boolean has_more?;
+    (record {|defs_ts last_read?; defs_ts latest_reply?; int reply_count; defs_user_id[] reply_users?; int reply_users_count?; defs_team source_team?; boolean subscribed; defs_team team?; string text; defs_ts thread_ts; defs_ts ts; string 'type; int unread_count?; defs_user_id user; objs_user_profile_short user_profile?; defs_team user_team?;|}|record {|boolean is_starred?; defs_user_id parent_user_id; defs_team source_team?; defs_team team?; string text; defs_ts thread_ts; defs_ts ts; string 'type; defs_user_id user; objs_user_profile_short user_profile?; defs_team user_team?;|})[][] messages;
+    defs_ok_true ok;
+|};
+
 # Represents the Queries record for the operation: migration_exchange
 public type Migration_exchangeQueries record {
     # Specify `true` to convert `W` global user IDs to workspace-specific `U` IDs. Defaults to `false`.
@@ -1208,6 +1868,11 @@ public type reactions_remove_body record {
     # Timestamp of the message to remove reaction from.
     string timestamp?;
 };
+
+# Schema for successful response from reminders.complete method
+public type RemindersCompleteResponse record {|
+    defs_ok_true ok;
+|};
 
 # Represents the Queries record for the operation: bots_info
 public type Bots_infoQueries record {
@@ -1238,6 +1903,17 @@ public type conversations_invite_body record {
     string users?;
 };
 
+# Schema for successful response conversations.create method
+public type ConversationsCreateResponse record {|
+    objs_conversation channel;
+    defs_ok_true ok;
+|};
+
+public type RtmConnectResponse_self record {|
+    defs_user_id id;
+    string name;
+|};
+
 # Represents the Queries record for the operation: workflows_updateStep
 public type Workflows_updateStepQueries record {
     # An JSON array of output objects used during step execution. This is the data your app agrees to provide when your workflow step was executed.
@@ -1256,6 +1932,11 @@ public type Workflows_updateStepQueries record {
 public type Auth_revokeQueries record {
     # Setting this parameter to `1` triggers a _testing mode_ where the specified token will not actually be revoked.
     boolean test?;
+};
+
+public type objs_external_org_migrations_current record {
+    int date_started;
+    string team_id;
 };
 
 # Represents the Queries record for the operation: files_info
@@ -1283,6 +1964,12 @@ public type admin_conversations_create_body record {
     string team_id?;
 };
 
+# Schema for successful response conversations.info
+public type ConversationsInfoResponse record {|
+    objs_conversation channel;
+    defs_ok_true ok;
+|};
+
 public type chat_update_body record {
     # Pass true to update the message as the authed user. [Bot users](/bot-users) in this context are considered authed users.
     string as_user?;
@@ -1302,6 +1989,12 @@ public type chat_update_body record {
     string ts;
 };
 
+# Schema for successful response from bots.info method
+public type BotsInfoResponse record {|
+    BotsInfoResponse_bot bot;
+    defs_ok_true ok;
+|};
+
 # Represents the Queries record for the operation: reactions_get
 public type Reactions_getQueries record {
     # File to get reactions for.
@@ -1315,6 +2008,29 @@ public type Reactions_getQueries record {
     # Timestamp of the message to get reactions for.
     string timestamp?;
 };
+
+# Schema for successful response from usergroups.users.update method
+public type UsergroupsUsersUpdateResponse record {|
+    defs_ok_true ok;
+    objs_subteam usergroup;
+|};
+
+public type ObjsconversationItemsnull anydata;
+
+# Schema for successful response from dnd.setSnooze method
+public type DndSetSnoozeResponse record {|
+    defs_ok_true ok;
+    boolean snooze_enabled;
+    int snooze_endtime;
+    int snooze_remaining;
+|};
+
+public type objs_team_profile_field_option record {|
+    boolean? is_custom?;
+    boolean? is_multiple_entry?;
+    boolean? is_protected?;
+    boolean? is_scim?;
+|};
 
 public type pins_remove_body record {
     # Channel where the item is pinned to.
@@ -1334,6 +2050,8 @@ public type admin_emoji_rename_body record {
     # Authentication token. Requires scope: `admin.teams:write`
     string token;
 };
+
+public type defs_channel_name string;
 
 public type objs_bot_profile_icons record {|
     string image_36;
@@ -1368,6 +2086,13 @@ public type Oauth_accessQueries record {
     string client_id?;
 };
 
+# Schema for successful response conversations.close method
+public type ConversationsCloseResponse record {|
+    boolean already_closed?;
+    boolean no_op?;
+    defs_ok_true ok;
+|};
+
 # Represents the Queries record for the operation: apps_uninstall
 public type Apps_uninstallQueries record {
     # Issued when you created your application.
@@ -1385,6 +2110,14 @@ public type Admin_conversations_getTeamsQueries record {
     # The channel to determine connected workspaces within the organization for.
     string channel_id;
 };
+
+# Schema for successful response from reactions.list method
+public type ReactionsListResponse record {|
+    (record {|defs_channel channel; objs_message message; "message" 'type;|}|record {|objs_file file; "file" 'type;|}|record {|objs_comment comment; objs_file file; "file_comment" 'type;|})[][] items;
+    defs_ok_true ok;
+    objs_paging paging?;
+    objs_response_metadata response_metadata?;
+|};
 
 public type chat_scheduleMessage_body record {
     # Pass true to post the message as the authed user, instead of as a bot. Defaults to false. See [chat.postMessage](chat.postMessage#authorship).
@@ -1438,6 +2171,41 @@ public type admin_conversations_invite_body record {
     string user_ids;
 };
 
+public type objs_channel record {|
+    defs_user_id accepted_user?;
+    int created;
+    defs_user_id creator;
+    defs_channel_id id;
+    boolean is_archived?;
+    boolean is_channel;
+    boolean is_frozen?;
+    boolean is_general?;
+    boolean is_member?;
+    int is_moved?;
+    boolean is_mpim;
+    boolean is_non_threadable?;
+    boolean is_org_shared;
+    boolean is_pending_ext_shared?;
+    boolean is_private;
+    boolean is_read_only?;
+    boolean is_shared;
+    boolean is_thread_only?;
+    defs_ts last_read?;
+    (anydata)[] latest?;
+    defs_user_id[] members;
+    string name;
+    string name_normalized;
+    int num_members?;
+    defs_team[] pending_shared?;
+    defs_channel_name[] previous_names?;
+    decimal priority?;
+    objs_channel_purpose purpose;
+    objs_channel_purpose topic;
+    int unlinked?;
+    int unread_count?;
+    int unread_count_display?;
+|};
+
 public type admin_conversations_restrictAccess_removeGroup_body record {
     # The channel to remove the linked group from.
     string channel_id;
@@ -1449,10 +2217,46 @@ public type admin_conversations_restrictAccess_removeGroup_body record {
     string token;
 };
 
+public type Response\ metadata record {
+    string[] warnings?;
+};
+
 public type admin_users_session_invalidate_body record {
     int session_id;
     # ID of the team that the session belongs to
     string team_id;
+};
+
+# Schema for successful response of admin.conversations.getConversationPrefs
+public type AdminConversationsGetConversationPrefsResponse record {|
+    defs_ok_true ok;
+    AdminConversationsGetConversationPrefsResponse_prefs prefs?;
+|};
+
+# Schema for successful response files.comments.delete method
+public type FilesCommentsDeleteResponse record {|
+    defs_ok_true ok;
+|};
+
+# Schema for successful response from dnd.endSnooze method
+public type DndEndSnoozeResponse record {|
+    boolean dnd_enabled;
+    int next_dnd_end_ts;
+    int next_dnd_start_ts;
+    defs_ok_true ok;
+    boolean snooze_enabled;
+|};
+
+public type objs_team_sso_provider record {
+    string label?;
+    string name?;
+    string 'type?;
+};
+
+public type Message\ object record {
+    record {}[] attachments?;
+    record {} blocks?;
+    string text;
 };
 
 public type usergroups_update_body record {
@@ -1477,6 +2281,32 @@ public type admin_conversations_setConversationPrefs_body record {
     string prefs;
 };
 
+# Schema for successful response of chat.postMessage method
+public type ChatPostMessageResponse record {|
+    defs_channel channel;
+    objs_message message;
+    defs_ok_true ok;
+    defs_ts ts;
+|};
+
+# Schema for successful response of chat.update method
+public type ChatUpdateResponse record {|
+    string channel;
+    Message\ object message;
+    defs_ok_true ok;
+    string text;
+    string ts;
+|};
+
+public type objs_comments anydata[];
+
+# Schema for successful response from users.conversations method. Returned conversation objects do not include `num_members` or `is_member`
+public type UsersConversationsResponse record {
+    objs_conversation[] channels;
+    defs_ok_true ok;
+    AdminConversationsGetTeamsResponse_response_metadata response_metadata?;
+};
+
 # Represents the Queries record for the operation: views_update
 public type Views_updateQueries record {
     # A [view object](/reference/surfaces/views). This must be a JSON-encoded string.
@@ -1489,12 +2319,42 @@ public type Views_updateQueries record {
     string hash?;
 };
 
+# Schema for successful response from conversations.open method when opening channels, ims, mpims
+public type ConversationsOpenResponse record {|
+    boolean already_open?;
+    (objs_conversation|record {|string created?; defs_dm_id id; boolean is_im?; boolean is_open?; defs_ts last_read?; objs_message latest?; decimal unread_count?; decimal unread_count_display?; defs_user_id user?;|})[] channel;
+    boolean no_op?;
+    defs_ok_true ok;
+|};
+
 # Represents the Queries record for the operation: users_info
 public type Users_infoQueries record {
     # Set this to `true` to receive the locale for this user. Defaults to `false`
     boolean include_locale?;
     # User to get info on
     string user?;
+};
+
+# Schema for successful response from conversations.invite method
+public type ConversationsInviteErrorResponse record {|
+    objs_conversation channel;
+    defs_ok_true ok;
+|};
+
+public type AppsPermissionsInfoResponse_info_team record {
+    objs_resources resources;
+    objs_scopes scopes;
+};
+
+# Generated from users.getPresence with shasum e7251aec575d8863f9e0eb38663ae9dc26655f65
+public type APIMethodUsersGetPresence record {
+    boolean auto_away?;
+    int connection_count?;
+    int last_activity?;
+    boolean manual_away?;
+    defs_ok_true ok;
+    boolean online?;
+    string presence;
 };
 
 public type files_upload_body record {
@@ -1523,6 +2383,21 @@ public type files_delete_body record {
     string file?;
 };
 
+@constraint:String {pattern: re `^[E][A-Z0-9]{8,}$`}
+public type defs_enterprise_id string;
+
+# Schema for successful response from users.info method
+public type UsersInfoResponse record {
+    defs_ok_true ok;
+    objs_user user;
+};
+
+# Schema for successful response api.test method
+public type ApiTestResponse record {|
+    defs_ok_true ok;
+    record {}...;
+|};
+
 public type users_profile_set_body record {
     # Name of a single key to set. Usable only if `profile` is not passed.
     string name?;
@@ -1532,6 +2407,15 @@ public type users_profile_set_body record {
     string user?;
     # Value to set a single key to. Usable only if `profile` is not passed.
     string value?;
+};
+
+# Schema for successful response from migration.exchange method
+public type MigrationExchangeResponse record {
+    string enterprise_id;
+    string[] invalid_user_ids?;
+    defs_ok_true ok;
+    defs_team team_id;
+    record {} user_id_map?;
 };
 
 # Represents the Queries record for the operation: api_test
@@ -1624,6 +2508,34 @@ public type admin_conversations_restrictAccess_addGroup_body record {
     string token;
 };
 
+# Schema for successful response from stars.remove method
+public type StarsRemoveResponse record {|
+    defs_ok_true ok;
+|};
+
+# Schema for successful response from usergroups.disable method
+public type UsergroupsDisableResponse record {|
+    defs_ok_true ok;
+    objs_subteam usergroup;
+|};
+
+# Schema for successful response from usergroups.list method
+public type UsergroupsListResponse record {|
+    defs_ok_true ok;
+    objs_subteam[] usergroups;
+|};
+
+# Schema for successful response from conversations.history method
+public type ConversationsHistoryResponse record {|
+    int channel_actions_count;
+    (anydata)[] channel_actions_ts;
+    boolean has_more;
+    @constraint:Array {minLength: 1}
+    objs_message[] messages;
+    defs_ok_true ok;
+    int pin_count;
+|};
+
 # Represents the Queries record for the operation: admin_teams_settings_info
 public type Admin_teams_settings_infoQueries record {
     string team_id;
@@ -1639,6 +2551,17 @@ public type objs_bot_profile record {|
     int updated;
 |};
 
+# Schema for successful response from dnd.endDnd method
+public type DndEndDndResponse record {|
+    defs_ok_true ok;
+|};
+
+# Schema for successful response from conversations.leave method
+public type ConversationsLeaveResponse record {|
+    true not_in_channel?;
+    defs_ok_true ok;
+|};
+
 @constraint:String {pattern: re `^[F][A-Z0-9]{8,}$`}
 public type defs_file_id string;
 
@@ -1650,6 +2573,30 @@ public type chat_delete_body record {
     # Timestamp of the message to be deleted.
     decimal ts?;
 };
+
+# Schema for successful response from files.list method
+public type FilesListResponse record {|
+    objs_file[] files;
+    defs_ok_true ok;
+    objs_paging paging;
+|};
+
+public type ChatScheduledMessagesListResponse_scheduled_messages record {|
+    defs_channel_id channel_id;
+    int date_created;
+    @constraint:String {pattern: re `^[Q][A-Z0-9]{8,}$`}
+    string id;
+    int post_at;
+    string text?;
+|};
+
+# Schema for successful response from rtm.connect method
+public type RtmConnectResponse record {|
+    defs_ok_true ok;
+    RtmConnectResponse_self self;
+    RtmConnectResponse_team team;
+    string url;
+|};
 
 # This method either only returns a brief _OK_ response or a verbose schema is not available for this method.
 public type DefaultSuccessResponse record {
@@ -1665,6 +2612,12 @@ public type Users_listQueries record {
     # Set this to `true` to receive the locale for users. Defaults to `false`
     boolean include_locale?;
 };
+
+# Schema for successful response from reminders.list method
+public type RemindersListResponse record {|
+    defs_ok_true ok;
+    objs_reminder[] reminders;
+|};
 
 # Represents the Queries record for the operation: admin_teams_owners_list
 public type Admin_teams_owners_listQueries record {
@@ -1695,6 +2648,12 @@ public type Users_lookupByEmailQueries record {
     string email;
 };
 
+# Schema for successful response from apps.permissions.info method
+public type AppsPermissionsInfoResponse record {|
+    AppsPermissionsInfoResponse_info info;
+    defs_ok_true ok;
+|};
+
 # Represents the Queries record for the operation: admin_conversations_ekm_listOriginalConnectedChannelInfo
 public type Admin_conversations_ekm_listOriginalConnectedChannelInfoQueries record {
     # A comma-separated list of channels to filter to.
@@ -1716,6 +2675,12 @@ public type admin_emoji_add_body record {
     string url;
 };
 
+# Schema for successful response from reminders.add method
+public type RemindersAddResponse record {|
+    defs_ok_true ok;
+    objs_reminder reminder;
+|};
+
 # Represents the Queries record for the operation: views_publish
 public type Views_publishQueries record {
     # A [view payload](/reference/surfaces/views). This must be a JSON-encoded string.
@@ -1726,6 +2691,13 @@ public type Views_publishQueries record {
     string hash?;
 };
 
+# Schema for successful response of admin.conversations.getTeams
+public type AdminConversationsGetTeamsResponse record {|
+    defs_ok_true ok;
+    AdminConversationsGetTeamsResponse_response_metadata response_metadata?;
+    defs_team[] team_ids;
+|};
+
 # Represents the Queries record for the operation: admin_usergroups_listChannels
 public type Admin_usergroups_listChannelsQueries record {
     # Flag to include or exclude the count of members per channel.
@@ -1734,6 +2706,16 @@ public type Admin_usergroups_listChannelsQueries record {
     string usergroup_id;
     # ID of the the workspace.
     string team_id?;
+};
+
+public type ApiPermissionsScopesListResponse_scopes record {
+    objs_scopes app_home?;
+    objs_scopes channel?;
+    objs_scopes group?;
+    objs_scopes im?;
+    objs_scopes mpim?;
+    objs_scopes team?;
+    objs_scopes user?;
 };
 
 public type admin_conversations_delete_body record {
@@ -1751,6 +2733,19 @@ public type admin_users_setAdmin_body record {
     string team_id;
     # The ID of the user to designate as an admin.
     string user_id;
+};
+
+# Schema for successful response from team.profile.get method
+public type TeamProfileGetResponse record {|
+    defs_ok_true ok;
+    TeamProfileGetResponse_profile profile;
+|};
+
+# Schema for successful response apps.permissions.resources.list method
+public type AppsPermissionsResourcesListResponse record {
+    defs_ok_true ok;
+    AppsPermissionsResourcesListResponse_resources[] resources;
+    AppsPermissionsResourcesListResponse_response_metadata response_metadata?;
 };
 
 public type files_revokePublicURL_body record {
@@ -1815,6 +2810,11 @@ public type dnd_setSnooze_body record {
     string token;
 };
 
+# Schema for successful response conversations.mark method
+public type ConversationsMarkResponse record {|
+    defs_ok_true ok;
+|};
+
 public type admin_users_invite_body record {
     # A comma-separated list of `channel_id`s for this user to join. At least one channel is required.
     string channel_ids;
@@ -1848,6 +2848,11 @@ public type users_setPresence_body record {
     string presence;
 };
 
+# Schema for successful response from stars.add method
+public type StarsAddResponse record {|
+    defs_ok_true ok;
+|};
+
 # Represents the Queries record for the operation: users_profile_get
 public type Users_profile_getQueries record {
     # Include labels for each ID in custom profile fields
@@ -1855,6 +2860,11 @@ public type Users_profile_getQueries record {
     # User to retrieve profile info for
     string user?;
 };
+
+# Schema for successful response conversations.kick method
+public type ConversationsKickResponse record {|
+    defs_ok_true ok;
+|};
 
 # Represents the Queries record for the operation: conversations_replies
 public type Conversations_repliesQueries record {
@@ -1881,6 +2891,29 @@ public type usergroups_enable_body record {
     string usergroup;
 };
 
+public type AdminConversationsGetConversationPrefsResponse_prefs record {
+    AdminConversationsGetConversationPrefsResponse_prefs_can_thread can_thread?;
+    AdminConversationsGetConversationPrefsResponse_prefs_can_thread who_can_post?;
+};
+
+# Schema for successful response from conversations.setTopic method
+public type ConversationsSetTopicResponse record {|
+    objs_conversation channel;
+    defs_ok_true ok;
+|};
+
+# Schema for successful response auth.test method
+public type AuthTestResponse record {|
+    defs_bot_id bot_id?;
+    boolean is_enterprise_install?;
+    defs_ok_true ok;
+    string team;
+    defs_team team_id;
+    string url;
+    string user;
+    defs_user_id user_id;
+|};
+
 # Represents the Queries record for the operation: admin_teams_list
 public type Admin_teams_listQueries record {
     # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
@@ -1888,3 +2921,18 @@ public type Admin_teams_listQueries record {
     # The maximum number of items to return. Must be between 1 - 100 both inclusive.
     int 'limit?;
 };
+
+@constraint:String {pattern: re `^[WU][A-Z0-9]{8,}$`}
+public type defs_enterprise_user_id string;
+
+# Schema for successful response files.upload method
+public type FilesUploadResponse record {|
+    objs_file file;
+    defs_ok_true ok;
+|};
+
+# Schema for successful response from files.sharedPublicURL method
+public type FilesSharedPublicURLResponse record {|
+    objs_file file;
+    defs_ok_true ok;
+|};

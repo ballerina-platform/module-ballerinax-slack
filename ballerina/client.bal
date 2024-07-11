@@ -79,13 +79,13 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.conversations\.getConversationPrefs(map<string|string[]> headers = {}, *Admin_conversations_getConversationPrefsQueries queries) returns json|error {
+    resource isolated function get admin\.conversations\.getConversationPrefs(map<string|string[]> headers = {}, *Admin_conversations_getConversationPrefsQueries queries) returns AdminConversationsGetConversationPrefsResponse|error {
         string resourcePath = string `/admin.conversations.getConversationPrefs`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.conversations\.getTeams(map<string|string[]> headers = {}, *Admin_conversations_getTeamsQueries queries) returns json|error {
+    resource isolated function get admin\.conversations\.getTeams(map<string|string[]> headers = {}, *Admin_conversations_getTeamsQueries queries) returns AdminConversationsGetTeamsResponse|error {
         string resourcePath = string `/admin.conversations.getTeams`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -97,7 +97,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.conversations\.search(map<string|string[]> headers = {}, *Admin_conversations_searchQueries queries) returns json|error {
+    resource isolated function get admin\.conversations\.search(map<string|string[]> headers = {}, *Admin_conversations_searchQueries queries) returns AdminConversationsSearchResponse|error {
         string resourcePath = string `/admin.conversations.search`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -163,7 +163,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get api\.test(map<string|string[]> headers = {}, *Api_testQueries queries) returns json|error {
+    resource isolated function get api\.test(map<string|string[]> headers = {}, *Api_testQueries queries) returns ApiTestResponse|error {
         string resourcePath = string `/api.test`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -175,24 +175,24 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.permissions\.info(map<string|string[]> headers = {}) returns json|error {
+    resource isolated function get apps\.permissions\.info(map<string|string[]> headers = {}) returns AppsPermissionsInfoResponse|error {
         string resourcePath = string `/apps.permissions.info`;
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.permissions\.request(map<string|string[]> headers = {}, *Apps_permissions_requestQueries queries) returns json|error {
+    resource isolated function get apps\.permissions\.request(map<string|string[]> headers = {}, *Apps_permissions_requestQueries queries) returns AppsPermissionsRequestResponse|error {
         string resourcePath = string `/apps.permissions.request`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.permissions\.resources\.list(map<string|string[]> headers = {}, *Apps_permissions_resources_listQueries queries) returns json|error {
+    resource isolated function get apps\.permissions\.resources\.list(map<string|string[]> headers = {}, *Apps_permissions_resources_listQueries queries) returns AppsPermissionsResourcesListResponse|error {
         string resourcePath = string `/apps.permissions.resources.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.permissions\.scopes\.list(map<string|string[]> headers = {}) returns json|error {
+    resource isolated function get apps\.permissions\.scopes\.list(map<string|string[]> headers = {}) returns ApiPermissionsScopesListResponse|error {
         string resourcePath = string `/apps.permissions.scopes.list`;
         return self.clientEp->get(resourcePath, headers);
     }
@@ -209,24 +209,24 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.uninstall(map<string|string[]> headers = {}, *Apps_uninstallQueries queries) returns json|error {
+    resource isolated function get apps\.uninstall(map<string|string[]> headers = {}, *Apps_uninstallQueries queries) returns AppsUninstallResponse|error {
         string resourcePath = string `/apps.uninstall`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get auth\.revoke(map<string|string[]> headers = {}, *Auth_revokeQueries queries) returns json|error {
+    resource isolated function get auth\.revoke(map<string|string[]> headers = {}, *Auth_revokeQueries queries) returns AuthRevokeResponse|error {
         string resourcePath = string `/auth.revoke`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get auth\.test(map<string|string[]> headers = {}) returns json|error {
+    resource isolated function get auth\.test(map<string|string[]> headers = {}) returns AuthTestResponse|error {
         string resourcePath = string `/auth.test`;
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get bots\.info(map<string|string[]> headers = {}, *Bots_infoQueries queries) returns json|error {
+    resource isolated function get bots\.info(map<string|string[]> headers = {}, *Bots_infoQueries queries) returns BotsInfoResponse|error {
         string resourcePath = string `/bots.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -238,55 +238,55 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get chat\.getPermalink(map<string|string[]> headers = {}, *Chat_getPermalinkQueries queries) returns json|error {
+    resource isolated function get chat\.getPermalink(map<string|string[]> headers = {}, *Chat_getPermalinkQueries queries) returns ChatGetPermalinkResponse|error {
         string resourcePath = string `/chat.getPermalink`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get chat\.scheduledMessages\.list(map<string|string[]> headers = {}, *Chat_scheduledMessages_listQueries queries) returns json|error {
+    resource isolated function get chat\.scheduledMessages\.list(map<string|string[]> headers = {}, *Chat_scheduledMessages_listQueries queries) returns ChatScheduledMessagesListResponse|error {
         string resourcePath = string `/chat.scheduledMessages.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get conversations\.history(map<string|string[]> headers = {}, *Conversations_historyQueries queries) returns json|error {
+    resource isolated function get conversations\.history(map<string|string[]> headers = {}, *Conversations_historyQueries queries) returns ConversationsHistoryResponse|error {
         string resourcePath = string `/conversations.history`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get conversations\.info(map<string|string[]> headers = {}, *Conversations_infoQueries queries) returns json|error {
+    resource isolated function get conversations\.info(map<string|string[]> headers = {}, *Conversations_infoQueries queries) returns ConversationsInfoResponse|error {
         string resourcePath = string `/conversations.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get conversations\.list(map<string|string[]> headers = {}, *Conversations_listQueries queries) returns json|error {
+    resource isolated function get conversations\.list(map<string|string[]> headers = {}, *Conversations_listQueries queries) returns ConversationsListResponse|error {
         string resourcePath = string `/conversations.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get conversations\.members(map<string|string[]> headers = {}, *Conversations_membersQueries queries) returns json|error {
+    resource isolated function get conversations\.members(map<string|string[]> headers = {}, *Conversations_membersQueries queries) returns ConversationsMembersResponse|error {
         string resourcePath = string `/conversations.members`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get conversations\.replies(map<string|string[]> headers = {}, *Conversations_repliesQueries queries) returns json|error {
+    resource isolated function get conversations\.replies(map<string|string[]> headers = {}, *Conversations_repliesQueries queries) returns ConversationsRepliesResponse|error {
         string resourcePath = string `/conversations.replies`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get dialog\.open(map<string|string[]> headers = {}, *Dialog_openQueries queries) returns json|error {
+    resource isolated function get dialog\.open(map<string|string[]> headers = {}, *Dialog_openQueries queries) returns DialogOpenResponse|error {
         string resourcePath = string `/dialog.open`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get dnd\.info(map<string|string[]> headers = {}, *Dnd_infoQueries queries) returns json|error {
+    resource isolated function get dnd\.info(map<string|string[]> headers = {}, *Dnd_infoQueries queries) returns DndInfoResponse|error {
         string resourcePath = string `/dnd.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -303,13 +303,13 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get files\.info(map<string|string[]> headers = {}, *Files_infoQueries queries) returns json|error {
+    resource isolated function get files\.info(map<string|string[]> headers = {}, *Files_infoQueries queries) returns FilesInfoResponse|error {
         string resourcePath = string `/files.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get files\.list(map<string|string[]> headers = {}, *Files_listQueries queries) returns json|error {
+    resource isolated function get files\.list(map<string|string[]> headers = {}, *Files_listQueries queries) returns FilesListResponse|error {
         string resourcePath = string `/files.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -333,7 +333,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get migration\.exchange(map<string|string[]> headers = {}, *Migration_exchangeQueries queries) returns json|error {
+    resource isolated function get migration\.exchange(map<string|string[]> headers = {}, *Migration_exchangeQueries queries) returns MigrationExchangeResponse|error {
         string resourcePath = string `/migration.exchange`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -369,24 +369,24 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get reactions\.list(map<string|string[]> headers = {}, *Reactions_listQueries queries) returns json|error {
+    resource isolated function get reactions\.list(map<string|string[]> headers = {}, *Reactions_listQueries queries) returns ReactionsListResponse|error {
         string resourcePath = string `/reactions.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get reminders\.info(map<string|string[]> headers = {}, *Reminders_infoQueries queries) returns json|error {
+    resource isolated function get reminders\.info(map<string|string[]> headers = {}, *Reminders_infoQueries queries) returns RemindersInfoResponse|error {
         string resourcePath = string `/reminders.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get reminders\.list(map<string|string[]> headers = {}) returns json|error {
+    resource isolated function get reminders\.list(map<string|string[]> headers = {}) returns RemindersListResponse|error {
         string resourcePath = string `/reminders.list`;
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get rtm\.connect(map<string|string[]> headers = {}, *Rtm_connectQueries queries) returns json|error {
+    resource isolated function get rtm\.connect(map<string|string[]> headers = {}, *Rtm_connectQueries queries) returns RtmConnectResponse|error {
         string resourcePath = string `/rtm.connect`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -398,13 +398,13 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get stars\.list(map<string|string[]> headers = {}, *Stars_listQueries queries) returns json|error {
+    resource isolated function get stars\.list(map<string|string[]> headers = {}, *Stars_listQueries queries) returns StarsListResponse|error {
         string resourcePath = string `/stars.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get team\.accessLogs(map<string|string[]> headers = {}, *Team_accessLogsQueries queries) returns json|error {
+    resource isolated function get team\.accessLogs(map<string|string[]> headers = {}, *Team_accessLogsQueries queries) returns TeamAccessLogsResponse|error {
         string resourcePath = string `/team.accessLogs`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -416,43 +416,43 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get team\.info(map<string|string[]> headers = {}, *Team_infoQueries queries) returns json|error {
+    resource isolated function get team\.info(map<string|string[]> headers = {}, *Team_infoQueries queries) returns TeamInfoResponse|error {
         string resourcePath = string `/team.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get team\.integrationLogs(map<string|string[]> headers = {}, *Team_integrationLogsQueries queries) returns json|error {
+    resource isolated function get team\.integrationLogs(map<string|string[]> headers = {}, *Team_integrationLogsQueries queries) returns TeamIntegrationLogsResponse|error {
         string resourcePath = string `/team.integrationLogs`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get team\.profile\.get(map<string|string[]> headers = {}, *Team_profile_getQueries queries) returns json|error {
+    resource isolated function get team\.profile\.get(map<string|string[]> headers = {}, *Team_profile_getQueries queries) returns TeamProfileGetResponse|error {
         string resourcePath = string `/team.profile.get`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get usergroups\.list(map<string|string[]> headers = {}, *Usergroups_listQueries queries) returns json|error {
+    resource isolated function get usergroups\.list(map<string|string[]> headers = {}, *Usergroups_listQueries queries) returns UsergroupsListResponse|error {
         string resourcePath = string `/usergroups.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get usergroups\.users\.list(map<string|string[]> headers = {}, *Usergroups_users_listQueries queries) returns json|error {
+    resource isolated function get usergroups\.users\.list(map<string|string[]> headers = {}, *Usergroups_users_listQueries queries) returns UsergroupsUsersListResponse|error {
         string resourcePath = string `/usergroups.users.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get users\.conversations(map<string|string[]> headers = {}, *Users_conversationsQueries queries) returns json|error {
+    resource isolated function get users\.conversations(map<string|string[]> headers = {}, *Users_conversationsQueries queries) returns UsersConversationsResponse|error {
         string resourcePath = string `/users.conversations`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get users\.getPresence(map<string|string[]> headers = {}, *Users_getPresenceQueries queries) returns json|error {
+    resource isolated function get users\.getPresence(map<string|string[]> headers = {}, *Users_getPresenceQueries queries) returns APIMethodUsersGetPresence|error {
         string resourcePath = string `/users.getPresence`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -463,25 +463,25 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get users\.info(map<string|string[]> headers = {}, *Users_infoQueries queries) returns json|error {
+    resource isolated function get users\.info(map<string|string[]> headers = {}, *Users_infoQueries queries) returns UsersInfoResponse|error {
         string resourcePath = string `/users.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get users\.list(map<string|string[]> headers = {}, *Users_listQueries queries) returns json|error {
+    resource isolated function get users\.list(map<string|string[]> headers = {}, *Users_listQueries queries) returns UsersListResponse|error {
         string resourcePath = string `/users.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get users\.lookupByEmail(map<string|string[]> headers = {}, *Users_lookupByEmailQueries queries) returns json|error {
+    resource isolated function get users\.lookupByEmail(map<string|string[]> headers = {}, *Users_lookupByEmailQueries queries) returns UsersLookupByEmailResponse|error {
         string resourcePath = string `/users.lookupByEmail`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get users\.profile\.get(map<string|string[]> headers = {}, *Users_profile_getQueries queries) returns json|error {
+    resource isolated function get users\.profile\.get(map<string|string[]> headers = {}, *Users_profile_getQueries queries) returns UsersProfileGetResponse|error {
         string resourcePath = string `/users.profile.get`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -545,7 +545,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.conversations\.archive(admin_conversations_archive_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post admin\.conversations\.archive(admin_conversations_archive_body payload, map<string|string[]> headers = {}) returns AdminConversationsArchiveResponse|error {
         string resourcePath = string `/admin.conversations.archive`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -553,7 +553,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.conversations\.convertToPrivate(admin_conversations_convertToPrivate_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post admin\.conversations\.convertToPrivate(admin_conversations_convertToPrivate_body payload, map<string|string[]> headers = {}) returns AdminConversationsConvertToPrivateResponse|error {
         string resourcePath = string `/admin.conversations.convertToPrivate`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -561,7 +561,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.conversations\.create(admin_conversations_create_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post admin\.conversations\.create(admin_conversations_create_body payload, map<string|string[]> headers = {}) returns AdminConversationsCreateResponse|error {
         string resourcePath = string `/admin.conversations.create`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -569,7 +569,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.conversations\.delete(admin_conversations_delete_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post admin\.conversations\.delete(admin_conversations_delete_body payload, map<string|string[]> headers = {}) returns AdminConversationsDeleteResponse|error {
         string resourcePath = string `/admin.conversations.delete`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -577,7 +577,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.conversations\.disconnectShared(admin_conversations_disconnectShared_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post admin\.conversations\.disconnectShared(admin_conversations_disconnectShared_body payload, map<string|string[]> headers = {}) returns AdminConversationsRenameResponse|error {
         string resourcePath = string `/admin.conversations.disconnectShared`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -585,7 +585,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.conversations\.invite(admin_conversations_invite_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post admin\.conversations\.invite(admin_conversations_invite_body payload, map<string|string[]> headers = {}) returns AdminConversationsInviteResponse|error {
         string resourcePath = string `/admin.conversations.invite`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -593,7 +593,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.conversations\.rename(admin_conversations_rename_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post admin\.conversations\.rename(admin_conversations_rename_body payload, map<string|string[]> headers = {}) returns AdminConversationsRenameResponse_1|error {
         string resourcePath = string `/admin.conversations.rename`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -617,7 +617,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.conversations\.setConversationPrefs(admin_conversations_setConversationPrefs_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post admin\.conversations\.setConversationPrefs(admin_conversations_setConversationPrefs_body payload, map<string|string[]> headers = {}) returns AdminConversationsSetConversationPrefsResponse|error {
         string resourcePath = string `/admin.conversations.setConversationPrefs`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -633,7 +633,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post admin\.conversations\.unarchive(admin_conversations_unarchive_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post admin\.conversations\.unarchive(admin_conversations_unarchive_body payload, map<string|string[]> headers = {}) returns AdminConversationsUnarchiveResponse|error {
         string resourcePath = string `/admin.conversations.unarchive`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -874,7 +874,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post chat\.delete(chat_delete_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post chat\.delete(chat_delete_body payload, map<string|string[]> headers = {}) returns ChatDeleteResponse|error {
         string resourcePath = string `/chat.delete`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -882,7 +882,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post chat\.deleteScheduledMessage(chat_deleteScheduledMessage_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post chat\.deleteScheduledMessage(chat_deleteScheduledMessage_body payload, map<string|string[]> headers = {}) returns ChatDeleteScheduledMessageResponse|error {
         string resourcePath = string `/chat.deleteScheduledMessage`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -890,7 +890,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post chat\.meMessage(chat_meMessage_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post chat\.meMessage(chat_meMessage_body payload, map<string|string[]> headers = {}) returns ChatMeMessageResponse|error {
         string resourcePath = string `/chat.meMessage`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -898,7 +898,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post chat\.postEphemeral(chat_postEphemeral_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post chat\.postEphemeral(chat_postEphemeral_body payload, map<string|string[]> headers = {}) returns ChatPostEphemeralResponse|error {
         string resourcePath = string `/chat.postEphemeral`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -906,7 +906,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post chat\.postMessage(chat_postMessage_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post chat\.postMessage(chat_postMessage_body payload, map<string|string[]> headers = {}) returns ChatPostMessageResponse|error {
         string resourcePath = string `/chat.postMessage`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -914,7 +914,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post chat\.scheduleMessage(chat_scheduleMessage_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post chat\.scheduleMessage(chat_scheduleMessage_body payload, map<string|string[]> headers = {}) returns ChatScheduleMessageResponse|error {
         string resourcePath = string `/chat.scheduleMessage`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -922,7 +922,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post chat\.unfurl(chat_unfurl_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post chat\.unfurl(chat_unfurl_body payload, map<string|string[]> headers = {}) returns ChatUnfurlResponse|error {
         string resourcePath = string `/chat.unfurl`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -930,7 +930,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post chat\.update(chat_update_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post chat\.update(chat_update_body payload, map<string|string[]> headers = {}) returns ChatUpdateResponse|error {
         string resourcePath = string `/chat.update`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -938,7 +938,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.archive(conversations_archive_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.archive(conversations_archive_body payload, map<string|string[]> headers = {}) returns ConversationsArchiveResponse|error {
         string resourcePath = string `/conversations.archive`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -946,7 +946,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.close(conversations_close_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.close(conversations_close_body payload, map<string|string[]> headers = {}) returns ConversationsCloseResponse|error {
         string resourcePath = string `/conversations.close`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -954,7 +954,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.create(conversations_create_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.create(conversations_create_body payload, map<string|string[]> headers = {}) returns ConversationsCreateResponse|error {
         string resourcePath = string `/conversations.create`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -962,7 +962,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.invite(conversations_invite_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.invite(conversations_invite_body payload, map<string|string[]> headers = {}) returns ConversationsInviteErrorResponse|error {
         string resourcePath = string `/conversations.invite`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -970,7 +970,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.join(conversations_join_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.join(conversations_join_body payload, map<string|string[]> headers = {}) returns ConversationsJoinResponse|error {
         string resourcePath = string `/conversations.join`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -978,7 +978,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.kick(conversations_kick_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.kick(conversations_kick_body payload, map<string|string[]> headers = {}) returns ConversationsKickResponse|error {
         string resourcePath = string `/conversations.kick`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -986,7 +986,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.leave(conversations_leave_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.leave(conversations_leave_body payload, map<string|string[]> headers = {}) returns ConversationsLeaveResponse|error {
         string resourcePath = string `/conversations.leave`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -994,7 +994,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.mark(conversations_mark_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.mark(conversations_mark_body payload, map<string|string[]> headers = {}) returns ConversationsMarkResponse|error {
         string resourcePath = string `/conversations.mark`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1002,7 +1002,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.open(conversations_open_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.open(conversations_open_body payload, map<string|string[]> headers = {}) returns ConversationsOpenResponse|error {
         string resourcePath = string `/conversations.open`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1010,7 +1010,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.rename(conversations_rename_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.rename(conversations_rename_body payload, map<string|string[]> headers = {}) returns ConversationsRenameResponse|error {
         string resourcePath = string `/conversations.rename`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1018,7 +1018,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.setPurpose(conversations_setPurpose_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.setPurpose(conversations_setPurpose_body payload, map<string|string[]> headers = {}) returns ConversationsSetPurposeResponse|error {
         string resourcePath = string `/conversations.setPurpose`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1026,7 +1026,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.setTopic(conversations_setTopic_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.setTopic(conversations_setTopic_body payload, map<string|string[]> headers = {}) returns ConversationsSetTopicResponse|error {
         string resourcePath = string `/conversations.setTopic`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1034,7 +1034,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post conversations\.unarchive(conversations_unarchive_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post conversations\.unarchive(conversations_unarchive_body payload, map<string|string[]> headers = {}) returns ConversationsUnarchiveResponse|error {
         string resourcePath = string `/conversations.unarchive`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1042,19 +1042,19 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post dnd\.endDnd(map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post dnd\.endDnd(map<string|string[]> headers = {}) returns DndEndDndResponse|error {
         string resourcePath = string `/dnd.endDnd`;
         http:Request request = new;
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post dnd\.endSnooze(map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post dnd\.endSnooze(map<string|string[]> headers = {}) returns DndEndSnoozeResponse|error {
         string resourcePath = string `/dnd.endSnooze`;
         http:Request request = new;
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post dnd\.setSnooze(dnd_setSnooze_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post dnd\.setSnooze(dnd_setSnooze_body payload, map<string|string[]> headers = {}) returns DndSetSnoozeResponse|error {
         string resourcePath = string `/dnd.setSnooze`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1062,7 +1062,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.comments\.delete(files_comments_delete_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post files\.comments\.delete(files_comments_delete_body payload, map<string|string[]> headers = {}) returns FilesCommentsDeleteResponse|error {
         string resourcePath = string `/files.comments.delete`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1070,7 +1070,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.delete(files_delete_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post files\.delete(files_delete_body payload, map<string|string[]> headers = {}) returns FilesDeleteResponse|error {
         string resourcePath = string `/files.delete`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1102,7 +1102,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.revokePublicURL(files_revokePublicURL_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post files\.revokePublicURL(files_revokePublicURL_body payload, map<string|string[]> headers = {}) returns FilesRevokePublicURLResponse|error {
         string resourcePath = string `/files.revokePublicURL`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1110,7 +1110,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.sharedPublicURL(files_sharedPublicURL_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post files\.sharedPublicURL(files_sharedPublicURL_body payload, map<string|string[]> headers = {}) returns FilesSharedPublicURLResponse|error {
         string resourcePath = string `/files.sharedPublicURL`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1118,7 +1118,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.upload(files_upload_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post files\.upload(files_upload_body payload, map<string|string[]> headers = {}) returns FilesUploadResponse|error {
         string resourcePath = string `/files.upload`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1126,7 +1126,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post pins\.add(pins_add_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post pins\.add(pins_add_body payload, map<string|string[]> headers = {}) returns PinsAddResponse|error {
         string resourcePath = string `/pins.add`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1134,7 +1134,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post pins\.remove(pins_remove_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post pins\.remove(pins_remove_body payload, map<string|string[]> headers = {}) returns PinsRemoveResponse|error {
         string resourcePath = string `/pins.remove`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1142,7 +1142,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post reactions\.add(reactions_add_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post reactions\.add(reactions_add_body payload, map<string|string[]> headers = {}) returns ReactionsAddResponse|error {
         string resourcePath = string `/reactions.add`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1150,7 +1150,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post reactions\.remove(reactions_remove_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post reactions\.remove(reactions_remove_body payload, map<string|string[]> headers = {}) returns ReactionsRemoveResponse|error {
         string resourcePath = string `/reactions.remove`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1158,7 +1158,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post reminders\.add(reminders_add_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post reminders\.add(reminders_add_body payload, map<string|string[]> headers = {}) returns RemindersAddResponse|error {
         string resourcePath = string `/reminders.add`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1166,7 +1166,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post reminders\.complete(reminders_complete_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post reminders\.complete(reminders_complete_body payload, map<string|string[]> headers = {}) returns RemindersCompleteResponse|error {
         string resourcePath = string `/reminders.complete`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1174,7 +1174,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post reminders\.delete(reminders_delete_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post reminders\.delete(reminders_delete_body payload, map<string|string[]> headers = {}) returns RemindersDeleteResponse|error {
         string resourcePath = string `/reminders.delete`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1182,7 +1182,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post stars\.add(stars_add_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post stars\.add(stars_add_body payload, map<string|string[]> headers = {}) returns StarsAddResponse|error {
         string resourcePath = string `/stars.add`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1190,7 +1190,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post stars\.remove(stars_remove_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post stars\.remove(stars_remove_body payload, map<string|string[]> headers = {}) returns StarsRemoveResponse|error {
         string resourcePath = string `/stars.remove`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1198,7 +1198,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post usergroups\.create(usergroups_create_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post usergroups\.create(usergroups_create_body payload, map<string|string[]> headers = {}) returns UsergroupsCreateResponse|error {
         string resourcePath = string `/usergroups.create`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1206,7 +1206,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post usergroups\.disable(usergroups_disable_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post usergroups\.disable(usergroups_disable_body payload, map<string|string[]> headers = {}) returns UsergroupsDisableResponse|error {
         string resourcePath = string `/usergroups.disable`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1214,7 +1214,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post usergroups\.enable(usergroups_enable_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post usergroups\.enable(usergroups_enable_body payload, map<string|string[]> headers = {}) returns UsergroupsEnableResponse|error {
         string resourcePath = string `/usergroups.enable`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1222,7 +1222,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post usergroups\.update(usergroups_update_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post usergroups\.update(usergroups_update_body payload, map<string|string[]> headers = {}) returns UsergroupsUpdateResponse|error {
         string resourcePath = string `/usergroups.update`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1230,7 +1230,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post usergroups\.users\.update(usergroups_users_update_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post usergroups\.users\.update(usergroups_users_update_body payload, map<string|string[]> headers = {}) returns UsergroupsUsersUpdateResponse|error {
         string resourcePath = string `/usergroups.users.update`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1238,7 +1238,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post users\.deletePhoto(users_deletePhoto_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post users\.deletePhoto(users_deletePhoto_body payload, map<string|string[]> headers = {}) returns UsersDeletePhotoResponse|error {
         string resourcePath = string `/users.deletePhoto`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1246,7 +1246,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post users\.profile\.set(users_profile_set_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post users\.profile\.set(users_profile_set_body payload, map<string|string[]> headers = {}) returns UsersProfileSetResponse|error {
         string resourcePath = string `/users.profile.set`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1254,13 +1254,13 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post users\.setActive(map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post users\.setActive(map<string|string[]> headers = {}) returns UsersSetActiveResponse|error {
         string resourcePath = string `/users.setActive`;
         http:Request request = new;
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post users\.setPhoto(users_setPhoto_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post users\.setPhoto(users_setPhoto_body payload, map<string|string[]> headers = {}) returns UsersSetPhotoResponse|error {
         string resourcePath = string `/users.setPhoto`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
@@ -1268,7 +1268,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post users\.setPresence(users_setPresence_body payload, map<string|string[]> headers = {}) returns json|error {
+    resource isolated function post users\.setPresence(users_setPresence_body payload, map<string|string[]> headers = {}) returns UsersSetPresenceResponse|error {
         string resourcePath = string `/users.setPresence`;
         http:Request request = new;
         string encodedRequestBody = createFormURLEncodedRequestBody(payload);
