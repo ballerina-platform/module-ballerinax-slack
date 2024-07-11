@@ -357,13 +357,13 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get pins\.list(map<string|string[]> headers = {}, *Pins_listQueries queries) returns record {|(record {|int created?; defs_user_id created_by?; objs_file file?; "file" 'type?;|}|record {|defs_channel channel?; int created?; defs_user_id created_by?; objs_message message?; "message" 'type?;|})[] items; defs_ok_true ok;|}|record {|int count; defs_ok_true ok;|}[]|error {
+    resource isolated function get pins\.list(map<string|string[]> headers = {}, *Pins_listQueries queries) returns record {|(record {|int created?; UserIdDef created_by?; FileObj file?; "file" 'type?;|}|record {|ChannelDef channel?; int created?; UserIdDef created_by?; MessageObj message?; "message" 'type?;|})[] items; OkTrueDef ok;|}|record {|int count; OkTrueDef ok;|}[]|error {
         string resourcePath = string `/pins.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get reactions\.get(map<string|string[]> headers = {}, *Reactions_getQueries queries) returns record {|defs_channel channel; objs_message message; defs_ok_true ok; "message" 'type;|}|record {|objs_file file; defs_ok_true ok; "file" 'type;|}|record {|objs_comment comment; objs_file file; defs_ok_true ok; "file_comment" 'type;|}[]|error {
+    resource isolated function get reactions\.get(map<string|string[]> headers = {}, *Reactions_getQueries queries) returns record {|ChannelDef channel; MessageObj message; OkTrueDef ok; "message" 'type;|}|record {|FileObj file; OkTrueDef ok; "file" 'type;|}|record {|CommentObj comment; FileObj file; OkTrueDef ok; "file_comment" 'type;|}[]|error {
         string resourcePath = string `/reactions.get`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -458,7 +458,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get users\.identity(map<string|string[]> headers = {}) returns record {|defs_ok_true ok; record {|defs_team id;|} team; record {|defs_user_id id; string name;|} user;|}|record {|defs_ok_true ok; record {|defs_team id;|} team; record {|string email; defs_user_id id; string name;|} user;|}|record {|defs_ok_true ok; record {|defs_team id;|} team; record {|defs_user_id id; string image_192; string image_24; string image_32; string image_48; string image_512; string image_72; string name;|} user;|}|record {|defs_ok_true ok; record {|string domain; defs_team id; string image_102; string image_132; string image_230; string image_34; string image_44; string image_68; string image_88; boolean image_default; string name;|} team; record {|defs_user_id id; string name;|} user;|}[]|error {
+    resource isolated function get users\.identity(map<string|string[]> headers = {}) returns record {|OkTrueDef ok; record {|TeamDef id;|} team; record {|UserIdDef id; string name;|} user;|}|record {|OkTrueDef ok; record {|TeamDef id;|} team; record {|string email; UserIdDef id; string name;|} user;|}|record {|OkTrueDef ok; record {|TeamDef id;|} team; record {|UserIdDef id; string image_192; string image_24; string image_32; string image_48; string image_512; string image_72; string name;|} user;|}|record {|OkTrueDef ok; record {|string domain; TeamDef id; string image_102; string image_132; string image_230; string image_34; string image_44; string image_68; string image_88; boolean image_default; string name;|} team; record {|UserIdDef id; string name;|} user;|}[]|error {
         string resourcePath = string `/users.identity`;
         return self.clientEp->get(resourcePath, headers);
     }

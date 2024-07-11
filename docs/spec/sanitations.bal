@@ -19,6 +19,7 @@ import ballerina/lang.regexp;
 
 type Specification record {
     map<Path> paths;
+    Components components;
 };
 
 type Path record {
@@ -56,6 +57,10 @@ type ResponseSchema record {
     string schemaType?;
 };
 
+type Components record {
+    map<json> schemas;
+};
+
 const SPEC_PATH = "openapi.json";
 const CONTENT_TYPE_JSON = "application/json";
 final regexp:RegExp MALFORMED_TITLE_REGEX = re `\w+[\.\s]\w+.*`;
@@ -63,8 +68,10 @@ final regexp:RegExp MALFORMED_TITLE_REGEX = re `\w+[\.\s]\w+.*`;
 public function main() returns error? {
     json openAPISpec = check io:fileReadJson(SPEC_PATH);
     Specification spec = check openAPISpec.cloneWithType(Specification);
-    Specification sanitisedSpec = check sanitizeResponseSchemaNames(spec);
-    check io:fileWriteJson(SPEC_PATH, sanitisedSpec.toJson());
+
+    spec = check sanitizeResponseSchemaNames(spec);
+    string sanitizedSpecString = sanitizeSchemaNames(spec);
+    check io:fileWriteString(SPEC_PATH, sanitizedSpecString);
 }
 
 function sanitizeResponseSchemaNames(Specification spec) returns Specification|error {
@@ -105,4 +112,50 @@ function sanitizeResponseSchemaNames(Specification spec) returns Specification|e
     }
 
     return spec;
+}
+
+function sanitizeSchemaNames(Specification spec) returns string {
+
+    map<json> updatedSchemas = {};
+    map<string> updatedNames = {};
+
+    foreach [string, json] [schemaName, schema] in spec.components.schemas.entries() {
+        if schemaName.includes("_") {
+            string newName = getSanitizedSchemaName(schemaName);
+            if updatedSchemas.hasKey(newName) {
+                io:println("Error: Duplicate sanitized schema name found: " + newName + " for schema: " + schemaName);
+            }
+            updatedNames[schemaName] = newName;
+            updatedSchemas[newName] = schema;
+        } else {
+            updatedSchemas[schemaName] = schema;
+        }
+    }
+    spec.components.schemas = updatedSchemas;
+
+    string updatedSpec = spec.toJsonString();
+    foreach [string, string] [oldName, newName] in updatedNames.entries() {
+        regexp:RegExp oldRegex = re `#/components/schemas/${oldName}"`;
+        regexp:Replacement replacement = string `#/components/schemas/${newName}"`;
+        updatedSpec = oldRegex.replaceAll(updatedSpec, replacement);
+    }
+
+    return updatedSpec;
+}
+
+function getSanitizedSchemaName(string schemaName) returns string {
+    string[] nameParts = re `_`.split(schemaName);
+    if nameParts[0] == "defs" {
+        string _ = nameParts.remove(0);
+        nameParts.push("Def");
+    }
+
+    if nameParts[0] == "objs" {
+        string _ = nameParts.remove(0);
+        nameParts.push("Obj");
+    }
+
+    string[] capitalizedNameParts = from string namePart in nameParts
+        select namePart[0].toUpperAscii() + namePart.substring(1, namePart.length());
+    return string:'join("", ...capitalizedNameParts);
 }
