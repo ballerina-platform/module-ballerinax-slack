@@ -93,9 +93,12 @@ function sanitizeResponseSchemaNames(Specification spec) returns Specification|e
             if MALFORMED_TITLE_REGEX.isFullMatch(title) {
                 string tempTitle = re `\.`.replaceAll(title, " ");
                 string[] nameParts = re ` `.split(tempTitle);
-                string[] capitalizedTitle = from string namePart in nameParts
+                string[] capitalizedNameParts = from string namePart in nameParts
                     select namePart[0].toUpperAscii() + namePart.substring(1, namePart.length());
-                string sanitizedTitle = string:'join("", ...capitalizedTitle);
+
+                string sanitizedTitle = string:'join("", ...capitalizedNameParts);
+                sanitizedTitle = re `SuccessSchema`.replaceAll(sanitizedTitle, "Response");
+                sanitizedTitle = re `Schema`.replaceAll(sanitizedTitle, "Response");
                 schema.title = sanitizedTitle;
             }
         }

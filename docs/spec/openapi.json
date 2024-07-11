@@ -710,7 +710,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsArchiveSchema",
+                  "title": "AdminConversationsArchiveResponse",
                   "type": "object",
                   "description": "Schema for successful response of admin.conversations.archive",
                   "additionalProperties": false,
@@ -738,7 +738,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsArchiveErrorSchema",
+                  "title": "AdminConversationsArchiveErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from admin.conversations.archive",
                   "additionalProperties": false,
@@ -823,7 +823,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsConvertToPrivateSchema",
+                  "title": "AdminConversationsConvertToPrivateResponse",
                   "type": "object",
                   "description": "Schema for successful response of admin.conversations.convertToPrivate",
                   "additionalProperties": false,
@@ -851,7 +851,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsConvertToPrivateErrorSchema",
+                  "title": "AdminConversationsConvertToPrivateErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from admin.conversations.convertToPrivate",
                   "additionalProperties": false,
@@ -954,7 +954,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsCreateSchema",
+                  "title": "AdminConversationsCreateResponse",
                   "type": "object",
                   "description": "Schema for successful response of admin.conversations.create",
                   "additionalProperties": false,
@@ -986,7 +986,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsCreateErrorSchema",
+                  "title": "AdminConversationsCreateErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from admin.conversations.create",
                   "additionalProperties": false,
@@ -1071,7 +1071,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsDeleteSchema",
+                  "title": "AdminConversationsDeleteResponse",
                   "type": "object",
                   "description": "Schema for successful response of admin.conversations.delete",
                   "additionalProperties": false,
@@ -1099,7 +1099,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsDeleteErrorSchema",
+                  "title": "AdminConversationsDeleteErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from admin.conversations.delete",
                   "additionalProperties": false,
@@ -1188,7 +1188,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsRenameSchema",
+                  "title": "AdminConversationsRenameResponse",
                   "type": "object",
                   "description": "Schema for successful response of admin.conversations.disconnectShared",
                   "additionalProperties": false,
@@ -1216,7 +1216,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsDisconnectSharedErrorSchema",
+                  "title": "AdminConversationsDisconnectSharedErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from admin.conversations.disconnectShared",
                   "additionalProperties": false,
@@ -1409,7 +1409,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsGetConversationPrefsSchema",
+                  "title": "AdminConversationsGetConversationPrefsResponse",
                   "type": "object",
                   "description": "Schema for successful response of admin.conversations.getConversationPrefs",
                   "additionalProperties": false,
@@ -1476,7 +1476,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsUnarchiveErrorSchema",
+                  "title": "AdminConversationsUnarchiveErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from admin.conversations.getConversationPrefs",
                   "additionalProperties": false,
@@ -1553,7 +1553,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsGetTeamsSchema",
+                  "title": "AdminConversationsGetTeamsResponse",
                   "type": "object",
                   "description": "Schema for successful response of admin.conversations.getTeams",
                   "additionalProperties": false,
@@ -1604,7 +1604,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsGetTeamsErrorSchema",
+                  "title": "AdminConversationsGetTeamsErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from admin.conversations.getTeams",
                   "additionalProperties": false,
@@ -1721,7 +1721,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsInviteSchema",
+                  "title": "AdminConversationsInviteResponse",
                   "type": "object",
                   "description": "Schema for successful response of admin.conversations.invite",
                   "additionalProperties": false,
@@ -1749,7 +1749,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsInviteErrorSchema",
+                  "title": "AdminConversationsInviteErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from admin.conversations.invite",
                   "additionalProperties": true,
@@ -1837,7 +1837,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsRenameSchema",
+                  "title": "AdminConversationsRenameResponse",
                   "type": "object",
                   "description": "Schema for successful response of admin.conversations.rename",
                   "additionalProperties": false,
@@ -1865,7 +1865,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsUnarchiveErrorSchema",
+                  "title": "AdminConversationsUnarchiveErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from admin.conversations.rename",
                   "additionalProperties": false,
@@ -2258,7 +2258,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsSearchSchema",
+                  "title": "AdminConversationsSearchResponse",
                   "type": "object",
                   "description": "Schema for successful response of admin.conversations.search",
                   "additionalProperties": false,
@@ -2331,7 +2331,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsSearchErrorSchema",
+                  "title": "AdminConversationsSearchErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from admin.conversations.search",
                   "additionalProperties": false,
@@ -2481,7 +2481,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsSetConversationPrefsSchema",
+                  "title": "AdminConversationsSetConversationPrefsResponse",
                   "type": "object",
                   "description": "Schema for successful response of admin.conversations.setConversationPrefs",
                   "additionalProperties": false,
@@ -2509,7 +2509,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsSetConversationPrefsErrorSchema",
+                  "title": "AdminConversationsSetConversationPrefsErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from admin.conversations.setConversationPrefs",
                   "additionalProperties": false,
@@ -2705,7 +2705,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsUnarchiveSchema",
+                  "title": "AdminConversationsUnarchiveResponse",
                   "type": "object",
                   "description": "Schema for successful response of admin.conversations.unarchive",
                   "additionalProperties": false,
@@ -2733,7 +2733,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AdminConversationsUnarchiveErrorSchema",
+                  "title": "AdminConversationsUnarchiveErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from admin.conversations.unarchive",
                   "additionalProperties": false,
@@ -6480,7 +6480,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ApiTestSuccessSchema",
+                  "title": "ApiTestResponse",
                   "type": "object",
                   "description": "Schema for successful response api.test method",
                   "additionalProperties": {
@@ -6510,7 +6510,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ApiTestErrorSchema",
+                  "title": "ApiTestErrorResponse",
                   "type": "object",
                   "description": "Schema for error response api.test method",
                   "additionalProperties": {
@@ -6691,7 +6691,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AppsPermissionsInfoSchema",
+                  "title": "AppsPermissionsInfoResponse",
                   "type": "object",
                   "description": "Schema for successful response from apps.permissions.info method",
                   "additionalProperties": false,
@@ -6854,7 +6854,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AppsPermissionsInfoErrorSchema",
+                  "title": "AppsPermissionsInfoErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from apps.permissions.info method",
                   "additionalProperties": false,
@@ -6935,7 +6935,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AppsPermissionsRequestSchema",
+                  "title": "AppsPermissionsRequestResponse",
                   "type": "object",
                   "description": "Schema for successful response from apps.permissions.request method",
                   "additionalProperties": false,
@@ -6963,7 +6963,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AppsPermissionsRequestErrorSchema",
+                  "title": "AppsPermissionsRequestErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from apps.permissions.request method",
                   "additionalProperties": false,
@@ -7068,7 +7068,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AppsPermissionsResourcesListSuccessSchema",
+                  "title": "AppsPermissionsResourcesListResponse",
                   "type": "object",
                   "description": "Schema for successful response apps.permissions.resources.list method",
                   "additionalProperties": true,
@@ -7154,7 +7154,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AppsPermissionsResourcesListErrorSchema",
+                  "title": "AppsPermissionsResourcesListErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from apps.permissions.resources.list method",
                   "additionalProperties": false,
@@ -7254,7 +7254,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ApiPermissionsScopesListSuccessSchema",
+                  "title": "ApiPermissionsScopesListResponse",
                   "type": "object",
                   "description": "Schema for successful response api.permissions.scopes.list method",
                   "additionalProperties": true,
@@ -7334,7 +7334,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AppsPermissionsScopesListErrorSchema",
+                  "title": "AppsPermissionsScopesListErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from apps.permissions.scopes.list method",
                   "additionalProperties": false,
@@ -7639,7 +7639,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AppsUninstallSchema",
+                  "title": "AppsUninstallResponse",
                   "type": "object",
                   "description": "Schema for successful response from apps.uninstall method",
                   "additionalProperties": false,
@@ -7667,7 +7667,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AppsUninstallErrorSchema",
+                  "title": "AppsUninstallErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from apps.uninstall method",
                   "additionalProperties": false,
@@ -7768,7 +7768,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AuthRevokeSchema",
+                  "title": "AuthRevokeResponse",
                   "type": "object",
                   "description": "Schema for successful response from auth.revoke method",
                   "additionalProperties": false,
@@ -7801,7 +7801,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AuthRevokeErrorSchema",
+                  "title": "AuthRevokeErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from auth.revoke method",
                   "additionalProperties": false,
@@ -7890,7 +7890,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AuthTestSuccessSchema",
+                  "title": "AuthTestResponse",
                   "type": "object",
                   "description": "Schema for successful response auth.test method",
                   "additionalProperties": false,
@@ -7949,7 +7949,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "AuthTestErrorSchema",
+                  "title": "AuthTestErrorResponse",
                   "type": "object",
                   "description": "Schema for error response auth.test method",
                   "additionalProperties": false,
@@ -8024,7 +8024,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "BotsInfoSchema",
+                  "title": "BotsInfoResponse",
                   "type": "object",
                   "description": "Schema for successful response from bots.info method",
                   "additionalProperties": false,
@@ -8121,7 +8121,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "BotsInfoErrorSchema",
+                  "title": "BotsInfoErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from bots.info method",
                   "additionalProperties": false,
@@ -8871,7 +8871,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatDeleteSuccessSchema",
+                  "title": "ChatDeleteResponse",
                   "type": "object",
                   "description": "Schema for successful response of chat.delete method",
                   "additionalProperties": false,
@@ -8909,7 +8909,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatDeleteErrorSchema",
+                  "title": "ChatDeleteErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from chat.delete method",
                   "additionalProperties": false,
@@ -9019,7 +9019,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatDeleteScheduledMessageSchema",
+                  "title": "ChatDeleteScheduledMessageResponse",
                   "type": "object",
                   "description": "Schema for successful response from chat.deleteScheduledMessage method",
                   "additionalProperties": false,
@@ -9047,7 +9047,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatDeleteScheduledMessageErrorSchema",
+                  "title": "ChatDeleteScheduledMessageErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from chat.deleteScheduledMessage method",
                   "additionalProperties": false,
@@ -9132,7 +9132,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatGetPermalinkSuccessSchema",
+                  "title": "ChatGetPermalinkResponse",
                   "type": "object",
                   "description": "Schema for successful response chat.getPermalink",
                   "additionalProperties": false,
@@ -9171,7 +9171,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatGetPermalinkErrorSchema",
+                  "title": "ChatGetPermalinkErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from chat.getPermalink method",
                   "additionalProperties": false,
@@ -9291,7 +9291,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatMeMessageSchema",
+                  "title": "ChatMeMessageResponse",
                   "type": "object",
                   "description": "Schema for successful response from chat.meMessage method",
                   "additionalProperties": false,
@@ -9327,7 +9327,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatMeMessageErrorSchema",
+                  "title": "ChatMeMessageErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from chat.meMessage method",
                   "additionalProperties": false,
@@ -9476,7 +9476,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatPostEphemeralSuccessSchema",
+                  "title": "ChatPostEphemeralResponse",
                   "type": "object",
                   "description": "Schema for successful response from chat.postEphemeral method",
                   "additionalProperties": false,
@@ -9509,7 +9509,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatPostEphemeralErrorSchema",
+                  "title": "ChatPostEphemeralErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from chat.postEphemeral method",
                   "additionalProperties": false,
@@ -9670,7 +9670,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatPostMessageSuccessSchema",
+                  "title": "ChatPostMessageResponse",
                   "type": "object",
                   "description": "Schema for successful response of chat.postMessage method",
                   "additionalProperties": false,
@@ -9727,7 +9727,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatPostMessageErrorSchema",
+                  "title": "ChatPostMessageErrorResponse",
                   "type": "object",
                   "description": "Schema for error response chat.postMessage method",
                   "additionalProperties": false,
@@ -9864,7 +9864,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatScheduleMessageSuccessSchema",
+                  "title": "ChatScheduleMessageResponse",
                   "type": "object",
                   "description": "Schema for successful response of chat.scheduleMessage method",
                   "additionalProperties": false,
@@ -9959,7 +9959,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatScheduleMessageErrorSchema",
+                  "title": "ChatScheduleMessageErrorResponse",
                   "type": "object",
                   "description": "Schema for error response chat.scheduleMessage method",
                   "additionalProperties": false,
@@ -10056,7 +10056,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatScheduledMessagesListSchema",
+                  "title": "ChatScheduledMessagesListResponse",
                   "type": "object",
                   "description": "Schema for successful response from chat.scheduledMessages.list method",
                   "additionalProperties": false,
@@ -10143,7 +10143,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatScheduledMessagesListErrorSchema",
+                  "title": "ChatScheduledMessagesListErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from chat.scheduledMessages.list method",
                   "additionalProperties": false,
@@ -10307,7 +10307,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatUnfurlSuccessSchema",
+                  "title": "ChatUnfurlResponse",
                   "type": "object",
                   "description": "Schema for successful response from chat.unfurl method",
                   "additionalProperties": false,
@@ -10335,7 +10335,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatUnfurlErrorSchema",
+                  "title": "ChatUnfurlErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from chat.unfurl method",
                   "additionalProperties": false,
@@ -10466,7 +10466,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatUpdateSuccessSchema",
+                  "title": "ChatUpdateResponse",
                   "type": "object",
                   "description": "Schema for successful response of chat.update method",
                   "additionalProperties": false,
@@ -10535,7 +10535,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ChatUpdateErrorSchema",
+                  "title": "ChatUpdateErrorResponse",
                   "type": "object",
                   "description": "Schema for error response chat.update method",
                   "additionalProperties": false,
@@ -10637,7 +10637,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsArchiveSuccessSchema",
+                  "title": "ConversationsArchiveResponse",
                   "type": "object",
                   "description": "Schema for successful response conversations.archive method",
                   "additionalProperties": false,
@@ -10665,7 +10665,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsArchiveErrorSchema",
+                  "title": "ConversationsArchiveErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.archive method",
                   "additionalProperties": false,
@@ -10776,7 +10776,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsCloseSuccessSchema",
+                  "title": "ConversationsCloseResponse",
                   "type": "object",
                   "description": "Schema for successful response conversations.close method",
                   "additionalProperties": false,
@@ -10810,7 +10810,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsCloseErrorSchema",
+                  "title": "ConversationsCloseErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.close method",
                   "additionalProperties": false,
@@ -10917,7 +10917,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsCreateSuccessSchema",
+                  "title": "ConversationsCreateResponse",
                   "type": "object",
                   "description": "Schema for successful response conversations.create method",
                   "additionalProperties": false,
@@ -10986,7 +10986,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsCreateErrorSchema",
+                  "title": "ConversationsCreateErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.create method",
                   "additionalProperties": false,
@@ -11085,7 +11085,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsHistorySuccessSchema",
+                  "title": "ConversationsHistoryResponse",
                   "type": "object",
                   "description": "Schema for successful response from conversations.history method",
                   "additionalProperties": false,
@@ -11166,7 +11166,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsHistoryErrorSchema",
+                  "title": "ConversationsHistoryErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.history method",
                   "additionalProperties": false,
@@ -11303,7 +11303,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsInfoSuccessSchema",
+                  "title": "ConversationsInfoResponse",
                   "type": "object",
                   "description": "Schema for successful response conversations.info",
                   "additionalProperties": false,
@@ -11375,7 +11375,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsInfoErrorSchema",
+                  "title": "ConversationsInfoErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.info method",
                   "additionalProperties": false,
@@ -11506,7 +11506,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsInviteErrorSchema",
+                  "title": "ConversationsInviteErrorResponse",
                   "type": "object",
                   "description": "Schema for successful response from conversations.invite method",
                   "additionalProperties": false,
@@ -11578,7 +11578,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsInviteErrorSchema",
+                  "title": "ConversationsInviteErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.invite method",
                   "additionalProperties": false,
@@ -11751,7 +11751,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsJoinSuccessSchema",
+                  "title": "ConversationsJoinResponse",
                   "type": "object",
                   "description": "Schema for successful response from conversations.join method",
                   "additionalProperties": false,
@@ -11838,7 +11838,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsJoinErrorSchema",
+                  "title": "ConversationsJoinErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.join method",
                   "additionalProperties": false,
@@ -11947,7 +11947,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsKickSuccessSchema",
+                  "title": "ConversationsKickResponse",
                   "type": "object",
                   "description": "Schema for successful response conversations.kick method",
                   "additionalProperties": false,
@@ -11975,7 +11975,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsKickErrorSchema",
+                  "title": "ConversationsKickErrorResponse",
                   "type": "object",
                   "description": "Schema for error response conversations.kick method",
                   "additionalProperties": false,
@@ -12083,7 +12083,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsLeaveSuccessSchema",
+                  "title": "ConversationsLeaveResponse",
                   "type": "object",
                   "description": "Schema for successful response from conversations.leave method",
                   "additionalProperties": false,
@@ -12117,7 +12117,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsLeaveErrorSchema",
+                  "title": "ConversationsLeaveErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.leave method",
                   "additionalProperties": false,
@@ -12212,7 +12212,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsListSuccessSchema",
+                  "title": "ConversationsListResponse",
                   "type": "object",
                   "description": "Schema for successful response from conversations.list method",
                   "additionalProperties": false,
@@ -12331,7 +12331,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsListErrorSchema",
+                  "title": "ConversationsListErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.list method",
                   "additionalProperties": false,
@@ -12468,7 +12468,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsMarkSuccessSchema",
+                  "title": "ConversationsMarkResponse",
                   "type": "object",
                   "description": "Schema for successful response conversations.mark method",
                   "additionalProperties": false,
@@ -12496,7 +12496,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsMarkErrorSchema",
+                  "title": "ConversationsMarkErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.mark method",
                   "additionalProperties": false,
@@ -12585,7 +12585,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsMembersSuccessSchema",
+                  "title": "ConversationsMembersResponse",
                   "type": "object",
                   "description": "Schema for successful response conversations.members method",
                   "additionalProperties": false,
@@ -12643,7 +12643,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsMembersErrorSchema",
+                  "title": "ConversationsMembersErrorResponse",
                   "type": "object",
                   "description": "Schema for error response conversations.members method",
                   "additionalProperties": false,
@@ -12774,7 +12774,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsOpenSuccessSchema",
+                  "title": "ConversationsOpenResponse",
                   "type": "object",
                   "description": "Schema for successful response from conversations.open method when opening channels, ims, mpims",
                   "additionalProperties": false,
@@ -12857,7 +12857,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsOpenErrorSchema",
+                  "title": "ConversationsOpenErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.open method",
                   "additionalProperties": false,
@@ -12963,7 +12963,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsRenameSuccessSchema",
+                  "title": "ConversationsRenameResponse",
                   "type": "object",
                   "description": "Schema for successful response from conversations.rename method",
                   "additionalProperties": false,
@@ -13035,7 +13035,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsRenameErrorSchema",
+                  "title": "ConversationsRenameErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.rename method",
                   "additionalProperties": false,
@@ -13130,7 +13130,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsRepliesSuccessSchema",
+                  "title": "ConversationsRepliesResponse",
                   "type": "object",
                   "description": "Schema for successful response from conversations.replies method",
                   "additionalProperties": false,
@@ -13326,7 +13326,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsRepliesErrorSchema",
+                  "title": "ConversationsRepliesErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.replies method",
                   "additionalProperties": false,
@@ -13490,7 +13490,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsSetPurposeSuccessSchema",
+                  "title": "ConversationsSetPurposeResponse",
                   "type": "object",
                   "description": "Schema for successful response from conversations.setPurpose method",
                   "additionalProperties": false,
@@ -13522,7 +13522,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsSetPurposeErrorSchema",
+                  "title": "ConversationsSetPurposeErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.setPurpose method",
                   "additionalProperties": false,
@@ -13632,7 +13632,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsSetTopicSuccessSchema",
+                  "title": "ConversationsSetTopicResponse",
                   "type": "object",
                   "description": "Schema for successful response from conversations.setTopic method",
                   "additionalProperties": false,
@@ -13664,7 +13664,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsSetTopicErrorSchema",
+                  "title": "ConversationsSetTopicErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.setTopic method",
                   "additionalProperties": false,
@@ -13770,7 +13770,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsUnarchiveSuccessSchema",
+                  "title": "ConversationsUnarchiveResponse",
                   "type": "object",
                   "description": "Schema for successful response from conversations.unarchive method",
                   "additionalProperties": false,
@@ -13798,7 +13798,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ConversationsUnarchiveErrorSchema",
+                  "title": "ConversationsUnarchiveErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from conversations.unarchive method",
                   "additionalProperties": false,
@@ -13891,7 +13891,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "DialogOpenSchema",
+                  "title": "DialogOpenResponse",
                   "type": "object",
                   "description": "Schema for successful response from dialog.open method",
                   "additionalProperties": false,
@@ -13919,7 +13919,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "DialogOpenErrorSchema",
+                  "title": "DialogOpenErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from dialog.open method",
                   "additionalProperties": false,
@@ -14027,7 +14027,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "DndEndDndSchema",
+                  "title": "DndEndDndResponse",
                   "type": "object",
                   "description": "Schema for successful response from dnd.endDnd method",
                   "additionalProperties": false,
@@ -14055,7 +14055,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "DndEndDndErrorSchema",
+                  "title": "DndEndDndErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from dnd.endDnd method",
                   "additionalProperties": false,
@@ -14136,7 +14136,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "DndEndSnoozeSchema",
+                  "title": "DndEndSnoozeResponse",
                   "type": "object",
                   "description": "Schema for successful response from dnd.endSnooze method",
                   "additionalProperties": false,
@@ -14180,7 +14180,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "DndEndSnoozeErrorSchema",
+                  "title": "DndEndSnoozeErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from dnd.endSnooze method",
                   "additionalProperties": false,
@@ -14262,7 +14262,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "DndInfoSchema",
+                  "title": "DndInfoResponse",
                   "type": "object",
                   "description": "Schema for successful response from dnd.info method",
                   "additionalProperties": false,
@@ -14311,7 +14311,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "DndInfoErrorSchema",
+                  "title": "DndInfoErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from dnd.info method",
                   "additionalProperties": false,
@@ -14425,7 +14425,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "DndSetSnoozeSchema",
+                  "title": "DndSetSnoozeResponse",
                   "type": "object",
                   "description": "Schema for successful response from dnd.setSnooze method",
                   "additionalProperties": false,
@@ -14465,7 +14465,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "DndSetSnoozeErrorSchema",
+                  "title": "DndSetSnoozeErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from dnd.setSnooze method",
                   "additionalProperties": false,
@@ -14748,7 +14748,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesCommentsDeleteSchema",
+                  "title": "FilesCommentsDeleteResponse",
                   "type": "object",
                   "description": "Schema for successful response files.comments.delete method",
                   "additionalProperties": false,
@@ -14776,7 +14776,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesCommentsDeleteErrorSchema",
+                  "title": "FilesCommentsDeleteErrorResponse",
                   "type": "object",
                   "description": "Schema for error response files.comments.delete method",
                   "additionalProperties": false,
@@ -14868,7 +14868,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesDeleteSchema",
+                  "title": "FilesDeleteResponse",
                   "type": "object",
                   "description": "Schema for successful response files.delete method",
                   "additionalProperties": false,
@@ -14896,7 +14896,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesDeleteErrorSchema",
+                  "title": "FilesDeleteErrorResponse",
                   "type": "object",
                   "description": "Schema for error response files.delete method",
                   "additionalProperties": false,
@@ -14975,7 +14975,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesInfoSchema",
+                  "title": "FilesInfoResponse",
                   "type": "object",
                   "description": "Schema for successful response from files.info method",
                   "additionalProperties": false,
@@ -15089,7 +15089,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesInfoErrorSchema",
+                  "title": "FilesInfoErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from files.info method",
                   "additionalProperties": false,
@@ -15208,7 +15208,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesListSchema",
+                  "title": "FilesListResponse",
                   "type": "object",
                   "description": "Schema for successful response from files.list method",
                   "additionalProperties": false,
@@ -15341,7 +15341,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesListErrorSchema",
+                  "title": "FilesListErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from files.list method",
                   "additionalProperties": false,
@@ -16170,7 +16170,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesRevokePublicURLSchema",
+                  "title": "FilesRevokePublicURLResponse",
                   "type": "object",
                   "description": "Schema for successful response from files.revokePublicURL method",
                   "additionalProperties": false,
@@ -16202,7 +16202,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesRevokePublicURLErrorSchema",
+                  "title": "FilesRevokePublicURLErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from files.revokePublicURL method",
                   "additionalProperties": false,
@@ -16299,7 +16299,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesSharedPublicURLSchema",
+                  "title": "FilesSharedPublicURLResponse",
                   "type": "object",
                   "description": "Schema for successful response from files.sharedPublicURL method",
                   "additionalProperties": false,
@@ -16331,7 +16331,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesSharedPublicURLErrorSchema",
+                  "title": "FilesSharedPublicURLErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from files.sharedPublicURL method",
                   "additionalProperties": false,
@@ -16461,7 +16461,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesUploadSchema",
+                  "title": "FilesUploadResponse",
                   "type": "object",
                   "description": "Schema for successful response files.upload method",
                   "additionalProperties": false,
@@ -16549,7 +16549,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "FilesUploadErrorSchema",
+                  "title": "FilesUploadErrorResponse",
                   "type": "object",
                   "description": "Schema for error response files.upload method",
                   "additionalProperties": false,
@@ -16630,7 +16630,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "MigrationExchangeSuccessSchema",
+                  "title": "MigrationExchangeResponse",
                   "type": "object",
                   "description": "Schema for successful response from migration.exchange method",
                   "additionalProperties": true,
@@ -16691,7 +16691,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "MigrationExchangeErrorSchema",
+                  "title": "MigrationExchangeErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from migration.exchange method",
                   "additionalProperties": false,
@@ -17221,7 +17221,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "PinsAddSchema",
+                  "title": "PinsAddResponse",
                   "type": "object",
                   "description": "Schema for successful response from pins.add method",
                   "additionalProperties": false,
@@ -17249,7 +17249,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "PinsAddErrorSchema",
+                  "title": "PinsAddErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from pins.add method",
                   "additionalProperties": false,
@@ -17333,7 +17333,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "PinsListSuccessSchema",
+                  "title": "PinsListResponse",
                   "description": "Schema for successful response from pins.list method",
                   "items": {
                     "anyOf": [
@@ -17473,7 +17473,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "PinsListErrorSchema",
+                  "title": "PinsListErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from pins.list method",
                   "additionalProperties": false,
@@ -17584,7 +17584,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "PinsRemoveSchema",
+                  "title": "PinsRemoveResponse",
                   "type": "object",
                   "description": "Schema for successful response from pins.remove method",
                   "additionalProperties": false,
@@ -17612,7 +17612,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "PinsRemoveErrorSchema",
+                  "title": "PinsRemoveErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from pins.remove method",
                   "additionalProperties": false,
@@ -17724,7 +17724,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ReactionsAddSchema",
+                  "title": "ReactionsAddResponse",
                   "type": "object",
                   "description": "Schema for successful response from reactions.add method",
                   "additionalProperties": false,
@@ -17752,7 +17752,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ReactionsAddErrorSchema",
+                  "title": "ReactionsAddErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from reactions.add method",
                   "additionalProperties": false,
@@ -17835,7 +17835,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ReactionsGetSuccessSchema",
+                  "title": "ReactionsGetResponse",
                   "type": "object",
                   "description": "Schema for successful response from reactions.get method",
                   "items": {
@@ -17956,7 +17956,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ReactionsGetErrorSchema",
+                  "title": "ReactionsGetErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from reactions.get method",
                   "additionalProperties": false,
@@ -18078,7 +18078,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ReactionsListSchema",
+                  "title": "ReactionsListResponse",
                   "type": "object",
                   "description": "Schema for successful response from reactions.list method",
                   "additionalProperties": false,
@@ -18275,7 +18275,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ReactionsListErrorSchema",
+                  "title": "ReactionsListErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from reactions.list method",
                   "additionalProperties": false,
@@ -18436,7 +18436,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ReactionsRemoveSchema",
+                  "title": "ReactionsRemoveResponse",
                   "type": "object",
                   "description": "Schema for successful response from reactions.remove method",
                   "additionalProperties": false,
@@ -18464,7 +18464,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ReactionsRemoveErrorSchema",
+                  "title": "ReactionsRemoveErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from reactions.remove method",
                   "additionalProperties": false,
@@ -18576,7 +18576,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "RemindersAddSchema",
+                  "title": "RemindersAddResponse",
                   "type": "object",
                   "description": "Schema for successful response from reminders.add method",
                   "additionalProperties": false,
@@ -18608,7 +18608,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "RemindersAddErrorSchema",
+                  "title": "RemindersAddErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from reminders.add method",
                   "additionalProperties": false,
@@ -18709,7 +18709,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "RemindersCompleteSchema",
+                  "title": "RemindersCompleteResponse",
                   "type": "object",
                   "description": "Schema for successful response from reminders.complete method",
                   "additionalProperties": false,
@@ -18737,7 +18737,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "RemindersCompleteErrorSchema",
+                  "title": "RemindersCompleteErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from reminders.complete method",
                   "additionalProperties": false,
@@ -18835,7 +18835,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "RemindersDeleteSchema",
+                  "title": "RemindersDeleteResponse",
                   "type": "object",
                   "description": "Schema for successful response from reminders.delete method",
                   "additionalProperties": false,
@@ -18863,7 +18863,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "RemindersDeleteErrorSchema",
+                  "title": "RemindersDeleteErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from reminders.delete method",
                   "additionalProperties": false,
@@ -18944,7 +18944,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "RemindersInfoSchema",
+                  "title": "RemindersInfoResponse",
                   "type": "object",
                   "description": "Schema for successful response from reminders.info method",
                   "additionalProperties": false,
@@ -18976,7 +18976,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "RemindersInfoErrorSchema",
+                  "title": "RemindersInfoErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from reminders.info method",
                   "additionalProperties": false,
@@ -19067,7 +19067,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "RemindersListSchema",
+                  "title": "RemindersListResponse",
                   "type": "object",
                   "description": "Schema for successful response from reminders.list method",
                   "additionalProperties": false,
@@ -19102,7 +19102,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "RemindersListErrorSchema",
+                  "title": "RemindersListErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from reminders.list method",
                   "additionalProperties": false,
@@ -19182,7 +19182,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "RtmConnectSchema",
+                  "title": "RtmConnectResponse",
                   "type": "object",
                   "description": "Schema for successful response from rtm.connect method",
                   "additionalProperties": false,
@@ -19263,7 +19263,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "RtmConnectErrorSchema",
+                  "title": "RtmConnectErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from rtm.connect method",
                   "additionalProperties": false,
@@ -19577,7 +19577,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "StarsAddSchema",
+                  "title": "StarsAddResponse",
                   "type": "object",
                   "description": "Schema for successful response from stars.add method",
                   "additionalProperties": false,
@@ -19605,7 +19605,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "StarsAddErrorSchema",
+                  "title": "StarsAddErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from stars.add method",
                   "additionalProperties": false,
@@ -19691,7 +19691,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "StarsListSchema",
+                  "title": "StarsListResponse",
                   "type": "object",
                   "description": "Schema for successful response from stars.list method",
                   "additionalProperties": false,
@@ -19878,7 +19878,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "StarsListErrorSchema",
+                  "title": "StarsListErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from stars.list method",
                   "additionalProperties": false,
@@ -20017,7 +20017,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "StarsRemoveSchema",
+                  "title": "StarsRemoveResponse",
                   "type": "object",
                   "description": "Schema for successful response from stars.remove method",
                   "additionalProperties": false,
@@ -20045,7 +20045,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "StarsRemoveErrorSchema",
+                  "title": "StarsRemoveErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from stars.remove method",
                   "additionalProperties": false,
@@ -20131,7 +20131,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "TeamAccessLogsSchema",
+                  "title": "TeamAccessLogsResponse",
                   "type": "object",
                   "description": "Schema for successful response from team.accessLogs method",
                   "additionalProperties": false,
@@ -20253,7 +20253,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "TeamAccessLogsErrorSchema",
+                  "title": "TeamAccessLogsErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from team.accessLogs method",
                   "additionalProperties": false,
@@ -20459,7 +20459,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "TeamInfoSchema",
+                  "title": "TeamInfoResponse",
                   "type": "object",
                   "description": "Schema for successful response from team.info method",
                   "additionalProperties": false,
@@ -20508,7 +20508,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "TeamInfoErrorSchema",
+                  "title": "TeamInfoErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from team.info method",
                   "additionalProperties": false,
@@ -20596,7 +20596,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "TeamIntegrationLogsSchema",
+                  "title": "TeamIntegrationLogsResponse",
                   "type": "object",
                   "description": "Schema for successful response from team.integrationLogs method",
                   "additionalProperties": false,
@@ -20682,7 +20682,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "TeamIntegrationLogsErrorSchema",
+                  "title": "TeamIntegrationLogsErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from team.integrationLogs method",
                   "additionalProperties": false,
@@ -20811,7 +20811,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "TeamProfileGetSuccessSchema",
+                  "title": "TeamProfileGetResponse",
                   "type": "object",
                   "description": "Schema for successful response from team.profile.get method",
                   "additionalProperties": false,
@@ -20922,7 +20922,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "TeamProfileGetErrorSchema",
+                  "title": "TeamProfileGetErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from team.profile.get method",
                   "additionalProperties": false,
@@ -21043,7 +21043,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsCreateSchema",
+                  "title": "UsergroupsCreateResponse",
                   "type": "object",
                   "description": "Schema for successful response from usergroups.create method",
                   "additionalProperties": false,
@@ -21075,7 +21075,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsCreateErrorSchema",
+                  "title": "UsergroupsCreateErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from usergroups.create method",
                   "additionalProperties": false,
@@ -21179,7 +21179,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsDisableSchema",
+                  "title": "UsergroupsDisableResponse",
                   "type": "object",
                   "description": "Schema for successful response from usergroups.disable method",
                   "additionalProperties": false,
@@ -21211,7 +21211,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsDisableErrorSchema",
+                  "title": "UsergroupsDisableErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from usergroups.disable method",
                   "additionalProperties": false,
@@ -21315,7 +21315,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsEnableSchema",
+                  "title": "UsergroupsEnableResponse",
                   "type": "object",
                   "description": "Schema for successful response from usergroups.enable method",
                   "additionalProperties": false,
@@ -21347,7 +21347,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsEnableErrorSchema",
+                  "title": "UsergroupsEnableErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from usergroups.enable method",
                   "additionalProperties": false,
@@ -21430,7 +21430,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsListSchema",
+                  "title": "UsergroupsListResponse",
                   "type": "object",
                   "description": "Schema for successful response from usergroups.list method",
                   "additionalProperties": false,
@@ -21530,7 +21530,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsListErrorSchema",
+                  "title": "UsergroupsListErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from usergroups.list method",
                   "additionalProperties": false,
@@ -21677,7 +21677,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsUpdateSchema",
+                  "title": "UsergroupsUpdateResponse",
                   "type": "object",
                   "description": "Schema for successful response from usergroups.update method",
                   "additionalProperties": false,
@@ -21734,7 +21734,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsUpdateErrorSchema",
+                  "title": "UsergroupsUpdateErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from usergroups.update method",
                   "additionalProperties": false,
@@ -21819,7 +21819,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsUsersListSchema",
+                  "title": "UsergroupsUsersListResponse",
                   "type": "object",
                   "description": "Schema for successful response from usergroups.users.list method",
                   "additionalProperties": false,
@@ -21858,7 +21858,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsUsersListErrorSchema",
+                  "title": "UsergroupsUsersListErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from usergroups.users.list method",
                   "additionalProperties": false,
@@ -21988,7 +21988,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsUsersUpdateSchema",
+                  "title": "UsergroupsUsersUpdateResponse",
                   "type": "object",
                   "description": "Schema for successful response from usergroups.users.update method",
                   "additionalProperties": false,
@@ -22045,7 +22045,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsergroupsUsersUpdateErrorSchema",
+                  "title": "UsergroupsUsersUpdateErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from usergroups.users.update method",
                   "additionalProperties": false,
@@ -22129,7 +22129,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersConversationsSuccessSchema",
+                  "title": "UsersConversationsResponse",
                   "type": "object",
                   "description": "Schema for successful response from users.conversations method. Returned conversation objects do not include `num_members` or `is_member`",
                   "additionalProperties": true,
@@ -22244,7 +22244,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersConversationsErrorSchema",
+                  "title": "UsersConversationsErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from users.conversations method",
                   "additionalProperties": false,
@@ -22391,7 +22391,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersDeletePhotoSchema",
+                  "title": "UsersDeletePhotoResponse",
                   "type": "object",
                   "description": "Schema for successful response from users.deletePhoto method",
                   "additionalProperties": false,
@@ -22419,7 +22419,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersDeletePhotoErrorSchema",
+                  "title": "UsersDeletePhotoErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from users.deletePhoto method",
                   "additionalProperties": false,
@@ -22547,7 +22547,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersCountsErrorSchema",
+                  "title": "UsersCountsErrorResponse",
                   "type": "object",
                   "description": "Schema for error response users.getPresence method",
                   "additionalProperties": {
@@ -22614,7 +22614,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersIdentitySchema",
+                  "title": "UsersIdentityResponse",
                   "description": "Schema for successful response from users.identity method",
                   "items": {
                     "anyOf": [
@@ -22897,7 +22897,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersIdentityErrorSchema",
+                  "title": "UsersIdentityErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from users.identity method",
                   "additionalProperties": false,
@@ -22977,7 +22977,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersInfoSuccessSchema",
+                  "title": "UsersInfoResponse",
                   "type": "object",
                   "description": "Schema for successful response from users.info method",
                   "additionalProperties": true,
@@ -23047,7 +23047,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersInfoErrorSchema",
+                  "title": "UsersInfoErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from users.info method",
                   "additionalProperties": false,
@@ -23141,7 +23141,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersListSchema",
+                  "title": "UsersListResponse",
                   "type": "object",
                   "description": "Schema for successful response from users.list method",
                   "additionalProperties": false,
@@ -23268,7 +23268,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersListErrorSchema",
+                  "title": "UsersListErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from users.list method",
                   "additionalProperties": false,
@@ -23373,7 +23373,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersLookupByEmailSuccessSchema",
+                  "title": "UsersLookupByEmailResponse",
                   "type": "object",
                   "description": "Schema for successful response from users.lookupByEmail method",
                   "additionalProperties": true,
@@ -23442,7 +23442,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersLookupByEmailErrorSchema",
+                  "title": "UsersLookupByEmailErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from users.lookupByEmail method",
                   "additionalProperties": false,
@@ -23533,7 +23533,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersProfileGetSchema",
+                  "title": "UsersProfileGetResponse",
                   "type": "object",
                   "description": "Schema for successful response from users.profile.get method",
                   "additionalProperties": false,
@@ -23584,7 +23584,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersProfileGetErrorSchema",
+                  "title": "UsersProfileGetErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from users.profile.get method",
                   "additionalProperties": false,
@@ -23711,7 +23711,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersProfileSetSchema",
+                  "title": "UsersProfileSetResponse",
                   "type": "object",
                   "description": "Schema for successful response from users.profile.set method",
                   "additionalProperties": false,
@@ -23769,7 +23769,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersProfileSetErrorSchema",
+                  "title": "UsersProfileSetErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from users.profile.set method",
                   "additionalProperties": false,
@@ -23855,7 +23855,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersSetActiveSchema",
+                  "title": "UsersSetActiveResponse",
                   "type": "object",
                   "description": "Schema for successful response from users.setActive method",
                   "additionalProperties": false,
@@ -23883,7 +23883,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersSetActiveErrorSchema",
+                  "title": "UsersSetActiveErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from users.setActive method",
                   "additionalProperties": false,
@@ -23997,7 +23997,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersSetPhotoSchema",
+                  "title": "UsersSetPhotoResponse",
                   "type": "object",
                   "description": "Schema for successful response from users.setPhoto method",
                   "additionalProperties": false,
@@ -24079,7 +24079,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersSetPhotoErrorSchema",
+                  "title": "UsersSetPhotoErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from users.setPhoto method",
                   "additionalProperties": false,
@@ -24194,7 +24194,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersSetPresenceSchema",
+                  "title": "UsersSetPresenceResponse",
                   "type": "object",
                   "description": "Schema for successful response from users.setPresence method",
                   "additionalProperties": false,
@@ -24222,7 +24222,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "UsersSetPresenceErrorSchema",
+                  "title": "UsersSetPresenceErrorResponse",
                   "type": "object",
                   "description": "Schema for error response from users.setPresence method",
                   "additionalProperties": false,
