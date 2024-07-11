@@ -32,42 +32,36 @@ final slack:Client slack = check new ({
 public function main() returns error? {
 
     // Create a new channel for the survey
-    json|error createChannelResponse = slack->/conversations\.create.post({name: CHANNEL_NAME});
+    slack:ConversationsCreateResponse|error createChannelResponse = slack->/conversations\.create.post({name: CHANNEL_NAME});
     if createChannelResponse is error {
         log:printError("Error creating the survey conversation: " + createChannelResponse.message());
         return;
     }
 
     // Post a message to the conversation created and get the timestamp of the message
-    json|error sendMsgResponse = slack->/chat\.postMessage.post({channel: CHANNEL_NAME, text: SURVEY_REQUEST_MSG});
+    slack:ChatPostMessageResponse|error sendMsgResponse = slack->/chat\.postMessage.post({channel: CHANNEL_NAME, text: SURVEY_REQUEST_MSG});
     if sendMsgResponse is error {
         log:printError(sendMsgResponse.message());
         return;
     }
-    string messageTimestamp = check sendMsgResponse.message.ts;
+    string messageTimestamp = sendMsgResponse.message.ts;
 
     // Check for replies to the survey message
-    json|error repliesResponse = slack->/conversations\.replies({channel: CHANNEL_NAME, ts: messageTimestamp});
+    slack:ConversationsRepliesResponse|error repliesResponse = slack->/conversations\.replies({channel: CHANNEL_NAME, ts: messageTimestamp});
     if repliesResponse is error {
         log:printError(repliesResponse.message());
         return;
     }
 
-    RepliesResponse|error replies = repliesResponse.cloneWithType();
-    if replies is error {
-        log:printError(replies.message());
-        return;
-    }
-
     // Get the messages from the replies
-    MessagesItem[] messages = replies.messages;
+    var messages = repliesResponse.messages;
 
     // Print the survey responses
     io:println("Replies to the survey message:");
     io:println("-----------------------------");
     int counter = 1;
-    foreach MessagesItem message in messages {
-        io:println(string `Reply ${counter}: ${message.text}`);
+    foreach var message in messages {
+        io:println(string `Reply ${counter}: ${message.toString()}`);
         counter += 1;
     }
 }

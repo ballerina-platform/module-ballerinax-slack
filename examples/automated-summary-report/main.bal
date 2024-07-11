@@ -14,8 +14,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/io;
 import ballerina/http;
+import ballerina/io;
 import ballerina/log;
 import ballerinax/slack;
 
@@ -30,21 +30,19 @@ final slack:Client slack = check new Client({
 
 public function main() returns error? {
     // Fetch the list of channels.
-    json channelResponse = check slack->/conversations\.list();
-    Channels channels = check channelResponse.cloneWithType();
+    slack:ConversationsListResponse channelResponse = check slack->/conversations\.list();
 
     // Array to store the latest text messages from each channel.
     string[] latestText;
 
     // Iterate through each channel to get the latest message.
-    foreach ChannelType channel in channels.channels {
+    foreach slack:ConversationObj channel in channelResponse.channels {
         // Fetch the conversation history for the current channel.
-        json historyResponse = check slack->/conversations\.history({channel: channel.id});
-        History history = check historyResponse.cloneWithType();
+        slack:ConversationsHistoryResponse historyResponse = check slack->/conversations\.history({channel: channel.toString()});
 
         // Get the latest text message from the conversation history.
-        TextType[] texts = history.texts;
-        latestText.push(texts[0].text);
+        slack:MessageObj[] messages = historyResponse.messages;
+        latestText.push(messages[0].text);
     }
 
     // Construct the stand-up report message.
@@ -54,7 +52,7 @@ public function main() returns error? {
     }`;
 
     // Post the stand-up report message to the "general" channel.
-    json|error postMessageResult = slack->/chat\.postMessage.post({channel: "general", text: textMessage});
+    slack:ChatPostMessageResponse|error postMessageResult = slack->/chat\.postMessage.post({channel: "general", text: textMessage});
 
     if postMessageResult is error {
         log:printError("Failed to post message to Slack", postMessageResult);
