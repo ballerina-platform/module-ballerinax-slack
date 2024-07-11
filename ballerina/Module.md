@@ -74,7 +74,7 @@ Now, utilize the available connector operations.
 #### Send a Text Message to General Channel
 
 ```ballerina
-json postMessageResponse = check slack->/chat\.postMessage.post({channel: "general", text: "hello"});
+slack:ChatPostMessageResponse postMessageResponse = check slack->/chat\.postMessage.post({channel: "general", text: "hello"});
 ```
 
 ### Step 4: Run the Ballerina application
