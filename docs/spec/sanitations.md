@@ -28,7 +28,8 @@ These changes are done in order to improve the overall usability, and to address
     * users.deletePhoto
     * users.setPhoto
 
-2. Changed the schema name `Default success template` to `DefaultSuccessResponse` in the components section of the OpenAPI specification, to improve the usability of the counterpart Ballerina record name.
+2. Sanitized the inline response schema titles by removing the whitespaces and special characters and, converting them to pascal case.
+   * This was done using the `sanitations.bal` script.
 
 ## OpenAPI cli command
 
