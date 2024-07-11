@@ -28,8 +28,8 @@ These changes are done in order to improve the overall usability, and to address
     * users.deletePhoto
     * users.setPhoto
 
-2. Sanitized the inline response schema titles by removing the whitespaces and special characters and, converting them to pascal case.
-   * This was done using the `sanitations.bal` script.
+2. Sanitized the inline and component schema names by removing the whitespaces, special characters and, converting them to pascal case.
+   * This was done using the `sanitations.bal` script under the `docs/spec` directory.
 
 ## OpenAPI cli command
 
