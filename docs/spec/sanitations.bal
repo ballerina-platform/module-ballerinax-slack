@@ -16,6 +16,7 @@
 
 import ballerina/io;
 import ballerina/lang.regexp;
+import ballerina/mime;
 
 type Specification record {
     map<Path> paths;
@@ -62,7 +63,6 @@ type Components record {
 };
 
 const SPEC_PATH = "openapi.json";
-const CONTENT_TYPE_JSON = "application/json";
 final regexp:RegExp MALFORMED_TITLE_REGEX = re `\w+[\.\s]\w+.*`;
 
 public function main() returns error? {
@@ -89,7 +89,7 @@ function sanitizeResponseSchemaNames(Specification spec) returns Specification|e
         }
         foreach [string, ResponseCode] [_, item] in responses.entries() {
             map<ResponseHeader> content = item.content ?: {};
-            ResponseHeader app = content[CONTENT_TYPE_JSON] ?: {};
+            ResponseHeader app = content[mime:APPLICATION_JSON] ?: {};
             ResponseSchema schema = app.schema ?: {};
             string? title = schema.title;
             if title !is string {
