@@ -115,7 +115,6 @@ function sanitizeResponseSchemaNames(Specification spec) returns Specification|e
 }
 
 function sanitizeSchemaNames(Specification spec) returns string {
-
     map<json> updatedSchemas = {};
     map<string> updatedNames = {};
 
