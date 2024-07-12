@@ -10,7 +10,7 @@
 
     <img src=https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-slack/master/docs/setup/resources/sign-in.png alt="Sign-In Page" style="width: 70%;">
 
-### Step 2: Create a new Slack application 
+### Step 2: Create a new Slack application
 
 1. Navigate to your apps in [Slack API](https://api.slack.com/) and create a new Slack app.
 
@@ -22,7 +22,7 @@
 
 3. Click on the "Create App" button.
 
-### Step 3: Add scopes to the token 
+### Step 3: Add scopes to the token
 
 1. Once the application is created, go to the "Add Features and Functionality" section and click on "Permissions" to set the token scopes.
 
@@ -74,7 +74,7 @@ Now, utilize the available connector operations.
 #### Send a Text Message to General Channel
 
 ```ballerina
-json postMessageResponse = check slack->/chat\.postMessage.post({channel: "general", text: "hello"});
+slack:ChatPostMessageResponse postMessageResponse = check slack->/chat\.postMessage.post({channel: "general", text: "hello"});
 ```
 
 ### Step 4: Run the Ballerina application

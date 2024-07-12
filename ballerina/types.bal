@@ -30,6 +30,12 @@ public type Usergroups_listQueries record {
     boolean include_count?;
 };
 
+@constraint:String {pattern: re `^[UW][A-Z0-9]{8,}$|^$`}
+public type TopicPurposeCreatorDef string;
+
+@constraint:String {pattern: re `^Rm[A-Z0-9]{8,}$`}
+public type ReminderIdDef string;
+
 # Represents the Queries record for the operation: dialog_open
 public type Dialog_openQueries record {
     # The dialog definition. This must be a JSON-encoded string.
@@ -66,12 +72,26 @@ public type admin_usergroups_addTeams_body record {
     string usergroup_id;
 };
 
+# Schema for successful response from usergroups.users.list method
+public type UsergroupsUsersListResponse record {|
+    OkTrueDef ok;
+    UserIdDef[] users;
+|};
+
 public type admin_teams_settings_setDiscoverability_body record {
     # This workspace's discovery setting. It must be set to one of `open`, `invite_only`, `closed`, or `unlisted`.
     string discoverability;
     # The ID of the workspace to set discoverability on.
     string team_id;
 };
+
+# Schema for successful response from users.profile.set method
+public type UsersProfileSetResponse record {|
+    string email_pending?;
+    OkTrueDef ok;
+    UserProfileObj profile;
+    string username;
+|};
 
 public type admin_conversations_disconnectShared_body record {
     # The channel to be disconnected from some workspaces.
@@ -108,6 +128,20 @@ public type stars_remove_body record {
     string timestamp?;
 };
 
+# Schema for successful response from users.lookupByEmail method
+public type UsersLookupByEmailResponse record {
+    OkTrueDef ok;
+    UserObj user;
+};
+
+@constraint:String {pattern: re `^Fc[A-Z0-9]{8,}$`}
+public type CommentIdDef string;
+
+# Schema for successful response conversations.archive method
+public type ConversationsArchiveResponse record {|
+    OkTrueDef ok;
+|};
+
 # Represents the Queries record for the operation: apps_permissions_users_list
 public type Apps_permissions_users_listQueries record {
     # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
@@ -137,6 +171,24 @@ public type Admin_conversations_restrictAccess_listGroupsQueries record {
     string team_id?;
     string channel_id;
 };
+
+# Schema for successful response from dnd.info method
+public type DndInfoResponse record {|
+    boolean dnd_enabled;
+    int next_dnd_end_ts;
+    int next_dnd_start_ts;
+    OkTrueDef ok;
+    boolean snooze_enabled?;
+    int snooze_endtime?;
+    int snooze_remaining?;
+|};
+
+public type TeamProfileFieldOptionObj record {|
+    boolean? is_custom?;
+    boolean? is_multiple_entry?;
+    boolean? is_protected?;
+    boolean? is_scim?;
+|};
 
 # Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint.
 @display {label: "Connection Config"}
@@ -171,6 +223,11 @@ public type ConnectionConfig record {|
     http:ProxyConfig proxy?;
     # Enables the inbound payload validation functionality which provided by the constraint package. Enabled by default
     boolean validation = true;
+|};
+
+# Schema for successful response of admin.conversations.unarchive
+public type AdminConversationsUnarchiveResponse record {|
+    OkTrueDef ok;
 |};
 
 public type files_comments_delete_body record {
@@ -208,11 +265,35 @@ public type Files_remote_listQueries record {
     int 'limit?;
 };
 
+# Schema for successful response of chat.delete method
+public type ChatDeleteResponse record {|
+    ChannelDef channel;
+    OkTrueDef ok;
+    TsDef ts;
+|};
+
 # Represents the Queries record for the operation: dnd_info
 public type Dnd_infoQueries record {
     # User to fetch status for (defaults to current user)
     string user?;
 };
+
+# Schema for successful response of admin.conversations.archive
+public type AdminConversationsArchiveResponse record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from chat.postEphemeral method
+public type ChatPostEphemeralResponse record {|
+    TsDef message_ts;
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from usergroups.enable method
+public type UsergroupsEnableResponse record {|
+    OkTrueDef ok;
+    SubteamObj usergroup;
+|};
 
 # Represents the Queries record for the operation: workflows_stepCompleted
 public type Workflows_stepCompletedQueries record {
@@ -232,10 +313,76 @@ public type Conversations_membersQueries record {
     int 'limit?;
 };
 
+@constraint:String {pattern: re `^\d{10}\.\d{6}$`}
+public type TsDef string;
+
+public type TeamProfileFieldObj record {|
+    string? field_name?;
+    string hint;
+    @constraint:String {pattern: re `^X[a-zA-Z0-9]{9,}$`}
+    string id;
+    boolean is_hidden?;
+    string label;
+    (anydata)[] options?;
+    decimal ordering;
+    string[]? possible_values?;
+    "text"|"date"|"link"|"mailto"|"options_list"|"user" 'type;
+|};
+
+# Schema for successful response from auth.revoke method
+public type AuthRevokeResponse record {|
+    OkTrueDef ok;
+    boolean revoked;
+|};
+
+# Schema for successful response from usergroups.update method
+public type UsergroupsUpdateResponse record {|
+    OkTrueDef ok;
+    SubteamObj usergroup;
+|};
+
 public type conversations_archive_body record {
     # ID of conversation to archive
     string channel?;
 };
+
+public type FileObj_shares record {|
+    record {||} 'private?;
+    record {||} 'public?;
+|};
+
+@constraint:String {pattern: re `^[E][A-Z0-9]{8,}$`}
+public type EnterpriseIdDef string;
+
+public type SubteamObj record {|
+    boolean auto_provision;
+    (anydata)[] auto_type;
+    int channel_count?;
+    UserIdDef created_by;
+    int date_create;
+    int date_delete;
+    int date_update;
+    (anydata)[] deleted_by;
+    string description;
+    string enterprise_subteam_id;
+    string 'handle;
+    SubteamIdDef id;
+    boolean is_external;
+    boolean is_subteam;
+    boolean is_usergroup;
+    string name;
+    SubteamObj_prefs prefs;
+    TeamDef team_id;
+    UserIdDef updated_by;
+    int user_count?;
+    UserIdDef[] users?;
+|};
+
+public type RtmConnectResponse_team record {|
+    string domain;
+    TeamDef id;
+    string name;
+|};
 
 public type stars_add_body record {
     # Channel to add star to, or channel where the message to add star to was posted (used with `timestamp`).
@@ -267,6 +414,12 @@ public type Admin_emoji_listQueries record {
     int 'limit?;
 };
 
+public type TeamObj_sso_provider record {
+    string label?;
+    string name?;
+    string 'type?;
+};
+
 public type admin_users_setRegular_body record {
     # The ID (`T1234`) of the workspace.
     string team_id;
@@ -280,9 +433,76 @@ public type Admin_users_setOwnerHeaders record {
     string token;
 };
 
-public type objs_file_shares record {|
-    record {||} 'private?;
-    record {||} 'public?;
+public type CommentObj record {|
+    string comment;
+    int created;
+    CommentIdDef id;
+    boolean is_intro;
+    boolean is_starred?;
+    int num_stars?;
+    PinnedInfoDef pinned_info?;
+    ChannelDef[] pinned_to?;
+    ReactionObj[] reactions?;
+    int timestamp;
+    UserIdDef user;
+|};
+
+public type AppsPermissionsResourcesListResponse_response_metadata record {|
+    string next_cursor;
+|};
+
+# Schema for successful response from conversations.setPurpose method
+public type ConversationsSetPurposeResponse record {|
+    ConversationObj channel;
+    OkTrueDef ok;
+|};
+
+public type TeamObj record {|
+    boolean archived?;
+    string avatar_base_url?;
+    int created?;
+    int date_create?;
+    boolean deleted?;
+    string? description?;
+    (anydata)[] discoverable?;
+    string domain;
+    string email_domain;
+    EnterpriseIdDef enterprise_id?;
+    EnterpriseNameDef enterprise_name?;
+    ExternalOrgMigrationsObj external_org_migrations?;
+    boolean has_compliance_export?;
+    IconObj icon;
+    WorkspaceIdDef id;
+    boolean is_assigned?;
+    int is_enterprise?;
+    boolean is_over_storage_limit?;
+    int limit_ts?;
+    string locale?;
+    int messages_count?;
+    int msg_edit_window_mins?;
+    string name;
+    boolean over_integrations_limit?;
+    boolean over_storage_limit?;
+    string pay_prod_cur?;
+    ""|"std"|"plus"|"compliance"|"enterprise" plan?;
+    PrimaryOwnerObj primary_owner?;
+    TeamObj_sso_provider sso_provider?;
+|};
+
+# Schema for successful response from apps.uninstall method
+public type AppsUninstallResponse record {|
+    OkTrueDef ok;
+|};
+
+public type ExternalOrgMigrationsObj_current record {
+    int date_started;
+    string team_id;
+};
+
+# Schema for successful response from usergroups.create method
+public type UsergroupsCreateResponse record {|
+    OkTrueDef ok;
+    SubteamObj usergroup;
 |};
 
 # Represents the Queries record for the operation: chat_scheduledMessages_list
@@ -299,28 +519,39 @@ public type Chat_scheduledMessages_listQueries record {
     decimal latest?;
 };
 
-public type objs_user_profile_short record {|
-    string avatar_hash;
-    string display_name;
-    string display_name_normalized?;
-    string? first_name;
-    string image_72;
-    boolean is_restricted;
-    boolean is_ultra_restricted;
-    string name;
-    string real_name;
-    string real_name_normalized?;
-    defs_workspace_id team;
+# Schema for successful response from pins.remove method
+public type PinsRemoveResponse record {|
+    OkTrueDef ok;
 |};
 
-@constraint:String {pattern: re `^B[A-Z0-9]{8,}$`}
-public type defs_bot_id string;
+# Schema for successful response of admin.conversations.create
+public type AdminConversationsCreateResponse record {|
+    ChannelIdDef channel_id?;
+    OkTrueDef ok;
+|};
+
+public type ResourcesObj record {|
+    (ChannelDef|TeamDef)[][] excluded_ids?;
+    (ChannelDef|TeamDef)[][] ids;
+    boolean wildcard?;
+|};
+
+public type MessageObj_icons record {|
+    string emoji?;
+    string image_64?;
+|};
 
 public type admin_conversations_rename_body record {
     # The channel to rename.
     string channel_id;
     string name;
 };
+
+# Schema for successful response from files.revokePublicURL method
+public type FilesRevokePublicURLResponse record {|
+    FileObj file;
+    OkTrueDef ok;
+|};
 
 public type conversations_leave_body record {
     # Conversation to leave
@@ -344,6 +575,8 @@ public type Admin_apps_restricted_listQueries record {
     string team_id?;
     string enterprise_id?;
 };
+
+public type EnterpriseNameDef string;
 
 public type admin_conversations_setTeams_body record {
     # The encoded `channel_id` to add or remove to workspaces.
@@ -403,6 +636,15 @@ public type Dnd_teamInfoQueries record {
     string users?;
 };
 
+public type PagingObj record {|
+    int count?;
+    int page;
+    int pages?;
+    int per_page?;
+    int spill?;
+    int total;
+|};
+
 # Represents the Queries record for the operation: stars_list
 public type Stars_listQueries record {
     # Parameter for pagination. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection. See [pagination](/docs/pagination) for more details.
@@ -439,6 +681,9 @@ public type files_remote_update_body record {
     string token?;
 };
 
+@constraint:String {pattern: re `^[C][A-Z0-9]{2,}$`}
+public type ChannelIdDef string;
+
 public type admin_apps_restrict_body record {
     # The id of the app to restrict.
     string app_id?;
@@ -446,6 +691,11 @@ public type admin_apps_restrict_body record {
     string request_id?;
     string team_id?;
 };
+
+# Schema for successful response of admin.conversations.invite
+public type AdminConversationsInviteResponse record {|
+    OkTrueDef ok;
+|};
 
 # Provides settings related to HTTP/1.x protocol.
 public type ClientHttp1Settings record {|
@@ -480,12 +730,42 @@ public type admin_users_remove_body record {
     string user_id;
 };
 
+# Schema for successful response from users.setPhoto method
+public type UsersSetPhotoResponse record {|
+    OkTrueDef ok;
+    UsersSetPhotoResponse_profile profile;
+|};
+
 public type admin_teams_settings_setDescription_body record {
     # The new description for the workspace.
     string description;
     # ID for the workspace to set the description for.
     string team_id;
 };
+
+# Schema for successful response from users.setActive method
+public type UsersSetActiveResponse record {|
+    OkTrueDef ok;
+|};
+
+public type TeamProfileGetResponse_profile record {|
+    TeamProfileFieldObj[] fields;
+|};
+
+public type AppsPermissionsInfoResponse_info record {
+    AppsPermissionsInfoResponse_info_app_home app_home;
+    AppsPermissionsInfoResponse_info_app_home channel;
+    AppsPermissionsInfoResponse_info_app_home group;
+    AppsPermissionsInfoResponse_info_app_home im;
+    AppsPermissionsInfoResponse_info_app_home mpim;
+    AppsPermissionsInfoResponse_info_team team;
+};
+
+# Schema for successful response from conversations.rename method
+public type ConversationsRenameResponse record {|
+    ConversationObj channel;
+    OkTrueDef ok;
+|};
 
 public type calls_participants_remove_body record {
     # `id` returned by the [`calls.add`](/methods/calls.add) method.
@@ -494,14 +774,32 @@ public type calls_participants_remove_body record {
     string users;
 };
 
-@constraint:String {pattern: re `^[D][A-Z0-9]{8,}$`}
-public type defs_dm_id string;
+# Schema for successful response from team.info method
+public type TeamInfoResponse record {|
+    OkTrueDef ok;
+    TeamObj team;
+|};
+
+# Schema for successful response from team.integrationLogs method
+public type TeamIntegrationLogsResponse record {|
+    @constraint:Array {minLength: 1}
+    TeamIntegrationLogsResponse_logs[] logs;
+    OkTrueDef ok;
+    PagingObj paging;
+|};
 
 # Represents the Queries record for the operation: pins_list
 public type Pins_listQueries record {
     # Channel to get pinned items for.
     string channel;
 };
+
+# Schema for successful response chat.getPermalink
+public type ChatGetPermalinkResponse record {|
+    ChannelDef channel;
+    OkTrueDef ok;
+    string permalink;
+|};
 
 public type conversations_create_body record {
     # Create a private channel instead of a public one
@@ -527,6 +825,11 @@ public type reminders_add_body record {
     string user?;
 };
 
+# Schema for successful response files.delete method
+public type FilesDeleteResponse record {|
+    OkTrueDef ok;
+|};
+
 public type admin_usergroups_addChannels_body record {
     # Comma separated string of channel IDs.
     string channel_ids;
@@ -536,18 +839,35 @@ public type admin_usergroups_addChannels_body record {
     string usergroup_id;
 };
 
-public type objs_comment record {|
-    string comment;
-    int created;
-    defs_comment_id id;
-    boolean is_intro;
-    boolean is_starred?;
-    int num_stars?;
-    defs_pinned_info pinned_info?;
-    defs_channel[] pinned_to?;
-    objs_reaction[] reactions?;
-    int timestamp;
-    defs_user_id user;
+# Schema for successful response from chat.scheduledMessages.list method
+public type ChatScheduledMessagesListResponse record {|
+    OkTrueDef ok;
+    AdminConversationsGetTeamsResponse_response_metadata response_metadata;
+    ChatScheduledMessagesListResponse_scheduled_messages[] scheduled_messages;
+|};
+
+# Schema for successful response of chat.scheduleMessage method
+public type ChatScheduleMessageResponse record {|
+    ChannelDef channel;
+    ChatScheduleMessageResponse_message message;
+    OkTrueDef ok;
+    int post_at;
+    @constraint:String {pattern: re `^[Q][A-Z0-9]{8,}$`}
+    string scheduled_message_id;
+|};
+
+public type AdminConversationsGetTeamsResponse_response_metadata record {|
+    string next_cursor;
+|};
+
+public type SubteamObj_prefs record {|
+    ChannelIdDef[] channels;
+    GroupIdDef[] groups;
+|};
+
+# Schema for successful response of admin.conversations.rename
+public type AdminConversationsRenameResponse_1 record {|
+    OkTrueDef ok;
 |};
 
 public type usergroups_users_update_body record {
@@ -559,6 +879,9 @@ public type usergroups_users_update_body record {
     string users;
 };
 
+@constraint:String {pattern: re `^[D][A-Z0-9]{8,}$`}
+public type DmIdDef string;
+
 public type admin_usergroups_removeChannels_body record {
     # Comma-separated string of channel IDs
     string channel_ids;
@@ -566,11 +889,7 @@ public type admin_usergroups_removeChannels_body record {
     string usergroup_id;
 };
 
-public type objs_reaction record {
-    int count;
-    string name;
-    defs_user_id[] users;
-};
+public type CommentsObj anydata[];
 
 public type conversations_open_body record {
     # Resume a conversation by supplying an `im` or `mpim`'s ID. Or provide the `users` field instead.
@@ -586,6 +905,24 @@ public type Team_infoQueries record {
     # Team to get info on, if omitted, will return information about the current team. Will only return team that the authenticated token is allowed to see through external shared channels
     string team?;
 };
+
+public type UsersSetPhotoResponse_profile record {|
+    @constraint:String {pattern: re `^[0-9a-f]{12}$`}
+    string avatar_hash;
+    string image_1024;
+    string image_192;
+    string image_24;
+    string image_32;
+    string image_48;
+    string image_512;
+    string image_72;
+    string image_original;
+|};
+
+# Schema for successful response of admin.conversations.setConversationPrefs
+public type AdminConversationsSetConversationPrefsResponse record {|
+    OkTrueDef ok;
+|};
 
 # Represents the Queries record for the operation: oauth_v2_access
 public type Oauth_v2_accessQueries record {
@@ -614,6 +951,17 @@ public type chat_unfurl_body record {
     string user_auth_url?;
 };
 
+# Schema for successful response from files.info method
+public type FilesInfoResponse record {|
+    CommentsObj comments;
+    anydata? content_html?;
+    UserIdDef editor?;
+    FileObj file;
+    OkTrueDef ok;
+    PagingObj paging?;
+    ResponseMetadataObj response_metadata?;
+|};
+
 # Represents the Queries record for the operation: admin_inviteRequests_denied_list
 public type Admin_inviteRequests_denied_listQueries record {
     # Value of the `next_cursor` field sent as part of the previous api response
@@ -624,13 +972,10 @@ public type Admin_inviteRequests_denied_listQueries record {
     string team_id?;
 };
 
-@constraint:String {pattern: re `^[C][A-Z0-9]{2,}$`}
-public type defs_channel_id string;
-
-public type objs_message_icons record {|
-    string emoji?;
-    string image_64?;
-|};
+public type AppsPermissionsInfoResponse_info_app_home record {
+    ResourcesObj resources?;
+    ScopesObj scopes?;
+};
 
 # Represents the Queries record for the operation: search_messages
 public type Search_messagesQueries record {
@@ -647,6 +992,47 @@ public type Search_messagesQueries record {
     string sort_dir?;
 };
 
+public type ChannelObj record {|
+    UserIdDef accepted_user?;
+    int created;
+    UserIdDef creator;
+    ChannelIdDef id;
+    boolean is_archived?;
+    boolean is_channel;
+    boolean is_frozen?;
+    boolean is_general?;
+    boolean is_member?;
+    int is_moved?;
+    boolean is_mpim;
+    boolean is_non_threadable?;
+    boolean is_org_shared;
+    boolean is_pending_ext_shared?;
+    boolean is_private;
+    boolean is_read_only?;
+    boolean is_shared;
+    boolean is_thread_only?;
+    TsDef last_read?;
+    (anydata)[] latest?;
+    UserIdDef[] members;
+    string name;
+    string name_normalized;
+    int num_members?;
+    TeamDef[] pending_shared?;
+    ChannelNameDef[] previous_names?;
+    decimal priority?;
+    ChannelObj_purpose purpose;
+    ChannelObj_purpose topic;
+    int unlinked?;
+    int unread_count?;
+    int unread_count_display?;
+|};
+
+# Schema for successful response api.permissions.scopes.list method
+public type ApiPermissionsScopesListResponse record {
+    OkTrueDef ok;
+    ApiPermissionsScopesListResponse_scopes scopes;
+};
+
 # Represents the Queries record for the operation: admin_inviteRequests_approved_list
 public type Admin_inviteRequests_approved_listQueries record {
     # Value of the `next_cursor` field sent as part of the previous API response
@@ -657,15 +1043,25 @@ public type Admin_inviteRequests_approved_listQueries record {
     string team_id?;
 };
 
-@constraint:String {pattern: re `^[UW][A-Z0-9]{2,}$`}
-public type defs_user_id string;
-
 public type admin_users_setOwner_body record {
     # The ID (`T1234`) of the workspace.
     string team_id;
     # Id of the user to promote to owner.
     string user_id;
 };
+
+public type TeamAccessLogsResponse_logins record {|
+    int count;
+    string? country;
+    int date_first;
+    int date_last;
+    string? ip;
+    string? isp;
+    string? region;
+    string user_agent;
+    UserIdDef user_id;
+    string username;
+|};
 
 # Represents the Queries record for the operation: admin_conversations_search
 public type Admin_conversations_searchQueries record {
@@ -712,13 +1108,9 @@ public type Admin_apps_approved_listQueries record {
     string enterprise_id?;
 };
 
-public type objs_message_attachments record {|
-    string fallback?;
-    int id;
-    int image_bytes?;
-    int image_height?;
-    string image_url?;
-    int image_width?;
+# Schema for successful response of admin.conversations.disconnectShared
+public type AdminConversationsRenameResponse record {|
+    OkTrueDef ok;
 |};
 
 # Represents the Queries record for the operation: users_conversations
@@ -777,6 +1169,13 @@ public type admin_teams_settings_setName_body record {
     string team_id;
 };
 
+# Schema for successful response from users.deletePhoto method
+public type UsersDeletePhotoResponse record {|
+    OkTrueDef ok;
+|};
+
+public type ConversationObj (anydata)[];
+
 public type users_setPhoto_body record {
     # Width/height of crop box (always square)
     string crop_w?;
@@ -789,6 +1188,21 @@ public type users_setPhoto_body record {
     # Authentication token. Requires scope: `users.profile:write`
     string token;
 };
+
+public type AdminConversationsGetConversationPrefsResponse_prefs_can_thread record {
+    string[] 'type?;
+    string[] user?;
+};
+
+public type ChatScheduleMessageResponse_message record {|
+    BotIdDef bot_id;
+    BotProfileObj bot_profile?;
+    TeamDef team;
+    string text;
+    string 'type;
+    UserIdDef user;
+    string username?;
+|};
 
 # Represents the Queries record for the operation: admin_inviteRequests_list
 public type Admin_inviteRequests_listQueries record {
@@ -807,6 +1221,11 @@ public type Team_accessLogsQueries record {
     string count?;
     string page?;
 };
+
+# Schema for successful response from dialog.open method
+public type DialogOpenResponse record {|
+    OkTrueDef ok;
+|};
 
 # Represents the Queries record for the operation: files_list
 public type Files_listQueries record {
@@ -831,6 +1250,21 @@ public type Team_profile_getQueries record {
     # Filter by visibility.
     string visibility?;
 };
+
+# Schema for successful response from users.setPresence method
+public type UsersSetPresenceResponse record {|
+    OkTrueDef ok;
+|};
+
+public type BotsInfoResponse_bot record {|
+    AppIdDef app_id;
+    boolean deleted;
+    BotProfileObj_icons icons;
+    BotIdDef id;
+    string name;
+    int updated;
+    UserIdDef user_id?;
+|};
 
 # Represents the Queries record for the operation: conversations_history
 public type Conversations_historyQueries record {
@@ -859,6 +1293,11 @@ public type conversations_close_body record {
     # Conversation to close.
     string channel?;
 };
+
+# Schema for successful response from reactions.remove method
+public type ReactionsRemoveResponse record {|
+    OkTrueDef ok;
+|};
 
 public type admin_apps_approve_body record {
     # The id of the app to approve.
@@ -893,18 +1332,53 @@ public type reactions_add_body record {
     string timestamp;
 };
 
+# Schema for successful response from users.profile.get method
+public type UsersProfileGetResponse record {|
+    OkTrueDef ok;
+    UserProfileObj profile;
+|};
+
 # This is a very loose definition, in the future, we'll populate this with deeper schema in this definition namespace.
 public type blocks blocks_inner[];
+
+# Schema for successful response from chat.deleteScheduledMessage method
+public type ChatDeleteScheduledMessageResponse record {|
+    OkTrueDef ok;
+|};
+
+public type ResponseMetadataObj (record {|string next_cursor;|}|record {|string[] messages; ("method_deprecated")[] warnings;|}|record {|string[] messages; string next_cursor; ("method_deprecated")[] warnings;|})[];
 
 public type files_sharedPublicURL_body record {
     # File to share
     string file?;
 };
 
-@constraint:String {pattern: re `^[CGD][A-Z0-9]{8,}$`}
-public type defs_channel string;
+# Schema for successful response from conversations.join method
+public type ConversationsJoinResponse record {|
+    ConversationObj channel;
+    OkTrueDef ok;
+    Response\ metadata response_metadata?;
+    string warning?;
+|};
 
-public type defs_pinned_info record {|
+public type AppsPermissionsResourcesListResponse_resources record {
+    string id?;
+    string 'type?;
+};
+
+# Schema for successful response from stars.list method
+public type StarsListResponse record {|
+    (record {|ChannelDef channel; int date_create; MessageObj message; "message" 'type;|}|record {|int date_create; FileObj file; "file" 'type;|}|record {|CommentObj comment; int date_create; FileObj file; "file_comment" 'type;|}|record {|ChannelDef channel; int date_create; "channel" 'type;|}|record {|DmIdDef channel; int date_create; "im" 'type;|}|record {|GroupIdDef channel; int date_create; "group" 'type;|})[][] items;
+    OkTrueDef ok;
+    PagingObj paging?;
+|};
+
+# Schema for successful response conversations.members method
+public type ConversationsMembersResponse record {|
+    @constraint:Array {minLength: 1}
+    UserIdDef[] members;
+    OkTrueDef ok;
+    AdminConversationsGetTeamsResponse_response_metadata response_metadata;
 |};
 
 public type admin_users_assign_body record {
@@ -919,6 +1393,12 @@ public type admin_users_assign_body record {
     # The ID of the user to add to the workspace.
     string user_id;
 };
+
+public type ChannelObj_purpose record {|
+    TopicPurposeCreatorDef creator;
+    int last_set;
+    string value;
+|};
 
 public type admin_emoji_addAlias_body record {
     # The alias of the emoji.
@@ -937,17 +1417,70 @@ public type Apps_permissions_requestQueries record {
     string scopes;
 };
 
+# Schema for successful response from conversations.list method
+public type ConversationsListResponse record {|
+    ConversationObj[] channels;
+    OkTrueDef ok;
+    AdminConversationsGetTeamsResponse_response_metadata response_metadata?;
+|};
+
 # Represents the Queries record for the operation: users_getPresence
 public type Users_getPresenceQueries record {
     # User to get presence info on. Defaults to the authed user.
     string user?;
 };
 
+public type TeamIntegrationLogsResponse_logs record {|
+    AppIdDef admin_app_id?;
+    AppIdDef app_id;
+    string app_type;
+    string change_type;
+    ChannelDef channel?;
+    string date;
+    string scope;
+    string service_id?;
+    string service_type?;
+    UserIdDef user_id;
+    string user_name;
+|};
+
 # Represents the Queries record for the operation: team_billableInfo
 public type Team_billableInfoQueries record {
     # A user to retrieve the billable information for. Defaults to all users.
     string user?;
 };
+
+# Schema for successful response from team.accessLogs method
+public type TeamAccessLogsResponse record {|
+    @constraint:Array {minLength: 1}
+    TeamAccessLogsResponse_logins[] logins;
+    OkTrueDef ok;
+    PagingObj paging;
+|};
+
+public type UserProfileShortObj record {|
+    string avatar_hash;
+    string display_name;
+    string display_name_normalized?;
+    string? first_name;
+    string image_72;
+    boolean is_restricted;
+    boolean is_ultra_restricted;
+    string name;
+    string real_name;
+    string real_name_normalized?;
+    WorkspaceIdDef team;
+|};
+
+public type ExternalOrgMigrationsObj record {
+    ExternalOrgMigrationsObj_current[] current;
+    int date_updated;
+};
+
+# Schema for successful response from apps.permissions.request method
+public type AppsPermissionsRequestResponse record {|
+    OkTrueDef ok;
+|};
 
 # Represents the Queries record for the operation: reactions_list
 public type Reactions_listQueries record {
@@ -1003,6 +1536,16 @@ public type admin_emoji_remove_body record {
     string token;
 };
 
+public type ReminderObj record {|
+    int complete_ts?;
+    UserIdDef creator;
+    ReminderIdDef id;
+    boolean recurring;
+    string text;
+    int time?;
+    UserIdDef user;
+|};
+
 # Represents the Queries record for the operation: views_push
 public type Views_pushQueries record {
     # A [view payload](/reference/surfaces/views). This must be a JSON-encoded string.
@@ -1011,51 +1554,9 @@ public type Views_pushQueries record {
     string trigger_id;
 };
 
-public type objs_message record {|
-    @constraint:Array {minLength: 1}
-    objs_message_attachments[] attachments?;
-    blocks blocks?;
-    (anydata)[] bot_id?;
-    objs_bot_profile bot_profile?;
-    string client_msg_id?;
-    objs_comment comment?;
-    boolean display_as_bot?;
-    objs_file file?;
-    @constraint:Array {minLength: 1}
-    objs_file[] files?;
-    objs_message_icons icons?;
-    defs_user_id inviter?;
-    boolean is_delayed_message?;
-    boolean is_intro?;
-    boolean is_starred?;
-    defs_ts last_read?;
-    defs_ts latest_reply?;
-    string name?;
-    string old_name?;
-    defs_user_id parent_user_id?;
-    string permalink?;
-    defs_channel[] pinned_to?;
-    string purpose?;
-    objs_reaction[] reactions?;
-    int reply_count?;
-    @constraint:Array {minLength: 1}
-    defs_user_id[] reply_users?;
-    int reply_users_count?;
-    defs_workspace_id source_team?;
-    boolean subscribed?;
-    string subtype?;
-    defs_workspace_id team?;
-    string text;
-    defs_ts thread_ts?;
-    string topic?;
-    defs_ts ts;
-    string 'type;
-    int unread_count?;
-    boolean upload?;
-    defs_user_id user?;
-    objs_user_profile_short user_profile?;
-    defs_workspace_id user_team?;
-    string username?;
+# Schema for successful response from reminders.delete method
+public type RemindersDeleteResponse record {|
+    OkTrueDef ok;
 |};
 
 public type admin_users_setExpiration_body record {
@@ -1067,12 +1568,19 @@ public type admin_users_setExpiration_body record {
     string user_id;
 };
 
+@constraint:String {pattern: re `^[F][A-Z0-9]{8,}$`}
+public type FileIdDef string;
+
 public type conversations_setTopic_body record {
     # Conversation to set the topic of
     string channel?;
     # The new topic string. Does not support formatting or linkification.
     string topic?;
 };
+
+public type UserObjItemsnull anydata;
+
+public type OkTrueDef true;
 
 # Represents the Queries record for the operation: apps_permissions_users_request
 public type Apps_permissions_users_requestQueries record {
@@ -1083,9 +1591,6 @@ public type Apps_permissions_users_requestQueries record {
     # The user this scope is being requested for
     string user;
 };
-
-@constraint:String {pattern: re `^[T][A-Z0-9]{2,}$`}
-public type defs_team string;
 
 public type files_remote_add_body record {
     # Creator defined GUID for the file.
@@ -1104,6 +1609,11 @@ public type files_remote_add_body record {
     string token?;
 };
 
+# Schema for successful response from conversations.unarchive method
+public type ConversationsUnarchiveResponse record {|
+    OkTrueDef ok;
+|};
+
 public type admin_teams_settings_setIcon_body record {
     # Image URL for the icon
     string image_url;
@@ -1113,14 +1623,64 @@ public type admin_teams_settings_setIcon_body record {
     string token;
 };
 
-@constraint:String {pattern: re `^[G][A-Z0-9]{8,}$`}
-public type defs_group_id string;
+public type EnterpriseUserObj record {|
+    EnterpriseIdDef enterprise_id;
+    EnterpriseNameDef enterprise_name;
+    EnterpriseUserIdDef id;
+    boolean is_admin;
+    boolean is_owner;
+    TeamDef[] teams;
+|};
+
+# Schema for successful response of admin.conversations.convertToPrivate
+public type AdminConversationsConvertToPrivateResponse record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from chat.meMessage method
+public type ChatMeMessageResponse record {|
+    ChannelDef channel?;
+    OkTrueDef ok;
+    TsDef ts?;
+|};
+
+# Schema for successful response of admin.conversations.search
+public type AdminConversationsSearchResponse record {|
+    ChannelObj[] channels;
+    string next_cursor;
+|};
 
 public type chat_meMessage_body record {
     # Channel to send message to. Can be a public channel, private group or IM channel. Can be an encoded ID, or a name.
     string channel?;
     # Text of the message to send.
     string text?;
+};
+
+public type BotProfileObj record {|
+    AppIdDef app_id;
+    boolean deleted;
+    BotProfileObj_icons icons;
+    BotIdDef id;
+    string name;
+    TeamDef team_id;
+    int updated;
+|};
+
+# Schema for successful response from chat.unfurl method
+public type ChatUnfurlResponse record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from reminders.info method
+public type RemindersInfoResponse record {|
+    OkTrueDef ok;
+    ReminderObj reminder;
+|};
+
+public type PrimaryOwnerObj record {
+    string email;
+    string id;
 };
 
 public type calls_add_body record {
@@ -1142,12 +1702,51 @@ public type calls_add_body record {
     string users?;
 };
 
+@constraint:String {pattern: re `^[T][A-Z0-9]{2,}$`}
+public type TeamDef string;
+
+# Schema for successful response of admin.conversations.delete
+public type AdminConversationsDeleteResponse record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from reactions.add method
+public type ReactionsAddResponse record {|
+    OkTrueDef ok;
+|};
+
+public type BotProfileObj_icons record {|
+    string image_36;
+    string image_48;
+    string image_72;
+|};
+
 public type blocks_inner record {
     string 'type;
 };
 
-@constraint:String {pattern: re `^[TE][A-Z0-9]{8,}$`}
-public type defs_workspace_id string;
+# Schema for successful response from pins.add method
+public type PinsAddResponse record {|
+    OkTrueDef ok;
+|};
+
+public type MessageObj_attachments record {|
+    string fallback?;
+    int id;
+    int image_bytes?;
+    int image_height?;
+    string image_url?;
+    int image_width?;
+|};
+
+# Schema for successful response from users.list method
+public type UsersListResponse record {|
+    int cache_ts;
+    @constraint:Array {minLength: 1}
+    UserObj[] members;
+    OkTrueDef ok;
+    ResponseMetadataObj response_metadata?;
+|};
 
 # Represents the Queries record for the operation: chat_getPermalink
 public type Chat_getPermalinkQueries record {
@@ -1183,6 +1782,13 @@ public type Conversations_infoQueries record {
     boolean include_locale?;
 };
 
+# Schema for successful response from conversations.replies method
+public type ConversationsRepliesResponse record {|
+    boolean has_more?;
+    (record {|TsDef last_read?; TsDef latest_reply?; int reply_count; UserIdDef[] reply_users?; int reply_users_count?; TeamDef source_team?; boolean subscribed; TeamDef team?; string text; TsDef thread_ts; TsDef ts; string 'type; int unread_count?; UserIdDef user; UserProfileShortObj user_profile?; TeamDef user_team?;|}|record {|boolean is_starred?; UserIdDef parent_user_id; TeamDef source_team?; TeamDef team?; string text; TsDef thread_ts; TsDef ts; string 'type; UserIdDef user; UserProfileShortObj user_profile?; TeamDef user_team?;|})[][] messages;
+    OkTrueDef ok;
+|};
+
 # Represents the Queries record for the operation: migration_exchange
 public type Migration_exchangeQueries record {
     # Specify `true` to convert `W` global user IDs to workspace-specific `U` IDs. Defaults to `false`.
@@ -1193,8 +1799,7 @@ public type Migration_exchangeQueries record {
     string users;
 };
 
-@constraint:String {pattern: re `^A[A-Z0-9]{1,}$`}
-public type defs_app_id string;
+public type ScopesObj string[];
 
 public type reactions_remove_body record {
     # Channel where the message to remove reaction from was posted.
@@ -1208,6 +1813,11 @@ public type reactions_remove_body record {
     # Timestamp of the message to remove reaction from.
     string timestamp?;
 };
+
+# Schema for successful response from reminders.complete method
+public type RemindersCompleteResponse record {|
+    OkTrueDef ok;
+|};
 
 # Represents the Queries record for the operation: bots_info
 public type Bots_infoQueries record {
@@ -1228,15 +1838,26 @@ public type admin_conversations_archive_body record {
     string channel_id;
 };
 
-@constraint:String {pattern: re `^\d{10}\.\d{6}$`}
-public type defs_ts string;
-
 public type conversations_invite_body record {
     # The ID of the public or private channel to invite user(s) to.
     string channel?;
     # A comma separated list of user IDs. Up to 1000 users may be listed.
     string users?;
 };
+
+@constraint:String {pattern: re `^A[A-Z0-9]{1,}$`}
+public type AppIdDef string;
+
+# Schema for successful response conversations.create method
+public type ConversationsCreateResponse record {|
+    ConversationObj channel;
+    OkTrueDef ok;
+|};
+
+public type RtmConnectResponse_self record {|
+    UserIdDef id;
+    string name;
+|};
 
 # Represents the Queries record for the operation: workflows_updateStep
 public type Workflows_updateStepQueries record {
@@ -1251,6 +1872,8 @@ public type Workflows_updateStepQueries record {
     # A context identifier provided with `view_submission` payloads used to call back to `workflows.updateStep`.
     string workflow_step_edit_id;
 };
+
+public type ChannelNameDef string;
 
 # Represents the Queries record for the operation: auth_revoke
 public type Auth_revokeQueries record {
@@ -1283,6 +1906,12 @@ public type admin_conversations_create_body record {
     string team_id?;
 };
 
+# Schema for successful response conversations.info
+public type ConversationsInfoResponse record {|
+    ConversationObj channel;
+    OkTrueDef ok;
+|};
+
 public type chat_update_body record {
     # Pass true to update the message as the authed user. [Bot users](/bot-users) in this context are considered authed users.
     string as_user?;
@@ -1302,6 +1931,12 @@ public type chat_update_body record {
     string ts;
 };
 
+# Schema for successful response from bots.info method
+public type BotsInfoResponse record {|
+    BotsInfoResponse_bot bot;
+    OkTrueDef ok;
+|};
+
 # Represents the Queries record for the operation: reactions_get
 public type Reactions_getQueries record {
     # File to get reactions for.
@@ -1316,15 +1951,73 @@ public type Reactions_getQueries record {
     string timestamp?;
 };
 
+# Schema for successful response from usergroups.users.update method
+public type UsergroupsUsersUpdateResponse record {|
+    OkTrueDef ok;
+    SubteamObj usergroup;
+|};
+
+# Schema for successful response from dnd.setSnooze method
+public type DndSetSnoozeResponse record {|
+    OkTrueDef ok;
+    boolean snooze_enabled;
+    int snooze_endtime;
+    int snooze_remaining;
+|};
+
+public type UserProfileObj record {|
+    boolean always_active?;
+    OptionalAppIdDef api_app_id?;
+    string avatar_hash;
+    BotIdDef bot_id?;
+    string display_name;
+    string display_name_normalized;
+    string? email?;
+    record {}[]? fields;
+    string? first_name?;
+    int? guest_expiration_ts?;
+    string? guest_invited_by?;
+    string? image_1024?;
+    string? image_192?;
+    string? image_24?;
+    string? image_32?;
+    string? image_48?;
+    string? image_512?;
+    string? image_72?;
+    string? image_original?;
+    boolean is_app_user?;
+    boolean is_custom_image?;
+    boolean? is_restricted?;
+    boolean? is_ultra_restricted?;
+    string last_avatar_image_hash?;
+    string? last_name?;
+    int memberships_count?;
+    string? name?;
+    string phone;
+    string pronouns?;
+    string real_name;
+    string real_name_normalized;
+    string skype;
+    string status_default_emoji?;
+    string status_default_text?;
+    string? status_default_text_canonical?;
+    string status_emoji;
+    int status_expiration?;
+    string status_text;
+    string? status_text_canonical?;
+    WorkspaceIdDef team?;
+    string title;
+    int updated?;
+    string user_id?;
+    string? username?;
+|};
+
 public type pins_remove_body record {
     # Channel where the item is pinned to.
     string channel;
     # Timestamp of the message to un-pin.
     string timestamp?;
 };
-
-@constraint:String {pattern: re `^Fc[A-Z0-9]{8,}$`}
-public type defs_comment_id string;
 
 public type admin_emoji_rename_body record {
     # The name of the emoji to be renamed. Colons (`:myemoji:`) around the value are not required, although they may be included.
@@ -1335,11 +2028,8 @@ public type admin_emoji_rename_body record {
     string token;
 };
 
-public type objs_bot_profile_icons record {|
-    string image_36;
-    string image_48;
-    string image_72;
-|};
+@constraint:String {pattern: re `^[WU][A-Z0-9]{8,}$`}
+public type EnterpriseUserIdDef string;
 
 public type conversations_mark_body record {
     # Channel or conversation to set the read cursor for.
@@ -1368,6 +2058,13 @@ public type Oauth_accessQueries record {
     string client_id?;
 };
 
+# Schema for successful response conversations.close method
+public type ConversationsCloseResponse record {|
+    boolean already_closed?;
+    boolean no_op?;
+    OkTrueDef ok;
+|};
+
 # Represents the Queries record for the operation: apps_uninstall
 public type Apps_uninstallQueries record {
     # Issued when you created your application.
@@ -1385,6 +2082,14 @@ public type Admin_conversations_getTeamsQueries record {
     # The channel to determine connected workspaces within the organization for.
     string channel_id;
 };
+
+# Schema for successful response from reactions.list method
+public type ReactionsListResponse record {|
+    (record {|ChannelDef channel; MessageObj message; "message" 'type;|}|record {|FileObj file; "file" 'type;|}|record {|CommentObj comment; FileObj file; "file_comment" 'type;|})[][] items;
+    OkTrueDef ok;
+    PagingObj paging?;
+    ResponseMetadataObj response_metadata?;
+|};
 
 public type chat_scheduleMessage_body record {
     # Pass true to post the message as the authed user, instead of as a bot. Defaults to false. See [chat.postMessage](chat.postMessage#authorship).
@@ -1449,10 +2154,51 @@ public type admin_conversations_restrictAccess_removeGroup_body record {
     string token;
 };
 
+public type Response\ metadata record {
+    string[] warnings?;
+};
+
+public type IconObj record {
+    string image_102?;
+    string image_132?;
+    string image_230?;
+    string image_34?;
+    string image_44?;
+    string image_68?;
+    string image_88?;
+    boolean image_default?;
+};
+
 public type admin_users_session_invalidate_body record {
     int session_id;
     # ID of the team that the session belongs to
     string team_id;
+};
+
+# Schema for successful response of admin.conversations.getConversationPrefs
+public type AdminConversationsGetConversationPrefsResponse record {|
+    OkTrueDef ok;
+    AdminConversationsGetConversationPrefsResponse_prefs prefs?;
+|};
+
+# Schema for successful response files.comments.delete method
+public type FilesCommentsDeleteResponse record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from dnd.endSnooze method
+public type DndEndSnoozeResponse record {|
+    boolean dnd_enabled;
+    int next_dnd_end_ts;
+    int next_dnd_start_ts;
+    OkTrueDef ok;
+    boolean snooze_enabled;
+|};
+
+public type Message\ object record {
+    record {}[] attachments?;
+    record {} blocks?;
+    string text;
 };
 
 public type usergroups_update_body record {
@@ -1477,6 +2223,35 @@ public type admin_conversations_setConversationPrefs_body record {
     string prefs;
 };
 
+# Schema for successful response of chat.postMessage method
+public type ChatPostMessageResponse record {|
+    ChannelDef channel;
+    MessageObj message;
+    OkTrueDef ok;
+    TsDef ts;
+|};
+
+public type UserObj (anydata)[];
+
+# Schema for successful response of chat.update method
+public type ChatUpdateResponse record {|
+    string channel;
+    Message\ object message;
+    OkTrueDef ok;
+    string text;
+    string ts;
+|};
+
+@constraint:String {pattern: re `^B[A-Z0-9]{8,}$`}
+public type BotIdDef string;
+
+# Schema for successful response from users.conversations method. Returned conversation objects do not include `num_members` or `is_member`
+public type UsersConversationsResponse record {
+    ConversationObj[] channels;
+    OkTrueDef ok;
+    AdminConversationsGetTeamsResponse_response_metadata response_metadata?;
+};
+
 # Represents the Queries record for the operation: views_update
 public type Views_updateQueries record {
     # A [view object](/reference/surfaces/views). This must be a JSON-encoded string.
@@ -1489,12 +2264,42 @@ public type Views_updateQueries record {
     string hash?;
 };
 
+# Schema for successful response from conversations.open method when opening channels, ims, mpims
+public type ConversationsOpenResponse record {|
+    boolean already_open?;
+    (ConversationObj|record {|string created?; DmIdDef id; boolean is_im?; boolean is_open?; TsDef last_read?; MessageObj latest?; decimal unread_count?; decimal unread_count_display?; UserIdDef user?;|})[] channel;
+    boolean no_op?;
+    OkTrueDef ok;
+|};
+
 # Represents the Queries record for the operation: users_info
 public type Users_infoQueries record {
     # Set this to `true` to receive the locale for this user. Defaults to `false`
     boolean include_locale?;
     # User to get info on
     string user?;
+};
+
+# Schema for successful response from conversations.invite method
+public type ConversationsInviteErrorResponse record {|
+    ConversationObj channel;
+    OkTrueDef ok;
+|};
+
+public type AppsPermissionsInfoResponse_info_team record {
+    ResourcesObj resources;
+    ScopesObj scopes;
+};
+
+# Generated from users.getPresence with shasum e7251aec575d8863f9e0eb38663ae9dc26655f65
+public type APIMethodUsersGetPresence record {
+    boolean auto_away?;
+    int connection_count?;
+    int last_activity?;
+    boolean manual_away?;
+    OkTrueDef ok;
+    boolean online?;
+    string presence;
 };
 
 public type files_upload_body record {
@@ -1523,6 +2328,74 @@ public type files_delete_body record {
     string file?;
 };
 
+@constraint:String {pattern: re `^[CGD][A-Z0-9]{8,}$`}
+public type ChannelDef string;
+
+public type PinnedInfoDef record {|
+|};
+
+public type MessageObj record {|
+    @constraint:Array {minLength: 1}
+    MessageObj_attachments[] attachments?;
+    blocks blocks?;
+    (anydata)[] bot_id?;
+    BotProfileObj bot_profile?;
+    string client_msg_id?;
+    CommentObj comment?;
+    boolean display_as_bot?;
+    FileObj file?;
+    @constraint:Array {minLength: 1}
+    FileObj[] files?;
+    MessageObj_icons icons?;
+    UserIdDef inviter?;
+    boolean is_delayed_message?;
+    boolean is_intro?;
+    boolean is_starred?;
+    TsDef last_read?;
+    TsDef latest_reply?;
+    string name?;
+    string old_name?;
+    UserIdDef parent_user_id?;
+    string permalink?;
+    ChannelDef[] pinned_to?;
+    string purpose?;
+    ReactionObj[] reactions?;
+    int reply_count?;
+    @constraint:Array {minLength: 1}
+    UserIdDef[] reply_users?;
+    int reply_users_count?;
+    WorkspaceIdDef source_team?;
+    boolean subscribed?;
+    string subtype?;
+    WorkspaceIdDef team?;
+    string text;
+    TsDef thread_ts?;
+    string topic?;
+    TsDef ts;
+    string 'type;
+    int unread_count?;
+    boolean upload?;
+    UserIdDef user?;
+    UserProfileShortObj user_profile?;
+    WorkspaceIdDef user_team?;
+    string username?;
+|};
+
+@constraint:String {pattern: re `^(A[A-Z0-9]{1,})?$`}
+public type OptionalAppIdDef string;
+
+# Schema for successful response from users.info method
+public type UsersInfoResponse record {
+    OkTrueDef ok;
+    UserObj user;
+};
+
+# Schema for successful response api.test method
+public type ApiTestResponse record {|
+    OkTrueDef ok;
+    record {}...;
+|};
+
 public type users_profile_set_body record {
     # Name of a single key to set. Usable only if `profile` is not passed.
     string name?;
@@ -1534,84 +2407,20 @@ public type users_profile_set_body record {
     string value?;
 };
 
+# Schema for successful response from migration.exchange method
+public type MigrationExchangeResponse record {
+    string enterprise_id;
+    string[] invalid_user_ids?;
+    OkTrueDef ok;
+    TeamDef team_id;
+    record {} user_id_map?;
+};
+
 # Represents the Queries record for the operation: api_test
 public type Api_testQueries record {
     # example property to return
     string foo?;
 };
-
-public type objs_file record {|
-    defs_channel_id[] channels?;
-    int comments_count?;
-    int created?;
-    int date_delete?;
-    boolean display_as_bot?;
-    boolean editable?;
-    defs_user_id editor?;
-    string external_id?;
-    string external_type?;
-    string external_url?;
-    string filetype?;
-    defs_group_id[] groups?;
-    boolean has_rich_preview?;
-    defs_file_id id?;
-    int image_exif_rotation?;
-    defs_dm_id[] ims?;
-    boolean is_external?;
-    boolean is_public?;
-    boolean is_starred?;
-    boolean is_tombstoned?;
-    defs_user_id last_editor?;
-    string mimetype?;
-    string mode?;
-    string name?;
-    boolean non_owner_editable?;
-    int num_stars?;
-    int original_h?;
-    int original_w?;
-    string permalink?;
-    string permalink_public?;
-    defs_pinned_info pinned_info?;
-    defs_channel[] pinned_to?;
-    string pretty_type?;
-    string preview?;
-    boolean public_url_shared?;
-    objs_reaction[] reactions?;
-    objs_file_shares shares?;
-    int size?;
-    defs_team source_team?;
-    string state?;
-    string thumb_1024?;
-    int thumb_1024_h?;
-    int thumb_1024_w?;
-    string thumb_160?;
-    string thumb_360?;
-    int thumb_360_h?;
-    int thumb_360_w?;
-    string thumb_480?;
-    int thumb_480_h?;
-    int thumb_480_w?;
-    string thumb_64?;
-    string thumb_720?;
-    int thumb_720_h?;
-    int thumb_720_w?;
-    string thumb_80?;
-    string thumb_800?;
-    int thumb_800_h?;
-    int thumb_800_w?;
-    string thumb_960?;
-    int thumb_960_h?;
-    int thumb_960_w?;
-    string thumb_tiny?;
-    int timestamp?;
-    string title?;
-    int updated?;
-    string url_private?;
-    string url_private_download?;
-    string user?;
-    defs_team user_team?;
-    string username?;
-|};
 
 public type admin_conversations_restrictAccess_addGroup_body record {
     # The channel to link this group to.
@@ -1624,23 +2433,49 @@ public type admin_conversations_restrictAccess_addGroup_body record {
     string token;
 };
 
+# Schema for successful response from stars.remove method
+public type StarsRemoveResponse record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from usergroups.disable method
+public type UsergroupsDisableResponse record {|
+    OkTrueDef ok;
+    SubteamObj usergroup;
+|};
+
+# Schema for successful response from usergroups.list method
+public type UsergroupsListResponse record {|
+    OkTrueDef ok;
+    SubteamObj[] usergroups;
+|};
+
+# Schema for successful response from conversations.history method
+public type ConversationsHistoryResponse record {|
+    int channel_actions_count;
+    (anydata)[] channel_actions_ts;
+    boolean has_more;
+    @constraint:Array {minLength: 1}
+    MessageObj[] messages;
+    OkTrueDef ok;
+    int pin_count;
+|};
+
 # Represents the Queries record for the operation: admin_teams_settings_info
 public type Admin_teams_settings_infoQueries record {
     string team_id;
 };
 
-public type objs_bot_profile record {|
-    defs_app_id app_id;
-    boolean deleted;
-    objs_bot_profile_icons icons;
-    defs_bot_id id;
-    string name;
-    defs_team team_id;
-    int updated;
+# Schema for successful response from dnd.endDnd method
+public type DndEndDndResponse record {|
+    OkTrueDef ok;
 |};
 
-@constraint:String {pattern: re `^[F][A-Z0-9]{8,}$`}
-public type defs_file_id string;
+# Schema for successful response from conversations.leave method
+public type ConversationsLeaveResponse record {|
+    true not_in_channel?;
+    OkTrueDef ok;
+|};
 
 public type chat_delete_body record {
     # Pass true to delete the message as the authed user with `chat:write:user` scope. [Bot users](/bot-users) in this context are considered authed users. If unused or false, the message will be deleted with `chat:write:bot` scope.
@@ -1651,9 +2486,33 @@ public type chat_delete_body record {
     decimal ts?;
 };
 
+# Schema for successful response from files.list method
+public type FilesListResponse record {|
+    FileObj[] files;
+    OkTrueDef ok;
+    PagingObj paging;
+|};
+
+public type ChatScheduledMessagesListResponse_scheduled_messages record {|
+    ChannelIdDef channel_id;
+    int date_created;
+    @constraint:String {pattern: re `^[Q][A-Z0-9]{8,}$`}
+    string id;
+    int post_at;
+    string text?;
+|};
+
+# Schema for successful response from rtm.connect method
+public type RtmConnectResponse record {|
+    OkTrueDef ok;
+    RtmConnectResponse_self self;
+    RtmConnectResponse_team team;
+    string url;
+|};
+
 # This method either only returns a brief _OK_ response or a verbose schema is not available for this method.
 public type DefaultSuccessResponse record {
-    defs_ok_true ok;
+    OkTrueDef ok;
 };
 
 # Represents the Queries record for the operation: users_list
@@ -1665,6 +2524,12 @@ public type Users_listQueries record {
     # Set this to `true` to receive the locale for users. Defaults to `false`
     boolean include_locale?;
 };
+
+# Schema for successful response from reminders.list method
+public type RemindersListResponse record {|
+    OkTrueDef ok;
+    ReminderObj[] reminders;
+|};
 
 # Represents the Queries record for the operation: admin_teams_owners_list
 public type Admin_teams_owners_listQueries record {
@@ -1679,6 +2544,9 @@ public type admin_conversations_convertToPrivate_body record {
     # The channel to convert to private.
     string channel_id;
 };
+
+@constraint:String {pattern: re `^[TE][A-Z0-9]{8,}$`}
+public type WorkspaceIdDef string;
 
 public type admin_users_session_reset_body record {
     # Only expire mobile sessions (default: false)
@@ -1695,6 +2563,12 @@ public type Users_lookupByEmailQueries record {
     string email;
 };
 
+# Schema for successful response from apps.permissions.info method
+public type AppsPermissionsInfoResponse record {|
+    AppsPermissionsInfoResponse_info info;
+    OkTrueDef ok;
+|};
+
 # Represents the Queries record for the operation: admin_conversations_ekm_listOriginalConnectedChannelInfo
 public type Admin_conversations_ekm_listOriginalConnectedChannelInfoQueries record {
     # A comma-separated list of channels to filter to.
@@ -1707,6 +2581,12 @@ public type Admin_conversations_ekm_listOriginalConnectedChannelInfoQueries reco
     int 'limit?;
 };
 
+@constraint:String {pattern: re `^[UW][A-Z0-9]{2,}$`}
+public type UserIdDef string;
+
+@constraint:String {pattern: re `^[G][A-Z0-9]{8,}$`}
+public type GroupIdDef string;
+
 public type admin_emoji_add_body record {
     # The name of the emoji to be removed. Colons (`:myemoji:`) around the value are not required, although they may be included.
     string name;
@@ -1715,6 +2595,12 @@ public type admin_emoji_add_body record {
     # The URL of a file to use as an image for the emoji. Square images under 128KB and with transparent backgrounds work best.
     string url;
 };
+
+# Schema for successful response from reminders.add method
+public type RemindersAddResponse record {|
+    OkTrueDef ok;
+    ReminderObj reminder;
+|};
 
 # Represents the Queries record for the operation: views_publish
 public type Views_publishQueries record {
@@ -1726,6 +2612,13 @@ public type Views_publishQueries record {
     string hash?;
 };
 
+# Schema for successful response of admin.conversations.getTeams
+public type AdminConversationsGetTeamsResponse record {|
+    OkTrueDef ok;
+    AdminConversationsGetTeamsResponse_response_metadata response_metadata?;
+    TeamDef[] team_ids;
+|};
+
 # Represents the Queries record for the operation: admin_usergroups_listChannels
 public type Admin_usergroups_listChannelsQueries record {
     # Flag to include or exclude the count of members per channel.
@@ -1736,9 +2629,25 @@ public type Admin_usergroups_listChannelsQueries record {
     string team_id?;
 };
 
+public type ApiPermissionsScopesListResponse_scopes record {
+    ScopesObj app_home?;
+    ScopesObj channel?;
+    ScopesObj group?;
+    ScopesObj im?;
+    ScopesObj mpim?;
+    ScopesObj team?;
+    ScopesObj user?;
+};
+
 public type admin_conversations_delete_body record {
     # The channel to delete.
     string channel_id;
+};
+
+public type ReactionObj record {
+    int count;
+    string name;
+    UserIdDef[] users;
 };
 
 public type admin_conversations_unarchive_body record {
@@ -1751,6 +2660,19 @@ public type admin_users_setAdmin_body record {
     string team_id;
     # The ID of the user to designate as an admin.
     string user_id;
+};
+
+# Schema for successful response from team.profile.get method
+public type TeamProfileGetResponse record {|
+    OkTrueDef ok;
+    TeamProfileGetResponse_profile profile;
+|};
+
+# Schema for successful response apps.permissions.resources.list method
+public type AppsPermissionsResourcesListResponse record {
+    OkTrueDef ok;
+    AppsPermissionsResourcesListResponse_resources[] resources;
+    AppsPermissionsResourcesListResponse_response_metadata response_metadata?;
 };
 
 public type files_revokePublicURL_body record {
@@ -1772,7 +2694,8 @@ public type Team_integrationLogsQueries record {
     string user?;
 };
 
-public type defs_ok_true true;
+@constraint:String {pattern: re `^S[A-Z0-9]{2,}$`}
+public type SubteamIdDef string;
 
 # Proxy server configurations to be used with the HTTP client endpoint.
 public type ProxyConfig record {|
@@ -1786,6 +2709,8 @@ public type ProxyConfig record {|
     @display {label: "", kind: "password"}
     string password = "";
 |};
+
+public type ConversationObjItemsnull anydata;
 
 # Represents the Queries record for the operation: views_open
 public type Views_openQueries record {
@@ -1814,6 +2739,11 @@ public type dnd_setSnooze_body record {
     # Authentication token. Requires scope: `dnd:write`
     string token;
 };
+
+# Schema for successful response conversations.mark method
+public type ConversationsMarkResponse record {|
+    OkTrueDef ok;
+|};
 
 public type admin_users_invite_body record {
     # A comma-separated list of `channel_id`s for this user to join. At least one channel is required.
@@ -1848,6 +2778,11 @@ public type users_setPresence_body record {
     string presence;
 };
 
+# Schema for successful response from stars.add method
+public type StarsAddResponse record {|
+    OkTrueDef ok;
+|};
+
 # Represents the Queries record for the operation: users_profile_get
 public type Users_profile_getQueries record {
     # Include labels for each ID in custom profile fields
@@ -1855,6 +2790,11 @@ public type Users_profile_getQueries record {
     # User to retrieve profile info for
     string user?;
 };
+
+# Schema for successful response conversations.kick method
+public type ConversationsKickResponse record {|
+    OkTrueDef ok;
+|};
 
 # Represents the Queries record for the operation: conversations_replies
 public type Conversations_repliesQueries record {
@@ -1881,6 +2821,102 @@ public type usergroups_enable_body record {
     string usergroup;
 };
 
+public type AdminConversationsGetConversationPrefsResponse_prefs record {
+    AdminConversationsGetConversationPrefsResponse_prefs_can_thread can_thread?;
+    AdminConversationsGetConversationPrefsResponse_prefs_can_thread who_can_post?;
+};
+
+public type FileObj record {|
+    ChannelIdDef[] channels?;
+    int comments_count?;
+    int created?;
+    int date_delete?;
+    boolean display_as_bot?;
+    boolean editable?;
+    UserIdDef editor?;
+    string external_id?;
+    string external_type?;
+    string external_url?;
+    string filetype?;
+    GroupIdDef[] groups?;
+    boolean has_rich_preview?;
+    FileIdDef id?;
+    int image_exif_rotation?;
+    DmIdDef[] ims?;
+    boolean is_external?;
+    boolean is_public?;
+    boolean is_starred?;
+    boolean is_tombstoned?;
+    UserIdDef last_editor?;
+    string mimetype?;
+    string mode?;
+    string name?;
+    boolean non_owner_editable?;
+    int num_stars?;
+    int original_h?;
+    int original_w?;
+    string permalink?;
+    string permalink_public?;
+    PinnedInfoDef pinned_info?;
+    ChannelDef[] pinned_to?;
+    string pretty_type?;
+    string preview?;
+    boolean public_url_shared?;
+    ReactionObj[] reactions?;
+    FileObj_shares shares?;
+    int size?;
+    TeamDef source_team?;
+    string state?;
+    string thumb_1024?;
+    int thumb_1024_h?;
+    int thumb_1024_w?;
+    string thumb_160?;
+    string thumb_360?;
+    int thumb_360_h?;
+    int thumb_360_w?;
+    string thumb_480?;
+    int thumb_480_h?;
+    int thumb_480_w?;
+    string thumb_64?;
+    string thumb_720?;
+    int thumb_720_h?;
+    int thumb_720_w?;
+    string thumb_80?;
+    string thumb_800?;
+    int thumb_800_h?;
+    int thumb_800_w?;
+    string thumb_960?;
+    int thumb_960_h?;
+    int thumb_960_w?;
+    string thumb_tiny?;
+    int timestamp?;
+    string title?;
+    int updated?;
+    string url_private?;
+    string url_private_download?;
+    string user?;
+    TeamDef user_team?;
+    string username?;
+|};
+
+# Schema for successful response from conversations.setTopic method
+public type ConversationsSetTopicResponse record {|
+    ConversationObj channel;
+    OkTrueDef ok;
+|};
+
+# Schema for successful response auth.test method
+public type AuthTestResponse record {|
+    BotIdDef bot_id?;
+    boolean is_enterprise_install?;
+    OkTrueDef ok;
+    string team;
+    TeamDef team_id;
+    string url;
+    string user;
+    UserIdDef user_id;
+|};
+
 # Represents the Queries record for the operation: admin_teams_list
 public type Admin_teams_listQueries record {
     # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
@@ -1888,3 +2924,15 @@ public type Admin_teams_listQueries record {
     # The maximum number of items to return. Must be between 1 - 100 both inclusive.
     int 'limit?;
 };
+
+# Schema for successful response files.upload method
+public type FilesUploadResponse record {|
+    FileObj file;
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from files.sharedPublicURL method
+public type FilesSharedPublicURLResponse record {|
+    FileObj file;
+    OkTrueDef ok;
+|};

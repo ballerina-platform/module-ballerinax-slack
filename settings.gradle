@@ -32,10 +32,11 @@ plugins {
 
 rootProject.name = 'module-ballerinax-slack'
 
+include ':slack-sanitation'
 include ':slack-ballerina'
 
 project(':slack-ballerina').projectDir = file("ballerina")
-
+project(':slack-sanitation').projectDir = file("docs/spec")
 gradleEnterprise {
     buildScan {
         termsOfServiceUrl = 'https://gradle.com/terms-of-service'

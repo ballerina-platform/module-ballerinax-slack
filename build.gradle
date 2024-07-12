@@ -61,6 +61,7 @@ allprojects {
 def moduleVersion = project.version.replace("-SNAPSHOT", "")
 
 task build {
+    dependsOn(':slack-sanitation:build')
     dependsOn(':slack-ballerina:build')
 }
 
