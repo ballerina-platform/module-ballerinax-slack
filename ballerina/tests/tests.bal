@@ -52,8 +52,8 @@ function testGetPresence() returns error? {
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
-function testPostMessage_1() returns error? {
-    ChatPostMessageResponse response = check slack->/chat\.postMessage.post({channel: "general", text: "This is a Test"});
+function testPostMessage() returns error? {
+    ChatPostMessageResponse response = check slack->/chat\.postMessage.post({channel: "general"});
     test:assertTrue(response.ok, "The ok attribute should be true");
     test:assertEquals(response.message.text, "This is a Test", "The message text is not equal to the expected value");
 }
@@ -61,7 +61,7 @@ function testPostMessage_1() returns error? {
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
-function testUsersList() returns error? {
+function testGetUsersList() returns error? {
     UsersListResponse response = check slack->/users\.list();
     test:assertTrue(response.ok, "The ok attribute should be true");
 }
@@ -69,7 +69,7 @@ function testUsersList() returns error? {
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
-function testUsersProfileGet() returns error? {
+function testGetUserProfiles() returns error? {
     UsersProfileGetResponse response = check slack->/users\.profile\.get();
     test:assertTrue(response.ok, "The ok attribute should be true");
 }
