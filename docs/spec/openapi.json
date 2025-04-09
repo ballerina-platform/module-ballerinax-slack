@@ -26388,7 +26388,7 @@
                 "user",
                 "priority"
               ],
-              "title": "Conversation IM Channel Object from conversations.* methods",
+              "title": "Conversation IM Channel Object from conversations methods",
               "type": "object"
             }
           ]
