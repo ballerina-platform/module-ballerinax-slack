@@ -333,7 +333,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "slack"
-version = "4.0.1"
+version = "5.0.0"
 dependencies = [
 	{org = "ballerina", name = "constraint"},
 	{org = "ballerina", name = "data.jsondata"},
