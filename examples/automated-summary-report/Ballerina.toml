@@ -3,3 +3,9 @@ org = "wso2"
 name = "automated_summary_report"
 version = "0.1.0"
 distribution = "2201.9.0"
+
+[[dependency]]
+org = "ballerinax"
+name="slack"
+version="4.0.0"
+repository="local"
