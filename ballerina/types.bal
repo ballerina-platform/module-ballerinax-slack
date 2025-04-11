@@ -18,59 +18,23 @@
 // under the License.
 
 import ballerina/constraint;
+import ballerina/data.jsondata;
 import ballerina/http;
 
-# Represents the Queries record for the operation: usergroups_list
-public type Usergroups_listQueries record {
-    # Include disabled User Groups.
-    boolean include_disabled?;
-    # Include the list of users for each User Group.
-    boolean include_users?;
-    # Include the number of users in each User Group.
-    boolean include_count?;
+public type TzAnyOf11 anydata?;
+
+# Represents the Queries record for the operation: views_push
+public type ViewsPushQueries record {
+    # A [view payload](/reference/surfaces/views). This must be a JSON-encoded string
+    string view;
+    # Exchange a trigger to post to the user
+    @http:Query {name: "trigger_id"}
+    string triggerId;
 };
 
-@constraint:String {pattern: re `^[UW][A-Z0-9]{8,}$|^$`}
-public type TopicPurposeCreatorDef string;
+public type ConversationsOpenResponseChannel ConversationObj|ChannelAnyOf2;
 
-@constraint:String {pattern: re `^Rm[A-Z0-9]{8,}$`}
-public type ReminderIdDef string;
-
-# Represents the Queries record for the operation: dialog_open
-public type Dialog_openQueries record {
-    # The dialog definition. This must be a JSON-encoded string.
-    string dialog;
-    # Exchange a trigger to post to the user.
-    string trigger_id;
-};
-
-public type pins_add_body record {
-    # Channel to pin the item in.
-    string channel;
-    # Timestamp of the message to pin.
-    string timestamp?;
-};
-
-public type usergroups_disable_body record {
-    # Include the number of users in the User Group.
-    boolean include_count?;
-    # The encoded ID of the User Group to disable.
-    string usergroup;
-};
-
-public type reminders_complete_body record {
-    # The ID of the reminder to be marked as complete
-    string reminder?;
-};
-
-public type admin_usergroups_addTeams_body record {
-    # When `true`, this method automatically creates new workspace accounts for the IDP group members.
-    boolean auto_provision?;
-    # A comma separated list of encoded team (workspace) IDs. Each workspace *MUST* belong to the organization associated with the token.
-    string team_ids;
-    # An encoded usergroup (IDP Group) ID.
-    string usergroup_id;
-};
+public type NilBotIdSetWhenDisplayAsBotIsFalse anydata?;
 
 # Schema for successful response from usergroups.users.list method
 public type UsergroupsUsersListResponse record {|
@@ -78,55 +42,2394 @@ public type UsergroupsUsersListResponse record {|
     UserIdDef[] users;
 |};
 
-public type admin_teams_settings_setDiscoverability_body record {
-    # This workspace's discovery setting. It must be set to one of `open`, `invite_only`, `closed`, or `unlisted`.
-    string discoverability;
-    # The ID of the workspace to set discoverability on.
-    string team_id;
+# Represents the Queries record for the operation: admin_conversations_search
+public type AdminConversationsSearchQueries record {
+    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
+    string cursor?;
+    # The type of channel to include or exclude in the search. For example `private` will search private channels, while `private_exclude` will exclude them. For a full list of types, check the [Types section](#types)
+    @http:Query {name: "search_channel_types"}
+    string searchChannelTypes?;
+    # Comma separated string of team IDs, signifying the workspaces to search through
+    @http:Query {name: "team_ids"}
+    string teamIds?;
+    # Name of the the channel to query by
+    string query?;
+    # Maximum number of items to be returned. Must be between 1 - 20 both inclusive. Default is 10
+    int 'limit?;
+    # Possible values are `relevant` (search ranking based on what we think is closest), `name` (alphabetical), `member_count` (number of users in the channel), and `created` (date channel was created). You can optionally pair this with the `sort_dir` arg to change how it is sorted 
+    string sort?;
+    # Sort direction. Possible values are `asc` for ascending order like (1, 2, 3) or (a, b, c), and `desc` for descending order like (3, 2, 1) or (c, b, a)
+    @http:Query {name: "sort_dir"}
+    string sortDir?;
 };
+
+public type DeprecationWarningAndPagingStyleTogether record {|
+    @jsondata:Name {value: "next_cursor"}
+    string nextCursor;
+    ("method_deprecated")[] warnings;
+    string[] messages;
+|};
 
 # Schema for successful response from users.profile.set method
 public type UsersProfileSetResponse record {|
-    string email_pending?;
-    OkTrueDef ok;
     UserProfileObj profile;
+    OkTrueDef ok;
+    @jsondata:Name {value: "email_pending"}
+    string emailPending?;
     string username;
 |};
 
-public type admin_conversations_disconnectShared_body record {
-    # The channel to be disconnected from some workspaces.
-    string channel_id;
-    # The team to be removed from the channel. Currently only a single team id can be specified.
-    string leaving_team_ids?;
-};
-
-# Represents the Queries record for the operation: files_remote_share
-public type Files_remote_shareQueries record {
-    # Specify a file registered with Slack by providing its ID. Either this field or `external_id` or both are required.
+public type FilesSharedPublicURLBody record {
+    # File to share
     string file?;
-    # Comma-separated list of channel IDs where the file will be shared.
-    string channels?;
-    # The globally unique identifier (GUID) for the file, as set by the app registering the file with Slack.  Either this field or `file` or both are required.
-    string external_id?;
 };
 
-public type conversations_kick_body record {
-    # ID of conversation to remove user from.
+# Represents the Queries record for the operation: files_list
+public type FilesListQueries record {
+    # Filter files created after this timestamp (inclusive)
+    @http:Query {name: "ts_from"}
+    decimal tsFrom?;
+    # Show truncated file info for files hidden due to being too old, and the team who owns the file being over the file limit
+    @http:Query {name: "show_files_hidden_by_limit"}
+    boolean showFilesHiddenByLimit?;
+    # Filter files by type ([see below](#file_types)). You can pass multiple values in the types argument, like `types=spaces,snippets`.The default value is `all`, which does not filter the list
+    string types?;
+    # Filter files created before this timestamp (inclusive)
+    @http:Query {name: "ts_to"}
+    decimal tsTo?;
+    # Filter files appearing in a specific channel, indicated by its ID
     string channel?;
-    # User ID to be removed.
+    string count?;
+    string page?;
+    # Filter files created by a single user
     string user?;
 };
 
-public type stars_remove_body record {
-    # Channel to remove star from, or channel where the message to remove star from was posted (used with `timestamp`).
+public type AdminUsersSetAdminBody record {
+    # The ID of the user to designate as an admin
+    @jsondata:Name {value: "user_id"}
+    string userId;
+    # The ID (`T1234`) of the workspace
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+};
+
+public type '200200AnyOf112 record {|
+    FileObj file;
+    OkTrueDef ok;
+    "file" 'type;
+|};
+
+# Schema for successful response from dnd.info method
+public type DndInfoResponse record {|
+    @jsondata:Name {value: "next_dnd_end_ts"}
+    int nextDndEndTs;
+    @jsondata:Name {value: "snooze_endtime"}
+    int snoozeEndtime?;
+    @jsondata:Name {value: "dnd_enabled"}
+    boolean dndEnabled;
+    @jsondata:Name {value: "next_dnd_start_ts"}
+    int nextDndStartTs;
+    @jsondata:Name {value: "snooze_enabled"}
+    boolean snoozeEnabled?;
+    @jsondata:Name {value: "snooze_remaining"}
+    int snoozeRemaining?;
+    OkTrueDef ok;
+|};
+
+public type ConversationsCloseBody record {
+    # Conversation to close
     string channel?;
-    # File to remove star from.
+};
+
+public type AppsPermissionsInfoResponseInfoChannel record {
+    ResourcesObj resources?;
+    ScopesObj scopes?;
+};
+
+public type ConversationsInviteBody record {
+    # The ID of the public or private channel to invite user(s) to
+    string channel?;
+    # A comma separated list of user IDs. Up to 1000 users may be listed
+    string users?;
+};
+
+public type UsersDeletePhotoBody record {
+    # Authentication token. Requires scope: `users.profile:write`
+    string token;
+};
+
+# Schema for successful response of admin.conversations.unarchive
+public type AdminConversationsUnarchiveResponse record {|
+    OkTrueDef ok;
+|};
+
+public type DiscoverableDiscoverableAnyOf12 string;
+
+public type TzTzAnyOf112 string;
+
+public type RtmConnectResponseTeam record {|
+    string domain;
+    string name;
+    TeamDef id;
+|};
+
+# Schema for successful response of chat.delete method
+public type ChatDeleteResponse record {|
+    ChannelDef channel;
+    OkTrueDef ok;
+    TsDef ts;
+|};
+
+# Schema for successful response of admin.conversations.archive
+public type AdminConversationsArchiveResponse record {|
+    OkTrueDef ok;
+|};
+
+public type MessageObjBotId BotIdDef|NilBotIdSetWhenDisplayAsBotIsFalse?;
+
+public type AdminTeamsSettingsSetDiscoverabilityBody record {
+    # This workspace's discovery setting. It must be set to one of `open`, `invite_only`, `closed`, or `unlisted`
+    string discoverability;
+    # The ID of the workspace to set discoverability on
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+};
+
+# Schema for successful response from chat.postEphemeral method
+public type ChatPostEphemeralResponse record {|
+    OkTrueDef ok;
+    @jsondata:Name {value: "message_ts"}
+    TsDef messageTs;
+|};
+
+# Schema for successful response from usergroups.enable method
+public type UsergroupsEnableResponse record {|
+    SubteamObj usergroup;
+    OkTrueDef ok;
+|};
+
+public type ChatUnfurlBody record {
+    # URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl blocks or message attachments
+    string unfurls?;
+    # Provide a simply-formatted string to send as an ephemeral message to the user as invitation to authenticate further and enable full unfurling behavior
+    @jsondata:Name {value: "user_auth_message"}
+    string userAuthMessage?;
+    # Channel ID of the message
+    string channel;
+    # Send users to this custom URL where they will complete authentication in your app to fully trigger unfurling. Value should be properly URL-encoded
+    @jsondata:Name {value: "user_auth_url"}
+    string userAuthUrl?;
+    # Set to `true` or `1` to indicate the user must install your Slack app to trigger unfurls for this domain
+    @jsondata:Name {value: "user_auth_required"}
+    boolean userAuthRequired?;
+    # Timestamp of the message to add unfurl behavior to
+    string ts;
+};
+
+public type BlocksInner record {
+    string 'type;
+};
+
+public type FilesRemoteUpdateBody record {
+    # type of file
+    string filetype?;
+    # URL of the remote file
+    @jsondata:Name {value: "external_url"}
+    string externalUrl?;
+    # Specify a file by providing its ID
     string file?;
-    # File comment to remove star from.
-    string file_comment?;
-    # Timestamp of the message to remove star from.
+    # Preview of the document via `multipart/form-data`
+    @jsondata:Name {value: "preview_image"}
+    string previewImage?;
+    # Creator defined GUID for the file
+    @jsondata:Name {value: "external_id"}
+    string externalId?;
+    # File containing contents that can be used to improve searchability for the remote file
+    @jsondata:Name {value: "indexable_file_contents"}
+    string indexableFileContents?;
+    # Title of the file being shared
+    string title?;
+    # Authentication token. Requires scope: `remote_files:write`
+    string token?;
+};
+
+@constraint:String {pattern: re `^\d{10}\.\d{6}$`}
+public type TsDef string;
+
+# Represents the Queries record for the operation: oauth_access
+public type OauthAccessQueries record {
+    # Request the user to add your app only to a single channel. Only valid with a [legacy workspace app](https://api.slack.com/legacy-workspace-apps)
+    @http:Query {name: "single_channel"}
+    boolean singleChannel?;
+    # The `code` param returned via the OAuth callback
+    string code?;
+    # Issued when you created your application
+    @http:Query {name: "client_secret"}
+    string clientSecret?;
+    # This must match the originally submitted URI (if one was sent)
+    @http:Query {name: "redirect_uri"}
+    string redirectUri?;
+    # Issued when you created your application
+    @http:Query {name: "client_id"}
+    string clientId?;
+};
+
+public type '200200AnyOf122 record {|
+    '200Team1 team;
+    OkTrueDef ok;
+    '200User1 user;
+|};
+
+public type TeamProfileFieldObj record {|
+    decimal ordering;
+    string hint;
+    @jsondata:Name {value: "possible_values"}
+    string[]? possibleValues?;
+    @jsondata:Name {value: "is_hidden"}
+    boolean isHidden?;
+    TeamProfileFieldObjOptions[] options?;
+    @constraint:String {pattern: re `^X[a-zA-Z0-9]{9,}$`}
+    string id;
+    string label;
+    "text"|"date"|"link"|"mailto"|"options_list"|"user" 'type;
+    @jsondata:Name {value: "field_name"}
+    string? fieldName?;
+|};
+
+# Schema for successful response from auth.revoke method
+public type AuthRevokeResponse record {|
+    OkTrueDef ok;
+    boolean revoked;
+|};
+
+public type AdminTeamsSettingsSetDefaultChannelsBody record {
+    # An array of channel IDs
+    @jsondata:Name {value: "channel_ids"}
+    string channelIds;
+    # ID for the workspace to set the default channel for
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+    # Authentication token. Requires scope: `admin.teams:write`
+    string token;
+};
+
+# Represents the Queries record for the operation: conversations_info
+public type ConversationsInfoQueries record {
+    # Set to `true` to include the member count for the specified conversation. Defaults to `false`
+    @http:Query {name: "include_num_members"}
+    boolean includeNumMembers?;
+    # Conversation ID to learn more about
+    string channel?;
+    # Set this to `true` to receive the locale for this conversation. Defaults to `false`
+    @http:Query {name: "include_locale"}
+    boolean includeLocale?;
+};
+
+@constraint:String {pattern: re `^[E][A-Z0-9]{8,}$`}
+public type EnterpriseIdDef string;
+
+# Represents the Queries record for the operation: users_info
+public type UsersInfoQueries record {
+    # Set this to `true` to receive the locale for this user. Defaults to `false`
+    @http:Query {name: "include_locale"}
+    boolean includeLocale?;
+    # User to get info on
+    string user?;
+};
+
+public type ChannelAnyOf2 record {|
+    @jsondata:Name {value: "last_read"}
+    TsDef lastRead?;
+    @jsondata:Name {value: "unread_count"}
+    decimal unreadCount?;
+    @jsondata:Name {value: "is_im"}
+    boolean isIm?;
+    @jsondata:Name {value: "is_open"}
+    boolean isOpen?;
+    string created?;
+    DmIdDef id;
+    @jsondata:Name {value: "unread_count_display"}
+    decimal unreadCountDisplay?;
+    UserIdDef user?;
+    MessageObj latest?;
+|};
+
+# Represents the Queries record for the operation: team_billableInfo
+public type TeamBillableInfoQueries record {
+    # A user to retrieve the billable information for. Defaults to all users
+    string user?;
+};
+
+# Schema for successful response from apps.uninstall method
+public type AppsUninstallResponse record {|
+    OkTrueDef ok;
+|};
+
+public type TeamObj record {|
+    @jsondata:Name {value: "primary_owner"}
+    PrimaryOwnerObj primaryOwner?;
+    @jsondata:Name {value: "is_enterprise"}
+    int isEnterprise?;
+    IconObj icon;
+    string? description?;
+    @jsondata:Name {value: "msg_edit_window_mins"}
+    int msgEditWindowMins?;
+    @jsondata:Name {value: "avatar_base_url"}
+    string avatarBaseUrl?;
+    @jsondata:Name {value: "sso_provider"}
+    TeamObjSsoProvider ssoProvider?;
+    string locale?;
+    boolean archived?;
+    @jsondata:Name {value: "messages_count"}
+    int messagesCount?;
+    @jsondata:Name {value: "pay_prod_cur"}
+    string payProdCur?;
+    WorkspaceIdDef id;
+    @jsondata:Name {value: "is_over_storage_limit"}
+    boolean isOverStorageLimit?;
+    ""|"std"|"plus"|"compliance"|"enterprise" plan?;
+    @jsondata:Name {value: "external_org_migrations"}
+    ExternalOrgMigrationsObj externalOrgMigrations?;
+    @jsondata:Name {value: "over_integrations_limit"}
+    boolean overIntegrationsLimit?;
+    int created?;
+    @jsondata:Name {value: "is_assigned"}
+    boolean isAssigned?;
+    @jsondata:Name {value: "limit_ts"}
+    int limitTs?;
+    @jsondata:Name {value: "enterprise_id"}
+    EnterpriseIdDef enterpriseId?;
+    boolean deleted?;
+    @jsondata:Name {value: "has_compliance_export"}
+    boolean hasComplianceExport?;
+    @jsondata:Name {value: "date_create"}
+    int dateCreate?;
+    TeamObjDiscoverable[] discoverable?;
+    string domain;
+    string name;
+    @jsondata:Name {value: "email_domain"}
+    string emailDomain;
+    @jsondata:Name {value: "enterprise_name"}
+    EnterpriseNameDef enterpriseName?;
+    @jsondata:Name {value: "over_storage_limit"}
+    boolean overStorageLimit?;
+|};
+
+# Schema for successful response from usergroups.create method
+public type UsergroupsCreateResponse record {|
+    SubteamObj usergroup;
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from pins.remove method
+public type PinsRemoveResponse record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response of admin.conversations.create
+public type AdminConversationsCreateResponse record {|
+    OkTrueDef ok;
+    @jsondata:Name {value: "channel_id"}
+    ChannelIdDef channelId?;
+|};
+
+public type ChannelObjPurpose record {|
+    @jsondata:Name {value: "last_set"}
+    int lastSet;
+    TopicPurposeCreatorDef creator;
+    string value;
+|};
+
+public type AdminUsersRemoveBody record {
+    # The ID of the user to remove
+    @jsondata:Name {value: "user_id"}
+    string userId;
+    # The ID (`T1234`) of the workspace
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+};
+
+public type ConversationObjParentConversation ChannelDef|ParentConversationAnyOf2?;
+
+# Represents the Queries record for the operation: files_remote_info
+public type FilesRemoteInfoQueries record {
+    # Specify a file by providing its ID
+    string file?;
+    # Creator defined GUID for the file
+    @http:Query {name: "external_id"}
+    string externalId?;
+};
+
+public type UserObjTz1 TzAnyOf11|TzTzAnyOf112?;
+
+public type EnterpriseNameDef string;
+
+public type BotsInfoResponseBotIcons record {|
+    @jsondata:Name {value: "image_36"}
+    string image36;
+    @jsondata:Name {value: "image_48"}
+    string image48;
+    @jsondata:Name {value: "image_72"}
+    string image72;
+|};
+
+public type AppsPermissionsResourcesListResponseResponseMetadata record {|
+    @jsondata:Name {value: "next_cursor"}
+    string nextCursor;
+|};
+
+public type ParentConversationAnyOf22 anydata?;
+
+public type ParentConversationAnyOf21 anydata?;
+
+# Represents the Queries record for the operation: admin_inviteRequests_list
+public type AdminInviteRequestsListQueries record {
+    # Value of the `next_cursor` field sent as part of the previous API response
+    string cursor?;
+    # The number of results that will be returned by the API on each invocation. Must be between 1 - 1000, both inclusive
+    int 'limit?;
+    # ID for the workspace where the invite requests were made
+    @http:Query {name: "team_id"}
+    string teamId?;
+};
+
+public type ConversationObject record {|
+    @jsondata:Name {value: "is_global_shared"}
+    boolean isGlobalShared?;
+    @jsondata:Name {value: "is_pending_ext_shared"}
+    boolean isPendingExtShared?;
+    @jsondata:Name {value: "pending_shared"}
+    TeamDef[] pendingShared?;
+    @jsondata:Name {value: "internal_team_ids"}
+    TeamDef[] internalTeamIds?;
+    @jsondata:Name {value: "is_channel"}
+    boolean isChannel;
+    UserIdDef[] members?;
+    @jsondata:Name {value: "is_non_threadable"}
+    boolean isNonThreadable?;
+    @jsondata:Name {value: "pin_count"}
+    int pinCount?;
+    @jsondata:Name {value: "is_read_only"}
+    boolean isReadOnly?;
+    ChannelDef id;
+    @jsondata:Name {value: "is_org_default"}
+    boolean isOrgDefault?;
+    @jsondata:Name {value: "is_org_mandatory"}
+    boolean isOrgMandatory?;
+    @jsondata:Name {value: "is_im"}
+    boolean isIm;
+    @jsondata:Name {value: "is_member"}
+    boolean isMember?;
+    @jsondata:Name {value: "is_open"}
+    boolean isOpen?;
+    int created;
+    @jsondata:Name {value: "display_counts"}
+    ConversationObjDisplayCounts displayCounts?;
+    decimal priority?;
+    int version?;
+    @jsondata:Name {value: "is_starred"}
+    boolean isStarred?;
+    @jsondata:Name {value: "is_archived"}
+    boolean isArchived;
+    string name;
+    ConversationObjTopic topic;
+    @jsondata:Name {value: "shared_team_ids"}
+    TeamDef[] sharedTeamIds?;
+    @jsondata:Name {value: "is_org_shared"}
+    boolean isOrgShared;
+    @jsondata:Name {value: "is_private"}
+    boolean isPrivate;
+    @jsondata:Name {value: "accepted_user"}
+    UserIdDef acceptedUser?;
+    @jsondata:Name {value: "conversation_host_id"}
+    WorkspaceIdDef conversationHostId?;
+    ConversationObjPurpose purpose;
+    @jsondata:Name {value: "is_moved"}
+    int isMoved?;
+    ConversationObjShares[] shares?;
+    @jsondata:Name {value: "unread_count"}
+    int unreadCount?;
+    @jsondata:Name {value: "is_shared"}
+    boolean isShared;
+    @jsondata:Name {value: "previous_names"}
+    ChannelNameDef[] previousNames?;
+    @jsondata:Name {value: "connected_team_ids"}
+    WorkspaceIdDef[] connectedTeamIds?;
+    @jsondata:Name {value: "pending_connected_team_ids"}
+    TeamDef[] pendingConnectedTeamIds?;
+    ConversationObjLatest[] latest?;
+    @jsondata:Name {value: "has_pins"}
+    boolean hasPins?;
+    @jsondata:Name {value: "last_read"}
+    TsDef lastRead?;
+    UserIdDef creator;
+    @jsondata:Name {value: "is_frozen"}
+    boolean isFrozen?;
+    @jsondata:Name {value: "is_mpim"}
+    false isMpim;
+    @jsondata:Name {value: "timezone_count"}
+    int timezoneCount?;
+    @jsondata:Name {value: "is_ext_shared"}
+    boolean isExtShared?;
+    @jsondata:Name {value: "name_normalized"}
+    string nameNormalized;
+    @jsondata:Name {value: "enterprise_id"}
+    EnterpriseIdDef enterpriseId?;
+    @jsondata:Name {value: "unread_count_display"}
+    int unreadCountDisplay?;
+    @jsondata:Name {value: "is_group"}
+    boolean isGroup;
+    int unlinked?;
+    @jsondata:Name {value: "use_case"}
+    string useCase?;
+    @jsondata:Name {value: "is_general"}
+    boolean isGeneral;
+    @jsondata:Name {value: "num_members"}
+    int numMembers?;
+    @jsondata:Name {value: "is_thread_only"}
+    boolean isThreadOnly?;
+    UserIdDef user?;
+    @jsondata:Name {value: "parent_conversation"}
+    ConversationObjParentConversation[] parentConversation?;
+|};
+
+# Schema for successful response from team.integrationLogs method
+public type TeamIntegrationLogsResponse record {|
+    PagingObj paging;
+    OkTrueDef ok;
+    @constraint:Array {minLength: 1}
+    TeamIntegrationLogsResponseLogs[] logs;
+|};
+
+public type AdminConversationsGetConversationPrefsResponsePrefs record {
+    @jsondata:Name {value: "can_thread"}
+    AdminConversationsGetConversationPrefsResponsePrefsCanThread canThread?;
+    @jsondata:Name {value: "who_can_post"}
+    AdminConversationsGetConversationPrefsResponsePrefsWhoCanPost whoCanPost?;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse1 record {
+    OkTrueDef ok;
+};
+
+public type ChannelObjTopic record {|
+    @jsondata:Name {value: "last_set"}
+    int lastSet;
+    TopicPurposeCreatorDef creator;
+    string value;
+|};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse2 record {
+    OkTrueDef ok;
+};
+
+public type UsersProfileSetBody record {
+    # Collection of key:value pairs presented as a URL-encoded JSON hash. At most 50 fields may be set. Each field name is limited to 255 characters
+    string profile?;
+    # Name of a single key to set. Usable only if `profile` is not passed
+    string name?;
+    # ID of user to change. This argument may only be specified by team admins on paid teams
+    string user?;
+    # Value to set a single key to. Usable only if `profile` is not passed
+    string value?;
+};
+
+public type CallsAddBody record {
+    # Call start time in UTC UNIX timestamp format
+    @jsondata:Name {value: "date_start"}
+    int dateStart?;
+    # The URL required for a client to join the Call
+    @jsondata:Name {value: "join_url"}
+    string joinUrl;
+    # When supplied, available Slack clients will attempt to directly launch the 3rd-party Call with this URL
+    @jsondata:Name {value: "desktop_app_join_url"}
+    string desktopAppJoinUrl?;
+    # An optional, human-readable ID supplied by the 3rd-party Call provider. If supplied, this ID will be displayed in the Call object
+    @jsondata:Name {value: "external_display_id"}
+    string externalDisplayId?;
+    # An ID supplied by the 3rd-party Call provider. It must be unique across all Calls from that service
+    @jsondata:Name {value: "external_unique_id"}
+    string externalUniqueId;
+    # The name of the Call
+    string title?;
+    # The valid Slack user ID of the user who created this Call. When this method is called with a user token, the `created_by` field is optional and defaults to the authed user of the token. Otherwise, the field is required
+    @jsondata:Name {value: "created_by"}
+    string createdBy?;
+    # The list of users to register as participants in the Call. [Read more on how to specify users here](/apis/calls#users)
+    string users?;
+};
+
+public type ConversationsSetPurposeBody record {
+    # A new, specialer purpose
+    string purpose?;
+    # Conversation to set the purpose of
+    string channel?;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse9 record {
+    OkTrueDef ok;
+};
+
+# Schema for successful response files.delete method
+public type FilesDeleteResponse record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from chat.scheduledMessages.list method
+public type ChatScheduledMessagesListResponse record {|
+    @jsondata:Name {value: "scheduled_messages"}
+    ChatScheduledMessagesListResponseScheduledMessages[] scheduledMessages;
+    @jsondata:Name {value: "response_metadata"}
+    ChatScheduledMessagesListResponseResponseMetadata responseMetadata;
+    OkTrueDef ok;
+|};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse7 record {
+    OkTrueDef ok;
+};
+
+# Schema for successful response of chat.scheduleMessage method
+public type ChatScheduleMessageResponse record {|
+    @jsondata:Name {value: "scheduled_message_id"}
+    string scheduledMessageId;
+    ChannelDef channel;
+    ChatScheduleMessageResponseMessage message;
+    OkTrueDef ok;
+    @jsondata:Name {value: "post_at"}
+    int postAt;
+|};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse8 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse5 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse6 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse3 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse4 record {
+    OkTrueDef ok;
+};
+
+public type ConversationObjParentConversation2 ChannelDef|ParentConversationAnyOf22?;
+
+public type ConversationObjParentConversation1 ChannelDef|ParentConversationAnyOf21?;
+
+# Represents the Queries record for the operation: oauth_token
+public type OauthTokenQueries record {
+    # Request the user to add your app only to a single channel
+    @http:Query {name: "single_channel"}
+    boolean singleChannel?;
+    # The `code` param returned via the OAuth callback
+    string code?;
+    # Issued when you created your application
+    @http:Query {name: "client_secret"}
+    string clientSecret?;
+    # This must match the originally submitted URI (if one was sent)
+    @http:Query {name: "redirect_uri"}
+    string redirectUri?;
+    # Issued when you created your application
+    @http:Query {name: "client_id"}
+    string clientId?;
+};
+
+public type '200AnyOf1 record {|
+    OkTrueDef ok;
+    '200Items[] items;
+|};
+
+# Schema for successful response of admin.conversations.setConversationPrefs
+public type AdminConversationsSetConversationPrefsResponse record {|
+    OkTrueDef ok;
+|};
+
+public type UsergroupsEnableBody record {
+    # The encoded ID of the User Group to enable
+    string usergroup;
+    # Include the number of users in the User Group
+    @jsondata:Name {value: "include_count"}
+    boolean includeCount?;
+};
+
+public type AdminTeamsSettingsSetNameBody record {
+    # The new name of the workspace
+    string name;
+    # ID for the workspace to set the name for
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+};
+
+# Schema for successful response from files.info method
+public type FilesInfoResponse record {|
+    UserIdDef editor?;
+    CommentsObj comments;
+    FileObj file;
+    PagingObj paging?;
+    @jsondata:Name {value: "response_metadata"}
+    ResponseMetadataObj responseMetadata?;
+    OkTrueDef ok;
+    @jsondata:Name {value: "content_html"}
+    anydata? contentHtml?;
+|};
+
+# Schema for successful response api.permissions.scopes.list method
+public type ApiPermissionsScopesListResponse record {
+    OkTrueDef ok;
+    ApiPermissionsScopesListResponseScopes scopes;
+};
+
+# Represents the Queries record for the operation: admin_inviteRequests_denied_list
+public type AdminInviteRequestsDeniedListQueries record {
+    # Value of the `next_cursor` field sent as part of the previous api response
+    string cursor?;
+    # The number of results that will be returned by the API on each invocation. Must be between 1 - 1000 both inclusive
+    int 'limit?;
+    # ID for the workspace where the invite requests were made
+    @http:Query {name: "team_id"}
+    string teamId?;
+};
+
+# Represents the Queries record for the operation: admin_conversations_ekm_listOriginalConnectedChannelInfo
+public type AdminConversationsEkmListOriginalConnectedChannelInfoQueries record {
+    # A comma-separated list of channels to filter to
+    @http:Query {name: "channel_ids"}
+    string channelIds?;
+    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
+    string cursor?;
+    # A comma-separated list of the workspaces to which the channels you would like returned belong
+    @http:Query {name: "team_ids"}
+    string teamIds?;
+    # The maximum number of items to return. Must be between 1 - 1000 both inclusive
+    int 'limit?;
+};
+
+public type AppsPermissionsInfoResponseInfo record {
+    AppsPermissionsInfoResponseInfoIm im;
+    AppsPermissionsInfoResponseInfoMpim mpim;
+    AppsPermissionsInfoResponseInfoChannel channel;
+    @jsondata:Name {value: "app_home"}
+    AppsPermissionsInfoResponseInfoAppHome appHome;
+    AppsPermissionsInfoResponseInfoTeam team;
+    AppsPermissionsInfoResponseInfoGroup group;
+};
+
+public type AdminEmojiRenameBody record {
+    # The name of the emoji to be renamed. Colons (`:myemoji:`) around the value are not required, although they may be included
+    string name;
+    # The new name of the emoji
+    @jsondata:Name {value: "new_name"}
+    string newName;
+    # Authentication token. Requires scope: `admin.teams:write`
+    string token;
+};
+
+# Schema for successful response from users.deletePhoto method
+public type UsersDeletePhotoResponse record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from users.setPresence method
+public type UsersSetPresenceResponse record {|
+    OkTrueDef ok;
+|};
+
+# user object for non enterprise type
+public type UserObjAnyOf1 record {|
+    @constraint:String {pattern: re `^[a-fA-F0-9]{6}$`}
+    string color?;
+    @jsondata:Name {value: "is_invited_user"}
+    boolean isInvitedUser?;
+    @jsondata:Name {value: "has_2fa"}
+    boolean has2fa?;
+    @jsondata:Name {value: "is_restricted"}
+    boolean isRestricted?;
+    UserObjTz[] tz?;
+    @jsondata:Name {value: "tz_label"}
+    string tzLabel?;
+    @jsondata:Name {value: "is_primary_owner"}
+    boolean isPrimaryOwner?;
+    @jsondata:Name {value: "team_profile"}
+    UserObjTeamProfile teamProfile?;
+    @jsondata:Name {value: "real_name"}
+    string realName?;
+    @jsondata:Name {value: "team_id"}
+    WorkspaceIdDef teamId?;
+    string locale?;
+    @jsondata:Name {value: "is_admin"}
+    boolean isAdmin?;
+    @jsondata:Name {value: "is_app_user"}
+    boolean isAppUser;
+    @jsondata:Name {value: "tz_offset"}
+    decimal tzOffset?;
+    @jsondata:Name {value: "is_stranger"}
+    boolean isStranger?;
+    @jsondata:Name {value: "is_forgotten"}
+    boolean isForgotten?;
+    UserIdDef id;
+    @jsondata:Name {value: "is_bot"}
+    boolean isBot;
+    string presence?;
+    @jsondata:Name {value: "is_ultra_restricted"}
+    boolean isUltraRestricted?;
+    @jsondata:Name {value: "is_owner"}
+    boolean isOwner?;
+    UserProfileObj profile;
+    @jsondata:Name {value: "is_external"}
+    boolean isExternal?;
+    WorkspaceIdDef team?;
+    @jsondata:Name {value: "enterprise_user"}
+    EnterpriseUserObj enterpriseUser?;
+    boolean deleted?;
+    @jsondata:Name {value: "two_factor_type"}
+    string twoFactorType?;
+    string name;
+    decimal updated;
+|};
+
+# Represents the Queries record for the operation: workflows_updateStep
+public type WorkflowsUpdateStepQueries record {
+    # An JSON array of output objects used during step execution. This is the data your app agrees to provide when your workflow step was executed
+    string outputs?;
+    # A JSON key-value map of inputs required from a user during configuration. This is the data your app expects to receive when the workflow step starts. **Please note**: the embedded variable format is set and replaced by the workflow system. You cannot create custom variables that will be replaced at runtime. [Read more about variables in workflow steps here](/workflows/steps#variables)
+    string inputs?;
+    # An optional field that can be used to override the step name that is shown in the Workflow Builder
+    @http:Query {name: "step_name"}
+    string stepName?;
+    # An optional field that can be used to override app image that is shown in the Workflow Builder
+    @http:Query {name: "step_image_url"}
+    string stepImageUrl?;
+    # A context identifier provided with `view_submission` payloads used to call back to `workflows.updateStep`
+    @http:Query {name: "workflow_step_edit_id"}
+    string workflowStepEditId;
+};
+
+public type ConversationsRenameBody record {
+    # ID of conversation to rename
+    string channel?;
+    # New name for conversation
+    string name?;
+};
+
+# OAuth2 Refresh Token Grant Configs
+public type OAuth2RefreshTokenGrantConfig record {|
+    *http:OAuth2RefreshTokenGrantConfig;
+    # Refresh URL
+    string refreshUrl = "https://slack.com/api/oauth.access";
+|};
+
+# Schema for successful response from reactions.remove method
+public type ReactionsRemoveResponse record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from chat.deleteScheduledMessage method
+public type ChatDeleteScheduledMessageResponse record {|
+    OkTrueDef ok;
+|};
+
+public type ApiPermissionsScopesListResponseScopes record {
+    ScopesObj app_home?;
+    ScopesObj channel?;
+    ScopesObj group?;
+    ScopesObj im?;
+    ScopesObj mpim?;
+    ScopesObj team?;
+    ScopesObj user?;
+};
+
+# Schema for successful response from conversations.join method
+public type ConversationsJoinResponse record {|
+    ConversationObj channel;
+    string warning?;
+    @jsondata:Name {value: "response_metadata"}
+    ResponseMetadata responseMetadata?;
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from stars.list method
+public type StarsListResponse record {|
+    PagingObj paging?;
+    OkTrueDef ok;
+    (record {|ChannelDef channel; int date_create; MessageObj message; "message" 'type;|}|record {|int date_create; FileObj file; "file" 'type;|}|record {|CommentObj comment; int date_create; FileObj file; "file_comment" 'type;|}|record {|ChannelDef channel; int date_create; "channel" 'type;|}|record {|DmIdDef channel; int date_create; "im" 'type;|}|record {|GroupIdDef channel; int date_create; "group" 'type;|})[][] items;
+|};
+
+# Schema for successful response conversations.members method
+public type ConversationsMembersResponse record {|
+    @constraint:Array {minLength: 1}
+    UserIdDef[] members;
+    @jsondata:Name {value: "response_metadata"}
+    ConversationsMembersResponseResponseMetadata responseMetadata;
+    OkTrueDef ok;
+|};
+
+public type AdminTeamsSettingsSetDescriptionBody record {
+    # The new description for the workspace
+    string description;
+    # ID for the workspace to set the description for
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+};
+
+# Represents the Queries record for the operation: views_update
+public type ViewsUpdateQueries record {
+    # A [view object](/reference/surfaces/views). This must be a JSON-encoded string
+    string view?;
+    # A unique identifier of the view to be updated. Either `view_id` or `external_id` is required
+    @http:Query {name: "view_id"}
+    string viewId?;
+    # A unique identifier of the view set by the developer. Must be unique for all views on a team. Max length of 255 characters. Either `view_id` or `external_id` is required
+    @http:Query {name: "external_id"}
+    string externalId?;
+    # A string that represents view state to protect against possible race conditions
+    string hash?;
+};
+
+# Represents the Queries record for the operation: dnd_info
+public type DndInfoQueries record {
+    # User to fetch status for (defaults to current user)
+    string user?;
+};
+
+public type ChatScheduleMessageResponseMessage record {|
+    @jsondata:Name {value: "bot_profile"}
+    BotProfileObj botProfile?;
+    TeamDef team;
+    string text;
+    string 'type;
+    UserIdDef user;
+    @jsondata:Name {value: "bot_id"}
+    BotIdDef botId;
+    string username?;
+|};
+
+# Represents the Queries record for the operation: apps_permissions_request
+public type AppsPermissionsRequestQueries record {
+    # Token used to trigger the permissions API
+    @http:Query {name: "trigger_id"}
+    string triggerId;
+    # A comma separated list of scopes to request for
+    string scopes;
+};
+
+public type ConversationsUnarchiveBody record {
+    # ID of conversation to unarchive
+    string channel?;
+};
+
+public type MessageObject record {
+    record {}[] attachments?;
+    record {} blocks?;
+    string text;
+};
+
+# Schema for successful response from team.accessLogs method
+public type TeamAccessLogsResponse record {|
+    PagingObj paging;
+    OkTrueDef ok;
+    @constraint:Array {minLength: 1}
+    TeamAccessLogsResponseLogins[] logins;
+|};
+
+public type UserProfileShortObj record {|
+    @jsondata:Name {value: "is_ultra_restricted"}
+    boolean isUltraRestricted;
+    @jsondata:Name {value: "is_restricted"}
+    boolean isRestricted;
+    @jsondata:Name {value: "real_name_normalized"}
+    string realNameNormalized?;
+    string name;
+    @jsondata:Name {value: "real_name"}
+    string realName;
+    WorkspaceIdDef team;
+    @jsondata:Name {value: "avatar_hash"}
+    string avatarHash;
+    @jsondata:Name {value: "display_name"}
+    string displayName;
+    @jsondata:Name {value: "image_72"}
+    string image72;
+    @jsondata:Name {value: "first_name"}
+    string? firstName;
+    @jsondata:Name {value: "display_name_normalized"}
+    string displayNameNormalized?;
+|};
+
+public type ExternalOrgMigrationsObj record {
+    ExternalOrgMigrationsObjCurrent[] current;
+    @jsondata:Name {value: "date_updated"}
+    int dateUpdated;
+};
+
+# Represents the Queries record for the operation: migration_exchange
+public type MigrationExchangeQueries record {
+    # Specify `true` to convert `W` global user IDs to workspace-specific `U` IDs. Defaults to `false`
+    @http:Query {name: "to_old"}
+    boolean toOld?;
+    # Specify team_id starts with `T` in case of Org Token
+    @http:Query {name: "team_id"}
+    string teamId?;
+    # A comma-separated list of user ids, up to 400 per request
+    string users;
+};
+
+public type StarsRemoveBody record {
+    # File to remove star from
+    string file?;
+    # Channel to remove star from, or channel where the message to remove star from was posted (used with `timestamp`)
+    string channel?;
+    # File comment to remove star from
+    @jsondata:Name {value: "file_comment"}
+    string fileComment?;
+    # Timestamp of the message to remove star from
     string timestamp?;
 };
+
+public type ReminderObj record {|
+    UserIdDef creator;
+    boolean recurring;
+    @jsondata:Name {value: "complete_ts"}
+    int completeTs?;
+    ReminderIdDef id;
+    string text;
+    int time?;
+    UserIdDef user;
+|};
+
+public type AdminUsersSetExpirationBody record {
+    # Timestamp when guest account should be disabled
+    @jsondata:Name {value: "expiration_ts"}
+    int expirationTs;
+    # The ID of the user to set an expiration for
+    @jsondata:Name {value: "user_id"}
+    string userId;
+    # The ID (`T1234`) of the workspace
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+};
+
+public type AdminUsergroupsRemoveChannelsBody record {
+    # Comma-separated string of channel IDs
+    @jsondata:Name {value: "channel_ids"}
+    string channelIds;
+    # ID of the IDP Group
+    @jsondata:Name {value: "usergroup_id"}
+    string usergroupId;
+};
+
+public type ConversationsJoinBody record {
+    # ID of conversation to join
+    string channel?;
+};
+
+# Schema for successful response from reminders.delete method
+public type RemindersDeleteResponse record {|
+    OkTrueDef ok;
+|};
+
+public type OkTrueDef true;
+
+public type ChannelActionsTsChannelActionsTsAnyOf12 anydata?;
+
+# Represents the Queries record for the operation: admin_apps_restricted_list
+public type AdminAppsRestrictedListQueries record {
+    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
+    string cursor?;
+    # The maximum number of items to return. Must be between 1 - 1000 both inclusive
+    int 'limit?;
+    @http:Query {name: "team_id"}
+    string teamId?;
+    @http:Query {name: "enterprise_id"}
+    string enterpriseId?;
+};
+
+public type EnterpriseUserObj record {|
+    @jsondata:Name {value: "is_admin"}
+    boolean isAdmin;
+    TeamDef[] teams;
+    @jsondata:Name {value: "is_owner"}
+    boolean isOwner;
+    EnterpriseUserIdDef id;
+    @jsondata:Name {value: "enterprise_id"}
+    EnterpriseIdDef enterpriseId;
+    @jsondata:Name {value: "enterprise_name"}
+    EnterpriseNameDef enterpriseName;
+|};
+
+# Schema for successful response of admin.conversations.convertToPrivate
+public type AdminConversationsConvertToPrivateResponse record {|
+    OkTrueDef ok;
+|};
+
+public type AdminConversationsRestrictAccessAddGroupBody record {
+    # The [IDP Group](https://slack.com/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-Grid-org) ID to be an allowlist for the private channel
+    @jsondata:Name {value: "group_id"}
+    string groupId;
+    # The workspace where the channel exists. This argument is required for channels only tied to one workspace, and optional for channels that are shared across an organization
+    @jsondata:Name {value: "team_id"}
+    string teamId?;
+    # The channel to link this group to
+    @jsondata:Name {value: "channel_id"}
+    string channelId;
+    # Authentication token. Requires scope: `admin.conversations:write`
+    string token;
+};
+
+# Schema for successful response from chat.unfurl method
+public type ChatUnfurlResponse record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from reminders.info method
+public type RemindersInfoResponse record {|
+    ReminderObj reminder;
+    OkTrueDef ok;
+|};
+
+public type TeamAccessLogsResponseLogins record {|
+    string? country;
+    @jsondata:Name {value: "date_last"}
+    int dateLast;
+    @jsondata:Name {value: "user_id"}
+    UserIdDef userId;
+    string? ip;
+    string? isp;
+    int count;
+    @jsondata:Name {value: "date_first"}
+    int dateFirst;
+    string? region;
+    @jsondata:Name {value: "user_agent"}
+    string userAgent;
+    string username;
+|};
+
+public type AdminConversationsGetConversationPrefsResponsePrefsCanThread record {
+    string[] 'type?;
+    string[] user?;
+};
+
+# Represents the Queries record for the operation: search_messages
+public type SearchMessagesQueries record {
+    # Pass a value of `true` to enable query highlight markers (see below)
+    boolean highlight?;
+    # Search query
+    string query;
+    # Pass the number of results you want per "page". Maximum of `100`
+    int count?;
+    int page?;
+    # Return matches sorted by either `score` or `timestamp`
+    string sort?;
+    # Change sort direction to ascending (`asc`) or descending (`desc`)
+    @http:Query {name: "sort_dir"}
+    string sortDir?;
+};
+
+public type AdminUsersAssignBody record {
+    # Comma separated values of channel IDs to add user in the new workspace
+    @jsondata:Name {value: "channel_ids"}
+    string channelIds?;
+    # True if user should be added to the workspace as a single-channel guest
+    @jsondata:Name {value: "is_ultra_restricted"}
+    boolean isUltraRestricted?;
+    # The ID of the user to add to the workspace
+    @jsondata:Name {value: "user_id"}
+    string userId;
+    # True if user should be added to the workspace as a guest
+    @jsondata:Name {value: "is_restricted"}
+    boolean isRestricted?;
+    # The ID (`T1234`) of the workspace
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+};
+
+# Represents the Queries record for the operation: reminders_info
+public type RemindersInfoQueries record {
+    # The ID of the reminder
+    string reminder?;
+};
+
+# Schema for successful response of admin.conversations.delete
+public type AdminConversationsDeleteResponse record {|
+    OkTrueDef ok;
+|};
+
+@constraint:String {pattern: re `^[T][A-Z0-9]{2,}$`}
+public type TeamDef string;
+
+# Represents the Queries record for the operation: conversations_members
+public type ConversationsMembersQueries record {
+    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail
+    string cursor?;
+    # ID of the conversation to retrieve members for
+    string channel?;
+    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached
+    int 'limit?;
+};
+
+public type ConversationObjTopic1 record {|
+    @jsondata:Name {value: "last_set"}
+    int lastSet;
+    TopicPurposeCreatorDef creator;
+    string value;
+|};
+
+# Represents the Queries record for the operation: oauth_v2_access
+public type OauthV2AccessQueries record {
+    # The `code` param returned via the OAuth callback
+    string code;
+    # Issued when you created your application
+    @http:Query {name: "client_secret"}
+    string clientSecret?;
+    # This must match the originally submitted URI (if one was sent)
+    @http:Query {name: "redirect_uri"}
+    string redirectUri?;
+    # Issued when you created your application
+    @http:Query {name: "client_id"}
+    string clientId?;
+};
+
+# Schema for successful response from pins.add method
+public type PinsAddResponse record {|
+    OkTrueDef ok;
+|};
+
+# Represents the Queries record for the operation: workflows_stepFailed
+public type WorkflowsStepFailedQueries record {
+    # Context identifier that maps to the correct workflow step execution
+    @http:Query {name: "workflow_step_execute_id"}
+    string workflowStepExecuteId;
+    # A JSON-based object with a `message` property that should contain a human readable error message
+    string 'error;
+};
+
+public type TzAnyOf1 anydata?;
+
+public type ConversationsSetTopicBody record {
+    # Conversation to set the topic of
+    string channel?;
+    # The new topic string. Does not support formatting or linkification
+    string topic?;
+};
+
+# Schema for successful response from users.list method
+public type UsersListResponse record {|
+    @jsondata:Name {value: "cache_ts"}
+    int cacheTs;
+    @constraint:Array {minLength: 1}
+    UserObj[] members;
+    @jsondata:Name {value: "response_metadata"}
+    ResponseMetadataObj responseMetadata?;
+    OkTrueDef ok;
+|};
+
+public type ConversationsArchiveBody record {
+    # ID of conversation to archive
+    string channel?;
+};
+
+public type OptionsAnyOf1 anydata?;
+
+# Represents the Queries record for the operation: usergroups_list
+public type UsergroupsListQueries record {
+    # Include disabled User Groups
+    @http:Query {name: "include_disabled"}
+    boolean includeDisabled?;
+    # Include the list of users for each User Group
+    @http:Query {name: "include_users"}
+    boolean includeUsers?;
+    # Include the number of users in each User Group
+    @http:Query {name: "include_count"}
+    boolean includeCount?;
+};
+
+public type BotProfileObjIcons record {|
+    @jsondata:Name {value: "image_36"}
+    string image36;
+    @jsondata:Name {value: "image_48"}
+    string image48;
+    @jsondata:Name {value: "image_72"}
+    string image72;
+|};
+
+public type ScopesObj string[];
+
+# Represents the Queries record for the operation: team_accessLogs
+public type TeamAccessLogsQueries record {
+    # End of time range of logs to include in results (inclusive)
+    string before?;
+    string count?;
+    string page?;
+};
+
+# Schema for successful response conversations.create method
+public type ConversationsCreateResponse record {|
+    ConversationObj channel;
+    OkTrueDef ok;
+|};
+
+public type ChannelActionsTsAnyOf1 int;
+
+public type ChannelNameDef string;
+
+# Represents the Headers record for the operation: admin_users_setOwner
+public type AdminUsersSetOwnerHeaders record {
+    # Authentication token. Requires scope: `admin.users:write`
+    string token;
+};
+
+# Represents the Queries record for the operation: bots_info
+public type BotsInfoQueries record {
+    # Bot user to get info on
+    string bot?;
+};
+
+public type ReactionsAddBody record {
+    # Channel where the message to add reaction to was posted
+    string channel;
+    # Reaction (emoji) name
+    string name;
+    # Timestamp of the message to add reaction to
+    string timestamp;
+};
+
+public type AdminUsergroupsAddTeamsBody record {
+    # A comma separated list of encoded team (workspace) IDs. Each workspace *MUST* belong to the organization associated with the token
+    @jsondata:Name {value: "team_ids"}
+    string teamIds;
+    # An encoded usergroup (IDP Group) ID
+    @jsondata:Name {value: "usergroup_id"}
+    string usergroupId;
+    # When `true`, this method automatically creates new workspace accounts for the IDP group members
+    @jsondata:Name {value: "auto_provision"}
+    boolean autoProvision?;
+};
+
+# Represents the Queries record for the operation: admin_inviteRequests_approved_list
+public type AdminInviteRequestsApprovedListQueries record {
+    # Value of the `next_cursor` field sent as part of the previous API response
+    string cursor?;
+    # The number of results that will be returned by the API on each invocation. Must be between 1 - 1000, both inclusive
+    int 'limit?;
+    # ID for the workspace where the invite requests were made
+    @http:Query {name: "team_id"}
+    string teamId?;
+};
+
+# Schema for successful response conversations.info
+public type ConversationsInfoResponse record {|
+    ConversationObj channel;
+    OkTrueDef ok;
+|};
+
+public type RemindersDeleteBody record {
+    # The ID of the reminder
+    string reminder?;
+};
+
+# Schema for successful response from bots.info method
+public type BotsInfoResponse record {|
+    BotsInfoResponseBot bot;
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from dnd.setSnooze method
+public type DndSetSnoozeResponse record {|
+    @jsondata:Name {value: "snooze_endtime"}
+    int snoozeEndtime;
+    @jsondata:Name {value: "snooze_enabled"}
+    boolean snoozeEnabled;
+    @jsondata:Name {value: "snooze_remaining"}
+    int snoozeRemaining;
+    OkTrueDef ok;
+|};
+
+public type ChatPostEphemeralBody record {
+    # URL to an image to use as the icon for this message. Must be used in conjunction with `as_user` set to false, otherwise ignored. See [authorship](#authorship) below
+    @jsondata:Name {value: "icon_url"}
+    string iconUrl?;
+    # Find and link channel names and usernames
+    @jsondata:Name {value: "link_names"}
+    boolean linkNames?;
+    # Pass true to post the message as the authed user. Defaults to true if the chat:write:bot scope is not included. Otherwise, defaults to false
+    @jsondata:Name {value: "as_user"}
+    boolean asUser?;
+    # A JSON-based array of structured attachments, presented as a URL-encoded string
+    string attachments?;
+    # Emoji to use as the icon for this message. Overrides `icon_url`. Must be used in conjunction with `as_user` set to `false`, otherwise ignored. See [authorship](#authorship) below
+    @jsondata:Name {value: "icon_emoji"}
+    string iconEmoji?;
+    # A JSON-based array of structured blocks, presented as a URL-encoded string
+    string blocks?;
+    # Provide another message's `ts` value to post this message in a thread. Avoid using a reply's `ts` value; use its parent's value instead. Ephemeral messages in threads are only shown if there is already an active thread
+    @jsondata:Name {value: "thread_ts"}
+    string threadTs?;
+    # Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name
+    string channel;
+    # Change how messages are treated. Defaults to `none`. See [below](#formatting)
+    string parse?;
+    # How this field works and whether it is required depends on other fields you use in your API call. [See below](#text_usage) for more detail
+    string text?;
+    # `id` of the user who will receive the ephemeral message. The user should be in the channel specified by the `channel` argument
+    string user;
+    # Set your bot's user name. Must be used in conjunction with `as_user` set to false, otherwise ignored. See [authorship](#authorship) below
+    string username?;
+};
+
+public type ChatScheduledMessagesListResponseResponseMetadata record {|
+    @jsondata:Name {value: "next_cursor"}
+    string nextCursor;
+|};
+
+public type LatestAnyOf2 anydata?;
+
+# Represents the Queries record for the operation: rtm_connect
+public type RtmConnectQueries record {
+    # Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events. See [batch presence](/docs/presence-and-status#batching)
+    @http:Query {name: "batch_presence_aware"}
+    boolean batchPresenceAware?;
+    # Only deliver presence events when requested by subscription. See [presence subscriptions](/docs/presence-and-status#subscriptions)
+    @http:Query {name: "presence_sub"}
+    boolean presenceSub?;
+};
+
+# Schema for successful response conversations.close method
+public type ConversationsCloseResponse record {|
+    @jsondata:Name {value: "already_closed"}
+    boolean alreadyClosed?;
+    OkTrueDef ok;
+    @jsondata:Name {value: "no_op"}
+    boolean noOp?;
+|};
+
+# Represents the Queries record for the operation: team_profile_get
+public type TeamProfileGetQueries record {
+    # Filter by visibility
+    string visibility?;
+};
+
+public type AdminUsersSessionInvalidateBody record {
+    @jsondata:Name {value: "session_id"}
+    int sessionId;
+    # ID of the team that the session belongs to
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+};
+
+# Schema for successful response from reactions.list method
+public type ReactionsListResponse record {|
+    PagingObj paging?;
+    @jsondata:Name {value: "response_metadata"}
+    ResponseMetadataObj responseMetadata?;
+    OkTrueDef ok;
+    (record {|ChannelDef channel; MessageObj message; "message" 'type;|}|record {|FileObj file; "file" 'type;|}|record {|CommentObj comment; FileObj file; "file_comment" 'type;|})[][] items;
+|};
+
+public type UsergroupsUpdateBody record {
+    # A comma separated string of encoded channel IDs for which the User Group uses as a default
+    string channels?;
+    # A name for the User Group. Must be unique among User Groups
+    string name?;
+    # The encoded ID of the User Group to update
+    string usergroup;
+    # A short description of the User Group
+    string description?;
+    # A mention handle. Must be unique among channels, users and User Groups
+    string 'handle?;
+    # Include the number of users in the User Group
+    @jsondata:Name {value: "include_count"}
+    boolean includeCount?;
+};
+
+# Represents the Queries record for the operation: apps_permissions_resources_list
+public type AppsPermissionsResourcesListQueries record {
+    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail
+    string cursor?;
+    # The maximum number of items to return
+    int 'limit?;
+};
+
+public type DeletedByAnyOf1 anydata?;
+
+public type IconObj record {
+    @jsondata:Name {value: "image_132"}
+    string image132?;
+    @jsondata:Name {value: "image_102"}
+    string image102?;
+    @jsondata:Name {value: "image_68"}
+    string image68?;
+    @jsondata:Name {value: "image_default"}
+    boolean imageDefault?;
+    @jsondata:Name {value: "image_34"}
+    string image34?;
+    @jsondata:Name {value: "image_230"}
+    string image230?;
+    @jsondata:Name {value: "image_44"}
+    string image44?;
+    @jsondata:Name {value: "image_88"}
+    string image88?;
+};
+
+# Schema for successful response from dnd.endSnooze method
+public type DndEndSnoozeResponse record {|
+    @jsondata:Name {value: "next_dnd_end_ts"}
+    int nextDndEndTs;
+    @jsondata:Name {value: "dnd_enabled"}
+    boolean dndEnabled;
+    @jsondata:Name {value: "next_dnd_start_ts"}
+    int nextDndStartTs;
+    @jsondata:Name {value: "snooze_enabled"}
+    boolean snoozeEnabled;
+    OkTrueDef ok;
+|};
+
+# Schema for successful response files.comments.delete method
+public type FilesCommentsDeleteResponse record {|
+    OkTrueDef ok;
+|};
+
+public type MessageObjIcons record {|
+    @jsondata:Name {value: "image_64"}
+    string image64?;
+    string emoji?;
+|};
+
+# Schema for successful response of chat.postMessage method
+public type ChatPostMessageResponse record {|
+    ChannelDef channel;
+    MessageObj message;
+    OkTrueDef ok;
+    TsDef ts;
+|};
+
+public type ExternalOrgMigrationsObjCurrent record {
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+    @jsondata:Name {value: "date_started"}
+    int dateStarted;
+};
+
+@constraint:String {pattern: re `^B[A-Z0-9]{8,}$`}
+public type BotIdDef string;
+
+public type PinsAddBody record {
+    # Channel to pin the item in
+    string channel;
+    # Timestamp of the message to pin
+    string timestamp?;
+};
+
+public type AdminConversationsCreateBody record {
+    # When `true`, creates a private channel instead of a public channel
+    @jsondata:Name {value: "is_private"}
+    boolean isPrivate;
+    # When `true`, the channel will be available org-wide. Note: if the channel is not `org_wide=true`, you must specify a `team_id` for this channel
+    @jsondata:Name {value: "org_wide"}
+    boolean orgWide?;
+    # Name of the public or private channel to create
+    string name;
+    # Description of the public or private channel to create
+    string description?;
+    # The workspace to create the channel in. Note: this argument is required unless you set `org_wide=true`
+    @jsondata:Name {value: "team_id"}
+    string teamId?;
+};
+
+# Schema for successful response from users.conversations method. Returned conversation objects do not include `num_members` or `is_member`
+public type UsersConversationsResponse record {
+    ConversationObj[] channels;
+    OkTrueDef ok;
+    UsersConversationsResponseResponseMetadata response_metadata?;
+};
+
+# Schema for successful response from conversations.open method when opening channels, ims, mpims
+public type ConversationsOpenResponse record {|
+    @jsondata:Name {value: "already_open"}
+    boolean alreadyOpen?;
+    ConversationsOpenResponseChannel[] channel;
+    OkTrueDef ok;
+    @jsondata:Name {value: "no_op"}
+    boolean noOp?;
+|};
+
+# Schema for successful response from conversations.invite method
+public type ConversationsInviteErrorResponse record {|
+    ConversationObj channel;
+    OkTrueDef ok;
+|};
+
+# Represents the Queries record for the operation: api_test
+public type ApiTestQueries record {
+    # example property to return
+    string foo?;
+};
+
+# Generated from users.getPresence with shasum e7251aec575d8863f9e0eb38663ae9dc26655f65
+public type APIMethodUsersGetPresence record {
+    boolean auto_away?;
+    int connection_count?;
+    int last_activity?;
+    boolean manual_away?;
+    OkTrueDef ok;
+    boolean online?;
+    string presence;
+};
+
+public type AdminConversationsDisconnectSharedBody record {
+    # The channel to be disconnected from some workspaces
+    @jsondata:Name {value: "channel_id"}
+    string channelId;
+    # The team to be removed from the channel. Currently only a single team id can be specified
+    @jsondata:Name {value: "leaving_team_ids"}
+    string leavingTeamIds?;
+};
+
+public type PinnedInfoDef record {|
+|};
+
+public type MessageObj record {|
+    @constraint:Array {minLength: 1}
+    MessageObjAttachments[] attachments?;
+    @jsondata:Name {value: "client_msg_id"}
+    string clientMsgId?;
+    string purpose?;
+    boolean upload?;
+    @jsondata:Name {value: "is_intro"}
+    boolean isIntro?;
+    @jsondata:Name {value: "user_profile"}
+    UserProfileShortObj userProfile?;
+    string 'type;
+    @jsondata:Name {value: "is_delayed_message"}
+    boolean isDelayedMessage?;
+    boolean subscribed?;
+    @jsondata:Name {value: "unread_count"}
+    int unreadCount?;
+    FileObj file?;
+    string subtype?;
+    @jsondata:Name {value: "reply_users_count"}
+    int replyUsersCount?;
+    UserIdDef inviter?;
+    string text;
+    @jsondata:Name {value: "display_as_bot"}
+    boolean displayAsBot?;
+    @jsondata:Name {value: "bot_id"}
+    MessageObjBotId[] botId?;
+    @jsondata:Name {value: "latest_reply"}
+    TsDef latestReply?;
+    @jsondata:Name {value: "last_read"}
+    TsDef lastRead?;
+    @jsondata:Name {value: "parent_user_id"}
+    UserIdDef parentUserId?;
+    Blocks blocks?;
+    @jsondata:Name {value: "reply_users"}
+    UserIdDef[] replyUsers?;
+    WorkspaceIdDef team?;
+    MessageObjIcons icons?;
+    @jsondata:Name {value: "reply_count"}
+    int replyCount?;
+    @jsondata:Name {value: "user_team"}
+    WorkspaceIdDef userTeam?;
+    @jsondata:Name {value: "pinned_to"}
+    ChannelDef[] pinnedTo?;
+    @jsondata:Name {value: "is_starred"}
+    boolean isStarred?;
+    @jsondata:Name {value: "bot_profile"}
+    BotProfileObj botProfile?;
+    @jsondata:Name {value: "old_name"}
+    string oldName?;
+    @jsondata:Name {value: "source_team"}
+    WorkspaceIdDef sourceTeam?;
+    @jsondata:Name {value: "thread_ts"}
+    TsDef threadTs?;
+    string name?;
+    @constraint:Array {minLength: 1}
+    FileObj[] files?;
+    string topic?;
+    CommentObj comment?;
+    ReactionObj[] reactions?;
+    string permalink?;
+    UserIdDef user?;
+    TsDef ts;
+    string username?;
+|};
+
+public type ConversationObjTopic record {|
+    @jsondata:Name {value: "last_set"}
+    int lastSet;
+    TopicPurposeCreatorDef creator;
+    string value;
+|};
+
+# Schema for successful response from users.info method
+public type UsersInfoResponse record {
+    OkTrueDef ok;
+    UserObj user;
+};
+
+public type BotsInfoResponseBot record {|
+    boolean deleted;
+    @jsondata:Name {value: "user_id"}
+    UserIdDef userId?;
+    string name;
+    BotIdDef id;
+    BotsInfoResponseBotIcons icons;
+    @jsondata:Name {value: "app_id"}
+    AppIdDef appId;
+    int updated;
+|};
+
+public type FilesUploadBody record {
+    # A [file type](/types/file#file_types) identifier
+    string filetype?;
+    # File contents via `multipart/form-data`. If omitting this parameter, you must submit `content`
+    string file?;
+    # Filename of file
+    string filename?;
+    # Comma-separated list of channel names or IDs where the file will be shared
+    string channels?;
+    # Provide another message's `ts` value to upload this file as a reply. Never use a reply's `ts` value; use its parent instead
+    @jsondata:Name {value: "thread_ts"}
+    decimal threadTs?;
+    # The message text introducing the file in specified `channels`
+    @jsondata:Name {value: "initial_comment"}
+    string initialComment?;
+    # Title of file
+    string title?;
+    # File contents via a POST variable. If omitting this parameter, you must provide a `file`
+    string content?;
+    # Authentication token. Requires scope: `files:write:user`
+    string token?;
+};
+
+# Schema for successful response of admin.conversations.rename
+public type AdminConversationsRenameResponse1 record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from stars.remove method
+public type StarsRemoveResponse record {|
+    OkTrueDef ok;
+|};
+
+# Schema for successful response from usergroups.disable method
+public type UsergroupsDisableResponse record {|
+    SubteamObj usergroup;
+    OkTrueDef ok;
+|};
+
+# Represents the Queries record for the operation: users_lookupByEmail
+public type UsersLookupByEmailQueries record {
+    # An email address belonging to a user in the workspace
+    string email;
+};
+
+public type UsersSetPhotoResponseProfile record {|
+    @jsondata:Name {value: "image_32"}
+    string image32;
+    @jsondata:Name {value: "image_original"}
+    string imageOriginal;
+    @jsondata:Name {value: "image_1024"}
+    string image1024;
+    @jsondata:Name {value: "image_24"}
+    string image24;
+    @jsondata:Name {value: "image_192"}
+    string image192;
+    @jsondata:Name {value: "image_48"}
+    string image48;
+    @jsondata:Name {value: "avatar_hash"}
+    string avatarHash;
+    @jsondata:Name {value: "image_72"}
+    string image72;
+    @jsondata:Name {value: "image_512"}
+    string image512;
+|};
+
+public type UsergroupsUsersUpdateBody record {
+    # The encoded ID of the User Group to update
+    string usergroup;
+    # Include the number of users in the User Group
+    @jsondata:Name {value: "include_count"}
+    boolean includeCount?;
+    # A comma separated string of encoded user IDs that represent the entire list of users for the User Group
+    string users;
+};
+
+public type ConversationsMembersResponseResponseMetadata record {|
+    @jsondata:Name {value: "next_cursor"}
+    string nextCursor;
+|};
+
+# Schema for successful response from files.list method
+public type FilesListResponse record {|
+    FileObj[] files;
+    PagingObj paging;
+    OkTrueDef ok;
+|};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse record {
+    OkTrueDef ok;
+};
+
+# Schema for successful response from reminders.list method
+public type RemindersListResponse record {|
+    ReminderObj[] reminders;
+    OkTrueDef ok;
+|};
+
+public type ConversationIMChannelObjectFromConversationsMethods record {|
+    @jsondata:Name {value: "has_pins"}
+    boolean hasPins?;
+    @jsondata:Name {value: "last_read"}
+    TsDef lastRead?;
+    @jsondata:Name {value: "is_user_deleted"}
+    boolean isUserDeleted?;
+    @jsondata:Name {value: "is_frozen"}
+    boolean isFrozen?;
+    @jsondata:Name {value: "is_im"}
+    boolean isIm;
+    @jsondata:Name {value: "is_open"}
+    boolean isOpen?;
+    int created;
+    @jsondata:Name {value: "is_ext_shared"}
+    boolean isExtShared?;
+    decimal priority;
+    @jsondata:Name {value: "unread_count_display"}
+    int unreadCountDisplay?;
+    int version?;
+    ConversationObjShares2[] shares?;
+    @jsondata:Name {value: "unread_count"}
+    int unreadCount?;
+    @jsondata:Name {value: "is_starred"}
+    boolean isStarred?;
+    @jsondata:Name {value: "is_archived"}
+    boolean isArchived?;
+    @jsondata:Name {value: "is_shared"}
+    boolean isShared?;
+    @jsondata:Name {value: "pin_count"}
+    int pinCount?;
+    DmIdDef id;
+    @jsondata:Name {value: "is_org_shared"}
+    boolean isOrgShared;
+    UserIdDef user;
+    ConversationObjLatest2[] latest?;
+    @jsondata:Name {value: "parent_conversation"}
+    ConversationObjParentConversation2[] parentConversation?;
+|};
+
+public type TeamProfileGetResponseProfile record {|
+    TeamProfileFieldObj[] fields;
+|};
+
+public type ConversationObjShares1 record {|
+    @jsondata:Name {value: "is_active"}
+    boolean isActive;
+    @jsondata:Name {value: "accepted_user"}
+    UserIdDef acceptedUser?;
+    TeamObj team;
+    UserIdDef user;
+|};
+
+public type AppsPermissionsInfoResponseInfoMpim record {
+    ResourcesObj resources?;
+    ScopesObj scopes?;
+};
+
+public type ConversationObjShares2 record {|
+    @jsondata:Name {value: "is_active"}
+    boolean isActive;
+    @jsondata:Name {value: "date_create"}
+    int dateCreate;
+    string name;
+    TeamDef id;
+    TeamObj team;
+|};
+
+public type AdminConversationsGetTeamsResponseResponseMetadata record {|
+    @jsondata:Name {value: "next_cursor"}
+    string nextCursor;
+|};
+
+public type AdminAppsApproveBody record {
+    @jsondata:Name {value: "team_id"}
+    string teamId?;
+    # The id of the app to approve
+    @jsondata:Name {value: "app_id"}
+    string appId?;
+    # The id of the request to approve
+    @jsondata:Name {value: "request_id"}
+    string requestId?;
+};
+
+@constraint:String {pattern: re `^[UW][A-Z0-9]{2,}$`}
+public type UserIdDef string;
+
+public type UsersSetPresenceBody record {
+    # Either `auto` or `away`
+    string presence;
+};
+
+# Represents the Queries record for the operation: admin_usergroups_listChannels
+public type AdminUsergroupsListChannelsQueries record {
+    # Flag to include or exclude the count of members per channel
+    @http:Query {name: "include_num_members"}
+    boolean includeNumMembers?;
+    # ID of the IDP group to list default channels for
+    @http:Query {name: "usergroup_id"}
+    string usergroupId;
+    # ID of the the workspace
+    @http:Query {name: "team_id"}
+    string teamId?;
+};
+
+public type '200Team record {|
+    TeamDef id;
+|};
+
+public type AppsPermissionsInfoResponseInfoGroup record {
+    ResourcesObj resources?;
+    ScopesObj scopes?;
+};
+
+# Represents the Queries record for the operation: files_info
+public type FilesInfoQueries record {
+    # Parameter for pagination. File comments are paginated for a single file. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection of comments. See [pagination](/docs/pagination) for more details
+    string cursor?;
+    # Specify a file by providing its ID
+    string file?;
+    string count?;
+    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached
+    int 'limit?;
+    string page?;
+};
+
+public type SubteamObjPrefs record {|
+    ChannelIdDef[] channels;
+    GroupIdDef[] groups;
+|};
+
+# Schema for successful response apps.permissions.resources.list method
+public type AppsPermissionsResourcesListResponse record {
+    OkTrueDef ok;
+    AppsPermissionsResourcesListResponseResources[] resources;
+    AppsPermissionsResourcesListResponseResponseMetadata response_metadata?;
+};
+
+public type ConversationsListResponseResponseMetadata record {|
+    @jsondata:Name {value: "next_cursor"}
+    string nextCursor;
+|};
+
+# Represents the Queries record for the operation: admin_apps_approved_list
+public type AdminAppsApprovedListQueries record {
+    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
+    string cursor?;
+    # The maximum number of items to return. Must be between 1 - 1000 both inclusive
+    int 'limit?;
+    @http:Query {name: "team_id"}
+    string teamId?;
+    @http:Query {name: "enterprise_id"}
+    string enterpriseId?;
+};
+
+# Represents the Queries record for the operation: admin_teams_settings_info
+public type AdminTeamsSettingsInfoQueries record {
+    @http:Query {name: "team_id"}
+    string teamId;
+};
+
+public type ConversationObjLatest MessageObj|LatestAnyOf21?;
+
+@constraint:String {pattern: re `^S[A-Z0-9]{2,}$`}
+public type SubteamIdDef string;
+
+# Schema for successful response conversations.mark method
+public type ConversationsMarkResponse record {|
+    OkTrueDef ok;
+|};
+
+# Represents the Queries record for the operation: conversations_replies
+public type ConversationsRepliesQueries record {
+    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail
+    string cursor?;
+    # Include messages with latest or oldest timestamp in results only when either timestamp is specified
+    boolean inclusive?;
+    # Start of time range of messages to include in results
+    decimal oldest?;
+    # Conversation ID to fetch thread from
+    string channel?;
+    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached
+    int 'limit?;
+    # Unique identifier of a thread's parent message. `ts` must be the timestamp of an existing message with 0 or more replies. If there are no replies then just the single message referenced by `ts` will return - it is just an ordinary, unthreaded message
+    decimal ts?;
+    # End of time range of messages to include in results
+    decimal latest?;
+};
+
+# Represents the Queries record for the operation: apps_uninstall
+public type AppsUninstallQueries record {
+    # Issued when you created your application
+    @http:Query {name: "client_secret"}
+    string clientSecret?;
+    # Issued when you created your application
+    @http:Query {name: "client_id"}
+    string clientId?;
+};
+
+public type FileObj record {|
+    string filetype?;
+    @jsondata:Name {value: "thumb_360"}
+    string thumb360?;
+    @jsondata:Name {value: "thumb_160"}
+    string thumb160?;
+    @jsondata:Name {value: "date_delete"}
+    int dateDelete?;
+    @jsondata:Name {value: "thumb_480"}
+    string thumb480?;
+    @jsondata:Name {value: "pinned_info"}
+    PinnedInfoDef pinnedInfo?;
+    @jsondata:Name {value: "thumb_800"}
+    string thumb800?;
+    @jsondata:Name {value: "thumb_720"}
+    string thumb720?;
+    @jsondata:Name {value: "non_owner_editable"}
+    boolean nonOwnerEditable?;
+    @jsondata:Name {value: "thumb_960"}
+    string thumb960?;
+    @jsondata:Name {value: "thumb_800_w"}
+    int thumb800W?;
+    string mode?;
+    @jsondata:Name {value: "external_url"}
+    string externalUrl?;
+    @jsondata:Name {value: "is_tombstoned"}
+    boolean isTombstoned?;
+    @jsondata:Name {value: "num_stars"}
+    int numStars?;
+    @jsondata:Name {value: "image_exif_rotation"}
+    int imageExifRotation?;
+    FileIdDef id?;
+    string state?;
+    @jsondata:Name {value: "thumb_64"}
+    string thumb64?;
+    int created?;
+    @jsondata:Name {value: "last_editor"}
+    UserIdDef lastEditor?;
+    @jsondata:Name {value: "thumb_480_w"}
+    int thumb480W?;
+    @jsondata:Name {value: "thumb_960_h"}
+    int thumb960H?;
+    @jsondata:Name {value: "url_private_download"}
+    string urlPrivateDownload?;
+    @jsondata:Name {value: "permalink_public"}
+    string permalinkPublic?;
+    @jsondata:Name {value: "has_rich_preview"}
+    boolean hasRichPreview?;
+    @jsondata:Name {value: "is_starred"}
+    boolean isStarred?;
+    ChannelIdDef[] channels?;
+    int size?;
+    @jsondata:Name {value: "comments_count"}
+    int commentsCount?;
+    string name?;
+    string permalink?;
+    @jsondata:Name {value: "public_url_shared"}
+    boolean publicUrlShared?;
+    int updated?;
+    @jsondata:Name {value: "original_w"}
+    int originalW?;
+    @jsondata:Name {value: "thumb_480_h"}
+    int thumb480H?;
+    @jsondata:Name {value: "thumb_720_w"}
+    int thumb720W?;
+    string preview?;
+    @jsondata:Name {value: "external_id"}
+    string externalId?;
+    @jsondata:Name {value: "thumb_1024_h"}
+    int thumb1024H?;
+    string title?;
+    @jsondata:Name {value: "original_h"}
+    int originalH?;
+    DmIdDef[] ims?;
+    @jsondata:Name {value: "thumb_720_h"}
+    int thumb720H?;
+    FileObjShares shares?;
+    @jsondata:Name {value: "url_private"}
+    string urlPrivate?;
+    @jsondata:Name {value: "thumb_960_w"}
+    int thumb960W?;
+    @jsondata:Name {value: "display_as_bot"}
+    boolean displayAsBot?;
+    int timestamp?;
+    UserIdDef editor?;
+    @jsondata:Name {value: "thumb_80"}
+    string thumb80?;
+    boolean editable?;
+    GroupIdDef[] groups?;
+    @jsondata:Name {value: "is_external"}
+    boolean isExternal?;
+    @jsondata:Name {value: "thumb_360_h"}
+    int thumb360H?;
+    @jsondata:Name {value: "pretty_type"}
+    string prettyType?;
+    @jsondata:Name {value: "external_type"}
+    string externalType?;
+    @jsondata:Name {value: "user_team"}
+    TeamDef userTeam?;
+    @jsondata:Name {value: "pinned_to"}
+    ChannelDef[] pinnedTo?;
+    @jsondata:Name {value: "thumb_800_h"}
+    int thumb800H?;
+    @jsondata:Name {value: "source_team"}
+    TeamDef sourceTeam?;
+    @jsondata:Name {value: "is_public"}
+    boolean isPublic?;
+    @jsondata:Name {value: "thumb_360_w"}
+    int thumb360W?;
+    @jsondata:Name {value: "thumb_tiny"}
+    string thumbTiny?;
+    string mimetype?;
+    ReactionObj[] reactions?;
+    @jsondata:Name {value: "thumb_1024_w"}
+    int thumb1024W?;
+    @jsondata:Name {value: "thumb_1024"}
+    string thumb1024?;
+    string user?;
+    string username?;
+|};
+
+# Schema for successful response auth.test method
+public type AuthTestResponse record {|
+    @jsondata:Name {value: "user_id"}
+    UserIdDef userId;
+    @jsondata:Name {value: "is_enterprise_install"}
+    boolean isEnterpriseInstall?;
+    string team;
+    @jsondata:Name {value: "team_id"}
+    TeamDef teamId;
+    OkTrueDef ok;
+    string user;
+    @jsondata:Name {value: "bot_id"}
+    BotIdDef botId?;
+    string url;
+|};
+
+# Schema for successful response from conversations.setTopic method
+public type ConversationsSetTopicResponse record {|
+    ConversationObj channel;
+    OkTrueDef ok;
+|};
+
+# Represents the Queries record for the operation: users_getPresence
+public type UsersGetPresenceQueries record {
+    # User to get presence info on. Defaults to the authed user
+    string user?;
+};
+
+public type AdminConversationsArchiveBody record {
+    # The channel to archive
+    @jsondata:Name {value: "channel_id"}
+    string channelId;
+};
+
+public type '200User3 record {|
+    string name;
+    UserIdDef id;
+|};
+
+@constraint:String {pattern: re `^[UW][A-Z0-9]{8,}$|^$`}
+public type TopicPurposeCreatorDef string;
+
+public type '200User2 record {|
+    @jsondata:Name {value: "image_32"}
+    string image32;
+    @jsondata:Name {value: "image_24"}
+    string image24;
+    string name;
+    @jsondata:Name {value: "image_192"}
+    string image192;
+    UserIdDef id;
+    @jsondata:Name {value: "image_48"}
+    string image48;
+    @jsondata:Name {value: "image_72"}
+    string image72;
+    @jsondata:Name {value: "image_512"}
+    string image512;
+|};
+
+@constraint:String {pattern: re `^Rm[A-Z0-9]{8,}$`}
+public type ReminderIdDef string;
+
+# Represents the Queries record for the operation: usergroups_users_list
+public type UsergroupsUsersListQueries record {
+    # Allow results that involve disabled User Groups
+    @http:Query {name: "include_disabled"}
+    boolean includeDisabled?;
+    # The encoded ID of the User Group to update
+    string usergroup;
+};
+
+public type '200User1 record {|
+    string name;
+    UserIdDef id;
+    string email;
+|};
+
+# Represents the Queries record for the operation: calls_info
+public type CallsInfoQueries record {
+    # `id` of the Call returned by the [`calls.add`](/methods/calls.add) method
+    string id;
+};
+
+public type ChatScheduleMessageBody record {
+    # Find and link channel names and usernames
+    @jsondata:Name {value: "link_names"}
+    boolean linkNames?;
+    # Pass true to post the message as the authed user, instead of as a bot. Defaults to false. See [chat.postMessage](chat.postMessage#authorship)
+    @jsondata:Name {value: "as_user"}
+    boolean asUser?;
+    # A JSON-based array of structured attachments, presented as a URL-encoded string
+    string attachments?;
+    # A JSON-based array of structured blocks, presented as a URL-encoded string
+    string blocks?;
+    # Provide another message's `ts` value to make this message a reply. Avoid using a reply's `ts` value; use its parent instead
+    @jsondata:Name {value: "thread_ts"}
+    decimal threadTs?;
+    # Pass false to disable unfurling of media content
+    @jsondata:Name {value: "unfurl_media"}
+    boolean unfurlMedia?;
+    # Channel, private group, or DM channel to send message to. Can be an encoded ID, or a name. See [below](#channels) for more details
+    string channel?;
+    # Used in conjunction with `thread_ts` and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to `false`
+    @jsondata:Name {value: "reply_broadcast"}
+    boolean replyBroadcast?;
+    # Pass true to enable unfurling of primarily text-based content
+    @jsondata:Name {value: "unfurl_links"}
+    boolean unfurlLinks?;
+    # Change how messages are treated. Defaults to `none`. See [chat.postMessage](chat.postMessage#formatting)
+    string parse?;
+    # How this field works and whether it is required depends on other fields you use in your API call. [See below](#text_usage) for more detail
+    string text?;
+    # Unix EPOCH timestamp of time in future to send the message
+    @jsondata:Name {value: "post_at"}
+    string postAt?;
+};
+
+public type UsersConversationsResponseResponseMetadata record {|
+    @jsondata:Name {value: "next_cursor"}
+    string nextCursor;
+|};
+
+public type AdminConversationsRestrictAccessRemoveGroupBody record {
+    # The [IDP Group](https://slack.com/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-Grid-org) ID to remove from the private channel
+    @jsondata:Name {value: "group_id"}
+    string groupId;
+    # The workspace where the channel exists. This argument is required for channels only tied to one workspace, and optional for channels that are shared across an organization
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+    # The channel to remove the linked group from
+    @jsondata:Name {value: "channel_id"}
+    string channelId;
+    # Authentication token. Requires scope: `admin.conversations:write`
+    string token;
+};
+
+public type ConversationObjDisplayCounts record {|
+    @jsondata:Name {value: "display_counts"}
+    int displayCounts;
+    @jsondata:Name {value: "guest_counts"}
+    int guestCounts;
+|};
+
+public type UsergroupsDisableBody record {
+    # The encoded ID of the User Group to disable
+    string usergroup;
+    # Include the number of users in the User Group
+    @jsondata:Name {value: "include_count"}
+    boolean includeCount?;
+};
+
+public type AdminUsersInviteBody record {
+    # A comma-separated list of `channel_id`s for this user to join. At least one channel is required
+    @jsondata:Name {value: "channel_ids"}
+    string channelIds;
+    # Is this user a single channel guest user? (default: false)
+    @jsondata:Name {value: "is_ultra_restricted"}
+    boolean isUltraRestricted?;
+    # An optional message to send to the user in the invite email
+    @jsondata:Name {value: "custom_message"}
+    string customMessage?;
+    # Timestamp when guest account should be disabled. Only include this timestamp if you are inviting a guest user and you want their account to expire on a certain date
+    @jsondata:Name {value: "guest_expiration_ts"}
+    string guestExpirationTs?;
+    # Is this user a multi-channel guest user? (default: false)
+    @jsondata:Name {value: "is_restricted"}
+    boolean isRestricted?;
+    # Allow this invite to be resent in the future if a user has not signed up yet. (default: false)
+    boolean resend?;
+    # Full name of the user
+    @jsondata:Name {value: "real_name"}
+    string realName?;
+    # The ID (`T1234`) of the workspace
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+    # The email address of the person to invite
+    string email;
+};
+
+# Represents the Queries record for the operation: chat_getPermalink
+public type ChatGetPermalinkQueries record {
+    # The ID of the conversation or channel containing the message
+    string channel;
+    # A message's `ts` value, uniquely identifying it within a channel
+    @http:Query {name: "message_ts"}
+    string messageTs;
+};
+
+# Represents the Queries record for the operation: conversations_history
+public type ConversationsHistoryQueries record {
+    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail
+    string cursor?;
+    # Include messages with latest or oldest timestamp in results only when either timestamp is specified
+    boolean inclusive?;
+    # Start of time range of messages to include in results
+    decimal oldest?;
+    # Conversation ID to fetch history for
+    string channel?;
+    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached
+    int 'limit?;
+    # End of time range of messages to include in results
+    decimal latest?;
+};
+
+public type ConversationsHistoryResponseChannelActionsTs ChannelActionsTsAnyOf1|ChannelActionsTsChannelActionsTsAnyOf12?;
+
+public type MessageObjAttachments record {|
+    @jsondata:Name {value: "image_height"}
+    int imageHeight?;
+    @jsondata:Name {value: "image_url"}
+    string imageUrl?;
+    int id;
+    @jsondata:Name {value: "image_width"}
+    int imageWidth?;
+    string fallback?;
+    @jsondata:Name {value: "image_bytes"}
+    int imageBytes?;
+|};
 
 # Schema for successful response from users.lookupByEmail method
 public type UsersLookupByEmailResponse record {
@@ -142,52 +2445,23 @@ public type ConversationsArchiveResponse record {|
     OkTrueDef ok;
 |};
 
-# Represents the Queries record for the operation: apps_permissions_users_list
-public type Apps_permissions_users_listQueries record {
-    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
-    string cursor?;
-    # The maximum number of items to return.
-    int 'limit?;
-};
-
-# Represents the Queries record for the operation: files_remote_info
-public type Files_remote_infoQueries record {
-    # Specify a file by providing its ID.
-    string file?;
-    # Creator defined GUID for the file.
-    string external_id?;
-};
-
-public type calls_participants_add_body record {
-    # `id` returned by the [`calls.add`](/methods/calls.add) method.
-    string id;
-    # The list of users to add as participants in the Call. [Read more on how to specify users here](/apis/calls#users).
-    string users;
-};
-
-# Represents the Queries record for the operation: admin_conversations_restrictAccess_listGroups
-public type Admin_conversations_restrictAccess_listGroupsQueries record {
-    # The workspace where the channel exists. This argument is required for channels only tied to one workspace, and optional for channels that are shared across an organization.
-    string team_id?;
-    string channel_id;
-};
-
-# Schema for successful response from dnd.info method
-public type DndInfoResponse record {|
-    boolean dnd_enabled;
-    int next_dnd_end_ts;
-    int next_dnd_start_ts;
-    OkTrueDef ok;
-    boolean snooze_enabled?;
-    int snooze_endtime?;
-    int snooze_remaining?;
+public type TeamProfileFieldOptionObj record {|
+    @jsondata:Name {value: "is_scim"}
+    boolean? isScim?;
+    @jsondata:Name {value: "is_custom"}
+    boolean? isCustom?;
+    @jsondata:Name {value: "is_protected"}
+    boolean? isProtected?;
+    @jsondata:Name {value: "is_multiple_entry"}
+    boolean? isMultipleEntry?;
 |};
 
-public type TeamProfileFieldOptionObj record {|
-    boolean? is_custom?;
-    boolean? is_multiple_entry?;
-    boolean? is_protected?;
-    boolean? is_scim?;
+public type FilePin record {|
+    FileObj file?;
+    int created?;
+    "file" 'type?;
+    @jsondata:Name {value: "created_by"}
+    UserIdDef createdBy?;
 |};
 
 # Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint.
@@ -198,257 +2472,247 @@ public type ConnectionConfig record {|
     # The HTTP version understood by the client
     http:HttpVersion httpVersion = http:HTTP_2_0;
     # Configurations related to HTTP/1.x protocol
-    ClientHttp1Settings http1Settings?;
+    http:ClientHttp1Settings http1Settings = {};
     # Configurations related to HTTP/2 protocol
-    http:ClientHttp2Settings http2Settings?;
+    http:ClientHttp2Settings http2Settings = {};
     # The maximum time to wait (in seconds) for a response before closing the connection
-    decimal timeout = 60;
+    decimal timeout = 30;
     # The choice of setting `forwarded`/`x-forwarded` header
     string forwarded = "disable";
+    # Configurations associated with Redirection
+    http:FollowRedirects followRedirects?;
     # Configurations associated with request pooling
     http:PoolConfiguration poolConfig?;
     # HTTP caching related configurations
-    http:CacheConfig cache?;
+    http:CacheConfig cache = {};
     # Specifies the way of handling compression (`accept-encoding`) header
     http:Compression compression = http:COMPRESSION_AUTO;
     # Configurations associated with the behaviour of the Circuit Breaker
     http:CircuitBreakerConfig circuitBreaker?;
     # Configurations associated with retrying
     http:RetryConfig retryConfig?;
+    # Configurations associated with cookies
+    http:CookieConfig cookieConfig?;
     # Configurations associated with inbound response size limits
-    http:ResponseLimitConfigs responseLimits?;
+    http:ResponseLimitConfigs responseLimits = {};
     # SSL/TLS-related options
     http:ClientSecureSocket secureSocket?;
     # Proxy server related options
     http:ProxyConfig proxy?;
+    # Provides settings related to client socket configuration
+    http:ClientSocketConfig socketConfig = {};
     # Enables the inbound payload validation functionality which provided by the constraint package. Enabled by default
     boolean validation = true;
+    # Enables relaxed data binding on the client side. When enabled, `nil` values are treated as optional, 
+    # and absent fields are handled as `nilable` types. Enabled by default.
+    boolean laxDataBinding = true;
 |};
 
-# Schema for successful response of admin.conversations.unarchive
-public type AdminConversationsUnarchiveResponse record {|
-    OkTrueDef ok;
-|};
-
-public type files_comments_delete_body record {
-    # File to delete a comment from.
-    string file?;
-    # The comment to delete.
-    string id?;
-};
-
-public type conversations_join_body record {
-    # ID of conversation to join
+public type ConversationsKickBody record {
+    # ID of conversation to remove user from
     string channel?;
-};
-
-# Represents the Queries record for the operation: admin_apps_requests_list
-public type Admin_apps_requests_listQueries record {
-    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
-    string cursor?;
-    # The maximum number of items to return. Must be between 1 - 1000 both inclusive.
-    int 'limit?;
-    string team_id?;
-};
-
-# Represents the Queries record for the operation: files_remote_list
-public type Files_remote_listQueries record {
-    # Filter files created after this timestamp (inclusive).
-    decimal ts_from?;
-    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
-    string cursor?;
-    # Filter files created before this timestamp (inclusive).
-    decimal ts_to?;
-    # Filter files appearing in a specific channel, indicated by its ID.
-    string channel?;
-    # The maximum number of items to return.
-    int 'limit?;
-};
-
-# Schema for successful response of chat.delete method
-public type ChatDeleteResponse record {|
-    ChannelDef channel;
-    OkTrueDef ok;
-    TsDef ts;
-|};
-
-# Represents the Queries record for the operation: dnd_info
-public type Dnd_infoQueries record {
-    # User to fetch status for (defaults to current user)
+    # User ID to be removed
     string user?;
 };
 
-# Schema for successful response of admin.conversations.archive
-public type AdminConversationsArchiveResponse record {|
-    OkTrueDef ok;
+public type TzTzAnyOf12 string;
+
+public type UserObjTeamProfile record {|
+    @constraint:Array {minLength: 1}
+    TeamProfileFieldObj[] fields;
 |};
 
-# Schema for successful response from chat.postEphemeral method
-public type ChatPostEphemeralResponse record {|
-    TsDef message_ts;
-    OkTrueDef ok;
-|};
-
-# Schema for successful response from usergroups.enable method
-public type UsergroupsEnableResponse record {|
-    OkTrueDef ok;
-    SubteamObj usergroup;
-|};
-
-# Represents the Queries record for the operation: workflows_stepCompleted
-public type Workflows_stepCompletedQueries record {
-    # Key-value object of outputs from your step. Keys of this object reflect the configured `key` properties of your [`outputs`](/reference/workflows/workflow_step#output) array from your `workflow_step` object.
-    string outputs?;
-    # Context identifier that maps to the correct workflow step execution.
-    string workflow_step_execute_id;
+public type CallsEndBody record {
+    # Call duration in seconds
+    int duration?;
+    # `id` returned when registering the call using the [`calls.add`](/methods/calls.add) method
+    string id;
 };
 
-# Represents the Queries record for the operation: conversations_members
-public type Conversations_membersQueries record {
-    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
+public type MessagePin record {|
+    int created?;
+    ChannelDef channel?;
+    MessageObj message?;
+    "message" 'type?;
+    @jsondata:Name {value: "created_by"}
+    UserIdDef createdBy?;
+|};
+
+public type DiscoverableAnyOf1 anydata?;
+
+# Represents the Queries record for the operation: admin_teams_list
+public type AdminTeamsListQueries record {
+    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
     string cursor?;
-    # ID of the conversation to retrieve members for
-    string channel?;
-    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.
+    # The maximum number of items to return. Must be between 1 - 100 both inclusive
     int 'limit?;
 };
 
-@constraint:String {pattern: re `^\d{10}\.\d{6}$`}
-public type TsDef string;
-
-public type TeamProfileFieldObj record {|
-    string? field_name?;
-    string hint;
-    @constraint:String {pattern: re `^X[a-zA-Z0-9]{9,}$`}
-    string id;
-    boolean is_hidden?;
-    string label;
-    (anydata)[] options?;
-    decimal ordering;
-    string[]? possible_values?;
-    "text"|"date"|"link"|"mailto"|"options_list"|"user" 'type;
-|};
-
-# Schema for successful response from auth.revoke method
-public type AuthRevokeResponse record {|
-    OkTrueDef ok;
-    boolean revoked;
-|};
-
-# Schema for successful response from usergroups.update method
-public type UsergroupsUpdateResponse record {|
-    OkTrueDef ok;
-    SubteamObj usergroup;
-|};
-
-public type conversations_archive_body record {
-    # ID of conversation to archive
-    string channel?;
+# Represents the Queries record for the operation: admin_apps_requests_list
+public type AdminAppsRequestsListQueries record {
+    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
+    string cursor?;
+    # The maximum number of items to return. Must be between 1 - 1000 both inclusive
+    int 'limit?;
+    @http:Query {name: "team_id"}
+    string teamId?;
 };
 
-public type FileObj_shares record {|
-    record {||} 'private?;
-    record {||} 'public?;
-|};
-
-@constraint:String {pattern: re `^[E][A-Z0-9]{8,}$`}
-public type EnterpriseIdDef string;
-
-public type SubteamObj record {|
-    boolean auto_provision;
-    (anydata)[] auto_type;
-    int channel_count?;
-    UserIdDef created_by;
-    int date_create;
-    int date_delete;
-    int date_update;
-    (anydata)[] deleted_by;
-    string description;
-    string enterprise_subteam_id;
-    string 'handle;
-    SubteamIdDef id;
-    boolean is_external;
-    boolean is_subteam;
-    boolean is_usergroup;
-    string name;
-    SubteamObj_prefs prefs;
-    TeamDef team_id;
-    UserIdDef updated_by;
-    int user_count?;
-    UserIdDef[] users?;
-|};
-
-public type RtmConnectResponse_team record {|
-    string domain;
-    TeamDef id;
-    string name;
-|};
-
-public type stars_add_body record {
-    # Channel to add star to, or channel where the message to add star to was posted (used with `timestamp`).
-    string channel?;
-    # File to add star to.
-    string file?;
-    # File comment to add star to.
-    string file_comment?;
-    # Timestamp of the message to add star to.
-    string timestamp?;
-};
-
-public type calls_update_body record {
-    # When supplied, available Slack clients will attempt to directly launch the 3rd-party Call with this URL.
-    string desktop_app_join_url?;
-    # `id` returned by the [`calls.add`](/methods/calls.add) method.
+public type CallsUpdateBody record {
+    # The URL required for a client to join the Call
+    @jsondata:Name {value: "join_url"}
+    string joinUrl?;
+    # When supplied, available Slack clients will attempt to directly launch the 3rd-party Call with this URL
+    @jsondata:Name {value: "desktop_app_join_url"}
+    string desktopAppJoinUrl?;
+    # `id` returned by the [`calls.add`](/methods/calls.add) method
     string id;
-    # The URL required for a client to join the Call.
-    string join_url?;
-    # The name of the Call.
+    # The name of the Call
     string title?;
 };
 
-# Represents the Queries record for the operation: admin_emoji_list
-public type Admin_emoji_listQueries record {
-    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
+# Represents the Queries record for the operation: auth_revoke
+public type AuthRevokeQueries record {
+    # Setting this parameter to `1` triggers a _testing mode_ where the specified token will not actually be revoked
+    boolean test?;
+};
+
+# Schema for successful response from usergroups.update method
+public type UsergroupsUpdateResponse record {|
+    SubteamObj usergroup;
+    OkTrueDef ok;
+|};
+
+public type '200Team2 record {|
+    TeamDef id;
+|};
+
+public type ReactionsRemoveBody record {
+    # File to remove reaction from
+    string file?;
+    # Channel where the message to remove reaction from was posted
+    string channel?;
+    # Reaction (emoji) name
+    string name;
+    # File comment to remove reaction from
+    @jsondata:Name {value: "file_comment"}
+    string fileComment?;
+    # Timestamp of the message to remove reaction from
+    string timestamp?;
+};
+
+public type '200Team3 record {|
+    @jsondata:Name {value: "image_132"}
+    string image132;
+    @jsondata:Name {value: "image_102"}
+    string image102;
+    @jsondata:Name {value: "image_68"}
+    string image68;
+    @jsondata:Name {value: "image_default"}
+    boolean imageDefault;
+    @jsondata:Name {value: "image_34"}
+    string image34;
+    string domain;
+    @jsondata:Name {value: "image_230"}
+    string image230;
+    @jsondata:Name {value: "image_44"}
+    string image44;
+    @jsondata:Name {value: "image_88"}
+    string image88;
+    string name;
+    TeamDef id;
+|};
+
+public type '200Team1 record {|
+    TeamDef id;
+|};
+
+public type SubteamObj record {|
+    @jsondata:Name {value: "channel_count"}
+    int channelCount?;
+    @jsondata:Name {value: "date_delete"}
+    int dateDelete;
+    @jsondata:Name {value: "date_update"}
+    int dateUpdate;
+    @jsondata:Name {value: "deleted_by"}
+    SubteamObjDeletedBy[] deletedBy;
+    string description;
+    @jsondata:Name {value: "is_external"}
+    boolean isExternal;
+    string 'handle;
+    @jsondata:Name {value: "team_id"}
+    TeamDef teamId;
+    @jsondata:Name {value: "created_by"}
+    UserIdDef createdBy;
+    UserIdDef[] users?;
+    @jsondata:Name {value: "auto_type"}
+    SubteamObjAutoType[] autoType;
+    SubteamObjPrefs prefs;
+    @jsondata:Name {value: "is_subteam"}
+    boolean isSubteam;
+    @jsondata:Name {value: "user_count"}
+    int userCount?;
+    @jsondata:Name {value: "date_create"}
+    int dateCreate;
+    string name;
+    @jsondata:Name {value: "updated_by"}
+    UserIdDef updatedBy;
+    @jsondata:Name {value: "is_usergroup"}
+    boolean isUsergroup;
+    SubteamIdDef id;
+    @jsondata:Name {value: "auto_provision"}
+    boolean autoProvision;
+    @jsondata:Name {value: "enterprise_subteam_id"}
+    string enterpriseSubteamId;
+|};
+
+# Represents the Queries record for the operation: files_remote_list
+public type FilesRemoteListQueries record {
+    # Filter files created after this timestamp (inclusive)
+    @http:Query {name: "ts_from"}
+    decimal tsFrom?;
+    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail
     string cursor?;
-    # The maximum number of items to return. Must be between 1 - 1000 both inclusive.
+    # Filter files created before this timestamp (inclusive)
+    @http:Query {name: "ts_to"}
+    decimal tsTo?;
+    # Filter files appearing in a specific channel, indicated by its ID
+    string channel?;
+    # The maximum number of items to return
     int 'limit?;
 };
 
-public type TeamObj_sso_provider record {
-    string label?;
-    string name?;
-    string 'type?;
-};
-
-public type admin_users_setRegular_body record {
-    # The ID (`T1234`) of the workspace.
-    string team_id;
-    # The ID of the user to designate as a regular user.
-    string user_id;
-};
-
-# Represents the Headers record for the operation: admin_users_setOwner
-public type Admin_users_setOwnerHeaders record {
-    # Authentication token. Requires scope: `admin.users:write`
-    string token;
+# Represents the Queries record for the operation: reactions_list
+public type ReactionsListQueries record {
+    # Parameter for pagination. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection. See [pagination](/docs/pagination) for more details
+    string cursor?;
+    int count?;
+    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached
+    int 'limit?;
+    int page?;
+    # Show reactions made by this user. Defaults to the authed user
+    string user?;
+    # If true always return the complete reaction list
+    boolean full?;
 };
 
 public type CommentObj record {|
-    string comment;
+    @jsondata:Name {value: "is_starred"}
+    boolean isStarred?;
     int created;
-    CommentIdDef id;
-    boolean is_intro;
-    boolean is_starred?;
-    int num_stars?;
-    PinnedInfoDef pinned_info?;
-    ChannelDef[] pinned_to?;
+    @jsondata:Name {value: "num_stars"}
+    int numStars?;
+    @jsondata:Name {value: "is_intro"}
+    boolean isIntro;
+    @jsondata:Name {value: "pinned_info"}
+    PinnedInfoDef pinnedInfo?;
+    string comment;
     ReactionObj[] reactions?;
-    int timestamp;
+    CommentIdDef id;
     UserIdDef user;
-|};
-
-public type AppsPermissionsResourcesListResponse_response_metadata record {|
-    string next_cursor;
+    @jsondata:Name {value: "pinned_to"}
+    ChannelDef[] pinnedTo?;
+    int timestamp;
 |};
 
 # Schema for successful response from conversations.setPurpose method
@@ -457,94 +2721,37 @@ public type ConversationsSetPurposeResponse record {|
     OkTrueDef ok;
 |};
 
-public type TeamObj record {|
-    boolean archived?;
-    string avatar_base_url?;
-    int created?;
-    int date_create?;
-    boolean deleted?;
-    string? description?;
-    (anydata)[] discoverable?;
-    string domain;
-    string email_domain;
-    EnterpriseIdDef enterprise_id?;
-    EnterpriseNameDef enterprise_name?;
-    ExternalOrgMigrationsObj external_org_migrations?;
-    boolean has_compliance_export?;
-    IconObj icon;
-    WorkspaceIdDef id;
-    boolean is_assigned?;
-    int is_enterprise?;
-    boolean is_over_storage_limit?;
-    int limit_ts?;
-    string locale?;
-    int messages_count?;
-    int msg_edit_window_mins?;
-    string name;
-    boolean over_integrations_limit?;
-    boolean over_storage_limit?;
-    string pay_prod_cur?;
-    ""|"std"|"plus"|"compliance"|"enterprise" plan?;
-    PrimaryOwnerObj primary_owner?;
-    TeamObj_sso_provider sso_provider?;
-|};
-
-# Schema for successful response from apps.uninstall method
-public type AppsUninstallResponse record {|
-    OkTrueDef ok;
-|};
-
-public type ExternalOrgMigrationsObj_current record {
-    int date_started;
-    string team_id;
-};
-
-# Schema for successful response from usergroups.create method
-public type UsergroupsCreateResponse record {|
-    OkTrueDef ok;
-    SubteamObj usergroup;
-|};
-
-# Represents the Queries record for the operation: chat_scheduledMessages_list
-public type Chat_scheduledMessages_listQueries record {
-    # For pagination purposes, this is the `cursor` value returned from a previous call to `chat.scheduledmessages.list` indicating where you want to start this call from.
+# Represents the Queries record for the operation: users_list
+public type UsersListQueries record {
+    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail
     string cursor?;
-    # A UNIX timestamp of the oldest value in the time range
-    decimal oldest?;
-    # The channel of the scheduled messages
-    string channel?;
-    # Maximum number of original entries to return.
+    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached. Providing no `limit` value will result in Slack attempting to deliver you the entire result set. If the collection is too large you may experience `limit_required` or HTTP 500 errors
     int 'limit?;
-    # A UNIX timestamp of the latest value in the time range
-    decimal latest?;
+    # Set this to `true` to receive the locale for users. Defaults to `false`
+    @http:Query {name: "include_locale"}
+    boolean includeLocale?;
 };
 
-# Schema for successful response from pins.remove method
-public type PinsRemoveResponse record {|
+public type '200200200200AnyOf12234 record {|
+    '200Team3 team;
     OkTrueDef ok;
-|};
-
-# Schema for successful response of admin.conversations.create
-public type AdminConversationsCreateResponse record {|
-    ChannelIdDef channel_id?;
-    OkTrueDef ok;
+    '200User3 user;
 |};
 
 public type ResourcesObj record {|
-    (ChannelDef|TeamDef)[][] excluded_ids?;
     (ChannelDef|TeamDef)[][] ids;
+    @jsondata:Name {value: "excluded_ids"}
+    (ChannelDef|TeamDef)[][] excludedIds?;
     boolean wildcard?;
 |};
 
-public type MessageObj_icons record {|
-    string emoji?;
-    string image_64?;
-|};
-
-public type admin_conversations_rename_body record {
-    # The channel to rename.
-    string channel_id;
-    string name;
+# Represents the Queries record for the operation: views_open
+public type ViewsOpenQueries record {
+    # A [view payload](/reference/surfaces/views). This must be a JSON-encoded string
+    string view;
+    # Exchange a trigger to post to the user
+    @http:Query {name: "trigger_id"}
+    string triggerId;
 };
 
 # Schema for successful response from files.revokePublicURL method
@@ -553,194 +2760,69 @@ public type FilesRevokePublicURLResponse record {|
     OkTrueDef ok;
 |};
 
-public type conversations_leave_body record {
-    # Conversation to leave
-    string channel?;
-};
-
-# Represents the Queries record for the operation: usergroups_users_list
-public type Usergroups_users_listQueries record {
-    # Allow results that involve disabled User Groups.
-    boolean include_disabled?;
-    # The encoded ID of the User Group to update.
-    string usergroup;
-};
-
-# Represents the Queries record for the operation: admin_apps_restricted_list
-public type Admin_apps_restricted_listQueries record {
-    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
-    string cursor?;
-    # The maximum number of items to return. Must be between 1 - 1000 both inclusive.
-    int 'limit?;
-    string team_id?;
-    string enterprise_id?;
-};
-
-public type EnterpriseNameDef string;
-
-public type admin_conversations_setTeams_body record {
-    # The encoded `channel_id` to add or remove to workspaces.
-    string channel_id;
-    # True if channel has to be converted to an org channel
-    boolean org_channel?;
-    # A comma-separated list of workspaces to which the channel should be shared. Not required if the channel is being shared org-wide.
-    string target_team_ids?;
-    # The workspace to which the channel belongs. Omit this argument if the channel is a cross-workspace shared channel.
-    string team_id?;
-};
-
-public type chat_postEphemeral_body record {
-    # Pass true to post the message as the authed user. Defaults to true if the chat:write:bot scope is not included. Otherwise, defaults to false.
-    boolean as_user?;
-    # A JSON-based array of structured attachments, presented as a URL-encoded string.
-    string attachments?;
-    # A JSON-based array of structured blocks, presented as a URL-encoded string.
-    string blocks?;
-    # Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.
-    string channel;
-    # Emoji to use as the icon for this message. Overrides `icon_url`. Must be used in conjunction with `as_user` set to `false`, otherwise ignored. See [authorship](#authorship) below.
-    string icon_emoji?;
-    # URL to an image to use as the icon for this message. Must be used in conjunction with `as_user` set to false, otherwise ignored. See [authorship](#authorship) below.
-    string icon_url?;
-    # Find and link channel names and usernames.
-    boolean link_names?;
-    # Change how messages are treated. Defaults to `none`. See [below](#formatting).
-    string parse?;
-    # How this field works and whether it is required depends on other fields you use in your API call. [See below](#text_usage) for more detail.
-    string text?;
-    # Provide another message's `ts` value to post this message in a thread. Avoid using a reply's `ts` value; use its parent's value instead. Ephemeral messages in threads are only shown if there is already an active thread.
-    string thread_ts?;
-    # `id` of the user who will receive the ephemeral message. The user should be in the channel specified by the `channel` argument.
-    string user;
-    # Set your bot's user name. Must be used in conjunction with `as_user` set to false, otherwise ignored. See [authorship](#authorship) below.
-    string username?;
-};
-
-# Represents the Queries record for the operation: oauth_token
-public type Oauth_tokenQueries record {
-    # Request the user to add your app only to a single channel.
-    boolean single_channel?;
-    # The `code` param returned via the OAuth callback.
-    string code?;
-    # Issued when you created your application.
-    string client_secret?;
-    # This must match the originally submitted URI (if one was sent).
-    string redirect_uri?;
-    # Issued when you created your application.
-    string client_id?;
-};
-
-# Represents the Queries record for the operation: dnd_teamInfo
-public type Dnd_teamInfoQueries record {
-    # Comma-separated list of users to fetch Do Not Disturb status for
-    string users?;
-};
-
 public type PagingObj record {|
+    @jsondata:Name {value: "per_page"}
+    int perPage?;
+    int total;
+    int pages?;
+    int spill?;
     int count?;
     int page;
-    int pages?;
-    int per_page?;
-    int spill?;
-    int total;
 |};
 
-# Represents the Queries record for the operation: stars_list
-public type Stars_listQueries record {
-    # Parameter for pagination. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection. See [pagination](/docs/pagination) for more details.
-    string cursor?;
-    string count?;
-    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached.
-    int 'limit?;
-    string page?;
-};
-
-public type conversations_setPurpose_body record {
-    # Conversation to set the purpose of
-    string channel?;
-    # A new, specialer purpose
-    string purpose?;
-};
-
-public type files_remote_update_body record {
-    # Creator defined GUID for the file.
-    string external_id?;
-    # URL of the remote file.
-    string external_url?;
-    # Specify a file by providing its ID.
-    string file?;
-    # type of file
-    string filetype?;
-    # File containing contents that can be used to improve searchability for the remote file.
-    string indexable_file_contents?;
-    # Preview of the document via `multipart/form-data`.
-    string preview_image?;
-    # Title of the file being shared.
-    string title?;
-    # Authentication token. Requires scope: `remote_files:write`
-    string token?;
-};
+public type '200User record {|
+    string name;
+    UserIdDef id;
+|};
 
 @constraint:String {pattern: re `^[C][A-Z0-9]{2,}$`}
 public type ChannelIdDef string;
 
-public type admin_apps_restrict_body record {
-    # The id of the app to restrict.
-    string app_id?;
-    # The id of the request to restrict.
-    string request_id?;
-    string team_id?;
+# Represents the Queries record for the operation: conversations_list
+public type ConversationsListQueries record {
+    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail
+    string cursor?;
+    # Mix and match channel types by providing a comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im`
+    string types?;
+    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. Must be an integer no larger than 1000
+    int 'limit?;
+    # Set to `true` to exclude archived channels from the list
+    @http:Query {name: "exclude_archived"}
+    boolean excludeArchived?;
 };
+
+public type '200200AnyOf12 record {|
+    int count;
+    OkTrueDef ok;
+|};
+
+public type SubteamObjDeletedBy DeletedByAnyOf1|UserIdDef?;
 
 # Schema for successful response of admin.conversations.invite
 public type AdminConversationsInviteResponse record {|
     OkTrueDef ok;
 |};
 
-# Provides settings related to HTTP/1.x protocol.
-public type ClientHttp1Settings record {|
-    # Specifies whether to reuse a connection for multiple requests
-    http:KeepAlive keepAlive = http:KEEPALIVE_AUTO;
-    # The chunking behaviour of the request
-    http:Chunking chunking = http:CHUNKING_AUTO;
-    # Proxy server related options
-    ProxyConfig proxy?;
-|};
+public type UserObjTz TzAnyOf1|TzTzAnyOf12?;
 
-public type conversations_rename_body record {
-    # ID of conversation to rename
-    string channel?;
-    # New name for conversation.
-    string name?;
-};
-
-# Represents the Queries record for the operation: admin_teams_admins_list
-public type Admin_teams_admins_listQueries record {
-    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
-    string cursor?;
-    # The maximum number of items to return.
-    int 'limit?;
-    string team_id;
-};
-
-public type admin_users_remove_body record {
-    # The ID (`T1234`) of the workspace.
-    string team_id;
-    # The ID of the user to remove.
-    string user_id;
+public type AppsPermissionsInfoResponseInfoTeam record {
+    ResourcesObj resources;
+    ScopesObj scopes;
 };
 
 # Schema for successful response from users.setPhoto method
 public type UsersSetPhotoResponse record {|
+    UsersSetPhotoResponseProfile profile;
     OkTrueDef ok;
-    UsersSetPhotoResponse_profile profile;
 |};
 
-public type admin_teams_settings_setDescription_body record {
-    # The new description for the workspace.
-    string description;
-    # ID for the workspace to set the description for.
-    string team_id;
+# Represents the Queries record for the operation: admin_conversations_restrictAccess_listGroups
+public type AdminConversationsRestrictAccessListGroupsQueries record {
+    # The workspace where the channel exists. This argument is required for channels only tied to one workspace, and optional for channels that are shared across an organization
+    @http:Query {name: "team_id"}
+    string teamId?;
+    @http:Query {name: "channel_id"}
+    string channelId;
 };
 
 # Schema for successful response from users.setActive method
@@ -748,50 +2830,55 @@ public type UsersSetActiveResponse record {|
     OkTrueDef ok;
 |};
 
-public type TeamProfileGetResponse_profile record {|
-    TeamProfileFieldObj[] fields;
-|};
-
-public type AppsPermissionsInfoResponse_info record {
-    AppsPermissionsInfoResponse_info_app_home app_home;
-    AppsPermissionsInfoResponse_info_app_home channel;
-    AppsPermissionsInfoResponse_info_app_home group;
-    AppsPermissionsInfoResponse_info_app_home im;
-    AppsPermissionsInfoResponse_info_app_home mpim;
-    AppsPermissionsInfoResponse_info_team team;
-};
-
 # Schema for successful response from conversations.rename method
 public type ConversationsRenameResponse record {|
     ConversationObj channel;
     OkTrueDef ok;
 |};
 
-public type calls_participants_remove_body record {
-    # `id` returned by the [`calls.add`](/methods/calls.add) method.
-    string id;
-    # The list of users to remove as participants in the Call. [Read more on how to specify users here](/apis/calls#users).
-    string users;
-};
-
 # Schema for successful response from team.info method
 public type TeamInfoResponse record {|
-    OkTrueDef ok;
     TeamObj team;
-|};
-
-# Schema for successful response from team.integrationLogs method
-public type TeamIntegrationLogsResponse record {|
-    @constraint:Array {minLength: 1}
-    TeamIntegrationLogsResponse_logs[] logs;
     OkTrueDef ok;
-    PagingObj paging;
 |};
 
-# Represents the Queries record for the operation: pins_list
-public type Pins_listQueries record {
-    # Channel to get pinned items for.
-    string channel;
+public type FilesRemoteAddBody record {
+    # type of file
+    string filetype?;
+    # URL of the remote file
+    @jsondata:Name {value: "external_url"}
+    string externalUrl?;
+    # Preview of the document via `multipart/form-data`
+    @jsondata:Name {value: "preview_image"}
+    string previewImage?;
+    # Creator defined GUID for the file
+    @jsondata:Name {value: "external_id"}
+    string externalId?;
+    # A text file (txt, pdf, doc, etc.) containing textual search terms that are used to improve discovery of the remote file
+    @jsondata:Name {value: "indexable_file_contents"}
+    string indexableFileContents?;
+    # Title of the file being shared
+    string title?;
+    # Authentication token. Requires scope: `remote_files:write`
+    string token?;
+};
+
+# Represents the Queries record for the operation: apps_event_authorizations_list
+public type AppsEventAuthorizationsListQueries record {
+    string cursor?;
+    int 'limit?;
+    @http:Query {name: "event_context"}
+    string eventContext;
+};
+
+public type AdminConversationsGetConversationPrefsResponsePrefsWhoCanPost record {
+    string[] 'type?;
+    string[] user?;
+};
+
+public type RemindersCompleteBody record {
+    # The ID of the reminder to be marked as complete
+    string reminder?;
 };
 
 # Schema for successful response chat.getPermalink
@@ -801,311 +2888,145 @@ public type ChatGetPermalinkResponse record {|
     string permalink;
 |};
 
-public type conversations_create_body record {
-    # Create a private channel instead of a public one
-    boolean is_private?;
-    # Name of the public or private channel to create
-    string name?;
-};
-
-# Represents the Queries record for the operation: workflows_stepFailed
-public type Workflows_stepFailedQueries record {
-    # Context identifier that maps to the correct workflow step execution.
-    string workflow_step_execute_id;
-    # A JSON-based object with a `message` property that should contain a human readable error message.
-    string 'error;
-};
-
-public type reminders_add_body record {
-    # The content of the reminder
-    string text;
-    # When this reminder should happen: the Unix timestamp (up to five years from now), the number of seconds until the reminder (if within 24 hours), or a natural language description (Ex. "in 15 minutes," or "every Thursday")
-    string time;
-    # The user who will receive the reminder. If no user is specified, the reminder will go to user who created it.
-    string user?;
-};
-
-# Schema for successful response files.delete method
-public type FilesDeleteResponse record {|
-    OkTrueDef ok;
-|};
-
-public type admin_usergroups_addChannels_body record {
-    # Comma separated string of channel IDs.
-    string channel_ids;
-    # The workspace to add default channels in.
-    string team_id?;
-    # ID of the IDP group to add default channels for.
-    string usergroup_id;
-};
-
-# Schema for successful response from chat.scheduledMessages.list method
-public type ChatScheduledMessagesListResponse record {|
-    OkTrueDef ok;
-    AdminConversationsGetTeamsResponse_response_metadata response_metadata;
-    ChatScheduledMessagesListResponse_scheduled_messages[] scheduled_messages;
-|};
-
-# Schema for successful response of chat.scheduleMessage method
-public type ChatScheduleMessageResponse record {|
-    ChannelDef channel;
-    ChatScheduleMessageResponse_message message;
-    OkTrueDef ok;
-    int post_at;
-    @constraint:String {pattern: re `^[Q][A-Z0-9]{8,}$`}
-    string scheduled_message_id;
-|};
-
-public type AdminConversationsGetTeamsResponse_response_metadata record {|
-    string next_cursor;
-|};
-
-public type SubteamObj_prefs record {|
-    ChannelIdDef[] channels;
-    GroupIdDef[] groups;
-|};
-
-# Schema for successful response of admin.conversations.rename
-public type AdminConversationsRenameResponse_1 record {|
-    OkTrueDef ok;
-|};
-
-public type usergroups_users_update_body record {
-    # Include the number of users in the User Group.
-    boolean include_count?;
-    # The encoded ID of the User Group to update.
-    string usergroup;
-    # A comma separated string of encoded user IDs that represent the entire list of users for the User Group.
-    string users;
-};
-
 @constraint:String {pattern: re `^[D][A-Z0-9]{8,}$`}
 public type DmIdDef string;
 
-public type admin_usergroups_removeChannels_body record {
-    # Comma-separated string of channel IDs
-    string channel_ids;
-    # ID of the IDP Group
-    string usergroup_id;
-};
+public type DeprecationWarning record {|
+    ("method_deprecated")[] warnings;
+    string[] messages;
+|};
 
 public type CommentsObj anydata[];
 
-public type conversations_open_body record {
-    # Resume a conversation by supplying an `im` or `mpim`'s ID. Or provide the `users` field instead.
-    string channel?;
-    # Boolean, indicates you want the full IM channel definition in the response.
-    boolean return_im?;
-    # Comma separated lists of users. If only one user is included, this creates a 1:1 DM.  The ordering of the users is preserved whenever a multi-person direct message is returned. Supply a `channel` when not supplying `users`.
-    string users?;
+# Represents the Queries record for the operation: dialog_open
+public type DialogOpenQueries record {
+    # The dialog definition. This must be a JSON-encoded string
+    string dialog;
+    # Exchange a trigger to post to the user
+    @http:Query {name: "trigger_id"}
+    string triggerId;
 };
 
-# Represents the Queries record for the operation: team_info
-public type Team_infoQueries record {
-    # Team to get info on, if omitted, will return information about the current team. Will only return team that the authenticated token is allowed to see through external shared channels
-    string team?;
+public type AdminUsersSessionResetBody record {
+    # The ID of the user to wipe sessions for
+    @jsondata:Name {value: "user_id"}
+    string userId;
+    # Only expire mobile sessions (default: false)
+    @jsondata:Name {value: "mobile_only"}
+    boolean mobileOnly?;
+    # Only expire web sessions (default: false)
+    @jsondata:Name {value: "web_only"}
+    boolean webOnly?;
 };
 
-public type UsersSetPhotoResponse_profile record {|
-    @constraint:String {pattern: re `^[0-9a-f]{12}$`}
-    string avatar_hash;
-    string image_1024;
-    string image_192;
-    string image_24;
-    string image_32;
-    string image_48;
-    string image_512;
-    string image_72;
-    string image_original;
-|};
+public type FilesDeleteBody record {
+    # ID of file to delete
+    string file?;
+};
 
-# Schema for successful response of admin.conversations.setConversationPrefs
-public type AdminConversationsSetConversationPrefsResponse record {|
+public type '200AnyOf12 record {|
+    '200Team team;
     OkTrueDef ok;
+    '200User user;
 |};
 
-# Represents the Queries record for the operation: oauth_v2_access
-public type Oauth_v2_accessQueries record {
-    # The `code` param returned via the OAuth callback.
-    string code;
-    # Issued when you created your application.
-    string client_secret?;
-    # This must match the originally submitted URI (if one was sent).
-    string redirect_uri?;
-    # Issued when you created your application.
-    string client_id?;
-};
-
-public type chat_unfurl_body record {
-    # Channel ID of the message
-    string channel;
-    # Timestamp of the message to add unfurl behavior to.
-    string ts;
-    # URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl blocks or message attachments.
-    string unfurls?;
-    # Provide a simply-formatted string to send as an ephemeral message to the user as invitation to authenticate further and enable full unfurling behavior
-    string user_auth_message?;
-    # Set to `true` or `1` to indicate the user must install your Slack app to trigger unfurls for this domain
-    boolean user_auth_required?;
-    # Send users to this custom URL where they will complete authentication in your app to fully trigger unfurling. Value should be properly URL-encoded.
-    string user_auth_url?;
-};
-
-# Schema for successful response from files.info method
-public type FilesInfoResponse record {|
-    CommentsObj comments;
-    anydata? content_html?;
-    UserIdDef editor?;
-    FileObj file;
+public type '200AnyOf11 record {|
+    ChannelDef channel;
+    MessageObj message;
     OkTrueDef ok;
-    PagingObj paging?;
-    ResponseMetadataObj response_metadata?;
+    "message" 'type;
 |};
 
-# Represents the Queries record for the operation: admin_inviteRequests_denied_list
-public type Admin_inviteRequests_denied_listQueries record {
-    # Value of the `next_cursor` field sent as part of the previous api response
-    string cursor?;
-    # The number of results that will be returned by the API on each invocation. Must be between 1 - 1000 both inclusive
-    int 'limit?;
-    # ID for the workspace where the invite requests were made.
-    string team_id?;
-};
-
-public type AppsPermissionsInfoResponse_info_app_home record {
-    ResourcesObj resources?;
-    ScopesObj scopes?;
-};
-
-# Represents the Queries record for the operation: search_messages
-public type Search_messagesQueries record {
-    # Pass a value of `true` to enable query highlight markers (see below).
-    boolean highlight?;
-    # Search query.
-    string query;
-    # Pass the number of results you want per "page". Maximum of `100`.
-    int count?;
-    int page?;
-    # Return matches sorted by either `score` or `timestamp`.
-    string sort?;
-    # Change sort direction to ascending (`asc`) or descending (`desc`).
-    string sort_dir?;
-};
+public type ChannelObjLatest MessageObj|LatestAnyOf2?;
 
 public type ChannelObj record {|
-    UserIdDef accepted_user?;
-    int created;
-    UserIdDef creator;
-    ChannelIdDef id;
-    boolean is_archived?;
-    boolean is_channel;
-    boolean is_frozen?;
-    boolean is_general?;
-    boolean is_member?;
-    int is_moved?;
-    boolean is_mpim;
-    boolean is_non_threadable?;
-    boolean is_org_shared;
-    boolean is_pending_ext_shared?;
-    boolean is_private;
-    boolean is_read_only?;
-    boolean is_shared;
-    boolean is_thread_only?;
-    TsDef last_read?;
-    (anydata)[] latest?;
+    @jsondata:Name {value: "is_private"}
+    boolean isPrivate;
+    @jsondata:Name {value: "accepted_user"}
+    UserIdDef acceptedUser?;
+    ChannelObjPurpose purpose;
+    @jsondata:Name {value: "is_moved"}
+    int isMoved?;
+    @jsondata:Name {value: "is_pending_ext_shared"}
+    boolean isPendingExtShared?;
+    @jsondata:Name {value: "unread_count"}
+    int unreadCount?;
+    @jsondata:Name {value: "pending_shared"}
+    TeamDef[] pendingShared?;
+    @jsondata:Name {value: "is_channel"}
+    boolean isChannel;
+    @jsondata:Name {value: "is_shared"}
+    boolean isShared;
     UserIdDef[] members;
-    string name;
-    string name_normalized;
-    int num_members?;
-    TeamDef[] pending_shared?;
-    ChannelNameDef[] previous_names?;
+    @jsondata:Name {value: "is_non_threadable"}
+    boolean isNonThreadable?;
+    @jsondata:Name {value: "is_read_only"}
+    boolean isReadOnly?;
+    ChannelIdDef id;
+    @jsondata:Name {value: "previous_names"}
+    ChannelNameDef[] previousNames?;
+    ChannelObjLatest[] latest?;
+    @jsondata:Name {value: "last_read"}
+    TsDef lastRead?;
+    UserIdDef creator;
+    @jsondata:Name {value: "is_frozen"}
+    boolean isFrozen?;
+    @jsondata:Name {value: "is_member"}
+    boolean isMember?;
+    @jsondata:Name {value: "is_mpim"}
+    boolean isMpim;
+    int created;
+    @jsondata:Name {value: "name_normalized"}
+    string nameNormalized;
     decimal priority?;
-    ChannelObj_purpose purpose;
-    ChannelObj_purpose topic;
+    @jsondata:Name {value: "unread_count_display"}
+    int unreadCountDisplay?;
     int unlinked?;
-    int unread_count?;
-    int unread_count_display?;
+    @jsondata:Name {value: "is_archived"}
+    boolean isArchived?;
+    @jsondata:Name {value: "is_general"}
+    boolean isGeneral?;
+    @jsondata:Name {value: "num_members"}
+    int numMembers?;
+    string name;
+    ChannelObjTopic topic;
+    @jsondata:Name {value: "is_thread_only"}
+    boolean isThreadOnly?;
+    @jsondata:Name {value: "is_org_shared"}
+    boolean isOrgShared;
 |};
 
-# Schema for successful response api.permissions.scopes.list method
-public type ApiPermissionsScopesListResponse record {
-    OkTrueDef ok;
-    ApiPermissionsScopesListResponse_scopes scopes;
+public type AdminUsersSetOwnerBody record {
+    # Id of the user to promote to owner
+    @jsondata:Name {value: "user_id"}
+    string userId;
+    # The ID (`T1234`) of the workspace
+    @jsondata:Name {value: "team_id"}
+    string teamId;
 };
 
-# Represents the Queries record for the operation: admin_inviteRequests_approved_list
-public type Admin_inviteRequests_approved_listQueries record {
-    # Value of the `next_cursor` field sent as part of the previous API response
-    string cursor?;
-    # The number of results that will be returned by the API on each invocation. Must be between 1 - 1000, both inclusive
-    int 'limit?;
-    # ID for the workspace where the invite requests were made.
-    string team_id?;
-};
-
-public type admin_users_setOwner_body record {
-    # The ID (`T1234`) of the workspace.
-    string team_id;
-    # Id of the user to promote to owner.
-    string user_id;
-};
-
-public type TeamAccessLogsResponse_logins record {|
-    int count;
-    string? country;
-    int date_first;
-    int date_last;
-    string? ip;
-    string? isp;
-    string? region;
-    string user_agent;
-    UserIdDef user_id;
-    string username;
+public type ConversationObjShares record {|
+    @jsondata:Name {value: "is_active"}
+    boolean isActive;
+    @jsondata:Name {value: "accepted_user"}
+    UserIdDef acceptedUser?;
+    TeamObj team;
+    UserIdDef user;
 |};
 
-# Represents the Queries record for the operation: admin_conversations_search
-public type Admin_conversations_searchQueries record {
-    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
+# Represents the Queries record for the operation: users_conversations
+public type UsersConversationsQueries record {
+    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail
     string cursor?;
-    # The type of channel to include or exclude in the search. For example `private` will search private channels, while `private_exclude` will exclude them. For a full list of types, check the [Types section](#types).
-    string search_channel_types?;
-    # Comma separated string of team IDs, signifying the workspaces to search through.
-    string team_ids?;
-    # Name of the the channel to query by.
-    string query?;
-    # Maximum number of items to be returned. Must be between 1 - 20 both inclusive. Default is 10.
+    # Mix and match channel types by providing a comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im`
+    string types?;
+    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. Must be an integer no larger than 1000
     int 'limit?;
-    # Possible values are `relevant` (search ranking based on what we think is closest), `name` (alphabetical), `member_count` (number of users in the channel), and `created` (date channel was created). You can optionally pair this with the `sort_dir` arg to change how it is sorted 
-    string sort?;
-    # Sort direction. Possible values are `asc` for ascending order like (1, 2, 3) or (a, b, c), and `desc` for descending order like (3, 2, 1) or (c, b, a)
-    string sort_dir?;
-};
-
-# Represents the Queries record for the operation: rtm_connect
-public type Rtm_connectQueries record {
-    # Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events. See [batch presence](/docs/presence-and-status#batching).
-    boolean batch_presence_aware?;
-    # Only deliver presence events when requested by subscription. See [presence subscriptions](/docs/presence-and-status#subscriptions).
-    boolean presence_sub?;
-};
-
-public type chat_deleteScheduledMessage_body record {
-    # Pass true to delete the message as the authed user with `chat:write:user` scope. [Bot users](/bot-users) in this context are considered authed users. If unused or false, the message will be deleted with `chat:write:bot` scope.
-    boolean as_user?;
-    # The channel the scheduled_message is posting to
-    string channel;
-    # `scheduled_message_id` returned from call to chat.scheduleMessage
-    string scheduled_message_id;
-};
-
-# Represents the Queries record for the operation: admin_apps_approved_list
-public type Admin_apps_approved_listQueries record {
-    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
-    string cursor?;
-    # The maximum number of items to return. Must be between 1 - 1000 both inclusive.
-    int 'limit?;
-    string team_id?;
-    string enterprise_id?;
+    # Browse conversations by a specific user ID's membership. Non-public channels are restricted to those where the calling user shares membership
+    string user?;
+    # Set to `true` to exclude archived channels from the list
+    @http:Query {name: "exclude_archived"}
+    boolean excludeArchived?;
 };
 
 # Schema for successful response of admin.conversations.disconnectShared
@@ -1113,368 +3034,270 @@ public type AdminConversationsRenameResponse record {|
     OkTrueDef ok;
 |};
 
-# Represents the Queries record for the operation: users_conversations
-public type Users_conversationsQueries record {
-    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
-    string cursor?;
-    # Mix and match channel types by providing a comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im`
-    string types?;
-    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. Must be an integer no larger than 1000.
-    int 'limit?;
-    # Browse conversations by a specific user ID's membership. Non-public channels are restricted to those where the calling user shares membership.
-    string user?;
-    # Set to `true` to exclude archived channels from the list
-    boolean exclude_archived?;
-};
-
-public type files_remote_remove_body record {
-    # Creator defined GUID for the file.
-    string external_id?;
-    # Specify a file by providing its ID.
-    string file?;
-    # Authentication token. Requires scope: `remote_files:write`
-    string token?;
-};
-
-# Represents the Queries record for the operation: admin_users_list
-public type Admin_users_listQueries record {
-    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
-    string cursor?;
-    # Limit for how many users to be retrieved per page
-    int 'limit?;
-    # The ID (`T1234`) of the workspace.
-    string team_id;
-};
-
-public type admin_teams_settings_setDefaultChannels_body record {
-    # An array of channel IDs.
-    string channel_ids;
-    # ID for the workspace to set the default channel for.
-    string team_id;
-    # Authentication token. Requires scope: `admin.teams:write`
-    string token;
-};
-
-public type calls_end_body record {
-    # Call duration in seconds
-    int duration?;
-    # `id` returned when registering the call using the [`calls.add`](/methods/calls.add) method.
-    string id;
-};
-
-public type admin_teams_settings_setName_body record {
-    # The new name of the workspace.
-    string name;
-    # ID for the workspace to set the name for.
-    string team_id;
-};
-
-# Schema for successful response from users.deletePhoto method
-public type UsersDeletePhotoResponse record {|
-    OkTrueDef ok;
-|};
-
-public type ConversationObj (anydata)[];
-
-public type users_setPhoto_body record {
-    # Width/height of crop box (always square)
-    string crop_w?;
-    # X coordinate of top-left corner of crop box
-    string crop_x?;
-    # Y coordinate of top-left corner of crop box
-    string crop_y?;
-    # File contents via `multipart/form-data`.
-    string image?;
-    # Authentication token. Requires scope: `users.profile:write`
-    string token;
-};
-
-public type AdminConversationsGetConversationPrefsResponse_prefs_can_thread record {
-    string[] 'type?;
-    string[] user?;
-};
-
-public type ChatScheduleMessageResponse_message record {|
-    BotIdDef bot_id;
-    BotProfileObj bot_profile?;
-    TeamDef team;
-    string text;
-    string 'type;
-    UserIdDef user;
-    string username?;
-|};
-
-# Represents the Queries record for the operation: admin_inviteRequests_list
-public type Admin_inviteRequests_listQueries record {
-    # Value of the `next_cursor` field sent as part of the previous API response
-    string cursor?;
-    # The number of results that will be returned by the API on each invocation. Must be between 1 - 1000, both inclusive
-    int 'limit?;
-    # ID for the workspace where the invite requests were made.
-    string team_id?;
-};
-
-# Represents the Queries record for the operation: team_accessLogs
-public type Team_accessLogsQueries record {
-    # End of time range of logs to include in results (inclusive).
-    string before?;
-    string count?;
-    string page?;
-};
+public type ConversationObj InlineArrayItemsConversationObj[];
 
 # Schema for successful response from dialog.open method
 public type DialogOpenResponse record {|
     OkTrueDef ok;
 |};
 
-# Represents the Queries record for the operation: files_list
-public type Files_listQueries record {
-    # Filter files created after this timestamp (inclusive).
-    decimal ts_from?;
-    # Show truncated file info for files hidden due to being too old, and the team who owns the file being over the file limit.
-    boolean show_files_hidden_by_limit?;
-    # Filter files by type ([see below](#file_types)). You can pass multiple values in the types argument, like `types=spaces,snippets`.The default value is `all`, which does not filter the list.
-    string types?;
-    # Filter files created before this timestamp (inclusive).
-    decimal ts_to?;
-    # Filter files appearing in a specific channel, indicated by its ID.
+# Represents the Queries record for the operation: files_remote_share
+public type FilesRemoteShareQueries record {
+    # Specify a file registered with Slack by providing its ID. Either this field or `external_id` or both are required
+    string file?;
+    # Comma-separated list of channel IDs where the file will be shared
+    string channels?;
+    # The globally unique identifier (GUID) for the file, as set by the app registering the file with Slack.  Either this field or `file` or both are required
+    @http:Query {name: "external_id"}
+    string externalId?;
+};
+
+public type ChatMeMessageBody record {
+    # Channel to send message to. Can be a public channel, private group or IM channel. Can be an encoded ID, or a name
     string channel?;
-    string count?;
-    string page?;
-    # Filter files created by a single user.
+    # Text of the message to send
+    string text?;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse72 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse71 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse70 record {
+    OkTrueDef ok;
+};
+
+public type AdminConversationsSetConversationPrefsBody record {
+    # The channel to set the prefs for
+    @jsondata:Name {value: "channel_id"}
+    string channelId;
+    # The prefs for this channel in a stringified JSON format
+    string prefs;
+};
+
+# Represents the Queries record for the operation: reactions_get
+public type ReactionsGetQueries record {
+    # File to get reactions for
+    string file?;
+    # Channel where the message to get reactions for was posted
+    string channel?;
+    # File comment to get reactions for
+    @http:Query {name: "file_comment"}
+    string fileComment?;
+    # If true always return the complete reaction list
+    boolean full?;
+    # Timestamp of the message to get reactions for
+    string timestamp?;
+};
+
+# Represents the Queries record for the operation: users_profile_get
+public type UsersProfileGetQueries record {
+    # Include labels for each ID in custom profile fields
+    @http:Query {name: "include_labels"}
+    boolean includeLabels?;
+    # User to retrieve profile info for
     string user?;
 };
 
-# Represents the Queries record for the operation: team_profile_get
-public type Team_profile_getQueries record {
-    # Filter by visibility.
-    string visibility?;
-};
-
-# Schema for successful response from users.setPresence method
-public type UsersSetPresenceResponse record {|
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse69 record {
     OkTrueDef ok;
-|};
-
-public type BotsInfoResponse_bot record {|
-    AppIdDef app_id;
-    boolean deleted;
-    BotProfileObj_icons icons;
-    BotIdDef id;
-    string name;
-    int updated;
-    UserIdDef user_id?;
-|};
-
-# Represents the Queries record for the operation: conversations_history
-public type Conversations_historyQueries record {
-    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
-    string cursor?;
-    # Include messages with latest or oldest timestamp in results only when either timestamp is specified.
-    boolean inclusive?;
-    # Start of time range of messages to include in results.
-    decimal oldest?;
-    # Conversation ID to fetch history for.
-    string channel?;
-    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.
-    int 'limit?;
-    # End of time range of messages to include in results.
-    decimal latest?;
 };
 
-# OAuth2 Refresh Token Grant Configs
-public type OAuth2RefreshTokenGrantConfig record {|
-    *http:OAuth2RefreshTokenGrantConfig;
-    # Refresh URL
-    string refreshUrl = "https://slack.com/api/oauth.access";
-|};
-
-public type conversations_close_body record {
-    # Conversation to close.
-    string channel?;
-};
-
-# Schema for successful response from reactions.remove method
-public type ReactionsRemoveResponse record {|
-    OkTrueDef ok;
-|};
-
-public type admin_apps_approve_body record {
-    # The id of the app to approve.
-    string app_id?;
-    # The id of the request to approve.
-    string request_id?;
-    string team_id?;
-};
-
-public type users_deletePhoto_body record {
-    # Authentication token. Requires scope: `users.profile:write`
-    string token;
-};
-
-# Represents the Queries record for the operation: admin_conversations_getConversationPrefs
-public type Admin_conversations_getConversationPrefsQueries record {
-    # The channel to get preferences for.
-    string channel_id;
-};
-
-public type conversations_unarchive_body record {
-    # ID of conversation to unarchive
-    string channel?;
-};
-
-public type reactions_add_body record {
-    # Channel where the message to add reaction to was posted.
-    string channel;
-    # Reaction (emoji) name.
-    string name;
-    # Timestamp of the message to add reaction to.
-    string timestamp;
-};
-
-# Schema for successful response from users.profile.get method
-public type UsersProfileGetResponse record {|
-    OkTrueDef ok;
-    UserProfileObj profile;
-|};
-
-# This is a very loose definition, in the future, we'll populate this with deeper schema in this definition namespace.
-public type blocks blocks_inner[];
-
-# Schema for successful response from chat.deleteScheduledMessage method
-public type ChatDeleteScheduledMessageResponse record {|
-    OkTrueDef ok;
-|};
-
-public type ResponseMetadataObj (record {|string next_cursor;|}|record {|string[] messages; ("method_deprecated")[] warnings;|}|record {|string[] messages; string next_cursor; ("method_deprecated")[] warnings;|})[];
-
-public type files_sharedPublicURL_body record {
-    # File to share
-    string file?;
-};
-
-# Schema for successful response from conversations.join method
-public type ConversationsJoinResponse record {|
-    ConversationObj channel;
-    OkTrueDef ok;
-    Response\ metadata response_metadata?;
-    string warning?;
-|};
-
-public type AppsPermissionsResourcesListResponse_resources record {
-    string id?;
-    string 'type?;
-};
-
-# Schema for successful response from stars.list method
-public type StarsListResponse record {|
-    (record {|ChannelDef channel; int date_create; MessageObj message; "message" 'type;|}|record {|int date_create; FileObj file; "file" 'type;|}|record {|CommentObj comment; int date_create; FileObj file; "file_comment" 'type;|}|record {|ChannelDef channel; int date_create; "channel" 'type;|}|record {|DmIdDef channel; int date_create; "im" 'type;|}|record {|GroupIdDef channel; int date_create; "group" 'type;|})[][] items;
-    OkTrueDef ok;
-    PagingObj paging?;
-|};
-
-# Schema for successful response conversations.members method
-public type ConversationsMembersResponse record {|
-    @constraint:Array {minLength: 1}
-    UserIdDef[] members;
-    OkTrueDef ok;
-    AdminConversationsGetTeamsResponse_response_metadata response_metadata;
-|};
-
-public type admin_users_assign_body record {
-    # Comma separated values of channel IDs to add user in the new workspace.
-    string channel_ids?;
-    # True if user should be added to the workspace as a guest.
-    boolean is_restricted?;
-    # True if user should be added to the workspace as a single-channel guest.
-    boolean is_ultra_restricted?;
-    # The ID (`T1234`) of the workspace.
-    string team_id;
-    # The ID of the user to add to the workspace.
-    string user_id;
-};
-
-public type ChannelObj_purpose record {|
+public type ConversationObjPurpose record {|
+    @jsondata:Name {value: "last_set"}
+    int lastSet;
     TopicPurposeCreatorDef creator;
-    int last_set;
     string value;
 |};
 
-public type admin_emoji_addAlias_body record {
-    # The alias of the emoji.
-    string alias_for;
-    # The name of the emoji to be aliased. Colons (`:myemoji:`) around the value are not required, although they may be included.
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse68 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse67 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse66 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse65 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse64 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse63 record {
+    OkTrueDef ok;
+};
+
+# Represents the Queries record for the operation: pins_list
+public type PinsListQueries record {
+    # Channel to get pinned items for
+    string channel;
+};
+
+public type AdminEmojiAddAliasBody record {
+    # The alias of the emoji
+    @jsondata:Name {value: "alias_for"}
+    string aliasFor;
+    # The name of the emoji to be aliased. Colons (`:myemoji:`) around the value are not required, although they may be included
     string name;
     # Authentication token. Requires scope: `admin.teams:write`
     string token;
 };
 
-# Represents the Queries record for the operation: apps_permissions_request
-public type Apps_permissions_requestQueries record {
-    # Token used to trigger the permissions API
-    string trigger_id;
-    # A comma separated list of scopes to request for
-    string scopes;
+public type TeamIntegrationLogsResponseLogs record {|
+    string date;
+    @jsondata:Name {value: "service_type"}
+    string serviceType?;
+    @jsondata:Name {value: "app_type"}
+    string appType;
+    @jsondata:Name {value: "user_id"}
+    UserIdDef userId;
+    @jsondata:Name {value: "user_name"}
+    string userName;
+    string scope;
+    @jsondata:Name {value: "service_id"}
+    string serviceId?;
+    ChannelDef channel?;
+    @jsondata:Name {value: "change_type"}
+    string changeType;
+    @jsondata:Name {value: "admin_app_id"}
+    AppIdDef adminAppId?;
+    @jsondata:Name {value: "app_id"}
+    AppIdDef appId;
+|};
+
+public type UserObjTeamProfile1 record {|
+    @constraint:Array {minLength: 1}
+    TeamProfileFieldObj[] fields;
+|};
+
+public type ChatScheduledMessagesListResponseScheduledMessages record {|
+    @jsondata:Name {value: "date_created"}
+    int dateCreated;
+    @constraint:String {pattern: re `^[Q][A-Z0-9]{8,}$`}
+    string id;
+    string text?;
+    @jsondata:Name {value: "post_at"}
+    int postAt;
+    @jsondata:Name {value: "channel_id"}
+    ChannelIdDef channelId;
+|};
+
+public type AdminEmojiAddBody record {
+    # The name of the emoji to be removed. Colons (`:myemoji:`) around the value are not required, although they may be included
+    string name;
+    # The URL of a file to use as an image for the emoji. Square images under 128KB and with transparent backgrounds work best
+    string url;
+    # Authentication token. Requires scope: `admin.teams:write`
+    string token;
 };
+
+public type AdminEmojiRemoveBody record {
+    # The name of the emoji to be removed. Colons (`:myemoji:`) around the value are not required, although they may be included
+    string name;
+    # Authentication token. Requires scope: `admin.teams:write`
+    string token;
+};
+
+public type AdminTeamsCreateBody record {
+    # Description for the team
+    @jsondata:Name {value: "team_description"}
+    string teamDescription?;
+    # Team domain (for example, slacksoftballteam)
+    @jsondata:Name {value: "team_domain"}
+    string teamDomain;
+    # Team name (for example, Slack Softball Team)
+    @jsondata:Name {value: "team_name"}
+    string teamName;
+    # Who can join the team. A team's discoverability can be `open`, `closed`, `invite_only`, or `unlisted`
+    @jsondata:Name {value: "team_discoverability"}
+    string teamDiscoverability?;
+};
+
+# Schema for successful response from users.profile.get method
+public type UsersProfileGetResponse record {|
+    UserProfileObj profile;
+    OkTrueDef ok;
+|};
+
+public type PinsRemoveBody record {
+    # Channel where the item is pinned to
+    string channel;
+    # Timestamp of the message to un-pin
+    string timestamp?;
+};
+
+public type ResponseMetadataObj InlineArrayItemsResponseMetadataObj[];
+
+public type InlineResponseItems2002 '200AnyOf12|'200200AnyOf122|'200200200AnyOf1223|'200200200200AnyOf12234;
 
 # Schema for successful response from conversations.list method
 public type ConversationsListResponse record {|
     ConversationObj[] channels;
+    @jsondata:Name {value: "response_metadata"}
+    ConversationsListResponseResponseMetadata responseMetadata?;
     OkTrueDef ok;
-    AdminConversationsGetTeamsResponse_response_metadata response_metadata?;
 |};
 
-# Represents the Queries record for the operation: users_getPresence
-public type Users_getPresenceQueries record {
-    # User to get presence info on. Defaults to the authed user.
-    string user?;
+public type InlineResponseItems2001 '200AnyOf11|'200200AnyOf112|'200200200AnyOf1123;
+
+public type ChatUpdateBody record {
+    # Find and link channel names and usernames. Defaults to `none`. If you do not specify a value for this field, the original value set for the message will be overwritten with the default, `none`
+    @jsondata:Name {value: "link_names"}
+    string linkNames?;
+    # Pass true to update the message as the authed user. [Bot users](/bot-users) in this context are considered authed users
+    @jsondata:Name {value: "as_user"}
+    string asUser?;
+    # A JSON-based array of structured attachments, presented as a URL-encoded string. This field is required when not presenting `text`. If you don't include this field, the message's previous `attachments` will be retained. To remove previous `attachments`, include an empty array for this field
+    string attachments?;
+    # A JSON-based array of [structured blocks](/block-kit/building), presented as a URL-encoded string. If you don't include this field, the message's previous `blocks` will be retained. To remove previous `blocks`, include an empty array for this field
+    string blocks?;
+    # Channel containing the message to be updated
+    string channel;
+    # Change how messages are treated. Defaults to `client`, unlike `chat.postMessage`. Accepts either `none` or `full`. If you do not specify a value for this field, the original value set for the message will be overwritten with the default, `client`
+    string parse?;
+    # New text for the message, using the [default formatting rules](/reference/surfaces/formatting). It's not required when presenting `blocks` or `attachments`
+    string text?;
+    # Timestamp of the message to be updated
+    string ts;
 };
 
-public type TeamIntegrationLogsResponse_logs record {|
-    AppIdDef admin_app_id?;
-    AppIdDef app_id;
-    string app_type;
-    string change_type;
-    ChannelDef channel?;
-    string date;
-    string scope;
-    string service_id?;
-    string service_type?;
-    UserIdDef user_id;
-    string user_name;
-|};
-
-# Represents the Queries record for the operation: team_billableInfo
-public type Team_billableInfoQueries record {
-    # A user to retrieve the billable information for. Defaults to all users.
-    string user?;
+public type AdminAppsRestrictBody record {
+    @jsondata:Name {value: "team_id"}
+    string teamId?;
+    # The id of the app to restrict
+    @jsondata:Name {value: "app_id"}
+    string appId?;
+    # The id of the request to restrict
+    @jsondata:Name {value: "request_id"}
+    string requestId?;
 };
 
-# Schema for successful response from team.accessLogs method
-public type TeamAccessLogsResponse record {|
-    @constraint:Array {minLength: 1}
-    TeamAccessLogsResponse_logins[] logins;
-    OkTrueDef ok;
-    PagingObj paging;
-|};
-
-public type UserProfileShortObj record {|
-    string avatar_hash;
-    string display_name;
-    string display_name_normalized?;
-    string? first_name;
-    string image_72;
-    boolean is_restricted;
-    boolean is_ultra_restricted;
+public type AdminConversationsRenameBody record {
     string name;
-    string real_name;
-    string real_name_normalized?;
-    WorkspaceIdDef team;
-|};
-
-public type ExternalOrgMigrationsObj record {
-    ExternalOrgMigrationsObj_current[] current;
-    int date_updated;
+    # The channel to rename
+    @jsondata:Name {value: "channel_id"}
+    string channelId;
 };
 
 # Schema for successful response from apps.permissions.request method
@@ -1482,159 +3305,227 @@ public type AppsPermissionsRequestResponse record {|
     OkTrueDef ok;
 |};
 
-# Represents the Queries record for the operation: reactions_list
-public type Reactions_listQueries record {
-    # Parameter for pagination. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection. See [pagination](/docs/pagination) for more details.
-    string cursor?;
-    int count?;
-    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached.
-    int 'limit?;
-    int page?;
-    # Show reactions made by this user. Defaults to the authed user.
-    string user?;
-    # If true always return the complete reaction list.
-    boolean full?;
-};
-
-public type chat_postMessage_body record {
-    # Pass true to post the message as the authed user, instead of as a bot. Defaults to false. See [authorship](#authorship) below.
-    string as_user?;
-    # A JSON-based array of structured attachments, presented as a URL-encoded string.
-    string attachments?;
-    # A JSON-based array of structured blocks, presented as a URL-encoded string.
-    string blocks?;
-    # Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name. See [below](#channels) for more details.
-    string channel;
-    # Emoji to use as the icon for this message. Overrides `icon_url`. Must be used in conjunction with `as_user` set to `false`, otherwise ignored. See [authorship](#authorship) below.
-    string icon_emoji?;
-    # URL to an image to use as the icon for this message. Must be used in conjunction with `as_user` set to false, otherwise ignored. See [authorship](#authorship) below.
-    string icon_url?;
-    # Find and link channel names and usernames.
-    boolean link_names?;
-    # Disable Slack markup parsing by setting to `false`. Enabled by default.
-    boolean mrkdwn?;
-    # Change how messages are treated. Defaults to `none`. See [below](#formatting).
-    string parse?;
-    # Used in conjunction with `thread_ts` and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to `false`.
-    boolean reply_broadcast?;
-    # How this field works and whether it is required depends on other fields you use in your API call. [See below](#text_usage) for more detail.
-    string text?;
-    # Provide another message's `ts` value to make this message a reply. Avoid using a reply's `ts` value; use its parent instead.
-    string thread_ts?;
-    # Pass true to enable unfurling of primarily text-based content.
-    boolean unfurl_links?;
-    # Pass false to disable unfurling of media content.
-    boolean unfurl_media?;
-    # Set your bot's user name. Must be used in conjunction with `as_user` set to false, otherwise ignored. See [authorship](#authorship) below.
-    string username?;
-};
-
-public type admin_emoji_remove_body record {
-    # The name of the emoji to be removed. Colons (`:myemoji:`) around the value are not required, although they may be included.
-    string name;
-    # Authentication token. Requires scope: `admin.teams:write`
-    string token;
-};
-
-public type ReminderObj record {|
-    int complete_ts?;
-    UserIdDef creator;
-    ReminderIdDef id;
-    boolean recurring;
-    string text;
-    int time?;
-    UserIdDef user;
-|};
-
-# Represents the Queries record for the operation: views_push
-public type Views_pushQueries record {
-    # A [view payload](/reference/surfaces/views). This must be a JSON-encoded string.
-    string view;
-    # Exchange a trigger to post to the user.
-    string trigger_id;
-};
-
-# Schema for successful response from reminders.delete method
-public type RemindersDeleteResponse record {|
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse51 record {
     OkTrueDef ok;
-|};
+};
 
-public type admin_users_setExpiration_body record {
-    # Timestamp when guest account should be disabled.
-    int expiration_ts;
-    # The ID (`T1234`) of the workspace.
-    string team_id;
-    # The ID of the user to set an expiration for.
-    string user_id;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse50 record {
+    OkTrueDef ok;
+};
+
+public type FilesCommentsDeleteBody record {
+    # File to delete a comment from
+    string file?;
+    # The comment to delete
+    string id?;
+};
+
+public type StarsAddBody record {
+    # File to add star to
+    string file?;
+    # Channel to add star to, or channel where the message to add star to was posted (used with `timestamp`)
+    string channel?;
+    # File comment to add star to
+    @jsondata:Name {value: "file_comment"}
+    string fileComment?;
+    # Timestamp of the message to add star to
+    string timestamp?;
+};
+
+public type TeamObjSsoProvider record {
+    string name?;
+    string label?;
+    string 'type?;
+};
+
+public type AdminUsergroupsAddChannelsBody record {
+    # Comma separated string of channel IDs
+    @jsondata:Name {value: "channel_ids"}
+    string channelIds;
+    # ID of the IDP group to add default channels for
+    @jsondata:Name {value: "usergroup_id"}
+    string usergroupId;
+    # The workspace to add default channels in
+    @jsondata:Name {value: "team_id"}
+    string teamId?;
+};
+
+public type CallsParticipantsRemoveBody record {
+    # `id` returned by the [`calls.add`](/methods/calls.add) method
+    string id;
+    # The list of users to remove as participants in the Call. [Read more on how to specify users here](/apis/calls#users)
+    string users;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse48 record {
+    OkTrueDef ok;
 };
 
 @constraint:String {pattern: re `^[F][A-Z0-9]{8,}$`}
 public type FileIdDef string;
 
-public type conversations_setTopic_body record {
-    # Conversation to set the topic of
-    string channel?;
-    # The new topic string. Does not support formatting or linkification.
-    string topic?;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse47 record {
+    OkTrueDef ok;
 };
 
-public type UserObjItemsnull anydata;
-
-public type OkTrueDef true;
-
-# Represents the Queries record for the operation: apps_permissions_users_request
-public type Apps_permissions_users_requestQueries record {
-    # Token used to trigger the request
-    string trigger_id;
-    # A comma separated list of user scopes to request for
-    string scopes;
-    # The user this scope is being requested for
-    string user;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse46 record {
+    OkTrueDef ok;
 };
 
-public type files_remote_add_body record {
-    # Creator defined GUID for the file.
-    string external_id?;
-    # URL of the remote file.
-    string external_url?;
-    # type of file
-    string filetype?;
-    # A text file (txt, pdf, doc, etc.) containing textual search terms that are used to improve discovery of the remote file.
-    string indexable_file_contents?;
-    # Preview of the document via `multipart/form-data`.
-    string preview_image?;
-    # Title of the file being shared.
-    string title?;
-    # Authentication token. Requires scope: `remote_files:write`
-    string token?;
+# Represents the Queries record for the operation: stars_list
+public type StarsListQueries record {
+    # Parameter for pagination. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection. See [pagination](/docs/pagination) for more details
+    string cursor?;
+    string count?;
+    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached
+    int 'limit?;
+    string page?;
 };
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse45 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse44 record {
+    OkTrueDef ok;
+};
+
+public type AppsPermissionsInfoResponseInfoAppHome record {
+    ResourcesObj resources?;
+    ScopesObj scopes?;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse43 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse42 record {
+    OkTrueDef ok;
+};
+
+public type ConversationMPIMObject record {|
+    @jsondata:Name {value: "is_pending_ext_shared"}
+    boolean isPendingExtShared?;
+    @jsondata:Name {value: "pending_shared"}
+    TeamDef[] pendingShared?;
+    @jsondata:Name {value: "internal_team_ids"}
+    TeamDef[] internalTeamIds?;
+    @jsondata:Name {value: "is_channel"}
+    boolean isChannel;
+    UserIdDef[] members?;
+    @jsondata:Name {value: "is_non_threadable"}
+    boolean isNonThreadable?;
+    @jsondata:Name {value: "pin_count"}
+    int pinCount?;
+    @jsondata:Name {value: "is_read_only"}
+    boolean isReadOnly?;
+    ChannelDef id;
+    @jsondata:Name {value: "is_im"}
+    boolean isIm;
+    @jsondata:Name {value: "is_member"}
+    boolean isMember?;
+    @jsondata:Name {value: "is_open"}
+    boolean isOpen?;
+    int created;
+    @jsondata:Name {value: "display_counts"}
+    ConversationObjDisplayCounts1 displayCounts?;
+    decimal priority?;
+    int version?;
+    @jsondata:Name {value: "is_starred"}
+    boolean isStarred?;
+    @jsondata:Name {value: "is_archived"}
+    boolean isArchived;
+    string name;
+    ConversationObjTopic1 topic;
+    @jsondata:Name {value: "shared_team_ids"}
+    TeamDef[] sharedTeamIds?;
+    @jsondata:Name {value: "is_org_shared"}
+    boolean isOrgShared;
+    @jsondata:Name {value: "is_private"}
+    boolean isPrivate;
+    @jsondata:Name {value: "accepted_user"}
+    UserIdDef acceptedUser?;
+    @jsondata:Name {value: "conversation_host_id"}
+    WorkspaceIdDef conversationHostId?;
+    ConversationObjPurpose1 purpose;
+    @jsondata:Name {value: "is_moved"}
+    int isMoved?;
+    ConversationObjShares1[] shares?;
+    @jsondata:Name {value: "unread_count"}
+    int unreadCount?;
+    @jsondata:Name {value: "is_shared"}
+    boolean isShared;
+    @jsondata:Name {value: "previous_names"}
+    ChannelNameDef[] previousNames?;
+    @jsondata:Name {value: "connected_team_ids"}
+    TeamDef[] connectedTeamIds?;
+    @jsondata:Name {value: "pending_connected_team_ids"}
+    TeamDef[] pendingConnectedTeamIds?;
+    ConversationObjLatest1[] latest?;
+    @jsondata:Name {value: "last_read"}
+    TsDef lastRead?;
+    UserIdDef creator;
+    @jsondata:Name {value: "is_frozen"}
+    boolean isFrozen?;
+    @jsondata:Name {value: "is_mpim"}
+    true isMpim;
+    @jsondata:Name {value: "timezone_count"}
+    int timezoneCount?;
+    @jsondata:Name {value: "is_ext_shared"}
+    boolean isExtShared?;
+    @jsondata:Name {value: "name_normalized"}
+    string nameNormalized;
+    @jsondata:Name {value: "unread_count_display"}
+    int unreadCountDisplay?;
+    @jsondata:Name {value: "is_group"}
+    boolean isGroup;
+    int unlinked?;
+    @jsondata:Name {value: "is_general"}
+    boolean isGeneral;
+    @jsondata:Name {value: "num_members"}
+    int numMembers?;
+    @jsondata:Name {value: "is_thread_only"}
+    boolean isThreadOnly?;
+    UserIdDef user?;
+    @jsondata:Name {value: "parent_conversation"}
+    ConversationObjParentConversation1[] parentConversation?;
+|};
 
 # Schema for successful response from conversations.unarchive method
 public type ConversationsUnarchiveResponse record {|
     OkTrueDef ok;
 |};
 
-public type admin_teams_settings_setIcon_body record {
-    # Image URL for the icon
-    string image_url;
-    # ID for the workspace to set the icon for.
-    string team_id;
-    # Authentication token. Requires scope: `admin.teams:write`
-    string token;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse41 record {
+    OkTrueDef ok;
 };
 
-public type EnterpriseUserObj record {|
-    EnterpriseIdDef enterprise_id;
-    EnterpriseNameDef enterprise_name;
-    EnterpriseUserIdDef id;
-    boolean is_admin;
-    boolean is_owner;
-    TeamDef[] teams;
-|};
+# Represents the Queries record for the operation: admin_conversations_getTeams
+public type AdminConversationsGetTeamsQueries record {
+    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
+    string cursor?;
+    # The maximum number of items to return. Must be between 1 - 1000 both inclusive
+    int 'limit?;
+    # The channel to determine connected workspaces within the organization for
+    @http:Query {name: "channel_id"}
+    string channelId;
+};
 
-# Schema for successful response of admin.conversations.convertToPrivate
-public type AdminConversationsConvertToPrivateResponse record {|
-    OkTrueDef ok;
+# Schema for successful response of admin.conversations.search
+public type AdminConversationsSearchResponse record {|
+    @jsondata:Name {value: "next_cursor"}
+    string nextCursor;
+    ChannelObj[] channels;
 |};
 
 # Schema for successful response from chat.meMessage method
@@ -1644,750 +3535,611 @@ public type ChatMeMessageResponse record {|
     TsDef ts?;
 |};
 
-# Schema for successful response of admin.conversations.search
-public type AdminConversationsSearchResponse record {|
-    ChannelObj[] channels;
-    string next_cursor;
-|};
-
-public type chat_meMessage_body record {
-    # Channel to send message to. Can be a public channel, private group or IM channel. Can be an encoded ID, or a name.
-    string channel?;
-    # Text of the message to send.
-    string text?;
-};
-
 public type BotProfileObj record {|
-    AppIdDef app_id;
     boolean deleted;
-    BotProfileObj_icons icons;
-    BotIdDef id;
     string name;
-    TeamDef team_id;
+    BotIdDef id;
+    @jsondata:Name {value: "team_id"}
+    TeamDef teamId;
+    BotProfileObjIcons icons;
+    @jsondata:Name {value: "app_id"}
+    AppIdDef appId;
     int updated;
 |};
 
-# Schema for successful response from chat.unfurl method
-public type ChatUnfurlResponse record {|
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse49 record {
     OkTrueDef ok;
-|};
-
-# Schema for successful response from reminders.info method
-public type RemindersInfoResponse record {|
-    OkTrueDef ok;
-    ReminderObj reminder;
-|};
+};
 
 public type PrimaryOwnerObj record {
-    string email;
     string id;
+    string email;
 };
 
-public type calls_add_body record {
-    # The valid Slack user ID of the user who created this Call. When this method is called with a user token, the `created_by` field is optional and defaults to the authed user of the token. Otherwise, the field is required.
-    string created_by?;
-    # Call start time in UTC UNIX timestamp format
-    int date_start?;
-    # When supplied, available Slack clients will attempt to directly launch the 3rd-party Call with this URL.
-    string desktop_app_join_url?;
-    # An optional, human-readable ID supplied by the 3rd-party Call provider. If supplied, this ID will be displayed in the Call object.
-    string external_display_id?;
-    # An ID supplied by the 3rd-party Call provider. It must be unique across all Calls from that service.
-    string external_unique_id;
-    # The URL required for a client to join the Call.
-    string join_url;
-    # The name of the Call.
-    string title?;
-    # The list of users to register as participants in the Call. [Read more on how to specify users here](/apis/calls#users).
-    string users?;
+public type InlineArrayItemsConversationObj ConversationObject|ConversationMPIMObject|ConversationIMChannelObjectFromConversationsMethods;
+
+public type AdminConversationsDeleteBody record {
+    # The channel to delete
+    @jsondata:Name {value: "channel_id"}
+    string channelId;
 };
 
-@constraint:String {pattern: re `^[T][A-Z0-9]{2,}$`}
-public type TeamDef string;
-
-# Schema for successful response of admin.conversations.delete
-public type AdminConversationsDeleteResponse record {|
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse62 record {
     OkTrueDef ok;
-|};
+};
 
 # Schema for successful response from reactions.add method
 public type ReactionsAddResponse record {|
     OkTrueDef ok;
 |};
 
-public type BotProfileObj_icons record {|
-    string image_36;
-    string image_48;
-    string image_72;
-|};
-
-public type blocks_inner record {
-    string 'type;
-};
-
-# Schema for successful response from pins.add method
-public type PinsAddResponse record {|
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse61 record {
     OkTrueDef ok;
-|};
+};
 
-public type MessageObj_attachments record {|
-    string fallback?;
-    int id;
-    int image_bytes?;
-    int image_height?;
-    string image_url?;
-    int image_width?;
-|};
-
-# Schema for successful response from users.list method
-public type UsersListResponse record {|
-    int cache_ts;
-    @constraint:Array {minLength: 1}
-    UserObj[] members;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse60 record {
     OkTrueDef ok;
-    ResponseMetadataObj response_metadata?;
+};
+
+public type AdminConversationsConvertToPrivateBody record {
+    # The channel to convert to private
+    @jsondata:Name {value: "channel_id"}
+    string channelId;
+};
+
+# Represents the Queries record for the operation: admin_users_list
+public type AdminUsersListQueries record {
+    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
+    string cursor?;
+    # Limit for how many users to be retrieved per page
+    int 'limit?;
+    # The ID (`T1234`) of the workspace
+    @http:Query {name: "team_id"}
+    string teamId;
+};
+
+public type '200200200AnyOf1123 record {|
+    FileObj file;
+    CommentObj comment;
+    OkTrueDef ok;
+    "file_comment" 'type;
 |};
 
-# Represents the Queries record for the operation: chat_getPermalink
-public type Chat_getPermalinkQueries record {
-    # The ID of the conversation or channel containing the message
-    string channel;
-    # A message's `ts` value, uniquely identifying it within a channel
-    string message_ts;
-};
-
-public type reminders_delete_body record {
-    # The ID of the reminder
-    string reminder?;
-};
-
-public type admin_teams_create_body record {
-    # Description for the team.
-    string team_description?;
-    # Who can join the team. A team's discoverability can be `open`, `closed`, `invite_only`, or `unlisted`.
-    string team_discoverability?;
-    # Team domain (for example, slacksoftballteam).
-    string team_domain;
-    # Team name (for example, Slack Softball Team).
-    string team_name;
-};
-
-# Represents the Queries record for the operation: conversations_info
-public type Conversations_infoQueries record {
-    # Set to `true` to include the member count for the specified conversation. Defaults to `false`
-    boolean include_num_members?;
-    # Conversation ID to learn more about
+public type ConversationsMarkBody record {
+    # Channel or conversation to set the read cursor for
     string channel?;
-    # Set this to `true` to receive the locale for this conversation. Defaults to `false`
-    boolean include_locale?;
+    # Unique identifier of message you want marked as most recently seen in this conversation
+    decimal ts?;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse59 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse58 record {
+    OkTrueDef ok;
+};
+
+public type LatestAnyOf23 anydata?;
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse57 record {
+    OkTrueDef ok;
+};
+
+public type LatestAnyOf22 anydata?;
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse56 record {
+    OkTrueDef ok;
+};
+
+public type LatestAnyOf21 anydata?;
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse55 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse54 record {
+    OkTrueDef ok;
+};
+
+public type RtmConnectResponseSelf record {|
+    string name;
+    UserIdDef id;
+|};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse53 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse52 record {
+    OkTrueDef ok;
+};
+
+public type ResponseMetadata record {
+    @constraint:Array {minLength: 1}
+    string[] warnings?;
+};
+
+public type AdminConversationsUnarchiveBody record {
+    # The channel to unarchive
+    @jsondata:Name {value: "channel_id"}
+    string channelId;
+};
+
+public type CallsParticipantsAddBody record {
+    # `id` returned by the [`calls.add`](/methods/calls.add) method
+    string id;
+    # The list of users to add as participants in the Call. [Read more on how to specify users here](/apis/calls#users)
+    string users;
+};
+
+public type AdminTeamsSettingsSetIconBody record {
+    # Image URL for the icon
+    @jsondata:Name {value: "image_url"}
+    string imageUrl;
+    # ID for the workspace to set the icon for
+    @jsondata:Name {value: "team_id"}
+    string teamId;
+    # Authentication token. Requires scope: `admin.teams:write`
+    string token;
 };
 
 # Schema for successful response from conversations.replies method
 public type ConversationsRepliesResponse record {|
-    boolean has_more?;
     (record {|TsDef last_read?; TsDef latest_reply?; int reply_count; UserIdDef[] reply_users?; int reply_users_count?; TeamDef source_team?; boolean subscribed; TeamDef team?; string text; TsDef thread_ts; TsDef ts; string 'type; int unread_count?; UserIdDef user; UserProfileShortObj user_profile?; TeamDef user_team?;|}|record {|boolean is_starred?; UserIdDef parent_user_id; TeamDef source_team?; TeamDef team?; string text; TsDef thread_ts; TsDef ts; string 'type; UserIdDef user; UserProfileShortObj user_profile?; TeamDef user_team?;|})[][] messages;
+    @jsondata:Name {value: "has_more"}
+    boolean hasMore?;
     OkTrueDef ok;
 |};
-
-# Represents the Queries record for the operation: migration_exchange
-public type Migration_exchangeQueries record {
-    # Specify `true` to convert `W` global user IDs to workspace-specific `U` IDs. Defaults to `false`.
-    boolean to_old?;
-    # Specify team_id starts with `T` in case of Org Token
-    string team_id?;
-    # A comma-separated list of user ids, up to 400 per request
-    string users;
-};
-
-public type ScopesObj string[];
-
-public type reactions_remove_body record {
-    # Channel where the message to remove reaction from was posted.
-    string channel?;
-    # File to remove reaction from.
-    string file?;
-    # File comment to remove reaction from.
-    string file_comment?;
-    # Reaction (emoji) name.
-    string name;
-    # Timestamp of the message to remove reaction from.
-    string timestamp?;
-};
 
 # Schema for successful response from reminders.complete method
 public type RemindersCompleteResponse record {|
     OkTrueDef ok;
 |};
 
-# Represents the Queries record for the operation: bots_info
-public type Bots_infoQueries record {
-    # Bot user to get info on
-    string bot?;
+public type ChatPostMessageBody record {
+    # URL to an image to use as the icon for this message. Must be used in conjunction with `as_user` set to false, otherwise ignored. See [authorship](#authorship) below
+    @jsondata:Name {value: "icon_url"}
+    string iconUrl?;
+    # Find and link channel names and usernames
+    @jsondata:Name {value: "link_names"}
+    boolean linkNames?;
+    # A JSON-based array of structured attachments, presented as a URL-encoded string
+    string attachments?;
+    # Emoji to use as the icon for this message. Overrides `icon_url`. Must be used in conjunction with `as_user` set to `false`, otherwise ignored. See [authorship](#authorship) below
+    @jsondata:Name {value: "icon_emoji"}
+    string iconEmoji?;
+    # A JSON-based array of structured blocks, presented as a URL-encoded string
+    string blocks?;
+    # Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name. See [below](#channels) for more details
+    string channel;
+    # Change how messages are treated. Defaults to `none`. See [below](#formatting)
+    string parse?;
+    # Disable Slack markup parsing by setting to `false`. Enabled by default
+    boolean mrkdwn?;
+    # Pass true to post the message as the authed user, instead of as a bot. Defaults to false. See [authorship](#authorship) below
+    @jsondata:Name {value: "as_user"}
+    string asUser?;
+    # Provide another message's `ts` value to make this message a reply. Avoid using a reply's `ts` value; use its parent instead
+    @jsondata:Name {value: "thread_ts"}
+    string threadTs?;
+    # Pass false to disable unfurling of media content
+    @jsondata:Name {value: "unfurl_media"}
+    boolean unfurlMedia?;
+    # Used in conjunction with `thread_ts` and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to `false`
+    @jsondata:Name {value: "reply_broadcast"}
+    boolean replyBroadcast?;
+    # Pass true to enable unfurling of primarily text-based content
+    @jsondata:Name {value: "unfurl_links"}
+    boolean unfurlLinks?;
+    # How this field works and whether it is required depends on other fields you use in your API call. [See below](#text_usage) for more detail
+    string text?;
+    # Set your bot's user name. Must be used in conjunction with `as_user` set to false, otherwise ignored. See [authorship](#authorship) below
+    string username?;
 };
 
-# Represents the Queries record for the operation: apps_permissions_resources_list
-public type Apps_permissions_resources_listQueries record {
-    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
-    string cursor?;
-    # The maximum number of items to return.
-    int 'limit?;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse26 record {
+    OkTrueDef ok;
 };
 
-public type admin_conversations_archive_body record {
-    # The channel to archive.
-    string channel_id;
-};
-
-public type conversations_invite_body record {
-    # The ID of the public or private channel to invite user(s) to.
-    string channel?;
-    # A comma separated list of user IDs. Up to 1000 users may be listed.
-    string users?;
+# Represents the Queries record for the operation: workflows_stepCompleted
+public type WorkflowsStepCompletedQueries record {
+    # Key-value object of outputs from your step. Keys of this object reflect the configured `key` properties of your [`outputs`](/reference/workflows/workflow_step#output) array from your `workflow_step` object
+    string outputs?;
+    # Context identifier that maps to the correct workflow step execution
+    @http:Query {name: "workflow_step_execute_id"}
+    string workflowStepExecuteId;
 };
 
 @constraint:String {pattern: re `^A[A-Z0-9]{1,}$`}
 public type AppIdDef string;
 
-# Schema for successful response conversations.create method
-public type ConversationsCreateResponse record {|
-    ConversationObj channel;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse25 record {
     OkTrueDef ok;
-|};
-
-public type RtmConnectResponse_self record {|
-    UserIdDef id;
-    string name;
-|};
-
-# Represents the Queries record for the operation: workflows_updateStep
-public type Workflows_updateStepQueries record {
-    # An JSON array of output objects used during step execution. This is the data your app agrees to provide when your workflow step was executed.
-    string outputs?;
-    # A JSON key-value map of inputs required from a user during configuration. This is the data your app expects to receive when the workflow step starts. **Please note**: the embedded variable format is set and replaced by the workflow system. You cannot create custom variables that will be replaced at runtime. [Read more about variables in workflow steps here](/workflows/steps#variables).
-    string inputs?;
-    # An optional field that can be used to override the step name that is shown in the Workflow Builder.
-    string step_name?;
-    # An optional field that can be used to override app image that is shown in the Workflow Builder.
-    string step_image_url?;
-    # A context identifier provided with `view_submission` payloads used to call back to `workflows.updateStep`.
-    string workflow_step_edit_id;
 };
 
-public type ChannelNameDef string;
-
-# Represents the Queries record for the operation: auth_revoke
-public type Auth_revokeQueries record {
-    # Setting this parameter to `1` triggers a _testing mode_ where the specified token will not actually be revoked.
-    boolean test?;
-};
-
-# Represents the Queries record for the operation: files_info
-public type Files_infoQueries record {
-    # Parameter for pagination. File comments are paginated for a single file. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection of comments. See [pagination](/docs/pagination) for more details.
-    string cursor?;
-    # Specify a file by providing its ID.
-    string file?;
-    string count?;
-    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached.
-    int 'limit?;
-    string page?;
-};
-
-public type admin_conversations_create_body record {
-    # Description of the public or private channel to create.
-    string description?;
-    # When `true`, creates a private channel instead of a public channel
-    boolean is_private;
-    # Name of the public or private channel to create.
-    string name;
-    # When `true`, the channel will be available org-wide. Note: if the channel is not `org_wide=true`, you must specify a `team_id` for this channel
-    boolean org_wide?;
-    # The workspace to create the channel in. Note: this argument is required unless you set `org_wide=true`.
-    string team_id?;
-};
-
-# Schema for successful response conversations.info
-public type ConversationsInfoResponse record {|
-    ConversationObj channel;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse24 record {
     OkTrueDef ok;
-|};
+};
 
-public type chat_update_body record {
-    # Pass true to update the message as the authed user. [Bot users](/bot-users) in this context are considered authed users.
-    string as_user?;
-    # A JSON-based array of structured attachments, presented as a URL-encoded string. This field is required when not presenting `text`. If you don't include this field, the message's previous `attachments` will be retained. To remove previous `attachments`, include an empty array for this field.
-    string attachments?;
-    # A JSON-based array of [structured blocks](/block-kit/building), presented as a URL-encoded string. If you don't include this field, the message's previous `blocks` will be retained. To remove previous `blocks`, include an empty array for this field.
-    string blocks?;
-    # Channel containing the message to be updated.
+public type ChatDeleteScheduledMessageBody record {
+    # Pass true to delete the message as the authed user with `chat:write:user` scope. [Bot users](/bot-users) in this context are considered authed users. If unused or false, the message will be deleted with `chat:write:bot` scope
+    @jsondata:Name {value: "as_user"}
+    boolean asUser?;
+    # `scheduled_message_id` returned from call to chat.scheduleMessage
+    @jsondata:Name {value: "scheduled_message_id"}
+    string scheduledMessageId;
+    # The channel the scheduled_message is posting to
     string channel;
-    # Find and link channel names and usernames. Defaults to `none`. If you do not specify a value for this field, the original value set for the message will be overwritten with the default, `none`.
-    string link_names?;
-    # Change how messages are treated. Defaults to `client`, unlike `chat.postMessage`. Accepts either `none` or `full`. If you do not specify a value for this field, the original value set for the message will be overwritten with the default, `client`.
-    string parse?;
-    # New text for the message, using the [default formatting rules](/reference/surfaces/formatting). It's not required when presenting `blocks` or `attachments`.
-    string text?;
-    # Timestamp of the message to be updated.
-    string ts;
 };
 
-# Schema for successful response from bots.info method
-public type BotsInfoResponse record {|
-    BotsInfoResponse_bot bot;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse23 record {
     OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse22 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse21 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse20 record {
+    OkTrueDef ok;
+};
+
+public type FileObjShares record {|
+    record {||} 'private?;
+    record {||} 'public?;
 |};
 
-# Represents the Queries record for the operation: reactions_get
-public type Reactions_getQueries record {
-    # File to get reactions for.
-    string file?;
-    # Channel where the message to get reactions for was posted.
-    string channel?;
-    # File comment to get reactions for.
-    string file_comment?;
-    # If true always return the complete reaction list.
-    boolean full?;
-    # Timestamp of the message to get reactions for.
-    string timestamp?;
+public type UsergroupsCreateBody record {
+    # A comma separated string of encoded channel IDs for which the User Group uses as a default
+    string channels?;
+    # A name for the User Group. Must be unique among User Groups
+    string name;
+    # A short description of the User Group
+    string description?;
+    # A mention handle. Must be unique among channels, users and User Groups
+    string 'handle?;
+    # Include the number of users in each User Group
+    @jsondata:Name {value: "include_count"}
+    boolean includeCount?;
 };
 
 # Schema for successful response from usergroups.users.update method
 public type UsergroupsUsersUpdateResponse record {|
-    OkTrueDef ok;
     SubteamObj usergroup;
+    OkTrueDef ok;
 |};
 
-# Schema for successful response from dnd.setSnooze method
-public type DndSetSnoozeResponse record {|
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse29 record {
     OkTrueDef ok;
-    boolean snooze_enabled;
-    int snooze_endtime;
-    int snooze_remaining;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse28 record {
+    OkTrueDef ok;
+};
+
+public type ConversationObjPurpose1 record {|
+    @jsondata:Name {value: "last_set"}
+    int lastSet;
+    TopicPurposeCreatorDef creator;
+    string value;
 |};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse27 record {
+    OkTrueDef ok;
+};
 
 public type UserProfileObj record {|
-    boolean always_active?;
-    OptionalAppIdDef api_app_id?;
-    string avatar_hash;
-    BotIdDef bot_id?;
-    string display_name;
-    string display_name_normalized;
-    string? email?;
-    record {}[]? fields;
-    string? first_name?;
-    int? guest_expiration_ts?;
-    string? guest_invited_by?;
-    string? image_1024?;
-    string? image_192?;
-    string? image_24?;
-    string? image_32?;
-    string? image_48?;
-    string? image_512?;
-    string? image_72?;
-    string? image_original?;
-    boolean is_app_user?;
-    boolean is_custom_image?;
-    boolean? is_restricted?;
-    boolean? is_ultra_restricted?;
-    string last_avatar_image_hash?;
-    string? last_name?;
-    int memberships_count?;
-    string? name?;
-    string phone;
-    string pronouns?;
-    string real_name;
-    string real_name_normalized;
-    string skype;
-    string status_default_emoji?;
-    string status_default_text?;
-    string? status_default_text_canonical?;
-    string status_emoji;
-    int status_expiration?;
-    string status_text;
-    string? status_text_canonical?;
-    WorkspaceIdDef team?;
+    @jsondata:Name {value: "image_32"}
+    string? image32?;
+    @jsondata:Name {value: "status_emoji"}
+    string statusEmoji;
+    @jsondata:Name {value: "guest_invited_by"}
+    string? guestInvitedBy?;
+    @jsondata:Name {value: "is_restricted"}
+    boolean? isRestricted?;
+    @jsondata:Name {value: "api_app_id"}
+    OptionalAppIdDef apiAppId?;
+    @jsondata:Name {value: "image_192"}
+    string? image192?;
+    @jsondata:Name {value: "real_name"}
+    string realName;
     string title;
+    @jsondata:Name {value: "status_text_canonical"}
+    string? statusTextCanonical?;
+    string skype;
+    @jsondata:Name {value: "is_app_user"}
+    boolean isAppUser?;
+    @jsondata:Name {value: "image_original"}
+    string? imageOriginal?;
+    @jsondata:Name {value: "guest_expiration_ts"}
+    int? guestExpirationTs?;
+    @jsondata:Name {value: "real_name_normalized"}
+    string realNameNormalized;
+    @jsondata:Name {value: "avatar_hash"}
+    string avatarHash;
+    @jsondata:Name {value: "first_name"}
+    string? firstName?;
+    @jsondata:Name {value: "bot_id"}
+    BotIdDef botId?;
+    string? email?;
+    @jsondata:Name {value: "image_512"}
+    string? image512?;
+    @jsondata:Name {value: "status_default_text_canonical"}
+    string? statusDefaultTextCanonical?;
+    @jsondata:Name {value: "is_ultra_restricted"}
+    boolean? isUltraRestricted?;
+    @jsondata:Name {value: "image_1024"}
+    string? image1024?;
+    @jsondata:Name {value: "status_default_emoji"}
+    string statusDefaultEmoji?;
+    @jsondata:Name {value: "image_24"}
+    string? image24?;
+    @jsondata:Name {value: "last_name"}
+    string? lastName?;
+    @jsondata:Name {value: "image_48"}
+    string? image48?;
+    WorkspaceIdDef team?;
+    @jsondata:Name {value: "display_name"}
+    string displayName;
+    @jsondata:Name {value: "last_avatar_image_hash"}
+    string lastAvatarImageHash?;
+    @jsondata:Name {value: "always_active"}
+    boolean alwaysActive?;
+    @jsondata:Name {value: "status_expiration"}
+    int statusExpiration?;
+    @jsondata:Name {value: "memberships_count"}
+    int membershipsCount?;
+    string phone;
+    @jsondata:Name {value: "user_id"}
+    string userId?;
+    string? name?;
+    @jsondata:Name {value: "status_default_text"}
+    string statusDefaultText?;
+    string pronouns?;
+    @jsondata:Name {value: "is_custom_image"}
+    boolean isCustomImage?;
+    @jsondata:Name {value: "status_text"}
+    string statusText;
+    record {}[]? fields;
+    @jsondata:Name {value: "image_72"}
+    string? image72?;
     int updated?;
-    string user_id?;
+    @jsondata:Name {value: "display_name_normalized"}
+    string displayNameNormalized;
     string? username?;
 |};
 
-public type pins_remove_body record {
-    # Channel where the item is pinned to.
-    string channel;
-    # Timestamp of the message to un-pin.
-    string timestamp?;
+public type AdminUsersSetRegularBody record {
+    # The ID of the user to designate as a regular user
+    @jsondata:Name {value: "user_id"}
+    string userId;
+    # The ID (`T1234`) of the workspace
+    @jsondata:Name {value: "team_id"}
+    string teamId;
 };
 
-public type admin_emoji_rename_body record {
-    # The name of the emoji to be renamed. Colons (`:myemoji:`) around the value are not required, although they may be included.
-    string name;
-    # The new name of the emoji.
-    string new_name;
-    # Authentication token. Requires scope: `admin.teams:write`
-    string token;
-};
+public type AutoTypeAnyOf1 anydata?;
+
+# This is a very loose definition, in the future, we'll populate this with deeper schema in this definition namespace
+public type Blocks BlocksInner[];
+
+public type NewPagingStyle record {|
+    @jsondata:Name {value: "next_cursor"}
+    string nextCursor;
+|};
 
 @constraint:String {pattern: re `^[WU][A-Z0-9]{8,}$`}
 public type EnterpriseUserIdDef string;
 
-public type conversations_mark_body record {
-    # Channel or conversation to set the read cursor for.
-    string channel?;
-    # Unique identifier of message you want marked as most recently seen in this conversation.
-    decimal ts?;
-};
-
-# Represents the Queries record for the operation: calls_info
-public type Calls_infoQueries record {
-    # `id` of the Call returned by the [`calls.add`](/methods/calls.add) method.
-    string id;
-};
-
-# Represents the Queries record for the operation: oauth_access
-public type Oauth_accessQueries record {
-    # Request the user to add your app only to a single channel. Only valid with a [legacy workspace app](https://api.slack.com/legacy-workspace-apps).
-    boolean single_channel?;
-    # The `code` param returned via the OAuth callback.
-    string code?;
-    # Issued when you created your application.
-    string client_secret?;
-    # This must match the originally submitted URI (if one was sent).
-    string redirect_uri?;
-    # Issued when you created your application.
-    string client_id?;
-};
-
-# Schema for successful response conversations.close method
-public type ConversationsCloseResponse record {|
-    boolean already_closed?;
-    boolean no_op?;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse40 record {
     OkTrueDef ok;
+};
+
+public type AdminConversationsSetTeamsBody record {
+    # True if channel has to be converted to an org channel
+    @jsondata:Name {value: "org_channel"}
+    boolean orgChannel?;
+    # A comma-separated list of workspaces to which the channel should be shared. Not required if the channel is being shared org-wide
+    @jsondata:Name {value: "target_team_ids"}
+    string targetTeamIds?;
+    # The workspace to which the channel belongs. Omit this argument if the channel is a cross-workspace shared channel
+    @jsondata:Name {value: "team_id"}
+    string teamId?;
+    # The encoded `channel_id` to add or remove to workspaces
+    @jsondata:Name {value: "channel_id"}
+    string channelId;
+};
+
+public type '200200200AnyOf1223 record {|
+    '200Team2 team;
+    OkTrueDef ok;
+    '200User2 user;
 |};
 
-# Represents the Queries record for the operation: apps_uninstall
-public type Apps_uninstallQueries record {
-    # Issued when you created your application.
-    string client_secret?;
-    # Issued when you created your application.
-    string client_id?;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse37 record {
+    OkTrueDef ok;
 };
 
-# Represents the Queries record for the operation: admin_conversations_getTeams
-public type Admin_conversations_getTeamsQueries record {
+public type AppsPermissionsInfoResponseInfoIm record {
+    ResourcesObj resources?;
+    ScopesObj scopes?;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse36 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse35 record {
+    OkTrueDef ok;
+};
+
+# Represents the Queries record for the operation: team_integrationLogs
+public type TeamIntegrationLogsQueries record {
+    # Filter logs to this service. Defaults to all logs
+    @http:Query {name: "service_id"}
+    string serviceId?;
+    string count?;
+    # Filter logs with this change type. Defaults to all logs
+    @http:Query {name: "change_type"}
+    string changeType?;
+    string page?;
+    # Filter logs to this Slack app. Defaults to all logs
+    @http:Query {name: "app_id"}
+    string appId?;
+    # Filter logs generated by this user’s actions. Defaults to all logs
+    string user?;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse34 record {
+    OkTrueDef ok;
+};
+
+# Represents the Queries record for the operation: admin_teams_owners_list
+public type AdminTeamsOwnersListQueries record {
     # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
     string cursor?;
-    # The maximum number of items to return. Must be between 1 - 1000 both inclusive.
+    # The maximum number of items to return. Must be between 1 - 1000 both inclusive
     int 'limit?;
-    # The channel to determine connected workspaces within the organization for.
-    string channel_id;
+    @http:Query {name: "team_id"}
+    string teamId;
 };
 
-# Schema for successful response from reactions.list method
-public type ReactionsListResponse record {|
-    (record {|ChannelDef channel; MessageObj message; "message" 'type;|}|record {|FileObj file; "file" 'type;|}|record {|CommentObj comment; FileObj file; "file_comment" 'type;|})[][] items;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse33 record {
     OkTrueDef ok;
-    PagingObj paging?;
-    ResponseMetadataObj response_metadata?;
-|};
-
-public type chat_scheduleMessage_body record {
-    # Pass true to post the message as the authed user, instead of as a bot. Defaults to false. See [chat.postMessage](chat.postMessage#authorship).
-    boolean as_user?;
-    # A JSON-based array of structured attachments, presented as a URL-encoded string.
-    string attachments?;
-    # A JSON-based array of structured blocks, presented as a URL-encoded string.
-    string blocks?;
-    # Channel, private group, or DM channel to send message to. Can be an encoded ID, or a name. See [below](#channels) for more details.
-    string channel?;
-    # Find and link channel names and usernames.
-    boolean link_names?;
-    # Change how messages are treated. Defaults to `none`. See [chat.postMessage](chat.postMessage#formatting).
-    string parse?;
-    # Unix EPOCH timestamp of time in future to send the message.
-    string post_at?;
-    # Used in conjunction with `thread_ts` and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to `false`.
-    boolean reply_broadcast?;
-    # How this field works and whether it is required depends on other fields you use in your API call. [See below](#text_usage) for more detail.
-    string text?;
-    # Provide another message's `ts` value to make this message a reply. Avoid using a reply's `ts` value; use its parent instead.
-    decimal thread_ts?;
-    # Pass true to enable unfurling of primarily text-based content.
-    boolean unfurl_links?;
-    # Pass false to disable unfurling of media content.
-    boolean unfurl_media?;
 };
 
-# Represents the Queries record for the operation: reminders_info
-public type Reminders_infoQueries record {
-    # The ID of the reminder
-    string reminder?;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse32 record {
+    OkTrueDef ok;
 };
 
-# Represents the Queries record for the operation: conversations_list
-public type Conversations_listQueries record {
-    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
-    string cursor?;
-    # Mix and match channel types by providing a comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im`
-    string types?;
-    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. Must be an integer no larger than 1000.
-    int 'limit?;
-    # Set to `true` to exclude archived channels from the list
-    boolean exclude_archived?;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse31 record {
+    OkTrueDef ok;
 };
 
-public type admin_conversations_invite_body record {
-    # The channel that the users will be invited to.
-    string channel_id;
-    # The users to invite.
-    string user_ids;
-};
+public type AutoTypeAutoTypeAnyOf12 "owner"|"admin";
 
-public type admin_conversations_restrictAccess_removeGroup_body record {
-    # The channel to remove the linked group from.
-    string channel_id;
-    # The [IDP Group](https://slack.com/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-Grid-org) ID to remove from the private channel.
-    string group_id;
-    # The workspace where the channel exists. This argument is required for channels only tied to one workspace, and optional for channels that are shared across an organization.
-    string team_id;
-    # Authentication token. Requires scope: `admin.conversations:write`
-    string token;
-};
-
-public type Response\ metadata record {
-    string[] warnings?;
-};
-
-public type IconObj record {
-    string image_102?;
-    string image_132?;
-    string image_230?;
-    string image_34?;
-    string image_44?;
-    string image_68?;
-    string image_88?;
-    boolean image_default?;
-};
-
-public type admin_users_session_invalidate_body record {
-    int session_id;
-    # ID of the team that the session belongs to
-    string team_id;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse30 record {
+    OkTrueDef ok;
 };
 
 # Schema for successful response of admin.conversations.getConversationPrefs
 public type AdminConversationsGetConversationPrefsResponse record {|
     OkTrueDef ok;
-    AdminConversationsGetConversationPrefsResponse_prefs prefs?;
+    AdminConversationsGetConversationPrefsResponsePrefs prefs?;
 |};
 
-# Schema for successful response files.comments.delete method
-public type FilesCommentsDeleteResponse record {|
-    OkTrueDef ok;
+public type ConversationObjDisplayCounts1 record {|
+    @jsondata:Name {value: "display_counts"}
+    int displayCounts;
+    @jsondata:Name {value: "guest_counts"}
+    int guestCounts;
 |};
 
-# Schema for successful response from dnd.endSnooze method
-public type DndEndSnoozeResponse record {|
-    boolean dnd_enabled;
-    int next_dnd_end_ts;
-    int next_dnd_start_ts;
-    OkTrueDef ok;
-    boolean snooze_enabled;
-|};
-
-public type Message\ object record {
-    record {}[] attachments?;
-    record {} blocks?;
-    string text;
+# Represents the Queries record for the operation: admin_teams_admins_list
+public type AdminTeamsAdminsListQueries record {
+    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
+    string cursor?;
+    # The maximum number of items to return
+    int 'limit?;
+    @http:Query {name: "team_id"}
+    string teamId;
 };
 
-public type usergroups_update_body record {
-    # A comma separated string of encoded channel IDs for which the User Group uses as a default.
-    string channels?;
-    # A short description of the User Group.
-    string description?;
-    # A mention handle. Must be unique among channels, users and User Groups.
-    string 'handle?;
-    # Include the number of users in the User Group.
-    boolean include_count?;
-    # A name for the User Group. Must be unique among User Groups.
-    string name?;
-    # The encoded ID of the User Group to update.
-    string usergroup;
-};
+public type InlineResponseItems200 '200AnyOf1|'200200AnyOf12;
 
-public type admin_conversations_setConversationPrefs_body record {
-    # The channel to set the prefs for
-    string channel_id;
-    # The prefs for this channel in a stringified JSON format.
-    string prefs;
-};
-
-# Schema for successful response of chat.postMessage method
-public type ChatPostMessageResponse record {|
-    ChannelDef channel;
-    MessageObj message;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse39 record {
     OkTrueDef ok;
-    TsDef ts;
-|};
+};
 
-public type UserObj (anydata)[];
+public type SubteamObjAutoType AutoTypeAnyOf1|AutoTypeAutoTypeAnyOf12?;
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse38 record {
+    OkTrueDef ok;
+};
 
 # Schema for successful response of chat.update method
 public type ChatUpdateResponse record {|
     string channel;
-    Message\ object message;
-    OkTrueDef ok;
     string text;
+    MessageObject message;
+    OkTrueDef ok;
     string ts;
 |};
 
-@constraint:String {pattern: re `^B[A-Z0-9]{8,}$`}
-public type BotIdDef string;
+public type UserObj InlineArrayItemsUserObj[];
 
-# Schema for successful response from users.conversations method. Returned conversation objects do not include `num_members` or `is_member`
-public type UsersConversationsResponse record {
-    ConversationObj[] channels;
-    OkTrueDef ok;
-    AdminConversationsGetTeamsResponse_response_metadata response_metadata?;
+public type ParentConversationAnyOf2 anydata?;
+
+public type InlineArrayItemsUserObj UserObjAnyOf1|UserObjUserObjAnyOf12;
+
+# Represents the Queries record for the operation: dnd_teamInfo
+public type DndTeamInfoQueries record {
+    # Comma-separated list of users to fetch Do Not Disturb status for
+    string users?;
 };
 
-# Represents the Queries record for the operation: views_update
-public type Views_updateQueries record {
-    # A [view object](/reference/surfaces/views). This must be a JSON-encoded string.
-    string view?;
-    # A unique identifier of the view to be updated. Either `view_id` or `external_id` is required.
-    string view_id?;
-    # A unique identifier of the view set by the developer. Must be unique for all views on a team. Max length of 255 characters. Either `view_id` or `external_id` is required.
-    string external_id?;
-    # A string that represents view state to protect against possible race conditions.
-    string hash?;
-};
-
-# Schema for successful response from conversations.open method when opening channels, ims, mpims
-public type ConversationsOpenResponse record {|
-    boolean already_open?;
-    (ConversationObj|record {|string created?; DmIdDef id; boolean is_im?; boolean is_open?; TsDef last_read?; MessageObj latest?; decimal unread_count?; decimal unread_count_display?; UserIdDef user?;|})[] channel;
-    boolean no_op?;
-    OkTrueDef ok;
-|};
-
-# Represents the Queries record for the operation: users_info
-public type Users_infoQueries record {
-    # Set this to `true` to receive the locale for this user. Defaults to `false`
-    boolean include_locale?;
-    # User to get info on
-    string user?;
-};
-
-# Schema for successful response from conversations.invite method
-public type ConversationsInviteErrorResponse record {|
-    ConversationObj channel;
-    OkTrueDef ok;
-|};
-
-public type AppsPermissionsInfoResponse_info_team record {
-    ResourcesObj resources;
-    ScopesObj scopes;
-};
-
-# Generated from users.getPresence with shasum e7251aec575d8863f9e0eb38663ae9dc26655f65
-public type APIMethodUsersGetPresence record {
-    boolean auto_away?;
-    int connection_count?;
-    int last_activity?;
-    boolean manual_away?;
-    OkTrueDef ok;
-    boolean online?;
-    string presence;
-};
-
-public type files_upload_body record {
-    # Comma-separated list of channel names or IDs where the file will be shared.
-    string channels?;
-    # File contents via a POST variable. If omitting this parameter, you must provide a `file`.
-    string content?;
-    # File contents via `multipart/form-data`. If omitting this parameter, you must submit `content`.
-    string file?;
-    # Filename of file.
-    string filename?;
-    # A [file type](/types/file#file_types) identifier.
-    string filetype?;
-    # The message text introducing the file in specified `channels`.
-    string initial_comment?;
-    # Provide another message's `ts` value to upload this file as a reply. Never use a reply's `ts` value; use its parent instead.
-    decimal thread_ts?;
-    # Title of file.
-    string title?;
-    # Authentication token. Requires scope: `files:write:user`
-    string token?;
-};
-
-public type files_delete_body record {
-    # ID of file to delete.
-    string file?;
+# Represents the Queries record for the operation: admin_emoji_list
+public type AdminEmojiListQueries record {
+    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
+    string cursor?;
+    # The maximum number of items to return. Must be between 1 - 1000 both inclusive
+    int 'limit?;
 };
 
 @constraint:String {pattern: re `^[CGD][A-Z0-9]{8,}$`}
 public type ChannelDef string;
 
-public type PinnedInfoDef record {|
-|};
-
-public type MessageObj record {|
-    @constraint:Array {minLength: 1}
-    MessageObj_attachments[] attachments?;
-    blocks blocks?;
-    (anydata)[] bot_id?;
-    BotProfileObj bot_profile?;
-    string client_msg_id?;
-    CommentObj comment?;
-    boolean display_as_bot?;
-    FileObj file?;
-    @constraint:Array {minLength: 1}
-    FileObj[] files?;
-    MessageObj_icons icons?;
-    UserIdDef inviter?;
-    boolean is_delayed_message?;
-    boolean is_intro?;
-    boolean is_starred?;
-    TsDef last_read?;
-    TsDef latest_reply?;
-    string name?;
-    string old_name?;
-    UserIdDef parent_user_id?;
-    string permalink?;
-    ChannelDef[] pinned_to?;
-    string purpose?;
-    ReactionObj[] reactions?;
-    int reply_count?;
-    @constraint:Array {minLength: 1}
-    UserIdDef[] reply_users?;
-    int reply_users_count?;
-    WorkspaceIdDef source_team?;
-    boolean subscribed?;
-    string subtype?;
-    WorkspaceIdDef team?;
-    string text;
-    TsDef thread_ts?;
-    string topic?;
-    TsDef ts;
-    string 'type;
-    int unread_count?;
-    boolean upload?;
-    UserIdDef user?;
-    UserProfileShortObj user_profile?;
-    WorkspaceIdDef user_team?;
-    string username?;
-|};
-
 @constraint:String {pattern: re `^(A[A-Z0-9]{1,})?$`}
 public type OptionalAppIdDef string;
 
-# Schema for successful response from users.info method
-public type UsersInfoResponse record {
-    OkTrueDef ok;
-    UserObj user;
+public type ConversationsLeaveBody record {
+    # Conversation to leave
+    string channel?;
+};
+
+# Represents the Queries record for the operation: admin_conversations_getConversationPrefs
+public type AdminConversationsGetConversationPrefsQueries record {
+    # The channel to get preferences for
+    @http:Query {name: "channel_id"}
+    string channelId;
 };
 
 # Schema for successful response api.test method
@@ -2396,15 +4148,9 @@ public type ApiTestResponse record {|
     record {}...;
 |};
 
-public type users_profile_set_body record {
-    # Name of a single key to set. Usable only if `profile` is not passed.
-    string name?;
-    # Collection of key:value pairs presented as a URL-encoded JSON hash. At most 50 fields may be set. Each field name is limited to 255 characters.
-    string profile?;
-    # ID of user to change. This argument may only be specified by team admins on paid teams.
-    string user?;
-    # Value to set a single key to. Usable only if `profile` is not passed.
-    string value?;
+public type AppsPermissionsResourcesListResponseResources record {
+    string id?;
+    string 'type?;
 };
 
 # Schema for successful response from migration.exchange method
@@ -2416,54 +4162,65 @@ public type MigrationExchangeResponse record {
     record {} user_id_map?;
 };
 
-# Represents the Queries record for the operation: api_test
-public type Api_testQueries record {
-    # example property to return
-    string foo?;
+# Represents the Queries record for the operation: team_info
+public type TeamInfoQueries record {
+    # Team to get info on, if omitted, will return information about the current team. Will only return team that the authenticated token is allowed to see through external shared channels
+    string team?;
 };
 
-public type admin_conversations_restrictAccess_addGroup_body record {
-    # The channel to link this group to.
-    string channel_id;
-    # The [IDP Group](https://slack.com/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-Grid-org) ID to be an allowlist for the private channel.
-    string group_id;
-    # The workspace where the channel exists. This argument is required for channels only tied to one workspace, and optional for channels that are shared across an organization.
-    string team_id?;
-    # Authentication token. Requires scope: `admin.conversations:write`
-    string token;
+# Represents the Queries record for the operation: apps_permissions_users_list
+public type AppsPermissionsUsersListQueries record {
+    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail
+    string cursor?;
+    # The maximum number of items to return
+    int 'limit?;
 };
-
-# Schema for successful response from stars.remove method
-public type StarsRemoveResponse record {|
-    OkTrueDef ok;
-|};
-
-# Schema for successful response from usergroups.disable method
-public type UsergroupsDisableResponse record {|
-    OkTrueDef ok;
-    SubteamObj usergroup;
-|};
 
 # Schema for successful response from usergroups.list method
 public type UsergroupsListResponse record {|
-    OkTrueDef ok;
     SubteamObj[] usergroups;
+    OkTrueDef ok;
 |};
+
+public type ChatDeleteBody record {
+    # Pass true to delete the message as the authed user with `chat:write:user` scope. [Bot users](/bot-users) in this context are considered authed users. If unused or false, the message will be deleted with `chat:write:bot` scope
+    @jsondata:Name {value: "as_user"}
+    boolean asUser?;
+    # Channel containing the message to be deleted
+    string channel?;
+    # Timestamp of the message to be deleted
+    decimal ts?;
+};
 
 # Schema for successful response from conversations.history method
 public type ConversationsHistoryResponse record {|
-    int channel_actions_count;
-    (anydata)[] channel_actions_ts;
-    boolean has_more;
+    @jsondata:Name {value: "channel_actions_count"}
+    int channelActionsCount;
+    @jsondata:Name {value: "pin_count"}
+    int pinCount;
     @constraint:Array {minLength: 1}
     MessageObj[] messages;
+    @jsondata:Name {value: "channel_actions_ts"}
+    ConversationsHistoryResponseChannelActionsTs[] channelActionsTs;
+    @jsondata:Name {value: "has_more"}
+    boolean hasMore;
     OkTrueDef ok;
-    int pin_count;
 |};
 
-# Represents the Queries record for the operation: admin_teams_settings_info
-public type Admin_teams_settings_infoQueries record {
-    string team_id;
+public type UsersSetPhotoBody record {
+    # Y coordinate of top-left corner of crop box
+    @jsondata:Name {value: "crop_y"}
+    string cropY?;
+    # File contents via `multipart/form-data`
+    string image?;
+    # Width/height of crop box (always square)
+    @jsondata:Name {value: "crop_w"}
+    string cropW?;
+    # X coordinate of top-left corner of crop box
+    @jsondata:Name {value: "crop_x"}
+    string cropX?;
+    # Authentication token. Requires scope: `users.profile:write`
+    string token;
 };
 
 # Schema for successful response from dnd.endDnd method
@@ -2471,177 +4228,167 @@ public type DndEndDndResponse record {|
     OkTrueDef ok;
 |};
 
-# Schema for successful response from conversations.leave method
-public type ConversationsLeaveResponse record {|
-    true not_in_channel?;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse15 record {
     OkTrueDef ok;
-|};
-
-public type chat_delete_body record {
-    # Pass true to delete the message as the authed user with `chat:write:user` scope. [Bot users](/bot-users) in this context are considered authed users. If unused or false, the message will be deleted with `chat:write:bot` scope.
-    boolean as_user?;
-    # Channel containing the message to be deleted.
-    string channel?;
-    # Timestamp of the message to be deleted.
-    decimal ts?;
 };
 
-# Schema for successful response from files.list method
-public type FilesListResponse record {|
-    FileObj[] files;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse14 record {
     OkTrueDef ok;
-    PagingObj paging;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse13 record {
+    OkTrueDef ok;
+};
+
+# Schema for successful response from conversations.leave method
+public type ConversationsLeaveResponse record {|
+    OkTrueDef ok;
+    @jsondata:Name {value: "not_in_channel"}
+    true notInChannel?;
 |};
 
-public type ChatScheduledMessagesListResponse_scheduled_messages record {|
-    ChannelIdDef channel_id;
-    int date_created;
-    @constraint:String {pattern: re `^[Q][A-Z0-9]{8,}$`}
-    string id;
-    int post_at;
-    string text?;
-|};
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse12 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse11 record {
+    OkTrueDef ok;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse10 record {
+    OkTrueDef ok;
+};
+
+public type DndSetSnoozeBody record {
+    # Number of minutes, from now, to snooze until
+    @jsondata:Name {value: "num_minutes"}
+    string numMinutes;
+    # Authentication token. Requires scope: `dnd:write`
+    string token;
+};
+
+public type ConversationsCreateBody record {
+    # Create a private channel instead of a public one
+    @jsondata:Name {value: "is_private"}
+    boolean isPrivate?;
+    # Name of the public or private channel to create
+    string name?;
+};
+
+# Represents the Queries record for the operation: chat_scheduledMessages_list
+public type ChatScheduledMessagesListQueries record {
+    # For pagination purposes, this is the `cursor` value returned from a previous call to `chat.scheduledmessages.list` indicating where you want to start this call from
+    string cursor?;
+    # A UNIX timestamp of the oldest value in the time range
+    decimal oldest?;
+    # The channel of the scheduled messages
+    string channel?;
+    # Maximum number of original entries to return
+    int 'limit?;
+    # A UNIX timestamp of the latest value in the time range
+    decimal latest?;
+};
+
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse19 record {
+    OkTrueDef ok;
+};
 
 # Schema for successful response from rtm.connect method
 public type RtmConnectResponse record {|
+    RtmConnectResponseSelf self;
+    RtmConnectResponseTeam team;
     OkTrueDef ok;
-    RtmConnectResponse_self self;
-    RtmConnectResponse_team team;
     string url;
 |};
 
-# This method either only returns a brief _OK_ response or a verbose schema is not available for this method.
-public type DefaultSuccessResponse record {
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse18 record {
     OkTrueDef ok;
 };
 
-# Represents the Queries record for the operation: users_list
-public type Users_listQueries record {
-    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
-    string cursor?;
-    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached. Providing no `limit` value will result in Slack attempting to deliver you the entire result set. If the collection is too large you may experience `limit_required` or HTTP 500 errors.
-    int 'limit?;
-    # Set this to `true` to receive the locale for users. Defaults to `false`
-    boolean include_locale?;
-};
-
-# Schema for successful response from reminders.list method
-public type RemindersListResponse record {|
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse17 record {
     OkTrueDef ok;
-    ReminderObj[] reminders;
-|};
-
-# Represents the Queries record for the operation: admin_teams_owners_list
-public type Admin_teams_owners_listQueries record {
-    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
-    string cursor?;
-    # The maximum number of items to return. Must be between 1 - 1000 both inclusive.
-    int 'limit?;
-    string team_id;
 };
 
-public type admin_conversations_convertToPrivate_body record {
-    # The channel to convert to private.
-    string channel_id;
+# This method either only returns a brief _OK_ response or a verbose schema is not available for this method
+public type DefaultSuccessResponse16 record {
+    OkTrueDef ok;
 };
 
 @constraint:String {pattern: re `^[TE][A-Z0-9]{8,}$`}
 public type WorkspaceIdDef string;
 
-public type admin_users_session_reset_body record {
-    # Only expire mobile sessions (default: false)
-    boolean mobile_only?;
-    # The ID of the user to wipe sessions for
-    string user_id;
-    # Only expire web sessions (default: false)
-    boolean web_only?;
-};
+public type ConversationObjLatest2 MessageObj|LatestAnyOf23?;
 
-# Represents the Queries record for the operation: users_lookupByEmail
-public type Users_lookupByEmailQueries record {
-    # An email address belonging to a user in the workspace
-    string email;
+public type ConversationObjLatest1 MessageObj|LatestAnyOf22?;
+
+public type AdminConversationsInviteBody record {
+    # The users to invite
+    @jsondata:Name {value: "user_ids"}
+    string userIds;
+    # The channel that the users will be invited to
+    @jsondata:Name {value: "channel_id"}
+    string channelId;
 };
 
 # Schema for successful response from apps.permissions.info method
 public type AppsPermissionsInfoResponse record {|
-    AppsPermissionsInfoResponse_info info;
     OkTrueDef ok;
+    AppsPermissionsInfoResponseInfo info;
 |};
-
-# Represents the Queries record for the operation: admin_conversations_ekm_listOriginalConnectedChannelInfo
-public type Admin_conversations_ekm_listOriginalConnectedChannelInfoQueries record {
-    # A comma-separated list of channels to filter to.
-    string channel_ids?;
-    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
-    string cursor?;
-    # A comma-separated list of the workspaces to which the channels you would like returned belong.
-    string team_ids?;
-    # The maximum number of items to return. Must be between 1 - 1000 both inclusive.
-    int 'limit?;
-};
-
-@constraint:String {pattern: re `^[UW][A-Z0-9]{2,}$`}
-public type UserIdDef string;
 
 @constraint:String {pattern: re `^[G][A-Z0-9]{8,}$`}
 public type GroupIdDef string;
 
-public type admin_emoji_add_body record {
-    # The name of the emoji to be removed. Colons (`:myemoji:`) around the value are not required, although they may be included.
-    string name;
-    # Authentication token. Requires scope: `admin.teams:write`
-    string token;
-    # The URL of a file to use as an image for the emoji. Square images under 128KB and with transparent backgrounds work best.
-    string url;
-};
+public type TeamObjDiscoverable DiscoverableAnyOf1|DiscoverableDiscoverableAnyOf12?;
 
 # Schema for successful response from reminders.add method
 public type RemindersAddResponse record {|
-    OkTrueDef ok;
     ReminderObj reminder;
+    OkTrueDef ok;
 |};
-
-# Represents the Queries record for the operation: views_publish
-public type Views_publishQueries record {
-    # A [view payload](/reference/surfaces/views). This must be a JSON-encoded string.
-    string view;
-    # `id` of the user you want publish a view to.
-    string user_id;
-    # A string that represents view state to protect against possible race conditions.
-    string hash?;
-};
 
 # Schema for successful response of admin.conversations.getTeams
 public type AdminConversationsGetTeamsResponse record {|
+    @jsondata:Name {value: "team_ids"}
+    TeamDef[] teamIds;
+    @jsondata:Name {value: "response_metadata"}
+    AdminConversationsGetTeamsResponseResponseMetadata responseMetadata?;
     OkTrueDef ok;
-    AdminConversationsGetTeamsResponse_response_metadata response_metadata?;
-    TeamDef[] team_ids;
 |};
 
-# Represents the Queries record for the operation: admin_usergroups_listChannels
-public type Admin_usergroups_listChannelsQueries record {
-    # Flag to include or exclude the count of members per channel.
-    boolean include_num_members?;
-    # ID of the IDP group to list default channels for.
-    string usergroup_id;
-    # ID of the the workspace.
-    string team_id?;
+public type FilesRevokePublicURLBody record {
+    # File to revoke
+    string file?;
 };
 
-public type ApiPermissionsScopesListResponse_scopes record {
-    ScopesObj app_home?;
-    ScopesObj channel?;
-    ScopesObj group?;
-    ScopesObj im?;
-    ScopesObj mpim?;
-    ScopesObj team?;
-    ScopesObj user?;
+public type FilesRemoteRemoveBody record {
+    # Specify a file by providing its ID
+    string file?;
+    # Creator defined GUID for the file
+    @jsondata:Name {value: "external_id"}
+    string externalId?;
+    # Authentication token. Requires scope: `remote_files:write`
+    string token?;
 };
 
-public type admin_conversations_delete_body record {
-    # The channel to delete.
-    string channel_id;
+# Represents the Queries record for the operation: apps_permissions_users_request
+public type AppsPermissionsUsersRequestQueries record {
+    # Token used to trigger the request
+    @http:Query {name: "trigger_id"}
+    string triggerId;
+    # A comma separated list of user scopes to request for
+    string scopes;
+    # The user this scope is being requested for
+    string user;
 };
 
 public type ReactionObj record {
@@ -2650,132 +4397,83 @@ public type ReactionObj record {
     UserIdDef[] users;
 };
 
-public type admin_conversations_unarchive_body record {
-    # The channel to unarchive.
-    string channel_id;
-};
+public type '200Items FilePin|MessagePin;
 
-public type admin_users_setAdmin_body record {
-    # The ID (`T1234`) of the workspace.
-    string team_id;
-    # The ID of the user to designate as an admin.
-    string user_id;
-};
+# enterprise user
+public type UserObjUserObjAnyOf12 record {|
+    # refercing to bug: https://jira.tinyspeck.com/browse/EVALUE-1559
+    @constraint:String {pattern: re `^([a-fA-F0-9]{6})?$`}
+    string color?;
+    @jsondata:Name {value: "has_2fa"}
+    boolean has2fa?;
+    @jsondata:Name {value: "is_restricted"}
+    boolean isRestricted?;
+    UserObjTz1[] tz?;
+    @jsondata:Name {value: "tz_label"}
+    string tzLabel?;
+    @jsondata:Name {value: "is_primary_owner"}
+    boolean isPrimaryOwner?;
+    @jsondata:Name {value: "team_profile"}
+    UserObjTeamProfile1 teamProfile?;
+    @jsondata:Name {value: "real_name"}
+    string realName?;
+    @jsondata:Name {value: "team_id"}
+    WorkspaceIdDef teamId?;
+    string locale?;
+    @jsondata:Name {value: "is_admin"}
+    boolean isAdmin?;
+    @jsondata:Name {value: "is_app_user"}
+    boolean isAppUser;
+    @jsondata:Name {value: "tz_offset"}
+    decimal tzOffset?;
+    @jsondata:Name {value: "is_stranger"}
+    boolean isStranger?;
+    @jsondata:Name {value: "is_forgotten"}
+    boolean isForgotten?;
+    UserIdDef id;
+    @jsondata:Name {value: "is_bot"}
+    boolean isBot;
+    string presence?;
+    @jsondata:Name {value: "is_ultra_restricted"}
+    boolean isUltraRestricted?;
+    @constraint:Array {minLength: 1}
+    WorkspaceIdDef[] teams?;
+    @jsondata:Name {value: "is_owner"}
+    boolean isOwner?;
+    UserProfileObj profile;
+    @jsondata:Name {value: "is_external"}
+    boolean isExternal?;
+    @jsondata:Name {value: "enterprise_user"}
+    EnterpriseUserObj enterpriseUser?;
+    boolean deleted?;
+    @jsondata:Name {value: "two_factor_type"}
+    string twoFactorType?;
+    string name;
+    decimal updated;
+|};
 
 # Schema for successful response from team.profile.get method
 public type TeamProfileGetResponse record {|
+    TeamProfileGetResponseProfile profile;
     OkTrueDef ok;
-    TeamProfileGetResponse_profile profile;
 |};
 
-# Schema for successful response apps.permissions.resources.list method
-public type AppsPermissionsResourcesListResponse record {
+public type TeamProfileFieldObjOptions OptionsAnyOf1|TeamProfileFieldOptionObj?;
+
+public type InlineArrayItemsResponseMetadataObj NewPagingStyle|DeprecationWarning|DeprecationWarningAndPagingStyleTogether;
+
+# Schema for successful response conversations.kick method
+public type ConversationsKickResponse record {|
     OkTrueDef ok;
-    AppsPermissionsResourcesListResponse_resources[] resources;
-    AppsPermissionsResourcesListResponse_response_metadata response_metadata?;
-};
+|};
 
-public type files_revokePublicURL_body record {
-    # File to revoke
-    string file?;
-};
-
-# Represents the Queries record for the operation: team_integrationLogs
-public type Team_integrationLogsQueries record {
-    # Filter logs to this service. Defaults to all logs.
-    string service_id?;
-    string count?;
-    # Filter logs with this change type. Defaults to all logs.
-    string change_type?;
-    string page?;
-    # Filter logs to this Slack app. Defaults to all logs.
-    string app_id?;
-    # Filter logs generated by this user’s actions. Defaults to all logs.
+public type RemindersAddBody record {
+    # The content of the reminder
+    string text;
+    # When this reminder should happen: the Unix timestamp (up to five years from now), the number of seconds until the reminder (if within 24 hours), or a natural language description (Ex. "in 15 minutes," or "every Thursday")
+    string time;
+    # The user who will receive the reminder. If no user is specified, the reminder will go to user who created it
     string user?;
-};
-
-@constraint:String {pattern: re `^S[A-Z0-9]{2,}$`}
-public type SubteamIdDef string;
-
-# Proxy server configurations to be used with the HTTP client endpoint.
-public type ProxyConfig record {|
-    # Host name of the proxy server
-    string host = "";
-    # Proxy server port
-    int port = 0;
-    # Proxy server username
-    string userName = "";
-    # Proxy server password
-    @display {label: "", kind: "password"}
-    string password = "";
-|};
-
-public type ConversationObjItemsnull anydata;
-
-# Represents the Queries record for the operation: views_open
-public type Views_openQueries record {
-    # A [view payload](/reference/surfaces/views). This must be a JSON-encoded string.
-    string view;
-    # Exchange a trigger to post to the user.
-    string trigger_id;
-};
-
-public type usergroups_create_body record {
-    # A comma separated string of encoded channel IDs for which the User Group uses as a default.
-    string channels?;
-    # A short description of the User Group.
-    string description?;
-    # A mention handle. Must be unique among channels, users and User Groups.
-    string 'handle?;
-    # Include the number of users in each User Group.
-    boolean include_count?;
-    # A name for the User Group. Must be unique among User Groups.
-    string name;
-};
-
-public type dnd_setSnooze_body record {
-    # Number of minutes, from now, to snooze until.
-    string num_minutes;
-    # Authentication token. Requires scope: `dnd:write`
-    string token;
-};
-
-# Schema for successful response conversations.mark method
-public type ConversationsMarkResponse record {|
-    OkTrueDef ok;
-|};
-
-public type admin_users_invite_body record {
-    # A comma-separated list of `channel_id`s for this user to join. At least one channel is required.
-    string channel_ids;
-    # An optional message to send to the user in the invite email.
-    string custom_message?;
-    # The email address of the person to invite.
-    string email;
-    # Timestamp when guest account should be disabled. Only include this timestamp if you are inviting a guest user and you want their account to expire on a certain date.
-    string guest_expiration_ts?;
-    # Is this user a multi-channel guest user? (default: false)
-    boolean is_restricted?;
-    # Is this user a single channel guest user? (default: false)
-    boolean is_ultra_restricted?;
-    # Full name of the user.
-    string real_name?;
-    # Allow this invite to be resent in the future if a user has not signed up yet. (default: false)
-    boolean resend?;
-    # The ID (`T1234`) of the workspace.
-    string team_id;
-};
-
-# Represents the Queries record for the operation: apps_event_authorizations_list
-public type Apps_event_authorizations_listQueries record {
-    string cursor?;
-    int 'limit?;
-    string event_context;
-};
-
-public type users_setPresence_body record {
-    # Either `auto` or `away`
-    string presence;
 };
 
 # Schema for successful response from stars.add method
@@ -2783,156 +4481,35 @@ public type StarsAddResponse record {|
     OkTrueDef ok;
 |};
 
-# Represents the Queries record for the operation: users_profile_get
-public type Users_profile_getQueries record {
-    # Include labels for each ID in custom profile fields
-    boolean include_labels?;
-    # User to retrieve profile info for
-    string user?;
-};
-
-# Schema for successful response conversations.kick method
-public type ConversationsKickResponse record {|
-    OkTrueDef ok;
-|};
-
-# Represents the Queries record for the operation: conversations_replies
-public type Conversations_repliesQueries record {
-    # Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
-    string cursor?;
-    # Include messages with latest or oldest timestamp in results only when either timestamp is specified.
-    boolean inclusive?;
-    # Start of time range of messages to include in results.
-    decimal oldest?;
-    # Conversation ID to fetch thread from.
+public type ConversationsOpenBody record {
+    # Boolean, indicates you want the full IM channel definition in the response
+    @jsondata:Name {value: "return_im"}
+    boolean returnIm?;
+    # Resume a conversation by supplying an `im` or `mpim`'s ID. Or provide the `users` field instead
     string channel?;
-    # The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.
-    int 'limit?;
-    # Unique identifier of a thread's parent message. `ts` must be the timestamp of an existing message with 0 or more replies. If there are no replies then just the single message referenced by `ts` will return - it is just an ordinary, unthreaded message.
-    decimal ts?;
-    # End of time range of messages to include in results.
-    decimal latest?;
+    # Comma separated lists of users. If only one user is included, this creates a 1:1 DM.  The ordering of the users is preserved whenever a multi-person direct message is returned. Supply a `channel` when not supplying `users`
+    string users?;
 };
 
-public type usergroups_enable_body record {
-    # Include the number of users in the User Group.
-    boolean include_count?;
-    # The encoded ID of the User Group to enable.
-    string usergroup;
+# Represents the Queries record for the operation: views_publish
+public type ViewsPublishQueries record {
+    # A [view payload](/reference/surfaces/views). This must be a JSON-encoded string
+    string view;
+    # `id` of the user you want publish a view to
+    @http:Query {name: "user_id"}
+    string userId;
+    # A string that represents view state to protect against possible race conditions
+    string hash?;
 };
 
-public type AdminConversationsGetConversationPrefsResponse_prefs record {
-    AdminConversationsGetConversationPrefsResponse_prefs_can_thread can_thread?;
-    AdminConversationsGetConversationPrefsResponse_prefs_can_thread who_can_post?;
-};
-
-public type FileObj record {|
-    ChannelIdDef[] channels?;
-    int comments_count?;
-    int created?;
-    int date_delete?;
-    boolean display_as_bot?;
-    boolean editable?;
-    UserIdDef editor?;
-    string external_id?;
-    string external_type?;
-    string external_url?;
-    string filetype?;
-    GroupIdDef[] groups?;
-    boolean has_rich_preview?;
-    FileIdDef id?;
-    int image_exif_rotation?;
-    DmIdDef[] ims?;
-    boolean is_external?;
-    boolean is_public?;
-    boolean is_starred?;
-    boolean is_tombstoned?;
-    UserIdDef last_editor?;
-    string mimetype?;
-    string mode?;
-    string name?;
-    boolean non_owner_editable?;
-    int num_stars?;
-    int original_h?;
-    int original_w?;
-    string permalink?;
-    string permalink_public?;
-    PinnedInfoDef pinned_info?;
-    ChannelDef[] pinned_to?;
-    string pretty_type?;
-    string preview?;
-    boolean public_url_shared?;
-    ReactionObj[] reactions?;
-    FileObj_shares shares?;
-    int size?;
-    TeamDef source_team?;
-    string state?;
-    string thumb_1024?;
-    int thumb_1024_h?;
-    int thumb_1024_w?;
-    string thumb_160?;
-    string thumb_360?;
-    int thumb_360_h?;
-    int thumb_360_w?;
-    string thumb_480?;
-    int thumb_480_h?;
-    int thumb_480_w?;
-    string thumb_64?;
-    string thumb_720?;
-    int thumb_720_h?;
-    int thumb_720_w?;
-    string thumb_80?;
-    string thumb_800?;
-    int thumb_800_h?;
-    int thumb_800_w?;
-    string thumb_960?;
-    int thumb_960_h?;
-    int thumb_960_w?;
-    string thumb_tiny?;
-    int timestamp?;
-    string title?;
-    int updated?;
-    string url_private?;
-    string url_private_download?;
-    string user?;
-    TeamDef user_team?;
-    string username?;
-|};
-
-# Schema for successful response from conversations.setTopic method
-public type ConversationsSetTopicResponse record {|
-    ConversationObj channel;
-    OkTrueDef ok;
-|};
-
-# Schema for successful response auth.test method
-public type AuthTestResponse record {|
-    BotIdDef bot_id?;
-    boolean is_enterprise_install?;
-    OkTrueDef ok;
-    string team;
-    TeamDef team_id;
-    string url;
-    string user;
-    UserIdDef user_id;
-|};
-
-# Represents the Queries record for the operation: admin_teams_list
-public type Admin_teams_listQueries record {
-    # Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
-    string cursor?;
-    # The maximum number of items to return. Must be between 1 - 100 both inclusive.
-    int 'limit?;
-};
-
-# Schema for successful response files.upload method
-public type FilesUploadResponse record {|
+# Schema for successful response from files.sharedPublicURL method
+public type FilesSharedPublicURLResponse record {|
     FileObj file;
     OkTrueDef ok;
 |};
 
-# Schema for successful response from files.sharedPublicURL method
-public type FilesSharedPublicURLResponse record {|
+# Schema for successful response files.upload method
+public type FilesUploadResponse record {|
     FileObj file;
     OkTrueDef ok;
 |};

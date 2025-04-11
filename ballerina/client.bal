@@ -17,6 +17,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/data.jsondata;
 import ballerina/http;
 
 # One way to interact with the Slack platform is its HTTP RPC-based Web API, a collection of methods requiring OAuth 2.0-based user, bot, or workspace tokens blessed with related OAuth scopes.
@@ -28,148 +29,430 @@ public isolated client class Client {
     # + serviceUrl - URL of the target service 
     # + return - An error if connector initialization failed 
     public isolated function init(ConnectionConfig config, string serviceUrl = "https://slack.com/api") returns error? {
-        http:ClientConfiguration httpClientConfig = {auth: config.auth, httpVersion: config.httpVersion, timeout: config.timeout, forwarded: config.forwarded, poolConfig: config.poolConfig, compression: config.compression, circuitBreaker: config.circuitBreaker, retryConfig: config.retryConfig, validation: config.validation};
-        do {
-            if config.http1Settings is ClientHttp1Settings {
-                ClientHttp1Settings settings = check config.http1Settings.ensureType(ClientHttp1Settings);
-                httpClientConfig.http1Settings = {...settings};
-            }
-            if config.http2Settings is http:ClientHttp2Settings {
-                httpClientConfig.http2Settings = check config.http2Settings.ensureType(http:ClientHttp2Settings);
-            }
-            if config.cache is http:CacheConfig {
-                httpClientConfig.cache = check config.cache.ensureType(http:CacheConfig);
-            }
-            if config.responseLimits is http:ResponseLimitConfigs {
-                httpClientConfig.responseLimits = check config.responseLimits.ensureType(http:ResponseLimitConfigs);
-            }
-            if config.secureSocket is http:ClientSecureSocket {
-                httpClientConfig.secureSocket = check config.secureSocket.ensureType(http:ClientSecureSocket);
-            }
-            if config.proxy is http:ProxyConfig {
-                httpClientConfig.proxy = check config.proxy.ensureType(http:ProxyConfig);
-            }
-        }
-        http:Client httpEp = check new (serviceUrl, httpClientConfig);
-        self.clientEp = httpEp;
-        return;
+        http:ClientConfiguration httpClientConfig = {auth: config.auth, httpVersion: config.httpVersion, http1Settings: config.http1Settings, http2Settings: config.http2Settings, timeout: config.timeout, forwarded: config.forwarded, followRedirects: config.followRedirects, poolConfig: config.poolConfig, cache: config.cache, compression: config.compression, circuitBreaker: config.circuitBreaker, retryConfig: config.retryConfig, cookieConfig: config.cookieConfig, responseLimits: config.responseLimits, secureSocket: config.secureSocket, proxy: config.proxy, socketConfig: config.socketConfig, validation: config.validation, laxDataBinding: config.laxDataBinding};
+        self.clientEp = check new (serviceUrl, httpClientConfig);
     }
 
-    resource isolated function get admin\.apps\.approved\.list(map<string|string[]> headers = {}, *Admin_apps_approved_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function post admin\.apps\.approve(AdminAppsApproveBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
+        string resourcePath = string `/admin.apps.approve`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get admin\.apps\.approved\.list(map<string|string[]> headers = {}, *AdminAppsApprovedListQueries queries) returns DefaultSuccessResponse1|error {
         string resourcePath = string `/admin.apps.approved.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.apps\.requests\.list(map<string|string[]> headers = {}, *Admin_apps_requests_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function get admin\.apps\.requests\.list(map<string|string[]> headers = {}, *AdminAppsRequestsListQueries queries) returns DefaultSuccessResponse2|error {
         string resourcePath = string `/admin.apps.requests.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.apps\.restricted\.list(map<string|string[]> headers = {}, *Admin_apps_restricted_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function post admin\.apps\.restrict(AdminAppsRestrictBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse3|error {
+        string resourcePath = string `/admin.apps.restrict`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get admin\.apps\.restricted\.list(map<string|string[]> headers = {}, *AdminAppsRestrictedListQueries queries) returns DefaultSuccessResponse4|error {
         string resourcePath = string `/admin.apps.restricted.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.conversations\.ekm\.listOriginalConnectedChannelInfo(map<string|string[]> headers = {}, *Admin_conversations_ekm_listOriginalConnectedChannelInfoQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function post admin\.conversations\.archive(AdminConversationsArchiveBody payload, map<string|string[]> headers = {}) returns AdminConversationsArchiveResponse|error {
+        string resourcePath = string `/admin.conversations.archive`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.conversations\.convertToPrivate(AdminConversationsConvertToPrivateBody payload, map<string|string[]> headers = {}) returns AdminConversationsConvertToPrivateResponse|error {
+        string resourcePath = string `/admin.conversations.convertToPrivate`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.conversations\.create(AdminConversationsCreateBody payload, map<string|string[]> headers = {}) returns AdminConversationsCreateResponse|error {
+        string resourcePath = string `/admin.conversations.create`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.conversations\.delete(AdminConversationsDeleteBody payload, map<string|string[]> headers = {}) returns AdminConversationsDeleteResponse|error {
+        string resourcePath = string `/admin.conversations.delete`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.conversations\.disconnectShared(AdminConversationsDisconnectSharedBody payload, map<string|string[]> headers = {}) returns AdminConversationsRenameResponse|error {
+        string resourcePath = string `/admin.conversations.disconnectShared`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get admin\.conversations\.ekm\.listOriginalConnectedChannelInfo(map<string|string[]> headers = {}, *AdminConversationsEkmListOriginalConnectedChannelInfoQueries queries) returns DefaultSuccessResponse5|error {
         string resourcePath = string `/admin.conversations.ekm.listOriginalConnectedChannelInfo`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.conversations\.getConversationPrefs(map<string|string[]> headers = {}, *Admin_conversations_getConversationPrefsQueries queries) returns AdminConversationsGetConversationPrefsResponse|error {
+    resource isolated function get admin\.conversations\.getConversationPrefs(map<string|string[]> headers = {}, *AdminConversationsGetConversationPrefsQueries queries) returns AdminConversationsGetConversationPrefsResponse|error {
         string resourcePath = string `/admin.conversations.getConversationPrefs`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.conversations\.getTeams(map<string|string[]> headers = {}, *Admin_conversations_getTeamsQueries queries) returns AdminConversationsGetTeamsResponse|error {
+    resource isolated function get admin\.conversations\.getTeams(map<string|string[]> headers = {}, *AdminConversationsGetTeamsQueries queries) returns AdminConversationsGetTeamsResponse|error {
         string resourcePath = string `/admin.conversations.getTeams`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.conversations\.restrictAccess\.listGroups(map<string|string[]> headers = {}, *Admin_conversations_restrictAccess_listGroupsQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function post admin\.conversations\.invite(AdminConversationsInviteBody payload, map<string|string[]> headers = {}) returns AdminConversationsInviteResponse|error {
+        string resourcePath = string `/admin.conversations.invite`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.conversations\.rename(AdminConversationsRenameBody payload, map<string|string[]> headers = {}) returns AdminConversationsRenameResponse1|error {
+        string resourcePath = string `/admin.conversations.rename`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.conversations\.restrictAccess\.addGroup(AdminConversationsRestrictAccessAddGroupBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse6|error {
+        string resourcePath = string `/admin.conversations.restrictAccess.addGroup`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get admin\.conversations\.restrictAccess\.listGroups(map<string|string[]> headers = {}, *AdminConversationsRestrictAccessListGroupsQueries queries) returns DefaultSuccessResponse7|error {
         string resourcePath = string `/admin.conversations.restrictAccess.listGroups`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.conversations\.search(map<string|string[]> headers = {}, *Admin_conversations_searchQueries queries) returns AdminConversationsSearchResponse|error {
+    resource isolated function post admin\.conversations\.restrictAccess\.removeGroup(AdminConversationsRestrictAccessRemoveGroupBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse8|error {
+        string resourcePath = string `/admin.conversations.restrictAccess.removeGroup`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get admin\.conversations\.search(map<string|string[]> headers = {}, *AdminConversationsSearchQueries queries) returns AdminConversationsSearchResponse|error {
         string resourcePath = string `/admin.conversations.search`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.emoji\.list(map<string|string[]> headers = {}, *Admin_emoji_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function post admin\.conversations\.setConversationPrefs(AdminConversationsSetConversationPrefsBody payload, map<string|string[]> headers = {}) returns AdminConversationsSetConversationPrefsResponse|error {
+        string resourcePath = string `/admin.conversations.setConversationPrefs`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.conversations\.setTeams(AdminConversationsSetTeamsBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse9|error {
+        string resourcePath = string `/admin.conversations.setTeams`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.conversations\.unarchive(AdminConversationsUnarchiveBody payload, map<string|string[]> headers = {}) returns AdminConversationsUnarchiveResponse|error {
+        string resourcePath = string `/admin.conversations.unarchive`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.emoji\.add(AdminEmojiAddBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse10|error {
+        string resourcePath = string `/admin.emoji.add`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.emoji\.addAlias(AdminEmojiAddAliasBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse11|error {
+        string resourcePath = string `/admin.emoji.addAlias`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get admin\.emoji\.list(map<string|string[]> headers = {}, *AdminEmojiListQueries queries) returns DefaultSuccessResponse12|error {
         string resourcePath = string `/admin.emoji.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.inviteRequests\.approved\.list(map<string|string[]> headers = {}, *Admin_inviteRequests_approved_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function post admin\.emoji\.remove(AdminEmojiRemoveBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse13|error {
+        string resourcePath = string `/admin.emoji.remove`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.emoji\.rename(AdminEmojiRenameBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse14|error {
+        string resourcePath = string `/admin.emoji.rename`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.inviteRequests\.approve(record {string invite_request_id; string team_id?;} payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse15|error {
+        string resourcePath = string `/admin.inviteRequests.approve`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get admin\.inviteRequests\.approved\.list(map<string|string[]> headers = {}, *AdminInviteRequestsApprovedListQueries queries) returns DefaultSuccessResponse16|error {
         string resourcePath = string `/admin.inviteRequests.approved.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.inviteRequests\.denied\.list(map<string|string[]> headers = {}, *Admin_inviteRequests_denied_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function get admin\.inviteRequests\.denied\.list(map<string|string[]> headers = {}, *AdminInviteRequestsDeniedListQueries queries) returns DefaultSuccessResponse17|error {
         string resourcePath = string `/admin.inviteRequests.denied.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.inviteRequests\.list(map<string|string[]> headers = {}, *Admin_inviteRequests_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function post admin\.inviteRequests\.deny(record {string invite_request_id; string team_id?;} payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse18|error {
+        string resourcePath = string `/admin.inviteRequests.deny`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get admin\.inviteRequests\.list(map<string|string[]> headers = {}, *AdminInviteRequestsListQueries queries) returns DefaultSuccessResponse19|error {
         string resourcePath = string `/admin.inviteRequests.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.teams\.admins\.list(map<string|string[]> headers = {}, *Admin_teams_admins_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function get admin\.teams\.admins\.list(map<string|string[]> headers = {}, *AdminTeamsAdminsListQueries queries) returns DefaultSuccessResponse20|error {
         string resourcePath = string `/admin.teams.admins.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.teams\.list(map<string|string[]> headers = {}, *Admin_teams_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function post admin\.teams\.create(AdminTeamsCreateBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse21|error {
+        string resourcePath = string `/admin.teams.create`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get admin\.teams\.list(map<string|string[]> headers = {}, *AdminTeamsListQueries queries) returns DefaultSuccessResponse22|error {
         string resourcePath = string `/admin.teams.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.teams\.owners\.list(map<string|string[]> headers = {}, *Admin_teams_owners_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function get admin\.teams\.owners\.list(map<string|string[]> headers = {}, *AdminTeamsOwnersListQueries queries) returns DefaultSuccessResponse23|error {
         string resourcePath = string `/admin.teams.owners.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.teams\.settings\.info(map<string|string[]> headers = {}, *Admin_teams_settings_infoQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function get admin\.teams\.settings\.info(map<string|string[]> headers = {}, *AdminTeamsSettingsInfoQueries queries) returns DefaultSuccessResponse24|error {
         string resourcePath = string `/admin.teams.settings.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.usergroups\.listChannels(map<string|string[]> headers = {}, *Admin_usergroups_listChannelsQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function post admin\.teams\.settings\.setDefaultChannels(AdminTeamsSettingsSetDefaultChannelsBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse25|error {
+        string resourcePath = string `/admin.teams.settings.setDefaultChannels`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.teams\.settings\.setDescription(AdminTeamsSettingsSetDescriptionBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse26|error {
+        string resourcePath = string `/admin.teams.settings.setDescription`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.teams\.settings\.setDiscoverability(AdminTeamsSettingsSetDiscoverabilityBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse27|error {
+        string resourcePath = string `/admin.teams.settings.setDiscoverability`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.teams\.settings\.setIcon(AdminTeamsSettingsSetIconBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse28|error {
+        string resourcePath = string `/admin.teams.settings.setIcon`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.teams\.settings\.setName(AdminTeamsSettingsSetNameBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse29|error {
+        string resourcePath = string `/admin.teams.settings.setName`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.usergroups\.addChannels(AdminUsergroupsAddChannelsBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse30|error {
+        string resourcePath = string `/admin.usergroups.addChannels`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.usergroups\.addTeams(AdminUsergroupsAddTeamsBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse31|error {
+        string resourcePath = string `/admin.usergroups.addTeams`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get admin\.usergroups\.listChannels(map<string|string[]> headers = {}, *AdminUsergroupsListChannelsQueries queries) returns DefaultSuccessResponse32|error {
         string resourcePath = string `/admin.usergroups.listChannels`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get admin\.users\.list(map<string|string[]> headers = {}, *Admin_users_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function post admin\.usergroups\.removeChannels(AdminUsergroupsRemoveChannelsBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse33|error {
+        string resourcePath = string `/admin.usergroups.removeChannels`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.users\.assign(AdminUsersAssignBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse34|error {
+        string resourcePath = string `/admin.users.assign`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.users\.invite(AdminUsersInviteBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse35|error {
+        string resourcePath = string `/admin.users.invite`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get admin\.users\.list(map<string|string[]> headers = {}, *AdminUsersListQueries queries) returns DefaultSuccessResponse36|error {
         string resourcePath = string `/admin.users.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get api\.test(map<string|string[]> headers = {}, *Api_testQueries queries) returns ApiTestResponse|error {
+    resource isolated function post admin\.users\.remove(AdminUsersRemoveBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse37|error {
+        string resourcePath = string `/admin.users.remove`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.users\.session\.invalidate(AdminUsersSessionInvalidateBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse38|error {
+        string resourcePath = string `/admin.users.session.invalidate`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.users\.session\.reset(AdminUsersSessionResetBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse39|error {
+        string resourcePath = string `/admin.users.session.reset`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.users\.setAdmin(AdminUsersSetAdminBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse40|error {
+        string resourcePath = string `/admin.users.setAdmin`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.users\.setExpiration(AdminUsersSetExpirationBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse41|error {
+        string resourcePath = string `/admin.users.setExpiration`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post admin\.users\.setOwner(AdminUsersSetOwnerBody payload, AdminUsersSetOwnerHeaders headers) returns DefaultSuccessResponse42|error {
+        string resourcePath = string `/admin.users.setOwner`;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headers);
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, httpHeaders);
+    }
+
+    resource isolated function post admin\.users\.setRegular(AdminUsersSetRegularBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse43|error {
+        string resourcePath = string `/admin.users.setRegular`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get api\.test(map<string|string[]> headers = {}, *ApiTestQueries queries) returns ApiTestResponse|error {
         string resourcePath = string `/api.test`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.event\.authorizations\.list(map<string|string[]> headers = {}, *Apps_event_authorizations_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function get apps\.event\.authorizations\.list(map<string|string[]> headers = {}, *AppsEventAuthorizationsListQueries queries) returns DefaultSuccessResponse44|error {
         string resourcePath = string `/apps.event.authorizations.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -180,13 +463,13 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.permissions\.request(map<string|string[]> headers = {}, *Apps_permissions_requestQueries queries) returns AppsPermissionsRequestResponse|error {
+    resource isolated function get apps\.permissions\.request(map<string|string[]> headers = {}, *AppsPermissionsRequestQueries queries) returns AppsPermissionsRequestResponse|error {
         string resourcePath = string `/apps.permissions.request`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.permissions\.resources\.list(map<string|string[]> headers = {}, *Apps_permissions_resources_listQueries queries) returns AppsPermissionsResourcesListResponse|error {
+    resource isolated function get apps\.permissions\.resources\.list(map<string|string[]> headers = {}, *AppsPermissionsResourcesListQueries queries) returns AppsPermissionsResourcesListResponse|error {
         string resourcePath = string `/apps.permissions.resources.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -197,25 +480,25 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.permissions\.users\.list(map<string|string[]> headers = {}, *Apps_permissions_users_listQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function get apps\.permissions\.users\.list(map<string|string[]> headers = {}, *AppsPermissionsUsersListQueries queries) returns DefaultSuccessResponse45|error {
         string resourcePath = string `/apps.permissions.users.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.permissions\.users\.request(map<string|string[]> headers = {}, *Apps_permissions_users_requestQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function get apps\.permissions\.users\.request(map<string|string[]> headers = {}, *AppsPermissionsUsersRequestQueries queries) returns DefaultSuccessResponse46|error {
         string resourcePath = string `/apps.permissions.users.request`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get apps\.uninstall(map<string|string[]> headers = {}, *Apps_uninstallQueries queries) returns AppsUninstallResponse|error {
+    resource isolated function get apps\.uninstall(map<string|string[]> headers = {}, *AppsUninstallQueries queries) returns AppsUninstallResponse|error {
         string resourcePath = string `/apps.uninstall`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get auth\.revoke(map<string|string[]> headers = {}, *Auth_revokeQueries queries) returns AuthRevokeResponse|error {
+    resource isolated function get auth\.revoke(map<string|string[]> headers = {}, *AuthRevokeQueries queries) returns AuthRevokeResponse|error {
         string resourcePath = string `/auth.revoke`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -226,820 +509,272 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get bots\.info(map<string|string[]> headers = {}, *Bots_infoQueries queries) returns BotsInfoResponse|error {
+    resource isolated function get bots\.info(map<string|string[]> headers = {}, *BotsInfoQueries queries) returns BotsInfoResponse|error {
         string resourcePath = string `/bots.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get calls\.info(map<string|string[]> headers = {}, *Calls_infoQueries queries) returns DefaultSuccessResponse|error {
+    resource isolated function post calls\.add(CallsAddBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse47|error {
+        string resourcePath = string `/calls.add`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post calls\.end(CallsEndBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse48|error {
+        string resourcePath = string `/calls.end`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get calls\.info(map<string|string[]> headers = {}, *CallsInfoQueries queries) returns DefaultSuccessResponse49|error {
         string resourcePath = string `/calls.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get chat\.getPermalink(map<string|string[]> headers = {}, *Chat_getPermalinkQueries queries) returns ChatGetPermalinkResponse|error {
+    resource isolated function post calls\.participants\.add(CallsParticipantsAddBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse50|error {
+        string resourcePath = string `/calls.participants.add`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post calls\.participants\.remove(CallsParticipantsRemoveBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse51|error {
+        string resourcePath = string `/calls.participants.remove`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post calls\.update(CallsUpdateBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse52|error {
+        string resourcePath = string `/calls.update`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post chat\.delete(ChatDeleteBody payload, map<string|string[]> headers = {}) returns ChatDeleteResponse|error {
+        string resourcePath = string `/chat.delete`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post chat\.deleteScheduledMessage(ChatDeleteScheduledMessageBody payload, map<string|string[]> headers = {}) returns ChatDeleteScheduledMessageResponse|error {
+        string resourcePath = string `/chat.deleteScheduledMessage`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get chat\.getPermalink(map<string|string[]> headers = {}, *ChatGetPermalinkQueries queries) returns ChatGetPermalinkResponse|error {
         string resourcePath = string `/chat.getPermalink`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get chat\.scheduledMessages\.list(map<string|string[]> headers = {}, *Chat_scheduledMessages_listQueries queries) returns ChatScheduledMessagesListResponse|error {
+    resource isolated function post chat\.meMessage(ChatMeMessageBody payload, map<string|string[]> headers = {}) returns ChatMeMessageResponse|error {
+        string resourcePath = string `/chat.meMessage`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post chat\.postEphemeral(ChatPostEphemeralBody payload, map<string|string[]> headers = {}) returns ChatPostEphemeralResponse|error {
+        string resourcePath = string `/chat.postEphemeral`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post chat\.postMessage(ChatPostMessageBody payload, map<string|string[]> headers = {}) returns ChatPostMessageResponse|error {
+        string resourcePath = string `/chat.postMessage`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post chat\.scheduleMessage(ChatScheduleMessageBody payload, map<string|string[]> headers = {}) returns ChatScheduleMessageResponse|error {
+        string resourcePath = string `/chat.scheduleMessage`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get chat\.scheduledMessages\.list(map<string|string[]> headers = {}, *ChatScheduledMessagesListQueries queries) returns ChatScheduledMessagesListResponse|error {
         string resourcePath = string `/chat.scheduledMessages.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get conversations\.history(map<string|string[]> headers = {}, *Conversations_historyQueries queries) returns ConversationsHistoryResponse|error {
+    resource isolated function post chat\.unfurl(ChatUnfurlBody payload, map<string|string[]> headers = {}) returns ChatUnfurlResponse|error {
+        string resourcePath = string `/chat.unfurl`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post chat\.update(ChatUpdateBody payload, map<string|string[]> headers = {}) returns ChatUpdateResponse|error {
+        string resourcePath = string `/chat.update`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post conversations\.archive(ConversationsArchiveBody payload, map<string|string[]> headers = {}) returns ConversationsArchiveResponse|error {
+        string resourcePath = string `/conversations.archive`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post conversations\.close(ConversationsCloseBody payload, map<string|string[]> headers = {}) returns ConversationsCloseResponse|error {
+        string resourcePath = string `/conversations.close`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post conversations\.create(ConversationsCreateBody payload, map<string|string[]> headers = {}) returns ConversationsCreateResponse|error {
+        string resourcePath = string `/conversations.create`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get conversations\.history(map<string|string[]> headers = {}, *ConversationsHistoryQueries queries) returns ConversationsHistoryResponse|error {
         string resourcePath = string `/conversations.history`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get conversations\.info(map<string|string[]> headers = {}, *Conversations_infoQueries queries) returns ConversationsInfoResponse|error {
+    resource isolated function get conversations\.info(map<string|string[]> headers = {}, *ConversationsInfoQueries queries) returns ConversationsInfoResponse|error {
         string resourcePath = string `/conversations.info`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get conversations\.list(map<string|string[]> headers = {}, *Conversations_listQueries queries) returns ConversationsListResponse|error {
+    resource isolated function post conversations\.invite(ConversationsInviteBody payload, map<string|string[]> headers = {}) returns ConversationsInviteErrorResponse|error {
+        string resourcePath = string `/conversations.invite`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post conversations\.join(ConversationsJoinBody payload, map<string|string[]> headers = {}) returns ConversationsJoinResponse|error {
+        string resourcePath = string `/conversations.join`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post conversations\.kick(ConversationsKickBody payload, map<string|string[]> headers = {}) returns ConversationsKickResponse|error {
+        string resourcePath = string `/conversations.kick`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post conversations\.leave(ConversationsLeaveBody payload, map<string|string[]> headers = {}) returns ConversationsLeaveResponse|error {
+        string resourcePath = string `/conversations.leave`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get conversations\.list(map<string|string[]> headers = {}, *ConversationsListQueries queries) returns ConversationsListResponse|error {
         string resourcePath = string `/conversations.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get conversations\.members(map<string|string[]> headers = {}, *Conversations_membersQueries queries) returns ConversationsMembersResponse|error {
+    resource isolated function post conversations\.mark(ConversationsMarkBody payload, map<string|string[]> headers = {}) returns ConversationsMarkResponse|error {
+        string resourcePath = string `/conversations.mark`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get conversations\.members(map<string|string[]> headers = {}, *ConversationsMembersQueries queries) returns ConversationsMembersResponse|error {
         string resourcePath = string `/conversations.members`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get conversations\.replies(map<string|string[]> headers = {}, *Conversations_repliesQueries queries) returns ConversationsRepliesResponse|error {
+    resource isolated function post conversations\.open(ConversationsOpenBody payload, map<string|string[]> headers = {}) returns ConversationsOpenResponse|error {
+        string resourcePath = string `/conversations.open`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post conversations\.rename(ConversationsRenameBody payload, map<string|string[]> headers = {}) returns ConversationsRenameResponse|error {
+        string resourcePath = string `/conversations.rename`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get conversations\.replies(map<string|string[]> headers = {}, *ConversationsRepliesQueries queries) returns ConversationsRepliesResponse|error {
         string resourcePath = string `/conversations.replies`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
     }
 
-    resource isolated function get dialog\.open(map<string|string[]> headers = {}, *Dialog_openQueries queries) returns DialogOpenResponse|error {
+    resource isolated function post conversations\.setPurpose(ConversationsSetPurposeBody payload, map<string|string[]> headers = {}) returns ConversationsSetPurposeResponse|error {
+        string resourcePath = string `/conversations.setPurpose`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post conversations\.setTopic(ConversationsSetTopicBody payload, map<string|string[]> headers = {}) returns ConversationsSetTopicResponse|error {
+        string resourcePath = string `/conversations.setTopic`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function post conversations\.unarchive(ConversationsUnarchiveBody payload, map<string|string[]> headers = {}) returns ConversationsUnarchiveResponse|error {
+        string resourcePath = string `/conversations.unarchive`;
+        http:Request request = new;
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
+        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
+        return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get dialog\.open(map<string|string[]> headers = {}, *DialogOpenQueries queries) returns DialogOpenResponse|error {
         string resourcePath = string `/dialog.open`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get dnd\.info(map<string|string[]> headers = {}, *Dnd_infoQueries queries) returns DndInfoResponse|error {
-        string resourcePath = string `/dnd.info`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get dnd\.teamInfo(map<string|string[]> headers = {}, *Dnd_teamInfoQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/dnd.teamInfo`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get emoji\.list(map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/emoji.list`;
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get files\.info(map<string|string[]> headers = {}, *Files_infoQueries queries) returns FilesInfoResponse|error {
-        string resourcePath = string `/files.info`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get files\.list(map<string|string[]> headers = {}, *Files_listQueries queries) returns FilesListResponse|error {
-        string resourcePath = string `/files.list`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get files\.remote\.info(map<string|string[]> headers = {}, *Files_remote_infoQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/files.remote.info`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get files\.remote\.list(map<string|string[]> headers = {}, *Files_remote_listQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/files.remote.list`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get files\.remote\.share(map<string|string[]> headers = {}, *Files_remote_shareQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/files.remote.share`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get migration\.exchange(map<string|string[]> headers = {}, *Migration_exchangeQueries queries) returns MigrationExchangeResponse|error {
-        string resourcePath = string `/migration.exchange`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get oauth\.access(map<string|string[]> headers = {}, *Oauth_accessQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/oauth.access`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get oauth\.token(map<string|string[]> headers = {}, *Oauth_tokenQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/oauth.token`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get oauth\.v2\.access(map<string|string[]> headers = {}, *Oauth_v2_accessQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/oauth.v2.access`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get pins\.list(map<string|string[]> headers = {}, *Pins_listQueries queries) returns record {|(record {|int created?; UserIdDef created_by?; FileObj file?; "file" 'type?;|}|record {|ChannelDef channel?; int created?; UserIdDef created_by?; MessageObj message?; "message" 'type?;|})[] items; OkTrueDef ok;|}|record {|int count; OkTrueDef ok;|}[]|error {
-        string resourcePath = string `/pins.list`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get reactions\.get(map<string|string[]> headers = {}, *Reactions_getQueries queries) returns record {|ChannelDef channel; MessageObj message; OkTrueDef ok; "message" 'type;|}|record {|FileObj file; OkTrueDef ok; "file" 'type;|}|record {|CommentObj comment; FileObj file; OkTrueDef ok; "file_comment" 'type;|}[]|error {
-        string resourcePath = string `/reactions.get`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get reactions\.list(map<string|string[]> headers = {}, *Reactions_listQueries queries) returns ReactionsListResponse|error {
-        string resourcePath = string `/reactions.list`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get reminders\.info(map<string|string[]> headers = {}, *Reminders_infoQueries queries) returns RemindersInfoResponse|error {
-        string resourcePath = string `/reminders.info`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get reminders\.list(map<string|string[]> headers = {}) returns RemindersListResponse|error {
-        string resourcePath = string `/reminders.list`;
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get rtm\.connect(map<string|string[]> headers = {}, *Rtm_connectQueries queries) returns RtmConnectResponse|error {
-        string resourcePath = string `/rtm.connect`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get search\.messages(map<string|string[]> headers = {}, *Search_messagesQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/search.messages`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get stars\.list(map<string|string[]> headers = {}, *Stars_listQueries queries) returns StarsListResponse|error {
-        string resourcePath = string `/stars.list`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get team\.accessLogs(map<string|string[]> headers = {}, *Team_accessLogsQueries queries) returns TeamAccessLogsResponse|error {
-        string resourcePath = string `/team.accessLogs`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get team\.billableInfo(map<string|string[]> headers = {}, *Team_billableInfoQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/team.billableInfo`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get team\.info(map<string|string[]> headers = {}, *Team_infoQueries queries) returns TeamInfoResponse|error {
-        string resourcePath = string `/team.info`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get team\.integrationLogs(map<string|string[]> headers = {}, *Team_integrationLogsQueries queries) returns TeamIntegrationLogsResponse|error {
-        string resourcePath = string `/team.integrationLogs`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get team\.profile\.get(map<string|string[]> headers = {}, *Team_profile_getQueries queries) returns TeamProfileGetResponse|error {
-        string resourcePath = string `/team.profile.get`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get usergroups\.list(map<string|string[]> headers = {}, *Usergroups_listQueries queries) returns UsergroupsListResponse|error {
-        string resourcePath = string `/usergroups.list`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get usergroups\.users\.list(map<string|string[]> headers = {}, *Usergroups_users_listQueries queries) returns UsergroupsUsersListResponse|error {
-        string resourcePath = string `/usergroups.users.list`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get users\.conversations(map<string|string[]> headers = {}, *Users_conversationsQueries queries) returns UsersConversationsResponse|error {
-        string resourcePath = string `/users.conversations`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get users\.getPresence(map<string|string[]> headers = {}, *Users_getPresenceQueries queries) returns APIMethodUsersGetPresence|error {
-        string resourcePath = string `/users.getPresence`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get users\.identity(map<string|string[]> headers = {}) returns record {|OkTrueDef ok; record {|TeamDef id;|} team; record {|UserIdDef id; string name;|} user;|}|record {|OkTrueDef ok; record {|TeamDef id;|} team; record {|string email; UserIdDef id; string name;|} user;|}|record {|OkTrueDef ok; record {|TeamDef id;|} team; record {|UserIdDef id; string image_192; string image_24; string image_32; string image_48; string image_512; string image_72; string name;|} user;|}|record {|OkTrueDef ok; record {|string domain; TeamDef id; string image_102; string image_132; string image_230; string image_34; string image_44; string image_68; string image_88; boolean image_default; string name;|} team; record {|UserIdDef id; string name;|} user;|}[]|error {
-        string resourcePath = string `/users.identity`;
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get users\.info(map<string|string[]> headers = {}, *Users_infoQueries queries) returns UsersInfoResponse|error {
-        string resourcePath = string `/users.info`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get users\.list(map<string|string[]> headers = {}, *Users_listQueries queries) returns UsersListResponse|error {
-        string resourcePath = string `/users.list`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get users\.lookupByEmail(map<string|string[]> headers = {}, *Users_lookupByEmailQueries queries) returns UsersLookupByEmailResponse|error {
-        string resourcePath = string `/users.lookupByEmail`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get users\.profile\.get(map<string|string[]> headers = {}, *Users_profile_getQueries queries) returns UsersProfileGetResponse|error {
-        string resourcePath = string `/users.profile.get`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get views\.open(map<string|string[]> headers = {}, *Views_openQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/views.open`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get views\.publish(map<string|string[]> headers = {}, *Views_publishQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/views.publish`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get views\.push(map<string|string[]> headers = {}, *Views_pushQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/views.push`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get views\.update(map<string|string[]> headers = {}, *Views_updateQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/views.update`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get workflows\.stepCompleted(map<string|string[]> headers = {}, *Workflows_stepCompletedQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/workflows.stepCompleted`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get workflows\.stepFailed(map<string|string[]> headers = {}, *Workflows_stepFailedQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/workflows.stepFailed`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function get workflows\.updateStep(map<string|string[]> headers = {}, *Workflows_updateStepQueries queries) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/workflows.updateStep`;
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
-    }
-
-    resource isolated function post admin\.apps\.approve(admin_apps_approve_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.apps.approve`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.apps\.restrict(admin_apps_restrict_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.apps.restrict`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.conversations\.archive(admin_conversations_archive_body payload, map<string|string[]> headers = {}) returns AdminConversationsArchiveResponse|error {
-        string resourcePath = string `/admin.conversations.archive`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.conversations\.convertToPrivate(admin_conversations_convertToPrivate_body payload, map<string|string[]> headers = {}) returns AdminConversationsConvertToPrivateResponse|error {
-        string resourcePath = string `/admin.conversations.convertToPrivate`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.conversations\.create(admin_conversations_create_body payload, map<string|string[]> headers = {}) returns AdminConversationsCreateResponse|error {
-        string resourcePath = string `/admin.conversations.create`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.conversations\.delete(admin_conversations_delete_body payload, map<string|string[]> headers = {}) returns AdminConversationsDeleteResponse|error {
-        string resourcePath = string `/admin.conversations.delete`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.conversations\.disconnectShared(admin_conversations_disconnectShared_body payload, map<string|string[]> headers = {}) returns AdminConversationsRenameResponse|error {
-        string resourcePath = string `/admin.conversations.disconnectShared`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.conversations\.invite(admin_conversations_invite_body payload, map<string|string[]> headers = {}) returns AdminConversationsInviteResponse|error {
-        string resourcePath = string `/admin.conversations.invite`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.conversations\.rename(admin_conversations_rename_body payload, map<string|string[]> headers = {}) returns AdminConversationsRenameResponse_1|error {
-        string resourcePath = string `/admin.conversations.rename`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.conversations\.restrictAccess\.addGroup(admin_conversations_restrictAccess_addGroup_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.conversations.restrictAccess.addGroup`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.conversations\.restrictAccess\.removeGroup(admin_conversations_restrictAccess_removeGroup_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.conversations.restrictAccess.removeGroup`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.conversations\.setConversationPrefs(admin_conversations_setConversationPrefs_body payload, map<string|string[]> headers = {}) returns AdminConversationsSetConversationPrefsResponse|error {
-        string resourcePath = string `/admin.conversations.setConversationPrefs`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.conversations\.setTeams(admin_conversations_setTeams_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.conversations.setTeams`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.conversations\.unarchive(admin_conversations_unarchive_body payload, map<string|string[]> headers = {}) returns AdminConversationsUnarchiveResponse|error {
-        string resourcePath = string `/admin.conversations.unarchive`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.emoji\.add(admin_emoji_add_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.emoji.add`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.emoji\.addAlias(admin_emoji_addAlias_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.emoji.addAlias`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.emoji\.remove(admin_emoji_remove_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.emoji.remove`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.emoji\.rename(admin_emoji_rename_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.emoji.rename`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.inviteRequests\.approve(record {string invite_request_id; string team_id?;} payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.inviteRequests.approve`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.inviteRequests\.deny(record {string invite_request_id; string team_id?;} payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.inviteRequests.deny`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.teams\.create(admin_teams_create_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.teams.create`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.teams\.settings\.setDefaultChannels(admin_teams_settings_setDefaultChannels_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.teams.settings.setDefaultChannels`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.teams\.settings\.setDescription(admin_teams_settings_setDescription_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.teams.settings.setDescription`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.teams\.settings\.setDiscoverability(admin_teams_settings_setDiscoverability_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.teams.settings.setDiscoverability`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.teams\.settings\.setIcon(admin_teams_settings_setIcon_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.teams.settings.setIcon`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.teams\.settings\.setName(admin_teams_settings_setName_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.teams.settings.setName`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.usergroups\.addChannels(admin_usergroups_addChannels_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.usergroups.addChannels`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.usergroups\.addTeams(admin_usergroups_addTeams_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.usergroups.addTeams`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.usergroups\.removeChannels(admin_usergroups_removeChannels_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.usergroups.removeChannels`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.users\.assign(admin_users_assign_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.users.assign`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.users\.invite(admin_users_invite_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.users.invite`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.users\.remove(admin_users_remove_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.users.remove`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.users\.session\.invalidate(admin_users_session_invalidate_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.users.session.invalidate`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.users\.session\.reset(admin_users_session_reset_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.users.session.reset`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.users\.setAdmin(admin_users_setAdmin_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.users.setAdmin`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.users\.setExpiration(admin_users_setExpiration_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.users.setExpiration`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post admin\.users\.setOwner(admin_users_setOwner_body payload, Admin_users_setOwnerHeaders headers) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.users.setOwner`;
-        map<string|string[]> httpHeaders = getMapForHeaders(headers);
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, httpHeaders);
-    }
-
-    resource isolated function post admin\.users\.setRegular(admin_users_setRegular_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/admin.users.setRegular`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post calls\.add(calls_add_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/calls.add`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post calls\.end(calls_end_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/calls.end`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post calls\.participants\.add(calls_participants_add_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/calls.participants.add`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post calls\.participants\.remove(calls_participants_remove_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/calls.participants.remove`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post calls\.update(calls_update_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
-        string resourcePath = string `/calls.update`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post chat\.delete(chat_delete_body payload, map<string|string[]> headers = {}) returns ChatDeleteResponse|error {
-        string resourcePath = string `/chat.delete`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post chat\.deleteScheduledMessage(chat_deleteScheduledMessage_body payload, map<string|string[]> headers = {}) returns ChatDeleteScheduledMessageResponse|error {
-        string resourcePath = string `/chat.deleteScheduledMessage`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post chat\.meMessage(chat_meMessage_body payload, map<string|string[]> headers = {}) returns ChatMeMessageResponse|error {
-        string resourcePath = string `/chat.meMessage`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post chat\.postEphemeral(chat_postEphemeral_body payload, map<string|string[]> headers = {}) returns ChatPostEphemeralResponse|error {
-        string resourcePath = string `/chat.postEphemeral`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post chat\.postMessage(chat_postMessage_body payload, map<string|string[]> headers = {}) returns ChatPostMessageResponse|error {
-        string resourcePath = string `/chat.postMessage`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post chat\.scheduleMessage(chat_scheduleMessage_body payload, map<string|string[]> headers = {}) returns ChatScheduleMessageResponse|error {
-        string resourcePath = string `/chat.scheduleMessage`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post chat\.unfurl(chat_unfurl_body payload, map<string|string[]> headers = {}) returns ChatUnfurlResponse|error {
-        string resourcePath = string `/chat.unfurl`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post chat\.update(chat_update_body payload, map<string|string[]> headers = {}) returns ChatUpdateResponse|error {
-        string resourcePath = string `/chat.update`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.archive(conversations_archive_body payload, map<string|string[]> headers = {}) returns ConversationsArchiveResponse|error {
-        string resourcePath = string `/conversations.archive`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.close(conversations_close_body payload, map<string|string[]> headers = {}) returns ConversationsCloseResponse|error {
-        string resourcePath = string `/conversations.close`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.create(conversations_create_body payload, map<string|string[]> headers = {}) returns ConversationsCreateResponse|error {
-        string resourcePath = string `/conversations.create`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.invite(conversations_invite_body payload, map<string|string[]> headers = {}) returns ConversationsInviteErrorResponse|error {
-        string resourcePath = string `/conversations.invite`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.join(conversations_join_body payload, map<string|string[]> headers = {}) returns ConversationsJoinResponse|error {
-        string resourcePath = string `/conversations.join`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.kick(conversations_kick_body payload, map<string|string[]> headers = {}) returns ConversationsKickResponse|error {
-        string resourcePath = string `/conversations.kick`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.leave(conversations_leave_body payload, map<string|string[]> headers = {}) returns ConversationsLeaveResponse|error {
-        string resourcePath = string `/conversations.leave`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.mark(conversations_mark_body payload, map<string|string[]> headers = {}) returns ConversationsMarkResponse|error {
-        string resourcePath = string `/conversations.mark`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.open(conversations_open_body payload, map<string|string[]> headers = {}) returns ConversationsOpenResponse|error {
-        string resourcePath = string `/conversations.open`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.rename(conversations_rename_body payload, map<string|string[]> headers = {}) returns ConversationsRenameResponse|error {
-        string resourcePath = string `/conversations.rename`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.setPurpose(conversations_setPurpose_body payload, map<string|string[]> headers = {}) returns ConversationsSetPurposeResponse|error {
-        string resourcePath = string `/conversations.setPurpose`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.setTopic(conversations_setTopic_body payload, map<string|string[]> headers = {}) returns ConversationsSetTopicResponse|error {
-        string resourcePath = string `/conversations.setTopic`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
-    }
-
-    resource isolated function post conversations\.unarchive(conversations_unarchive_body payload, map<string|string[]> headers = {}) returns ConversationsUnarchiveResponse|error {
-        string resourcePath = string `/conversations.unarchive`;
-        http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
-        request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
-        return self.clientEp->post(resourcePath, request, headers);
     }
 
     resource isolated function post dnd\.endDnd(map<string|string[]> headers = {}) returns DndEndDndResponse|error {
@@ -1054,202 +789,403 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post dnd\.setSnooze(dnd_setSnooze_body payload, map<string|string[]> headers = {}) returns DndSetSnoozeResponse|error {
+    resource isolated function get dnd\.info(map<string|string[]> headers = {}, *DndInfoQueries queries) returns DndInfoResponse|error {
+        string resourcePath = string `/dnd.info`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post dnd\.setSnooze(DndSetSnoozeBody payload, map<string|string[]> headers = {}) returns DndSetSnoozeResponse|error {
         string resourcePath = string `/dnd.setSnooze`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.comments\.delete(files_comments_delete_body payload, map<string|string[]> headers = {}) returns FilesCommentsDeleteResponse|error {
+    resource isolated function get dnd\.teamInfo(map<string|string[]> headers = {}, *DndTeamInfoQueries queries) returns DefaultSuccessResponse53|error {
+        string resourcePath = string `/dnd.teamInfo`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get emoji\.list(map<string|string[]> headers = {}) returns DefaultSuccessResponse54|error {
+        string resourcePath = string `/emoji.list`;
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post files\.comments\.delete(FilesCommentsDeleteBody payload, map<string|string[]> headers = {}) returns FilesCommentsDeleteResponse|error {
         string resourcePath = string `/files.comments.delete`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.delete(files_delete_body payload, map<string|string[]> headers = {}) returns FilesDeleteResponse|error {
+    resource isolated function post files\.delete(FilesDeleteBody payload, map<string|string[]> headers = {}) returns FilesDeleteResponse|error {
         string resourcePath = string `/files.delete`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.remote\.add(files_remote_add_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
+    resource isolated function get files\.info(map<string|string[]> headers = {}, *FilesInfoQueries queries) returns FilesInfoResponse|error {
+        string resourcePath = string `/files.info`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get files\.list(map<string|string[]> headers = {}, *FilesListQueries queries) returns FilesListResponse|error {
+        string resourcePath = string `/files.list`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post files\.remote\.add(FilesRemoteAddBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse55|error {
         string resourcePath = string `/files.remote.add`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.remote\.remove(files_remote_remove_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
+    resource isolated function get files\.remote\.info(map<string|string[]> headers = {}, *FilesRemoteInfoQueries queries) returns DefaultSuccessResponse56|error {
+        string resourcePath = string `/files.remote.info`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get files\.remote\.list(map<string|string[]> headers = {}, *FilesRemoteListQueries queries) returns DefaultSuccessResponse57|error {
+        string resourcePath = string `/files.remote.list`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post files\.remote\.remove(FilesRemoteRemoveBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse58|error {
         string resourcePath = string `/files.remote.remove`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.remote\.update(files_remote_update_body payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse|error {
+    resource isolated function get files\.remote\.share(map<string|string[]> headers = {}, *FilesRemoteShareQueries queries) returns DefaultSuccessResponse59|error {
+        string resourcePath = string `/files.remote.share`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post files\.remote\.update(FilesRemoteUpdateBody payload, map<string|string[]> headers = {}) returns DefaultSuccessResponse60|error {
         string resourcePath = string `/files.remote.update`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.revokePublicURL(files_revokePublicURL_body payload, map<string|string[]> headers = {}) returns FilesRevokePublicURLResponse|error {
+    resource isolated function post files\.revokePublicURL(FilesRevokePublicURLBody payload, map<string|string[]> headers = {}) returns FilesRevokePublicURLResponse|error {
         string resourcePath = string `/files.revokePublicURL`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.sharedPublicURL(files_sharedPublicURL_body payload, map<string|string[]> headers = {}) returns FilesSharedPublicURLResponse|error {
+    resource isolated function post files\.sharedPublicURL(FilesSharedPublicURLBody payload, map<string|string[]> headers = {}) returns FilesSharedPublicURLResponse|error {
         string resourcePath = string `/files.sharedPublicURL`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post files\.upload(files_upload_body payload, map<string|string[]> headers = {}) returns FilesUploadResponse|error {
+    resource isolated function post files\.upload(FilesUploadBody payload, map<string|string[]> headers = {}) returns FilesUploadResponse|error {
         string resourcePath = string `/files.upload`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post pins\.add(pins_add_body payload, map<string|string[]> headers = {}) returns PinsAddResponse|error {
+    resource isolated function get migration\.exchange(map<string|string[]> headers = {}, *MigrationExchangeQueries queries) returns MigrationExchangeResponse|error {
+        string resourcePath = string `/migration.exchange`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get oauth\.access(map<string|string[]> headers = {}, *OauthAccessQueries queries) returns DefaultSuccessResponse61|error {
+        string resourcePath = string `/oauth.access`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get oauth\.token(map<string|string[]> headers = {}, *OauthTokenQueries queries) returns DefaultSuccessResponse62|error {
+        string resourcePath = string `/oauth.token`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get oauth\.v2\.access(map<string|string[]> headers = {}, *OauthV2AccessQueries queries) returns DefaultSuccessResponse63|error {
+        string resourcePath = string `/oauth.v2.access`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post pins\.add(PinsAddBody payload, map<string|string[]> headers = {}) returns PinsAddResponse|error {
         string resourcePath = string `/pins.add`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post pins\.remove(pins_remove_body payload, map<string|string[]> headers = {}) returns PinsRemoveResponse|error {
+    resource isolated function get pins\.list(map<string|string[]> headers = {}, *PinsListQueries queries) returns InlineResponseItems200[]|error {
+        string resourcePath = string `/pins.list`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post pins\.remove(PinsRemoveBody payload, map<string|string[]> headers = {}) returns PinsRemoveResponse|error {
         string resourcePath = string `/pins.remove`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post reactions\.add(reactions_add_body payload, map<string|string[]> headers = {}) returns ReactionsAddResponse|error {
+    resource isolated function post reactions\.add(ReactionsAddBody payload, map<string|string[]> headers = {}) returns ReactionsAddResponse|error {
         string resourcePath = string `/reactions.add`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post reactions\.remove(reactions_remove_body payload, map<string|string[]> headers = {}) returns ReactionsRemoveResponse|error {
+    resource isolated function get reactions\.get(map<string|string[]> headers = {}, *ReactionsGetQueries queries) returns InlineResponseItems2001[]|error {
+        string resourcePath = string `/reactions.get`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get reactions\.list(map<string|string[]> headers = {}, *ReactionsListQueries queries) returns ReactionsListResponse|error {
+        string resourcePath = string `/reactions.list`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post reactions\.remove(ReactionsRemoveBody payload, map<string|string[]> headers = {}) returns ReactionsRemoveResponse|error {
         string resourcePath = string `/reactions.remove`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post reminders\.add(reminders_add_body payload, map<string|string[]> headers = {}) returns RemindersAddResponse|error {
+    resource isolated function post reminders\.add(RemindersAddBody payload, map<string|string[]> headers = {}) returns RemindersAddResponse|error {
         string resourcePath = string `/reminders.add`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post reminders\.complete(reminders_complete_body payload, map<string|string[]> headers = {}) returns RemindersCompleteResponse|error {
+    resource isolated function post reminders\.complete(RemindersCompleteBody payload, map<string|string[]> headers = {}) returns RemindersCompleteResponse|error {
         string resourcePath = string `/reminders.complete`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post reminders\.delete(reminders_delete_body payload, map<string|string[]> headers = {}) returns RemindersDeleteResponse|error {
+    resource isolated function post reminders\.delete(RemindersDeleteBody payload, map<string|string[]> headers = {}) returns RemindersDeleteResponse|error {
         string resourcePath = string `/reminders.delete`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post stars\.add(stars_add_body payload, map<string|string[]> headers = {}) returns StarsAddResponse|error {
+    resource isolated function get reminders\.info(map<string|string[]> headers = {}, *RemindersInfoQueries queries) returns RemindersInfoResponse|error {
+        string resourcePath = string `/reminders.info`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get reminders\.list(map<string|string[]> headers = {}) returns RemindersListResponse|error {
+        string resourcePath = string `/reminders.list`;
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get rtm\.connect(map<string|string[]> headers = {}, *RtmConnectQueries queries) returns RtmConnectResponse|error {
+        string resourcePath = string `/rtm.connect`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get search\.messages(map<string|string[]> headers = {}, *SearchMessagesQueries queries) returns DefaultSuccessResponse64|error {
+        string resourcePath = string `/search.messages`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post stars\.add(StarsAddBody payload, map<string|string[]> headers = {}) returns StarsAddResponse|error {
         string resourcePath = string `/stars.add`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post stars\.remove(stars_remove_body payload, map<string|string[]> headers = {}) returns StarsRemoveResponse|error {
+    resource isolated function get stars\.list(map<string|string[]> headers = {}, *StarsListQueries queries) returns StarsListResponse|error {
+        string resourcePath = string `/stars.list`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post stars\.remove(StarsRemoveBody payload, map<string|string[]> headers = {}) returns StarsRemoveResponse|error {
         string resourcePath = string `/stars.remove`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post usergroups\.create(usergroups_create_body payload, map<string|string[]> headers = {}) returns UsergroupsCreateResponse|error {
+    resource isolated function get team\.accessLogs(map<string|string[]> headers = {}, *TeamAccessLogsQueries queries) returns TeamAccessLogsResponse|error {
+        string resourcePath = string `/team.accessLogs`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get team\.billableInfo(map<string|string[]> headers = {}, *TeamBillableInfoQueries queries) returns DefaultSuccessResponse65|error {
+        string resourcePath = string `/team.billableInfo`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get team\.info(map<string|string[]> headers = {}, *TeamInfoQueries queries) returns TeamInfoResponse|error {
+        string resourcePath = string `/team.info`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get team\.integrationLogs(map<string|string[]> headers = {}, *TeamIntegrationLogsQueries queries) returns TeamIntegrationLogsResponse|error {
+        string resourcePath = string `/team.integrationLogs`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get team\.profile\.get(map<string|string[]> headers = {}, *TeamProfileGetQueries queries) returns TeamProfileGetResponse|error {
+        string resourcePath = string `/team.profile.get`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post usergroups\.create(UsergroupsCreateBody payload, map<string|string[]> headers = {}) returns UsergroupsCreateResponse|error {
         string resourcePath = string `/usergroups.create`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post usergroups\.disable(usergroups_disable_body payload, map<string|string[]> headers = {}) returns UsergroupsDisableResponse|error {
+    resource isolated function post usergroups\.disable(UsergroupsDisableBody payload, map<string|string[]> headers = {}) returns UsergroupsDisableResponse|error {
         string resourcePath = string `/usergroups.disable`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post usergroups\.enable(usergroups_enable_body payload, map<string|string[]> headers = {}) returns UsergroupsEnableResponse|error {
+    resource isolated function post usergroups\.enable(UsergroupsEnableBody payload, map<string|string[]> headers = {}) returns UsergroupsEnableResponse|error {
         string resourcePath = string `/usergroups.enable`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post usergroups\.update(usergroups_update_body payload, map<string|string[]> headers = {}) returns UsergroupsUpdateResponse|error {
+    resource isolated function get usergroups\.list(map<string|string[]> headers = {}, *UsergroupsListQueries queries) returns UsergroupsListResponse|error {
+        string resourcePath = string `/usergroups.list`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post usergroups\.update(UsergroupsUpdateBody payload, map<string|string[]> headers = {}) returns UsergroupsUpdateResponse|error {
         string resourcePath = string `/usergroups.update`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post usergroups\.users\.update(usergroups_users_update_body payload, map<string|string[]> headers = {}) returns UsergroupsUsersUpdateResponse|error {
+    resource isolated function get usergroups\.users\.list(map<string|string[]> headers = {}, *UsergroupsUsersListQueries queries) returns UsergroupsUsersListResponse|error {
+        string resourcePath = string `/usergroups.users.list`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post usergroups\.users\.update(UsergroupsUsersUpdateBody payload, map<string|string[]> headers = {}) returns UsergroupsUsersUpdateResponse|error {
         string resourcePath = string `/usergroups.users.update`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post users\.deletePhoto(users_deletePhoto_body payload, map<string|string[]> headers = {}) returns UsersDeletePhotoResponse|error {
+    resource isolated function get users\.conversations(map<string|string[]> headers = {}, *UsersConversationsQueries queries) returns UsersConversationsResponse|error {
+        string resourcePath = string `/users.conversations`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post users\.deletePhoto(UsersDeletePhotoBody payload, map<string|string[]> headers = {}) returns UsersDeletePhotoResponse|error {
         string resourcePath = string `/users.deletePhoto`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post users\.profile\.set(users_profile_set_body payload, map<string|string[]> headers = {}) returns UsersProfileSetResponse|error {
+    resource isolated function get users\.getPresence(map<string|string[]> headers = {}, *UsersGetPresenceQueries queries) returns APIMethodUsersGetPresence|error {
+        string resourcePath = string `/users.getPresence`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get users\.identity(map<string|string[]> headers = {}) returns InlineResponseItems2002[]|error {
+        string resourcePath = string `/users.identity`;
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get users\.info(map<string|string[]> headers = {}, *UsersInfoQueries queries) returns UsersInfoResponse|error {
+        string resourcePath = string `/users.info`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get users\.list(map<string|string[]> headers = {}, *UsersListQueries queries) returns UsersListResponse|error {
+        string resourcePath = string `/users.list`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get users\.lookupByEmail(map<string|string[]> headers = {}, *UsersLookupByEmailQueries queries) returns UsersLookupByEmailResponse|error {
+        string resourcePath = string `/users.lookupByEmail`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get users\.profile\.get(map<string|string[]> headers = {}, *UsersProfileGetQueries queries) returns UsersProfileGetResponse|error {
+        string resourcePath = string `/users.profile.get`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function post users\.profile\.set(UsersProfileSetBody payload, map<string|string[]> headers = {}) returns UsersProfileSetResponse|error {
         string resourcePath = string `/users.profile.set`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
@@ -1260,19 +1196,61 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post users\.setPhoto(users_setPhoto_body payload, map<string|string[]> headers = {}) returns UsersSetPhotoResponse|error {
+    resource isolated function post users\.setPhoto(UsersSetPhotoBody payload, map<string|string[]> headers = {}) returns UsersSetPhotoResponse|error {
         string resourcePath = string `/users.setPhoto`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
     }
 
-    resource isolated function post users\.setPresence(users_setPresence_body payload, map<string|string[]> headers = {}) returns UsersSetPresenceResponse|error {
+    resource isolated function post users\.setPresence(UsersSetPresenceBody payload, map<string|string[]> headers = {}) returns UsersSetPresenceResponse|error {
         string resourcePath = string `/users.setPresence`;
         http:Request request = new;
-        string encodedRequestBody = createFormURLEncodedRequestBody(payload);
+        string encodedRequestBody = createFormURLEncodedRequestBody(check jsondata:toJson(payload).ensureType());
         request.setPayload(encodedRequestBody, "application/x-www-form-urlencoded");
         return self.clientEp->post(resourcePath, request, headers);
+    }
+
+    resource isolated function get views\.open(map<string|string[]> headers = {}, *ViewsOpenQueries queries) returns DefaultSuccessResponse66|error {
+        string resourcePath = string `/views.open`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get views\.publish(map<string|string[]> headers = {}, *ViewsPublishQueries queries) returns DefaultSuccessResponse67|error {
+        string resourcePath = string `/views.publish`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get views\.push(map<string|string[]> headers = {}, *ViewsPushQueries queries) returns DefaultSuccessResponse68|error {
+        string resourcePath = string `/views.push`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get views\.update(map<string|string[]> headers = {}, *ViewsUpdateQueries queries) returns DefaultSuccessResponse69|error {
+        string resourcePath = string `/views.update`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get workflows\.stepCompleted(map<string|string[]> headers = {}, *WorkflowsStepCompletedQueries queries) returns DefaultSuccessResponse70|error {
+        string resourcePath = string `/workflows.stepCompleted`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get workflows\.stepFailed(map<string|string[]> headers = {}, *WorkflowsStepFailedQueries queries) returns DefaultSuccessResponse71|error {
+        string resourcePath = string `/workflows.stepFailed`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
+    }
+
+    resource isolated function get workflows\.updateStep(map<string|string[]> headers = {}, *WorkflowsUpdateStepQueries queries) returns DefaultSuccessResponse72|error {
+        string resourcePath = string `/workflows.updateStep`;
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
+        return self.clientEp->get(resourcePath, headers);
     }
 }

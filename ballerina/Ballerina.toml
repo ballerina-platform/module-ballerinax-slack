@@ -2,7 +2,7 @@
 distribution = "2201.9.0"
 org = "ballerinax"
 name = "slack"
-version = "4.0.0"
+version = "5.0.0"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
 keywords = ["Communication/Team Chat", "Cost/Freemium"]
