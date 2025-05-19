@@ -1735,6 +1735,7 @@ public type MessageObj record {|
     TsDef lastRead?;
     @jsondata:Name {value: "parent_user_id"}
     UserIdDef parentUserId?;
+    # This is a very loose definition, in the future, we'll populate this with deeper schema in this definition namespace
     Blocks blocks?;
     @jsondata:Name {value: "reply_users"}
     UserIdDef[] replyUsers?;
