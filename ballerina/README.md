@@ -1,6 +1,15 @@
 ## Overview
 
-[Slack](https://slack.com/) is a collaboration platform for teams, offering real-time messaging, file sharing, and integrations with various tools. It helps streamline communication and enhance productivity through organized channels and direct messaging.
+[Slack](https://slack.com/) is a collaboration platform for teams that offers real-time messaging, file sharing, and integration with various tools. it helps streamline communication and enhance productivity through organized channels and direct messaging.
+
+The Slack connector offers APIs to connect and interact with Slack REST API endpoints, enabling seamless management of messages, channels, and other workspace resources.
+
+### Key Features
+
+- Send and manage messages in channels and direct messages
+- Create and manage Slack channels and conversations
+- Support for Slack REST API endpoints
+- Secure integration with Slack workspace via OAuth2
 
 ## Setup guide
 
