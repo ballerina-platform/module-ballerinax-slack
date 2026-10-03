@@ -17,15 +17,24 @@
  */
 
 import org.apache.tools.ant.taskdefs.condition.Os
+import org.gradle.process.ExecOperations
+import javax.inject.Inject
+
+abstract class ExecHelper {
+    @Inject
+    abstract ExecOperations getExecOperations()
+}
+
+def execHelper = project.objects.newInstance(ExecHelper)
 
 def files = ["sanitations.bal"];
 
-task build {
+def buildAction = {
     doLast {
         try {
             files.each { file ->
                 println("Building ${file} ...")
-                exec {
+                execHelper.execOperations.exec {
                     workingDir project.projectDir
                     if (Os.isFamily(Os.FAMILY_WINDOWS)) {
                         commandLine 'sh', "/c", "bal build ${file} && exit %%ERRORLEVEL%%"
@@ -39,4 +48,10 @@ task build {
             throw e
         }
     }
+}
+
+if (!tasks.names.contains('build')) {
+    tasks.register('build', buildAction)
+} else {
+    tasks.named('build', buildAction)
 }
