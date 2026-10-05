@@ -1500,7 +1500,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - Typical success response 
-    resource isolated function get pins\.list(map<string|string[]> headers = {}, *PinsListQueries queries) returns InlineResponseItems200[]|error {
+    resource isolated function get pins\.list(map<string|string[]> headers = {}, *PinsListQueries queries) returns InlineResponseItems200|error {
         string resourcePath = string `/pins.list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -1535,7 +1535,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - Typical success response 
-    resource isolated function get reactions\.get(map<string|string[]> headers = {}, *ReactionsGetQueries queries) returns InlineResponseItems2001[]|error {
+    resource isolated function get reactions\.get(map<string|string[]> headers = {}, *ReactionsGetQueries queries) returns InlineResponseItems2001|error {
         string resourcePath = string `/reactions.get`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         return self.clientEp->get(resourcePath, headers);
@@ -1852,7 +1852,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - You will receive at a minimum the following information: 
-    resource isolated function get users\.identity(map<string|string[]> headers = {}) returns InlineResponseItems2002[]|error {
+    resource isolated function get users\.identity(map<string|string[]> headers = {}) returns InlineResponseItems2002|error {
         string resourcePath = string `/users.identity`;
         return self.clientEp->get(resourcePath, headers);
     }
