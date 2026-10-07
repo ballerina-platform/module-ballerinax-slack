@@ -60,9 +60,16 @@ allprojects {
 
 def moduleVersion = project.version.replace("-SNAPSHOT", "")
 
-task build {
-    dependsOn(':slack-sanitation:build')
-    dependsOn(':slack-ballerina:build')
+if (!tasks.names.contains('build')) {
+    tasks.register('build') {
+        dependsOn(':slack-sanitation:build')
+        dependsOn(':slack-ballerina:build')
+    }
+} else {
+    tasks.named('build') {
+        dependsOn(':slack-sanitation:build')
+        dependsOn(':slack-ballerina:build')
+    }
 }
 
 release {
