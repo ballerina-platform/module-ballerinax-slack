@@ -44,7 +44,7 @@ http:Service mockAPI = service object {
             user: "U078KJ7RX1U",
             'type: "message",
             ts: "1719830298.784769",
-            botId: [],
+            botId: "B07986E3N4E",
             text: "This is a Test",
             team: "T078S42MC59",
             botProfile: {
@@ -87,7 +87,7 @@ http:Service mockAPI = service object {
         ok: true,
         cacheTs: 1697039999,
         members: [
-            [<UserObjAnyOf1>{
+            <UserObjAnyOf1>{
                 isAppUser: true,
                 isBot: false,
                 updated: 0,
@@ -119,8 +119,88 @@ http:Service mockAPI = service object {
                 isUltraRestricted: false,
                 has2fa: false
             }
-            ]
         ]
+    };
+
+    # Find a user with an email address
+    #
+    # + return - Raw JSON mirroring the actual Slack response, so that the data binding is exercised
+    resource isolated function get users\.lookupByEmail(string email) returns json => {
+        "ok": true,
+        "user": {
+            "id": "U0123ABCDEF",
+            "team_id": "T0123ABCDEF",
+            "name": "jdoe",
+            "deleted": false,
+            "color": "bc3663",
+            "real_name": "John Doe",
+            "tz": "Asia/Colombo",
+            "tz_label": "Sri Lanka Standard Time",
+            "tz_offset": 19800,
+            "is_admin": true,
+            "is_owner": true,
+            "is_primary_owner": true,
+            "is_restricted": false,
+            "is_ultra_restricted": false,
+            "is_bot": false,
+            "is_app_user": false,
+            "updated": 1789995766,
+            "is_email_confirmed": true,
+            "who_can_share_contact_card": "EVERYONE",
+            "profile": {
+                "real_name": "John Doe",
+                "display_name": "",
+                "avatar_hash": "9011c884f4a7",
+                "real_name_normalized": "John Doe",
+                "display_name_normalized": "",
+                "first_name": "John",
+                "last_name": "Doe",
+                "team": "T0123ABCDEF",
+                "email": email,
+                "title": "",
+                "phone": "",
+                "skype": "",
+                "status_text": "",
+                "status_text_canonical": "",
+                "status_emoji": "",
+                "status_emoji_display_info": [],
+                "status_expiration": 0
+            }
+        }
+    };
+
+    # Gets information about a user
+    #
+    # + return - Raw JSON mirroring the actual Slack response for the Slackbot user
+    resource isolated function get users\.info(string user) returns json => {
+        "ok": true,
+        "user": {
+            "id": user,
+            "team_id": "T0123ABCDEF",
+            "name": "slackbot",
+            "deleted": false,
+            "color": "757575",
+            "real_name": "Slackbot",
+            "tz": "America/Los_Angeles",
+            "tz_label": "Pacific Daylight Time",
+            "tz_offset": -25200,
+            "is_bot": false,
+            "is_app_user": false,
+            "updated": 0,
+            "profile": {
+                "real_name": "Slackbot",
+                "display_name": "Slackbot",
+                "avatar_hash": "sv41d8cd98f0",
+                "real_name_normalized": "Slackbot",
+                "display_name_normalized": "Slackbot",
+                "fields": {},
+                "title": "",
+                "phone": "",
+                "skype": "",
+                "status_text": "",
+                "status_emoji": ""
+            }
+        }
     };
 
     # Get User Profile

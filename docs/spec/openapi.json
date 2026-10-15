@@ -9756,12 +9756,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "title" : "PinsListResponse",
-                  "type" : "array",
-                  "description" : "Schema for successful response from pins.list method",
-                  "items" : {
-                    "$ref" : "#/components/schemas/InlineResponseItems200"
-                  }
+                  "$ref" : "#/components/schemas/InlineResponseItems200"
                 },
                 "examples" : {
                   "response" : {
@@ -10013,12 +10008,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "title" : "ReactionsGetResponse",
-                  "type" : "array",
-                  "description" : "Schema for successful response from reactions.get method",
-                  "items" : {
-                    "$ref" : "#/components/schemas/InlineResponseItems2001"
-                  }
+                  "$ref" : "#/components/schemas/InlineResponseItems2001"
                 },
                 "examples" : {
                   "response" : {
@@ -12426,12 +12416,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "title" : "UsersIdentityResponse",
-                  "type" : "array",
-                  "description" : "Schema for successful response from users.identity method",
-                  "items" : {
-                    "$ref" : "#/components/schemas/InlineResponseItems2002"
-                  }
+                  "$ref" : "#/components/schemas/InlineResponseItems2002"
                 },
                 "examples" : {
                   "response" : {
@@ -13959,9 +13944,6 @@
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _not OK_ response or a verbose schema is not available for this method"
       },
-      "TzAnyOf11" : {
-        "nullable" : true
-      },
       "DefaultErrorTemplate24" : {
         "title" : "DefaultErrorTemplate",
         "required" : [ "ok" ],
@@ -14052,10 +14034,6 @@
         },
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _not OK_ response or a verbose schema is not available for this method"
-      },
-      "NilBotIdSetWhenDisplayAsBotIsFalse" : {
-        "title" : "Nil bot_id set when display_as_bot is false",
-        "nullable" : true
       },
       "UsergroupsUsersListResponse" : {
         "title" : "UsergroupsUsersListResponse",
@@ -14342,9 +14320,6 @@
       "DiscoverableDiscoverableAnyOf12" : {
         "type" : "string"
       },
-      "TzTzAnyOf112" : {
-        "type" : "string"
-      },
       "DefaultErrorTemplate35" : {
         "title" : "DefaultErrorTemplate",
         "required" : [ "ok" ],
@@ -14483,13 +14458,6 @@
         },
         "additionalProperties" : false,
         "description" : "Schema for successful response from chat.postEphemeral method"
-      },
-      "MessageObjBotId" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/BotIdDef"
-        }, {
-          "$ref" : "#/components/schemas/NilBotIdSetWhenDisplayAsBotIsFalse"
-        } ]
       },
       "DefaultErrorTemplate38" : {
         "title" : "DefaultErrorTemplate",
@@ -14676,10 +14644,10 @@
             "x-ballerina-name" : "isHidden"
           },
           "options" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/TeamProfileFieldObjOptions"
-            }
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TeamProfileFieldOptionObj"
+            } ],
+            "nullable" : true
           },
           "id" : {
             "pattern" : "^X[a-zA-Z0-9]{9,}$",
@@ -15042,10 +15010,10 @@
             "x-ballerina-name" : "dateCreate"
           },
           "discoverable" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/TeamObjDiscoverable"
-            }
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DiscoverableDiscoverableAnyOf12"
+            } ],
+            "nullable" : true
           },
           "domain" : {
             "type" : "string"
@@ -15208,13 +15176,6 @@
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _not OK_ response or a verbose schema is not available for this method"
       },
-      "ConversationObjParentConversation" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/ChannelDef"
-        }, {
-          "$ref" : "#/components/schemas/ParentConversationAnyOf2"
-        } ]
-      },
       "DefaultErrorTemplate50" : {
         "title" : "DefaultErrorTemplate",
         "required" : [ "ok" ],
@@ -15226,13 +15187,6 @@
         },
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _not OK_ response or a verbose schema is not available for this method"
-      },
-      "UserObjTz1" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/TzAnyOf11"
-        }, {
-          "$ref" : "#/components/schemas/TzTzAnyOf112"
-        } ]
       },
       "DefaultErrorTemplate53" : {
         "title" : "DefaultErrorTemplate",
@@ -15459,9 +15413,6 @@
         },
         "additionalProperties" : false
       },
-      "ParentConversationAnyOf22" : {
-        "nullable" : true
-      },
       "DefaultErrorTemplate60" : {
         "title" : "DefaultErrorTemplate",
         "required" : [ "ok" ],
@@ -15473,9 +15424,6 @@
         },
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _not OK_ response or a verbose schema is not available for this method"
-      },
-      "ParentConversationAnyOf21" : {
-        "nullable" : true
       },
       "ConversationsRenameErrorResponse" : {
         "title" : "ConversationsRenameErrorResponse",
@@ -15770,10 +15718,10 @@
             "x-ballerina-name" : "pendingConnectedTeamIds"
           },
           "latest" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationObjLatest"
-            }
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MessageObj"
+            } ],
+            "nullable" : true
           },
           "has_pins" : {
             "type" : "boolean",
@@ -15847,10 +15795,10 @@
             "$ref" : "#/components/schemas/UserIdDef"
           },
           "parent_conversation" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationObjParentConversation"
-            },
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ChannelDef"
+            } ],
+            "nullable" : true,
             "x-ballerina-name" : "parentConversation"
           }
         },
@@ -16273,13 +16221,6 @@
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _OK_ response or a verbose schema is not available for this method"
       },
-      "ConversationObjParentConversation2" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/ChannelDef"
-        }, {
-          "$ref" : "#/components/schemas/ParentConversationAnyOf22"
-        } ]
-      },
       "ConversationsInviteErrorResponse1" : {
         "title" : "ConversationsInviteErrorResponse",
         "required" : [ "ok" ],
@@ -16314,13 +16255,6 @@
         },
         "additionalProperties" : false,
         "description" : "Schema for error response from conversations.invite method"
-      },
-      "ConversationObjParentConversation1" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/ChannelDef"
-        }, {
-          "$ref" : "#/components/schemas/ParentConversationAnyOf21"
-        } ]
       },
       "DefaultErrorTemplate71" : {
         "title" : "DefaultErrorTemplate",
@@ -16733,10 +16667,8 @@
             "x-ballerina-name" : "isRestricted"
           },
           "tz" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/UserObjTz"
-            }
+            "type" : "string",
+            "nullable" : true
           },
           "tz_label" : {
             "type" : "string",
@@ -17031,112 +16963,109 @@
           "items" : {
             "type" : "array",
             "items" : {
-              "type" : "array",
-              "items" : {
-                "anyOf" : [ {
-                  "required" : [ "channel", "date_create", "message", "type" ],
-                  "type" : "object",
-                  "properties" : {
-                    "channel" : {
-                      "$ref" : "#/components/schemas/ChannelDef"
-                    },
-                    "date_create" : {
-                      "type" : "integer"
-                    },
-                    "message" : {
-                      "$ref" : "#/components/schemas/MessageObj"
-                    },
-                    "type" : {
-                      "type" : "string",
-                      "enum" : [ "message" ]
-                    }
+              "anyOf" : [ {
+                "required" : [ "channel", "date_create", "message", "type" ],
+                "type" : "object",
+                "properties" : {
+                  "channel" : {
+                    "$ref" : "#/components/schemas/ChannelDef"
                   },
-                  "additionalProperties" : false
-                }, {
-                  "required" : [ "date_create", "file", "type" ],
-                  "type" : "object",
-                  "properties" : {
-                    "date_create" : {
-                      "type" : "integer"
-                    },
-                    "file" : {
-                      "$ref" : "#/components/schemas/FileObj"
-                    },
-                    "type" : {
-                      "type" : "string",
-                      "enum" : [ "file" ]
-                    }
+                  "date_create" : {
+                    "type" : "integer"
                   },
-                  "additionalProperties" : false
-                }, {
-                  "required" : [ "comment", "date_create", "file", "type" ],
-                  "type" : "object",
-                  "properties" : {
-                    "comment" : {
-                      "$ref" : "#/components/schemas/CommentObj"
-                    },
-                    "date_create" : {
-                      "type" : "integer"
-                    },
-                    "file" : {
-                      "$ref" : "#/components/schemas/FileObj"
-                    },
-                    "type" : {
-                      "type" : "string",
-                      "enum" : [ "file_comment" ]
-                    }
+                  "message" : {
+                    "$ref" : "#/components/schemas/MessageObj"
                   },
-                  "additionalProperties" : false
-                }, {
-                  "required" : [ "channel", "date_create", "type" ],
-                  "type" : "object",
-                  "properties" : {
-                    "channel" : {
-                      "$ref" : "#/components/schemas/ChannelDef"
-                    },
-                    "date_create" : {
-                      "type" : "integer"
-                    },
-                    "type" : {
-                      "type" : "string",
-                      "enum" : [ "channel" ]
-                    }
+                  "type" : {
+                    "type" : "string",
+                    "enum" : [ "message" ]
+                  }
+                },
+                "additionalProperties" : false
+              }, {
+                "required" : [ "date_create", "file", "type" ],
+                "type" : "object",
+                "properties" : {
+                  "date_create" : {
+                    "type" : "integer"
                   },
-                  "additionalProperties" : false
-                }, {
-                  "required" : [ "channel", "date_create", "type" ],
-                  "type" : "object",
-                  "properties" : {
-                    "channel" : {
-                      "$ref" : "#/components/schemas/DmIdDef"
-                    },
-                    "date_create" : {
-                      "type" : "integer"
-                    },
-                    "type" : {
-                      "type" : "string",
-                      "enum" : [ "im" ]
-                    }
+                  "file" : {
+                    "$ref" : "#/components/schemas/FileObj"
                   },
-                  "additionalProperties" : false
-                }, {
-                  "required" : [ "channel", "date_create", "type" ],
-                  "type" : "object",
-                  "properties" : {
-                    "channel" : {
-                      "$ref" : "#/components/schemas/GroupIdDef"
-                    },
-                    "date_create" : {
-                      "type" : "integer"
-                    },
-                    "type" : {
-                      "type" : "string",
-                      "enum" : [ "group" ]
-                    }
+                  "type" : {
+                    "type" : "string",
+                    "enum" : [ "file" ]
+                  }
+                },
+                "additionalProperties" : false
+              }, {
+                "required" : [ "comment", "date_create", "file", "type" ],
+                "type" : "object",
+                "properties" : {
+                  "comment" : {
+                    "$ref" : "#/components/schemas/CommentObj"
                   },
-                  "additionalProperties" : false
-                } ]
-              }
+                  "date_create" : {
+                    "type" : "integer"
+                  },
+                  "file" : {
+                    "$ref" : "#/components/schemas/FileObj"
+                  },
+                  "type" : {
+                    "type" : "string",
+                    "enum" : [ "file_comment" ]
+                  }
+                },
+                "additionalProperties" : false
+              }, {
+                "required" : [ "channel", "date_create", "type" ],
+                "type" : "object",
+                "properties" : {
+                  "channel" : {
+                    "$ref" : "#/components/schemas/ChannelDef"
+                  },
+                  "date_create" : {
+                    "type" : "integer"
+                  },
+                  "type" : {
+                    "type" : "string",
+                    "enum" : [ "channel" ]
+                  }
+                },
+                "additionalProperties" : false
+              }, {
+                "required" : [ "channel", "date_create", "type" ],
+                "type" : "object",
+                "properties" : {
+                  "channel" : {
+                    "$ref" : "#/components/schemas/DmIdDef"
+                  },
+                  "date_create" : {
+                    "type" : "integer"
+                  },
+                  "type" : {
+                    "type" : "string",
+                    "enum" : [ "im" ]
+                  }
+                },
+                "additionalProperties" : false
+              }, {
+                "required" : [ "channel", "date_create", "type" ],
+                "type" : "object",
+                "properties" : {
+                  "channel" : {
+                    "$ref" : "#/components/schemas/GroupIdDef"
+                  },
+                  "date_create" : {
+                    "type" : "integer"
+                  },
+                  "type" : {
+                    "type" : "string",
+                    "enum" : [ "group" ]
+                  }
+                },
+                "additionalProperties" : false
+              } ]
             }
           }
         },
@@ -17508,9 +17437,6 @@
         "type" : "boolean",
         "enum" : [ true ]
       },
-      "ChannelActionsTsChannelActionsTsAnyOf12" : {
-        "nullable" : true
-      },
       "EnterpriseUserObj" : {
         "required" : [ "enterprise_id", "enterprise_name", "id", "is_admin", "is_owner", "teams" ],
         "type" : "object",
@@ -17788,9 +17714,6 @@
         "additionalProperties" : false,
         "description" : "Schema for successful response from pins.add method"
       },
-      "TzAnyOf1" : {
-        "nullable" : true
-      },
       "ConversationsSetPurposeErrorResponse" : {
         "title" : "ConversationsSetPurposeErrorResponse",
         "required" : [ "error", "ok" ],
@@ -17943,9 +17866,6 @@
           }
         },
         "additionalProperties" : false
-      },
-      "OptionsAnyOf1" : {
-        "nullable" : true
       },
       "ScopesObj" : {
         "type" : "array",
@@ -18217,9 +18137,6 @@
         },
         "additionalProperties" : false
       },
-      "LatestAnyOf2" : {
-        "nullable" : true
-      },
       "ConversationsCloseResponse" : {
         "title" : "ConversationsCloseResponse",
         "required" : [ "ok" ],
@@ -18275,55 +18192,52 @@
           "items" : {
             "type" : "array",
             "items" : {
-              "type" : "array",
-              "items" : {
-                "anyOf" : [ {
-                  "required" : [ "channel", "message", "type" ],
-                  "type" : "object",
-                  "properties" : {
-                    "channel" : {
-                      "$ref" : "#/components/schemas/ChannelDef"
-                    },
-                    "message" : {
-                      "$ref" : "#/components/schemas/MessageObj"
-                    },
-                    "type" : {
-                      "type" : "string",
-                      "enum" : [ "message" ]
-                    }
+              "anyOf" : [ {
+                "required" : [ "channel", "message", "type" ],
+                "type" : "object",
+                "properties" : {
+                  "channel" : {
+                    "$ref" : "#/components/schemas/ChannelDef"
                   },
-                  "additionalProperties" : false
-                }, {
-                  "required" : [ "file", "type" ],
-                  "type" : "object",
-                  "properties" : {
-                    "file" : {
-                      "$ref" : "#/components/schemas/FileObj"
-                    },
-                    "type" : {
-                      "type" : "string",
-                      "enum" : [ "file" ]
-                    }
+                  "message" : {
+                    "$ref" : "#/components/schemas/MessageObj"
                   },
-                  "additionalProperties" : false
-                }, {
-                  "required" : [ "comment", "file", "type" ],
-                  "type" : "object",
-                  "properties" : {
-                    "comment" : {
-                      "$ref" : "#/components/schemas/CommentObj"
-                    },
-                    "file" : {
-                      "$ref" : "#/components/schemas/FileObj"
-                    },
-                    "type" : {
-                      "type" : "string",
-                      "enum" : [ "file_comment" ]
-                    }
+                  "type" : {
+                    "type" : "string",
+                    "enum" : [ "message" ]
+                  }
+                },
+                "additionalProperties" : false
+              }, {
+                "required" : [ "file", "type" ],
+                "type" : "object",
+                "properties" : {
+                  "file" : {
+                    "$ref" : "#/components/schemas/FileObj"
                   },
-                  "additionalProperties" : false
-                } ]
-              }
+                  "type" : {
+                    "type" : "string",
+                    "enum" : [ "file" ]
+                  }
+                },
+                "additionalProperties" : false
+              }, {
+                "required" : [ "comment", "file", "type" ],
+                "type" : "object",
+                "properties" : {
+                  "comment" : {
+                    "$ref" : "#/components/schemas/CommentObj"
+                  },
+                  "file" : {
+                    "$ref" : "#/components/schemas/FileObj"
+                  },
+                  "type" : {
+                    "type" : "string",
+                    "enum" : [ "file_comment" ]
+                  }
+                },
+                "additionalProperties" : false
+              } ]
             }
           }
         },
@@ -18380,9 +18294,6 @@
           }
         },
         "additionalProperties" : false
-      },
-      "DeletedByAnyOf1" : {
-        "nullable" : true
       },
       "UsersConversationsErrorResponse" : {
         "title" : "UsersConversationsErrorResponse",
@@ -18630,10 +18541,7 @@
             "x-ballerina-name" : "alreadyOpen"
           },
           "channel" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationsOpenResponseChannel"
-            }
+            "$ref" : "#/components/schemas/ConversationsOpenResponseChannel"
           },
           "ok" : {
             "$ref" : "#/components/schemas/OkTrueDef"
@@ -18780,10 +18688,10 @@
             "x-ballerina-name" : "displayAsBot"
           },
           "bot_id" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/MessageObjBotId"
-            },
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/BotIdDef"
+            } ],
+            "nullable" : true,
             "x-ballerina-name" : "botId"
           },
           "latest_reply" : {
@@ -19351,16 +19259,16 @@
             "$ref" : "#/components/schemas/UserIdDef"
           },
           "latest" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationObjLatest2"
-            }
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MessageObj"
+            } ],
+            "nullable" : true
           },
           "parent_conversation" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationObjParentConversation2"
-            },
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ChannelDef"
+            } ],
+            "nullable" : true,
             "x-ballerina-name" : "parentConversation"
           }
         },
@@ -19693,13 +19601,6 @@
           }
         },
         "additionalProperties" : false
-      },
-      "ConversationObjLatest" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/MessageObj"
-        }, {
-          "$ref" : "#/components/schemas/LatestAnyOf21"
-        } ]
       },
       "SubteamIdDef" : {
         "title" : "Subteam ID",
@@ -20438,13 +20339,6 @@
           }
         }
       },
-      "ConversationsHistoryResponseChannelActionsTs" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/ChannelActionsTsAnyOf1"
-        }, {
-          "$ref" : "#/components/schemas/ChannelActionsTsChannelActionsTsAnyOf12"
-        } ]
-      },
       "UsersLookupByEmailResponse" : {
         "title" : "UsersLookupByEmailResponse",
         "required" : [ "ok", "user" ],
@@ -20588,9 +20482,6 @@
           }
         }
       },
-      "TzTzAnyOf12" : {
-        "type" : "string"
-      },
       "UserObjTeamProfile" : {
         "required" : [ "fields" ],
         "type" : "object",
@@ -20645,9 +20536,6 @@
           }
         },
         "additionalProperties" : false
-      },
-      "DiscoverableAnyOf1" : {
-        "nullable" : true
       },
       "ChatUnfurlErrorResponse" : {
         "title" : "ChatUnfurlErrorResponse",
@@ -20839,10 +20727,10 @@
             "x-ballerina-name" : "dateUpdate"
           },
           "deleted_by" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/SubteamObjDeletedBy"
-            },
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/UserIdDef"
+            } ],
+            "nullable" : true,
             "x-ballerina-name" : "deletedBy"
           },
           "description" : {
@@ -20874,10 +20762,10 @@
             }
           },
           "auto_type" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/SubteamObjAutoType"
-            },
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/AutoTypeAutoTypeAnyOf12"
+            } ],
+            "nullable" : true,
             "x-ballerina-name" : "autoType"
           },
           "prefs" : {
@@ -21039,27 +20927,21 @@
           "ids" : {
             "type" : "array",
             "items" : {
-              "type" : "array",
-              "items" : {
-                "anyOf" : [ {
-                  "$ref" : "#/components/schemas/ChannelDef"
-                }, {
-                  "$ref" : "#/components/schemas/TeamDef"
-                } ]
-              }
+              "anyOf" : [ {
+                "$ref" : "#/components/schemas/ChannelDef"
+              }, {
+                "$ref" : "#/components/schemas/TeamDef"
+              } ]
             }
           },
           "excluded_ids" : {
             "type" : "array",
             "items" : {
-              "type" : "array",
-              "items" : {
-                "anyOf" : [ {
-                  "$ref" : "#/components/schemas/ChannelDef"
-                }, {
-                  "$ref" : "#/components/schemas/TeamDef"
-                } ]
-              }
+              "anyOf" : [ {
+                "$ref" : "#/components/schemas/ChannelDef"
+              }, {
+                "$ref" : "#/components/schemas/TeamDef"
+              } ]
             },
             "x-ballerina-name" : "excludedIds"
           },
@@ -21199,13 +21081,6 @@
         "additionalProperties" : false,
         "description" : "Schema for error response from reactions.remove method"
       },
-      "SubteamObjDeletedBy" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/DeletedByAnyOf1"
-        }, {
-          "$ref" : "#/components/schemas/UserIdDef"
-        } ]
-      },
       "AdminConversationsInviteResponse" : {
         "title" : "AdminConversationsInviteResponse",
         "required" : [ "ok" ],
@@ -21217,13 +21092,6 @@
         },
         "additionalProperties" : false,
         "description" : "Schema for successful response of admin.conversations.invite"
-      },
-      "UserObjTz" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/TzAnyOf1"
-        }, {
-          "$ref" : "#/components/schemas/TzTzAnyOf12"
-        } ]
       },
       "UsersSetPhotoResponse" : {
         "title" : "UsersSetPhotoResponse",
@@ -21561,13 +21429,6 @@
         "additionalProperties" : false,
         "description" : "Schema for error response from users.setActive method"
       },
-      "ChannelObjLatest" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/MessageObj"
-        }, {
-          "$ref" : "#/components/schemas/LatestAnyOf2"
-        } ]
-      },
       "ChannelObj" : {
         "title" : "Channel Object",
         "required" : [ "created", "creator", "id", "is_channel", "is_mpim", "is_org_shared", "is_private", "is_shared", "members", "name", "name_normalized", "purpose", "topic" ],
@@ -21644,10 +21505,10 @@
             "x-ballerina-name" : "previousNames"
           },
           "latest" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ChannelObjLatest"
-            }
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MessageObj"
+            } ],
+            "nullable" : true
           },
           "last_read" : {
             "allOf" : [ {
@@ -21877,10 +21738,13 @@
         "description" : "This method either only returns a brief _not OK_ response or a verbose schema is not available for this method"
       },
       "ConversationObj" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/InlineArrayItemsConversationObj"
-        }
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/ConversationObject"
+        }, {
+          "$ref" : "#/components/schemas/ConversationMPIMObject"
+        }, {
+          "$ref" : "#/components/schemas/ConversationIMChannelObjectFromConversationsMethods"
+        } ]
       },
       "UsersCountsErrorResponse" : {
         "title" : "UsersCountsErrorResponse",
@@ -22374,10 +22238,13 @@
         }
       },
       "ResponseMetadataObj" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/InlineArrayItemsResponseMetadataObj"
-        }
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/NewPagingStyle"
+        }, {
+          "$ref" : "#/components/schemas/DeprecationWarning"
+        }, {
+          "$ref" : "#/components/schemas/DeprecationWarningAndPagingStyleTogether"
+        } ]
       },
       "FilesDeleteErrorResponse" : {
         "title" : "FilesDeleteErrorResponse",
@@ -22964,10 +22831,10 @@
             "x-ballerina-name" : "pendingConnectedTeamIds"
           },
           "latest" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationObjLatest1"
-            }
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MessageObj"
+            } ],
+            "nullable" : true
           },
           "last_read" : {
             "allOf" : [ {
@@ -23027,10 +22894,10 @@
             "$ref" : "#/components/schemas/UserIdDef"
           },
           "parent_conversation" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationObjParentConversation1"
-            },
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ChannelDef"
+            } ],
+            "nullable" : true,
             "x-ballerina-name" : "parentConversation"
           }
         },
@@ -23163,15 +23030,6 @@
             "type" : "string"
           }
         }
-      },
-      "InlineArrayItemsConversationObj" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/ConversationObject"
-        }, {
-          "$ref" : "#/components/schemas/ConversationMPIMObject"
-        }, {
-          "$ref" : "#/components/schemas/ConversationIMChannelObjectFromConversationsMethods"
-        } ]
       },
       "AdminConversationsDeleteBody" : {
         "required" : [ "channel_id" ],
@@ -23348,9 +23206,6 @@
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _OK_ response or a verbose schema is not available for this method"
       },
-      "LatestAnyOf23" : {
-        "nullable" : true
-      },
       "DefaultSuccessResponse56" : {
         "title" : "DefaultSuccessResponse",
         "required" : [ "ok" ],
@@ -23363,9 +23218,6 @@
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _OK_ response or a verbose schema is not available for this method"
       },
-      "LatestAnyOf22" : {
-        "nullable" : true
-      },
       "DefaultSuccessResponse55" : {
         "title" : "DefaultSuccessResponse",
         "required" : [ "ok" ],
@@ -23377,9 +23229,6 @@
         },
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _OK_ response or a verbose schema is not available for this method"
-      },
-      "LatestAnyOf21" : {
-        "nullable" : true
       },
       "DefaultSuccessResponse54" : {
         "title" : "DefaultSuccessResponse",
@@ -23550,107 +23399,104 @@
           "messages" : {
             "type" : "array",
             "items" : {
-              "type" : "array",
-              "items" : {
-                "anyOf" : [ {
-                  "required" : [ "reply_count", "subscribed", "text", "thread_ts", "ts", "type", "user" ],
-                  "type" : "object",
-                  "properties" : {
-                    "last_read" : {
-                      "$ref" : "#/components/schemas/TsDef"
-                    },
-                    "latest_reply" : {
-                      "$ref" : "#/components/schemas/TsDef"
-                    },
-                    "reply_count" : {
-                      "type" : "integer"
-                    },
-                    "reply_users" : {
-                      "uniqueItems" : true,
-                      "type" : "array",
-                      "items" : {
-                        "$ref" : "#/components/schemas/UserIdDef"
-                      }
-                    },
-                    "reply_users_count" : {
-                      "type" : "integer"
-                    },
-                    "source_team" : {
-                      "$ref" : "#/components/schemas/TeamDef"
-                    },
-                    "subscribed" : {
-                      "type" : "boolean"
-                    },
-                    "team" : {
-                      "$ref" : "#/components/schemas/TeamDef"
-                    },
-                    "text" : {
-                      "type" : "string"
-                    },
-                    "thread_ts" : {
-                      "$ref" : "#/components/schemas/TsDef"
-                    },
-                    "ts" : {
-                      "$ref" : "#/components/schemas/TsDef"
-                    },
-                    "type" : {
-                      "type" : "string"
-                    },
-                    "unread_count" : {
-                      "type" : "integer"
-                    },
-                    "user" : {
+              "anyOf" : [ {
+                "required" : [ "reply_count", "subscribed", "text", "thread_ts", "ts", "type", "user" ],
+                "type" : "object",
+                "properties" : {
+                  "last_read" : {
+                    "$ref" : "#/components/schemas/TsDef"
+                  },
+                  "latest_reply" : {
+                    "$ref" : "#/components/schemas/TsDef"
+                  },
+                  "reply_count" : {
+                    "type" : "integer"
+                  },
+                  "reply_users" : {
+                    "uniqueItems" : true,
+                    "type" : "array",
+                    "items" : {
                       "$ref" : "#/components/schemas/UserIdDef"
-                    },
-                    "user_profile" : {
-                      "$ref" : "#/components/schemas/UserProfileShortObj"
-                    },
-                    "user_team" : {
-                      "$ref" : "#/components/schemas/TeamDef"
                     }
                   },
-                  "additionalProperties" : false
-                }, {
-                  "required" : [ "parent_user_id", "text", "thread_ts", "ts", "type", "user" ],
-                  "type" : "object",
-                  "properties" : {
-                    "is_starred" : {
-                      "type" : "boolean"
-                    },
-                    "parent_user_id" : {
-                      "$ref" : "#/components/schemas/UserIdDef"
-                    },
-                    "source_team" : {
-                      "$ref" : "#/components/schemas/TeamDef"
-                    },
-                    "team" : {
-                      "$ref" : "#/components/schemas/TeamDef"
-                    },
-                    "text" : {
-                      "type" : "string"
-                    },
-                    "thread_ts" : {
-                      "$ref" : "#/components/schemas/TsDef"
-                    },
-                    "ts" : {
-                      "$ref" : "#/components/schemas/TsDef"
-                    },
-                    "type" : {
-                      "type" : "string"
-                    },
-                    "user" : {
-                      "$ref" : "#/components/schemas/UserIdDef"
-                    },
-                    "user_profile" : {
-                      "$ref" : "#/components/schemas/UserProfileShortObj"
-                    },
-                    "user_team" : {
-                      "$ref" : "#/components/schemas/TeamDef"
-                    }
+                  "reply_users_count" : {
+                    "type" : "integer"
                   },
-                  "additionalProperties" : false
-                } ]
-              }
+                  "source_team" : {
+                    "$ref" : "#/components/schemas/TeamDef"
+                  },
+                  "subscribed" : {
+                    "type" : "boolean"
+                  },
+                  "team" : {
+                    "$ref" : "#/components/schemas/TeamDef"
+                  },
+                  "text" : {
+                    "type" : "string"
+                  },
+                  "thread_ts" : {
+                    "$ref" : "#/components/schemas/TsDef"
+                  },
+                  "ts" : {
+                    "$ref" : "#/components/schemas/TsDef"
+                  },
+                  "type" : {
+                    "type" : "string"
+                  },
+                  "unread_count" : {
+                    "type" : "integer"
+                  },
+                  "user" : {
+                    "$ref" : "#/components/schemas/UserIdDef"
+                  },
+                  "user_profile" : {
+                    "$ref" : "#/components/schemas/UserProfileShortObj"
+                  },
+                  "user_team" : {
+                    "$ref" : "#/components/schemas/TeamDef"
+                  }
+                },
+                "additionalProperties" : false
+              }, {
+                "required" : [ "parent_user_id", "text", "thread_ts", "ts", "type", "user" ],
+                "type" : "object",
+                "properties" : {
+                  "is_starred" : {
+                    "type" : "boolean"
+                  },
+                  "parent_user_id" : {
+                    "$ref" : "#/components/schemas/UserIdDef"
+                  },
+                  "source_team" : {
+                    "$ref" : "#/components/schemas/TeamDef"
+                  },
+                  "team" : {
+                    "$ref" : "#/components/schemas/TeamDef"
+                  },
+                  "text" : {
+                    "type" : "string"
+                  },
+                  "thread_ts" : {
+                    "$ref" : "#/components/schemas/TsDef"
+                  },
+                  "ts" : {
+                    "$ref" : "#/components/schemas/TsDef"
+                  },
+                  "type" : {
+                    "type" : "string"
+                  },
+                  "user" : {
+                    "$ref" : "#/components/schemas/UserIdDef"
+                  },
+                  "user_profile" : {
+                    "$ref" : "#/components/schemas/UserProfileShortObj"
+                  },
+                  "user_team" : {
+                    "$ref" : "#/components/schemas/TeamDef"
+                  }
+                },
+                "additionalProperties" : false
+              } ]
             }
           },
           "has_more" : {
@@ -23984,7 +23830,7 @@
       },
       "UserProfileObj" : {
         "title" : "User profile object",
-        "required" : [ "avatar_hash", "display_name", "display_name_normalized", "fields", "phone", "real_name", "real_name_normalized", "skype", "status_emoji", "status_text", "title" ],
+        "required" : [ "avatar_hash", "display_name", "display_name_normalized", "phone", "real_name", "real_name_normalized", "skype", "status_emoji", "status_text", "title" ],
         "type" : "object",
         "properties" : {
           "image_32" : {
@@ -24166,11 +24012,15 @@
             "x-ballerina-name" : "statusText"
           },
           "fields" : {
-            "type" : "array",
             "nullable" : true,
-            "items" : {
+            "oneOf" : [ {
               "type" : "object"
-            }
+            }, {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
+            } ]
           },
           "image_72" : {
             "type" : "string",
@@ -24219,9 +24069,6 @@
             "x-ballerina-name" : "teamId"
           }
         }
-      },
-      "AutoTypeAnyOf1" : {
-        "nullable" : true
       },
       "Blocks" : {
         "title" : "Block Kit blocks",
@@ -24502,18 +24349,12 @@
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _OK_ response or a verbose schema is not available for this method"
       },
-      "SubteamObjAutoType" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/AutoTypeAnyOf1"
-        }, {
-          "$ref" : "#/components/schemas/AutoTypeAutoTypeAnyOf12"
-        } ]
-      },
       "UserObj" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/InlineArrayItemsUserObj"
-        }
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/UserObjAnyOf1"
+        }, {
+          "$ref" : "#/components/schemas/UserObjUserObjAnyOf12"
+        } ]
       },
       "DefaultSuccessResponse38" : {
         "title" : "DefaultSuccessResponse",
@@ -24596,16 +24437,6 @@
         },
         "additionalProperties" : false,
         "description" : "Schema for error response from conversations.archive method"
-      },
-      "ParentConversationAnyOf2" : {
-        "nullable" : true
-      },
-      "InlineArrayItemsUserObj" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/UserObjAnyOf1"
-        }, {
-          "$ref" : "#/components/schemas/UserObjUserObjAnyOf12"
-        } ]
       },
       "AdminConversationsSetConversationPrefsErrorResponse" : {
         "title" : "AdminConversationsSetConversationPrefsErrorResponse",
@@ -24838,10 +24669,10 @@
             }
           },
           "channel_actions_ts" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationsHistoryResponseChannelActionsTs"
-            },
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ChannelActionsTsAnyOf1"
+            } ],
+            "nullable" : true,
             "x-ballerina-name" : "channelActionsTs"
           },
           "has_more" : {
@@ -25109,20 +24940,6 @@
         "pattern" : "^[TE][A-Z0-9]{8,}$",
         "type" : "string"
       },
-      "ConversationObjLatest2" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/MessageObj"
-        }, {
-          "$ref" : "#/components/schemas/LatestAnyOf23"
-        } ]
-      },
-      "ConversationObjLatest1" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/MessageObj"
-        }, {
-          "$ref" : "#/components/schemas/LatestAnyOf22"
-        } ]
-      },
       "AdminConversationsInviteBody" : {
         "required" : [ "channel_id", "user_ids" ],
         "type" : "object",
@@ -25198,13 +25015,6 @@
         },
         "additionalProperties" : false,
         "description" : "Schema for error response from users.identity method"
-      },
-      "TeamObjDiscoverable" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/DiscoverableAnyOf1"
-        }, {
-          "$ref" : "#/components/schemas/DiscoverableDiscoverableAnyOf12"
-        } ]
       },
       "RemindersAddResponse" : {
         "title" : "RemindersAddResponse",
@@ -25399,10 +25209,8 @@
             "x-ballerina-name" : "isRestricted"
           },
           "tz" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/UserObjTz1"
-            }
+            "type" : "string",
+            "nullable" : true
           },
           "tz_label" : {
             "type" : "string",
@@ -25582,13 +25390,6 @@
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _not OK_ response or a verbose schema is not available for this method"
       },
-      "TeamProfileFieldObjOptions" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/OptionsAnyOf1"
-        }, {
-          "$ref" : "#/components/schemas/TeamProfileFieldOptionObj"
-        } ]
-      },
       "DefaultErrorTemplate18" : {
         "title" : "DefaultErrorTemplate",
         "required" : [ "ok" ],
@@ -25620,15 +25421,6 @@
         },
         "additionalProperties" : false,
         "description" : "Schema for error response from files.revokePublicURL method"
-      },
-      "InlineArrayItemsResponseMetadataObj" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/NewPagingStyle"
-        }, {
-          "$ref" : "#/components/schemas/DeprecationWarning"
-        }, {
-          "$ref" : "#/components/schemas/DeprecationWarningAndPagingStyleTogether"
-        } ]
       },
       "ConversationsHistoryErrorResponse" : {
         "title" : "ConversationsHistoryErrorResponse",

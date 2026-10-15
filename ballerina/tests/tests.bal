@@ -67,6 +67,26 @@ function testGetUsersList() returns error? {
 }
 
 @test:Config {
+    groups: ["mock_tests"]
+}
+function testLookupUserByEmail() returns error? {
+    UsersLookupByEmailResponse response = check slack->/users\.lookupByEmail(email = "jdoe@example.com");
+    test:assertTrue(response.ok, "The ok attribute should be true");
+    test:assertEquals(response.user.id, "U0123ABCDEF", "The user id is not equal to the expected value");
+    test:assertEquals(response.user?.tz, "Asia/Colombo", "The user timezone is not equal to the expected value");
+}
+
+@test:Config {
+    groups: ["mock_tests"]
+}
+function testGetUserInfo() returns error? {
+    UsersInfoResponse response = check slack->/users\.info(user = "USLACKBOT");
+    test:assertTrue(response.ok, "The ok attribute should be true");
+    test:assertEquals(response.user.id, "USLACKBOT", "The user id is not equal to the expected value");
+    test:assertEquals(response.user.profile?.fields, {}, "The profile fields should be an empty object");
+}
+
+@test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 function testGetUserProfiles() returns error? {
