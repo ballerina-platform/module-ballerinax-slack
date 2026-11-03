@@ -56,7 +56,31 @@ These changes are done in order to improve the overall usability, and to address
 
 6. Added a `description` to the response properties and query parameters that had none but are part of a documented type, so that every field of the generated records is documented. Properties that only had a `$ref` are wrapped in a single-item `allOf` with the `description` next to it, because a `description` beside a `$ref` is ignored. This changes only the generated documentation, not the generated types.
 
-7. Changed the `ConversationObj` schema from an array to the `anyOf` of its variants, and changed the `latest` and `parent_conversation` properties of the `ConversationObject`, `ConversationMPIMObject` and `ConversationIMChannelObjectFromConversationsMethods` schemas from arrays to a nullable `MessageObj` and a nullable `ChannelDef`. The original specification uses `items` without `type` for these, which resulted in them being treated as arrays, while the Slack API returns a single conversation object and a single value or `null`. The unused `InlineArrayItemsConversationObj`, `ConversationObjLatest*`, `ConversationObjParentConversation*`, `LatestAnyOf2*` and `ParentConversationAnyOf2*` schemas were removed. This is the same change as in the data binding fix for the `ConversationObj` schema.
+7. Changed the `ConversationObj` schema from an array to the `anyOf` of its variants, and changed the `latest` and `parent_conversation` properties of the `ConversationObject`, `ConversationMPIMObject` and `ConversationIMChannelObjectFromConversationsMethods` schemas from arrays to a nullable `MessageObj` and a nullable `ChannelDef`. The original specification uses `items` without `type` for these, which resulted in them being treated as arrays, while the Slack API returns a single conversation object and a single value or `null`. The unused `InlineArrayItemsConversationObj`, `ConversationObjLatest*`, `ConversationObjParentConversation*`, `LatestAnyOf2*` and `ParentConversationAnyOf2*` schemas were removed.
+
+8. Changed the `UserObj` and `ResponseMetadataObj` schemas under the `components` section from arrays to the `anyOf` of their variants, and removed the `InlineArrayItemsUserObj` and `InlineArrayItemsResponseMetadataObj` schemas. The original specification defines `objs_user` and `objs_response_metadata` with an `items` keyword but no `type`, which resulted in them being treated as arrays, while the Slack API returns a single object.
+
+9. Changed the `tz` property of the `UserObjAnyOf1` and `UserObjUserObjAnyOf12` schemas to a nullable `string`, and removed the `UserObjTz`, `UserObjTz1`, `TzAnyOf1`, `TzTzAnyOf12`, `TzAnyOf11` and `TzTzAnyOf112` schemas. The original specification has the same `items` without `type` issue for `tz`, which resulted in it being treated as an array, while the Slack API returns a time zone string such as `Asia/Colombo`.
+
+10. Changed the `fields` property of the `UserProfileObj` schema to be optional and to accept either an object or an array, as in the original specification. The Slack API omits `fields` for most users and returns it as an object (e.g. `{}`) for others.
+
+11. Changed the inline `200` response schemas of `pins.list`, `reactions.get` and `users.identity` from arrays of `InlineResponseItems200`, `InlineResponseItems2001` and `InlineResponseItems2002` to a reference to those schemas directly. Also changed the `channel` property of the `ConversationsOpenResponse` schema from an array to a single `ConversationsOpenResponseChannel`. The original specification uses `items` without `type` for these, while the Slack API returns a single object.
+
+12. Changed the following properties from arrays to a nullable single value, and removed the corresponding wrapper and `null` variant schemas. The original specification uses `items` without `type` to express "a value or null" for these properties.
+    * `bot_id` of `MessageObj` (nullable `BotIdDef`)
+    * `discoverable` of `TeamObj` (nullable string)
+    * `deleted_by` and `auto_type` of `SubteamObj` (nullable `UserIdDef` and nullable string)
+    * `options` of `TeamProfileFieldObj` (nullable `TeamProfileFieldOptionObj`)
+    * `latest` of `ChannelObj` (nullable `MessageObj`)
+    * `channel_actions_ts` of `ConversationsHistoryResponse` (nullable integer)
+
+13. Changed the `messages` property of `ConversationsRepliesResponse` and the `items` property of `ReactionsListResponse` from arrays of arrays to arrays. The original specification uses `items` with a list of schemas inside an array, which resulted in a nested array, while the Slack API returns a flat array.
+
+14. Made the `thread_ts`, `reply_count` and `subscribed` properties optional in the first (parent message) variant of the `messages` items of `ConversationsRepliesResponse`. When the requested message has no replies, the Slack API returns it as an ordinary message without these properties, which could not be bound to either variant.
+    * Also made `user` optional in both variants and added the optional `bot_id`, `subtype` and `username` properties, because messages posted by incoming webhooks and other integrations (subtype `bot_message`) have no `user`, and their replies have no `parent_user_id`.
+    * Moved the reply variant, which requires `parent_user_id`, before the parent variant. Union members are matched in order, so with the parent variant first a reply was bound to it and lost its `parent_user_id`.
+
+15. Changed the `blocks` property of the `MessageObject` schema, used by the `chat.update` response, from an object to an array of objects. The Slack API returns the message's blocks as an array, the same as `attachments`.
 
 ## OpenAPI cli command
 

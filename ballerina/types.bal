@@ -21,8 +21,6 @@ import ballerina/constraint;
 import ballerina/data.jsondata;
 import ballerina/http;
 
-public type TzAnyOf11 anydata?;
-
 # Represents the Queries record for the operation: viewsPush
 public type ViewsPushQueries record {
     # A [view payload](/reference/surfaces/views). This must be a JSON-encoded string
@@ -33,8 +31,6 @@ public type ViewsPushQueries record {
 };
 
 public type ConversationsOpenResponseChannel ConversationObj|ChannelAnyOf2;
-
-public type NilBotIdSetWhenDisplayAsBotIsFalse anydata?;
 
 # Schema for successful response from usergroups.users.list method
 public type UsergroupsUsersListResponse record {|
@@ -177,8 +173,6 @@ public type AdminConversationsUnarchiveResponse record {|
 
 public type DiscoverableDiscoverableAnyOf12 string;
 
-public type TzTzAnyOf112 string;
-
 public type FilesCompleteUploadExternalBody record {
     # A JSON-based array of file IDs and their corresponding (optional) titles, e.g. `[{"id":"F123ABC456","title":"slack-test"}]`, presented as a URL-encoded string.
     string files;
@@ -226,8 +220,6 @@ public type AdminConversationsArchiveResponse record {|
     # `true` if the request succeeded
     OkTrueDef ok;
 |};
-
-public type MessageObjBotId BotIdDef|NilBotIdSetWhenDisplayAsBotIsFalse?;
 
 public type AdminTeamsSettingsSetDiscoverabilityBody record {
     # This workspace's discovery setting. It must be set to one of `open`, `invite_only`, `closed`, or `unlisted`
@@ -333,7 +325,7 @@ public type TeamProfileFieldObj record {|
     string[]? possibleValues?;
     @jsondata:Name {value: "is_hidden"}
     boolean isHidden?;
-    TeamProfileFieldObjOptions[] options?;
+    TeamProfileFieldOptionObj? options?;
     @constraint:String {pattern: re `^X[a-zA-Z0-9]{9,}$`}
     string id;
     string label;
@@ -453,7 +445,7 @@ public type TeamObj record {|
     boolean hasComplianceExport?;
     @jsondata:Name {value: "date_create"}
     int dateCreate?;
-    TeamObjDiscoverable[] discoverable?;
+    DiscoverableDiscoverableAnyOf12? discoverable?;
     string domain;
     string name;
     @jsondata:Name {value: "email_domain"}
@@ -511,8 +503,6 @@ public type FilesRemoteInfoQueries record {
     @http:Query {name: "external_id"}
     string externalId?;
 };
-
-public type UserObjTz1 TzAnyOf11|TzTzAnyOf112?;
 
 public type EnterpriseNameDef string;
 
@@ -901,7 +891,7 @@ public type UserObjAnyOf1 record {|
     @jsondata:Name {value: "is_restricted"}
     boolean isRestricted?;
     # Time zone of the user, such as `America/Los_Angeles`
-    UserObjTz[] tz?;
+    string? tz?;
     # Display name of the time zone of the user
     @jsondata:Name {value: "tz_label"}
     string tzLabel?;
@@ -1066,7 +1056,7 @@ public type ConversationsUnarchiveBody record {
 
 public type MessageObject record {
     record {}[] attachments?;
-    record {} blocks?;
+    record {}[] blocks?;
     string text;
 };
 
@@ -1149,8 +1139,6 @@ public type ConversationsJoinBody record {
 };
 
 public type OkTrueDef true;
-
-public type ChannelActionsTsChannelActionsTsAnyOf12 anydata?;
 
 # Represents the Queries record for the operation: adminAppsRestrictedList
 public type AdminAppsRestrictedListQueries record {
@@ -1309,8 +1297,6 @@ public type PinsAddResponse record {|
     OkTrueDef ok;
 |};
 
-public type TzAnyOf1 anydata?;
-
 public type ConversationsSetTopicBody record {
     # Conversation to set the topic of
     string channel?;
@@ -1337,8 +1323,6 @@ public type ConversationsArchiveBody record {
     # ID of conversation to archive
     string channel?;
 };
-
-public type OptionsAnyOf1 anydata?;
 
 # Represents the Queries record for the operation: usergroupsList
 public type UsergroupsListQueries record {
@@ -1496,8 +1480,6 @@ public type ChatScheduledMessagesListResponseResponseMetadata record {|
     string nextCursor;
 |};
 
-public type LatestAnyOf2 anydata?;
-
 # Represents the Queries record for the operation: rtmConnect
 public type RtmConnectQueries record {
     # Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events. See [batch presence](/docs/presence-and-status#batching)
@@ -1544,7 +1526,7 @@ public type ReactionsListResponse record {|
     # `true` if the request succeeded
     OkTrueDef ok;
     # Items the user reacted to
-    (record {|ChannelDef channel; MessageObj message; "message" 'type;|}|record {|FileObj file; "file" 'type;|}|record {|CommentObj comment; FileObj file; "file_comment" 'type;|})[][] items;
+    (record {|ChannelDef channel; MessageObj message; "message" 'type;|}|record {|FileObj file; "file" 'type;|}|record {|CommentObj comment; FileObj file; "file_comment" 'type;|})[] items;
 |};
 
 public type UsergroupsUpdateBody record {
@@ -1562,8 +1544,6 @@ public type UsergroupsUpdateBody record {
     @jsondata:Name {value: "include_count"}
     boolean includeCount?;
 };
-
-public type DeletedByAnyOf1 anydata?;
 
 public type IconObj record {
     @jsondata:Name {value: "image_132"}
@@ -1669,7 +1649,7 @@ public type ConversationsOpenResponse record {|
     @jsondata:Name {value: "already_open"}
     boolean alreadyOpen?;
     # The conversation
-    ConversationsOpenResponseChannel[] channel;
+    ConversationsOpenResponseChannel channel;
     # `true` if the request succeeded
     OkTrueDef ok;
     # `true` if the conversation was already in the requested state and nothing changed
@@ -1747,7 +1727,7 @@ public type MessageObj record {|
     @jsondata:Name {value: "display_as_bot"}
     boolean displayAsBot?;
     @jsondata:Name {value: "bot_id"}
-    MessageObjBotId[] botId?;
+    BotIdDef? botId?;
     @jsondata:Name {value: "latest_reply"}
     TsDef latestReply?;
     @jsondata:Name {value: "last_read"}
@@ -2417,8 +2397,6 @@ public type ConversationsHistoryQueries record {
     decimal latest?;
 };
 
-public type ConversationsHistoryResponseChannelActionsTs ChannelActionsTsAnyOf1|ChannelActionsTsChannelActionsTsAnyOf12?;
-
 public type MessageObjAttachments record {|
     @jsondata:Name {value: "image_height"}
     int imageHeight?;
@@ -2519,8 +2497,6 @@ public type ConversationsKickBody record {
     string user?;
 };
 
-public type TzTzAnyOf12 string;
-
 public type UserObjTeamProfile record {|
     @constraint:Array {minLength: 1}
     TeamProfileFieldObj[] fields;
@@ -2541,8 +2517,6 @@ public type MessagePin record {|
     @jsondata:Name {value: "created_by"}
     UserIdDef createdBy?;
 |};
-
-public type DiscoverableAnyOf1 anydata?;
 
 # Represents the Queries record for the operation: adminTeamsList
 public type AdminTeamsListQueries record {
@@ -2642,7 +2616,7 @@ public type SubteamObj record {|
     @jsondata:Name {value: "date_update"}
     int dateUpdate;
     @jsondata:Name {value: "deleted_by"}
-    SubteamObjDeletedBy[] deletedBy;
+    UserIdDef? deletedBy;
     string description;
     @jsondata:Name {value: "is_external"}
     boolean isExternal;
@@ -2653,7 +2627,7 @@ public type SubteamObj record {|
     UserIdDef createdBy;
     UserIdDef[] users?;
     @jsondata:Name {value: "auto_type"}
-    SubteamObjAutoType[] autoType;
+    AutoTypeAutoTypeAnyOf12? autoType;
     SubteamObjPrefs prefs;
     @jsondata:Name {value: "is_subteam"}
     boolean isSubteam;
@@ -2802,15 +2776,11 @@ public type '200200AnyOf12 record {|
     OkTrueDef ok;
 |};
 
-public type SubteamObjDeletedBy DeletedByAnyOf1|UserIdDef?;
-
 # Schema for successful response of admin.conversations.invite
 public type AdminConversationsInviteResponse record {|
     # `true` if the request succeeded
     OkTrueDef ok;
 |};
-
-public type UserObjTz TzAnyOf1|TzTzAnyOf12?;
 
 # Schema for successful response from users.setPhoto method
 public type UsersSetPhotoResponse record {|
@@ -2942,8 +2912,6 @@ public type '200AnyOf11 record {|
     "message" 'type;
 |};
 
-public type ChannelObjLatest MessageObj|LatestAnyOf2?;
-
 public type ChannelObj record {|
     @jsondata:Name {value: "is_private"}
     boolean isPrivate;
@@ -2970,7 +2938,7 @@ public type ChannelObj record {|
     ChannelIdDef id;
     @jsondata:Name {value: "previous_names"}
     ChannelNameDef[] previousNames?;
-    ChannelObjLatest[] latest?;
+    MessageObj? latest?;
     @jsondata:Name {value: "last_read"}
     TsDef lastRead?;
     UserIdDef creator;
@@ -3248,7 +3216,7 @@ public type PinsRemoveBody record {
     string timestamp?;
 };
 
-public type ResponseMetadataObj InlineArrayItemsResponseMetadataObj[];
+public type ResponseMetadataObj NewPagingStyle|DeprecationWarning|DeprecationWarningAndPagingStyleTogether;
 
 public type InlineResponseItems2002 '200AnyOf12|'200200AnyOf122|'200200200AnyOf1223|'200200200200AnyOf12234;
 
@@ -3667,7 +3635,7 @@ public type AdminTeamsSettingsSetIconBody record {
 # Schema for successful response from conversations.replies method
 public type ConversationsRepliesResponse record {|
     # The parent message followed by its replies
-    (record {|TsDef last_read?; TsDef latest_reply?; int reply_count; UserIdDef[] reply_users?; int reply_users_count?; TeamDef source_team?; boolean subscribed; TeamDef team?; string text; TsDef thread_ts; TsDef ts; string 'type; int unread_count?; UserIdDef user; UserProfileShortObj user_profile?; TeamDef user_team?;|}|record {|boolean is_starred?; UserIdDef parent_user_id; TeamDef source_team?; TeamDef team?; string text; TsDef thread_ts; TsDef ts; string 'type; UserIdDef user; UserProfileShortObj user_profile?; TeamDef user_team?;|})[][] messages;
+    (record {|BotIdDef bot_id?; boolean is_starred?; UserIdDef parent_user_id; TeamDef source_team?; string subtype?; TeamDef team?; string text; TsDef thread_ts; TsDef ts; string 'type; UserIdDef user?; UserProfileShortObj user_profile?; TeamDef user_team?; string username?;|}|record {|BotIdDef bot_id?; TsDef last_read?; TsDef latest_reply?; int reply_count?; UserIdDef[] reply_users?; int reply_users_count?; TeamDef source_team?; boolean subscribed?; string subtype?; TeamDef team?; string text; TsDef thread_ts?; TsDef ts; string 'type; int unread_count?; UserIdDef user?; UserProfileShortObj user_profile?; TeamDef user_team?; string username?;|})[] messages;
     # Whether more results are available
     @jsondata:Name {value: "has_more"}
     boolean hasMore?;
@@ -3917,7 +3885,7 @@ public type UserProfileObj record {|
     boolean isCustomImage?;
     @jsondata:Name {value: "status_text"}
     string statusText;
-    record {}[]? fields;
+    record {}|record {}[]? fields?;
     @jsondata:Name {value: "image_72"}
     string? image72?;
     int updated?;
@@ -3934,8 +3902,6 @@ public type AdminUsersSetRegularBody record {
     @jsondata:Name {value: "team_id"}
     string teamId;
 };
-
-public type AutoTypeAnyOf1 anydata?;
 
 # This is a very loose definition, in the future, we'll populate this with deeper schema in this definition namespace
 public type Blocks BlocksInner[];
@@ -4089,8 +4055,6 @@ public type DefaultSuccessResponse39 record {
     OkTrueDef ok;
 };
 
-public type SubteamObjAutoType AutoTypeAnyOf1|AutoTypeAutoTypeAnyOf12?;
-
 # This method either only returns a brief _OK_ response or a verbose schema is not available for this method
 public type DefaultSuccessResponse38 record {
     # `true` if the request succeeded
@@ -4111,9 +4075,7 @@ public type ChatUpdateResponse record {|
     string ts;
 |};
 
-public type UserObj InlineArrayItemsUserObj[];
-
-public type InlineArrayItemsUserObj UserObjAnyOf1|UserObjUserObjAnyOf12;
+public type UserObj UserObjAnyOf1|UserObjUserObjAnyOf12;
 
 # Represents the Queries record for the operation: dndTeamInfo
 public type DndTeamInfoQueries record {
@@ -4205,7 +4167,7 @@ public type ConversationsHistoryResponse record {|
     MessageObj[] messages;
     # Timestamp of the last channel action in the conversation
     @jsondata:Name {value: "channel_actions_ts"}
-    ConversationsHistoryResponseChannelActionsTs[] channelActionsTs;
+    ChannelActionsTsAnyOf1? channelActionsTs;
     # Whether more results are available
     @jsondata:Name {value: "has_more"}
     boolean hasMore;
@@ -4361,8 +4323,6 @@ public type AdminConversationsInviteBody record {
 @constraint:String {pattern: re `^[G][A-Z0-9]{8,}$`}
 public type GroupIdDef string;
 
-public type TeamObjDiscoverable DiscoverableAnyOf1|DiscoverableDiscoverableAnyOf12?;
-
 # Schema for successful response of admin.conversations.getTeams
 public type AdminConversationsGetTeamsResponse record {|
     # IDs of the workspaces the conversation is connected to
@@ -4410,7 +4370,7 @@ public type UserObjUserObjAnyOf12 record {|
     @jsondata:Name {value: "is_restricted"}
     boolean isRestricted?;
     # Time zone of the user, such as `America/Los_Angeles`
-    UserObjTz1[] tz?;
+    string? tz?;
     # Display name of the time zone of the user
     @jsondata:Name {value: "tz_label"}
     string tzLabel?;
@@ -4485,10 +4445,6 @@ public type TeamProfileGetResponse record {|
     # `true` if the request succeeded
     OkTrueDef ok;
 |};
-
-public type TeamProfileFieldObjOptions OptionsAnyOf1|TeamProfileFieldOptionObj?;
-
-public type InlineArrayItemsResponseMetadataObj NewPagingStyle|DeprecationWarning|DeprecationWarningAndPagingStyleTogether;
 
 # Schema for successful response conversations.kick method
 public type ConversationsKickResponse record {|
