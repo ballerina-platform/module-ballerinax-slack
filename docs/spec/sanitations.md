@@ -56,6 +56,8 @@ These changes are done in order to improve the overall usability, and to address
 
 6. Added a `description` to the response properties and query parameters that had none but are part of a documented type, so that every field of the generated records is documented. Properties that only had a `$ref` are wrapped in a single-item `allOf` with the `description` next to it, because a `description` beside a `$ref` is ignored. This changes only the generated documentation, not the generated types.
 
+7. Changed the `ConversationObj` schema from an array to the `anyOf` of its variants, and changed the `latest` and `parent_conversation` properties of the `ConversationObject`, `ConversationMPIMObject` and `ConversationIMChannelObjectFromConversationsMethods` schemas from arrays to a nullable `MessageObj` and a nullable `ChannelDef`. The original specification uses `items` without `type` for these, which resulted in them being treated as arrays, while the Slack API returns a single conversation object and a single value or `null`. The unused `InlineArrayItemsConversationObj`, `ConversationObjLatest*`, `ConversationObjParentConversation*`, `LatestAnyOf2*` and `ParentConversationAnyOf2*` schemas were removed. This is the same change as in the data binding fix for the `ConversationObj` schema.
+
 ## OpenAPI cli command
 
 The following command was used to generate the Ballerina client from the OpenAPI specification. The command should be executed from the repository root directory.

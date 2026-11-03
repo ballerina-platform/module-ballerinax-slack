@@ -13882,13 +13882,6 @@
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _not OK_ response or a verbose schema is not available for this method"
       },
-      "ConversationObjParentConversation" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/ChannelDef"
-        }, {
-          "$ref" : "#/components/schemas/ParentConversationAnyOf2"
-        } ]
-      },
       "DefaultErrorTemplate50" : {
         "title" : "DefaultErrorTemplate",
         "required" : [ "ok" ],
@@ -14121,9 +14114,6 @@
         },
         "additionalProperties" : false
       },
-      "ParentConversationAnyOf22" : {
-        "nullable" : true
-      },
       "DefaultErrorTemplate60" : {
         "title" : "DefaultErrorTemplate",
         "required" : [ "ok" ],
@@ -14135,9 +14125,6 @@
         },
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _not OK_ response or a verbose schema is not available for this method"
-      },
-      "ParentConversationAnyOf21" : {
-        "nullable" : true
       },
       "ConversationsRenameErrorResponse" : {
         "title" : "ConversationsRenameErrorResponse",
@@ -14420,10 +14407,10 @@
             "x-ballerina-name" : "pendingConnectedTeamIds"
           },
           "latest" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationObjLatest"
-            }
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MessageObj"
+            } ],
+            "nullable" : true
           },
           "has_pins" : {
             "type" : "boolean",
@@ -14497,10 +14484,10 @@
             "$ref" : "#/components/schemas/UserIdDef"
           },
           "parent_conversation" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationObjParentConversation"
-            },
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ChannelDef"
+            } ],
+            "nullable" : true,
             "x-ballerina-name" : "parentConversation"
           }
         },
@@ -14956,13 +14943,6 @@
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _OK_ response or a verbose schema is not available for this method"
       },
-      "ConversationObjParentConversation2" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/ChannelDef"
-        }, {
-          "$ref" : "#/components/schemas/ParentConversationAnyOf22"
-        } ]
-      },
       "ConversationsInviteErrorResponse1" : {
         "title" : "ConversationsInviteErrorResponse",
         "required" : [ "ok" ],
@@ -14997,13 +14977,6 @@
         },
         "additionalProperties" : false,
         "description" : "Schema for error response from conversations.invite method"
-      },
-      "ConversationObjParentConversation1" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/ChannelDef"
-        }, {
-          "$ref" : "#/components/schemas/ParentConversationAnyOf21"
-        } ]
       },
       "DialogOpenErrorResponse" : {
         "title" : "DialogOpenErrorResponse",
@@ -17737,16 +17710,16 @@
             "$ref" : "#/components/schemas/UserIdDef"
           },
           "latest" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationObjLatest2"
-            }
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MessageObj"
+            } ],
+            "nullable" : true
           },
           "parent_conversation" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationObjParentConversation2"
-            },
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ChannelDef"
+            } ],
+            "nullable" : true,
             "x-ballerina-name" : "parentConversation"
           }
         },
@@ -18016,13 +17989,6 @@
           }
         },
         "additionalProperties" : false
-      },
-      "ConversationObjLatest" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/MessageObj"
-        }, {
-          "$ref" : "#/components/schemas/LatestAnyOf21"
-        } ]
       },
       "SubteamIdDef" : {
         "title" : "Subteam ID",
@@ -20141,10 +20107,13 @@
         "description" : "This method either only returns a brief _not OK_ response or a verbose schema is not available for this method"
       },
       "ConversationObj" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/InlineArrayItemsConversationObj"
-        }
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/ConversationObject"
+        }, {
+          "$ref" : "#/components/schemas/ConversationMPIMObject"
+        }, {
+          "$ref" : "#/components/schemas/ConversationIMChannelObjectFromConversationsMethods"
+        } ]
       },
       "UsersCountsErrorResponse" : {
         "title" : "UsersCountsErrorResponse",
@@ -21149,10 +21118,10 @@
             "x-ballerina-name" : "pendingConnectedTeamIds"
           },
           "latest" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationObjLatest1"
-            }
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MessageObj"
+            } ],
+            "nullable" : true
           },
           "last_read" : {
             "allOf" : [ {
@@ -21212,10 +21181,10 @@
             "$ref" : "#/components/schemas/UserIdDef"
           },
           "parent_conversation" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ConversationObjParentConversation1"
-            },
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ChannelDef"
+            } ],
+            "nullable" : true,
             "x-ballerina-name" : "parentConversation"
           }
         },
@@ -21365,15 +21334,6 @@
             "type" : "string"
           }
         }
-      },
-      "InlineArrayItemsConversationObj" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/ConversationObject"
-        }, {
-          "$ref" : "#/components/schemas/ConversationMPIMObject"
-        }, {
-          "$ref" : "#/components/schemas/ConversationIMChannelObjectFromConversationsMethods"
-        } ]
       },
       "AdminConversationsDeleteBody" : {
         "required" : [ "channel_id" ],
@@ -21556,9 +21516,6 @@
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _OK_ response or a verbose schema is not available for this method"
       },
-      "LatestAnyOf23" : {
-        "nullable" : true
-      },
       "DefaultSuccessResponse56" : {
         "title" : "DefaultSuccessResponse",
         "required" : [ "ok" ],
@@ -21574,9 +21531,6 @@
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _OK_ response or a verbose schema is not available for this method"
       },
-      "LatestAnyOf22" : {
-        "nullable" : true
-      },
       "DefaultSuccessResponse55" : {
         "title" : "DefaultSuccessResponse",
         "required" : [ "ok" ],
@@ -21591,9 +21545,6 @@
         },
         "additionalProperties" : true,
         "description" : "This method either only returns a brief _OK_ response or a verbose schema is not available for this method"
-      },
-      "LatestAnyOf21" : {
-        "nullable" : true
       },
       "DefaultSuccessResponse54" : {
         "title" : "DefaultSuccessResponse",
@@ -22866,9 +22817,6 @@
         "additionalProperties" : false,
         "description" : "Schema for error response from conversations.archive method"
       },
-      "ParentConversationAnyOf2" : {
-        "nullable" : true
-      },
       "InlineArrayItemsUserObj" : {
         "anyOf" : [ {
           "$ref" : "#/components/schemas/UserObjAnyOf1"
@@ -23413,20 +23361,6 @@
         "title" : "Team or Enterprise ID",
         "pattern" : "^[TE][A-Z0-9]{8,}$",
         "type" : "string"
-      },
-      "ConversationObjLatest2" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/MessageObj"
-        }, {
-          "$ref" : "#/components/schemas/LatestAnyOf23"
-        } ]
-      },
-      "ConversationObjLatest1" : {
-        "anyOf" : [ {
-          "$ref" : "#/components/schemas/MessageObj"
-        }, {
-          "$ref" : "#/components/schemas/LatestAnyOf22"
-        } ]
       },
       "AdminConversationsInviteBody" : {
         "required" : [ "channel_id", "user_ids" ],

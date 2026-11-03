@@ -503,8 +503,6 @@ public type AdminUsersRemoveBody record {
     string teamId;
 };
 
-public type ConversationObjParentConversation ChannelDef|ParentConversationAnyOf2?;
-
 # Represents the Queries record for the operation: filesRemoteInfo
 public type FilesRemoteInfoQueries record {
     # Specify a file by providing its ID
@@ -526,10 +524,6 @@ public type BotsInfoResponseBotIcons record {|
     @jsondata:Name {value: "image_72"}
     string image72;
 |};
-
-public type ParentConversationAnyOf22 anydata?;
-
-public type ParentConversationAnyOf21 anydata?;
 
 # Represents the Queries record for the operation: adminInviteRequestsList
 public type AdminInviteRequestsListQueries record {
@@ -606,7 +600,7 @@ public type ConversationObject record {|
     WorkspaceIdDef[] connectedTeamIds?;
     @jsondata:Name {value: "pending_connected_team_ids"}
     TeamDef[] pendingConnectedTeamIds?;
-    ConversationObjLatest[] latest?;
+    MessageObj? latest?;
     @jsondata:Name {value: "has_pins"}
     boolean hasPins?;
     @jsondata:Name {value: "last_read"}
@@ -639,7 +633,7 @@ public type ConversationObject record {|
     boolean isThreadOnly?;
     UserIdDef user?;
     @jsondata:Name {value: "parent_conversation"}
-    ConversationObjParentConversation[] parentConversation?;
+    ChannelDef? parentConversation?;
 |};
 
 # Schema for successful response from team.integrationLogs method
@@ -797,10 +791,6 @@ public type DefaultSuccessResponse4 record {
     # `true` if the request succeeded
     OkTrueDef ok;
 };
-
-public type ConversationObjParentConversation2 ChannelDef|ParentConversationAnyOf22?;
-
-public type ConversationObjParentConversation1 ChannelDef|ParentConversationAnyOf21?;
 
 public type '200AnyOf1 record {|
     OkTrueDef ok;
@@ -1932,9 +1922,9 @@ public type ConversationIMChannelObjectFromConversationsMethods record {|
     @jsondata:Name {value: "is_org_shared"}
     boolean isOrgShared;
     UserIdDef user;
-    ConversationObjLatest2[] latest?;
+    MessageObj? latest?;
     @jsondata:Name {value: "parent_conversation"}
-    ConversationObjParentConversation2[] parentConversation?;
+    ChannelDef? parentConversation?;
 |};
 
 public type TeamProfileGetResponseProfile record {|
@@ -2057,8 +2047,6 @@ public type AdminTeamsSettingsInfoQueries record {
     @http:Query {name: "team_id"}
     string teamId;
 };
-
-public type ConversationObjLatest MessageObj|LatestAnyOf21?;
 
 @constraint:String {pattern: re `^S[A-Z0-9]{2,}$`}
 public type SubteamIdDef string;
@@ -3052,7 +3040,7 @@ public type AdminConversationsRenameResponse record {|
     OkTrueDef ok;
 |};
 
-public type ConversationObj InlineArrayItemsConversationObj[];
+public type ConversationObj ConversationObject|ConversationMPIMObject|ConversationIMChannelObjectFromConversationsMethods;
 
 # Schema for successful response from dialog.open method
 public type DialogOpenResponse record {|
@@ -3444,7 +3432,7 @@ public type ConversationMPIMObject record {|
     TeamDef[] connectedTeamIds?;
     @jsondata:Name {value: "pending_connected_team_ids"}
     TeamDef[] pendingConnectedTeamIds?;
-    ConversationObjLatest1[] latest?;
+    MessageObj? latest?;
     @jsondata:Name {value: "last_read"}
     TsDef lastRead?;
     UserIdDef creator;
@@ -3471,7 +3459,7 @@ public type ConversationMPIMObject record {|
     boolean isThreadOnly?;
     UserIdDef user?;
     @jsondata:Name {value: "parent_conversation"}
-    ConversationObjParentConversation1[] parentConversation?;
+    ChannelDef? parentConversation?;
 |};
 
 # Schema for successful response from conversations.unarchive method
@@ -3538,8 +3526,6 @@ public type PrimaryOwnerObj record {
     string id;
     string email;
 };
-
-public type InlineArrayItemsConversationObj ConversationObject|ConversationMPIMObject|ConversationIMChannelObjectFromConversationsMethods;
 
 public type AdminConversationsDeleteBody record {
     # The channel to delete
@@ -3608,23 +3594,17 @@ public type DefaultSuccessResponse58 record {
     OkTrueDef ok;
 };
 
-public type LatestAnyOf23 anydata?;
-
 # This method either only returns a brief _OK_ response or a verbose schema is not available for this method
 public type DefaultSuccessResponse57 record {
     # `true` if the request succeeded
     OkTrueDef ok;
 };
 
-public type LatestAnyOf22 anydata?;
-
 # This method either only returns a brief _OK_ response or a verbose schema is not available for this method
 public type DefaultSuccessResponse56 record {
     # `true` if the request succeeded
     OkTrueDef ok;
 };
-
-public type LatestAnyOf21 anydata?;
 
 # This method either only returns a brief _OK_ response or a verbose schema is not available for this method
 public type DefaultSuccessResponse55 record {
@@ -4133,8 +4113,6 @@ public type ChatUpdateResponse record {|
 
 public type UserObj InlineArrayItemsUserObj[];
 
-public type ParentConversationAnyOf2 anydata?;
-
 public type InlineArrayItemsUserObj UserObjAnyOf1|UserObjUserObjAnyOf12;
 
 # Represents the Queries record for the operation: dndTeamInfo
@@ -4370,10 +4348,6 @@ public type DefaultSuccessResponse16 record {
 
 @constraint:String {pattern: re `^[TE][A-Z0-9]{8,}$`}
 public type WorkspaceIdDef string;
-
-public type ConversationObjLatest2 MessageObj|LatestAnyOf23?;
-
-public type ConversationObjLatest1 MessageObj|LatestAnyOf22?;
 
 public type AdminConversationsInviteBody record {
     # The users to invite

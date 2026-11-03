@@ -38,7 +38,7 @@ public function main() returns error? {
     // Iterate through each channel to get the latest message.
     foreach slack:ConversationObj channel in channelResponse.channels {
         // Fetch the conversation history for the current channel.
-        slack:ConversationsHistoryResponse historyResponse = check slack->conversationsHistory(channel = channel.toString());
+        slack:ConversationsHistoryResponse historyResponse = check slack->conversationsHistory(channel = channel.id);
 
         // Get the latest text message from the conversation history.
         slack:MessageObj[] messages = historyResponse.messages;
