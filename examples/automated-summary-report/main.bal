@@ -14,15 +14,13 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/http;
-import ballerina/io;
 import ballerina/log;
 import ballerinax/slack;
 
 configurable string token = ?;
 
 // Initialize the Slack client with the provided token.
-final slack:Client slack = check new Client({
+final slack:Client slack = check new ({
     auth: {
         token
     }
@@ -33,7 +31,7 @@ public function main() returns error? {
     slack:ConversationsListResponse channelResponse = check slack->conversationsList();
 
     // Array to store the latest text messages from each channel.
-    string[] latestText;
+    string[] latestText = [];
 
     // Iterate through each channel to get the latest message.
     foreach slack:ConversationObj channel in channelResponse.channels {
