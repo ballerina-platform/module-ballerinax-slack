@@ -36,10 +36,18 @@ public function main() returns error? {
     // Iterate through each channel to get the latest message.
     foreach slack:ConversationObj channel in channelResponse.channels {
         // Fetch the conversation history for the current channel.
-        slack:ConversationsHistoryResponse historyResponse = check slack->conversationsHistory(channel = channel.id);
+        slack:ConversationsHistoryResponse|error historyResponse = slack->conversationsHistory(channel = channel.id);
+        if historyResponse is error {
+            // Skip channels whose history cannot be read, such as channels the app is not a member of.
+            log:printWarn(string `Skipping channel ${channel.id}`, historyResponse);
+            continue;
+        }
 
-        // Get the latest text message from the conversation history.
+        // Get the latest text message from the conversation history, skipping channels without messages.
         slack:MessageObj[] messages = historyResponse.messages;
+        if messages.length() == 0 {
+            continue;
+        }
         latestText.push(messages[0].text);
     }
 
