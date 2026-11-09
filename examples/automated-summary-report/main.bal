@@ -14,15 +14,13 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/http;
-import ballerina/io;
 import ballerina/log;
 import ballerinax/slack;
 
 configurable string token = ?;
 
 // Initialize the Slack client with the provided token.
-final slack:Client slack = check new Client({
+final slack:Client slack = check new ({
     auth: {
         token
     }
@@ -30,18 +28,26 @@ final slack:Client slack = check new Client({
 
 public function main() returns error? {
     // Fetch the list of channels.
-    slack:ConversationsListResponse channelResponse = check slack->/conversations\.list();
+    slack:ConversationsListResponse channelResponse = check slack->conversationsList();
 
     // Array to store the latest text messages from each channel.
-    string[] latestText;
+    string[] latestText = [];
 
     // Iterate through each channel to get the latest message.
     foreach slack:ConversationObj channel in channelResponse.channels {
         // Fetch the conversation history for the current channel.
-        slack:ConversationsHistoryResponse historyResponse = check slack->/conversations\.history({channel: channel.toString()});
+        slack:ConversationsHistoryResponse|error historyResponse = slack->conversationsHistory(channel = channel.id);
+        if historyResponse is error {
+            // Skip channels whose history cannot be read, such as channels the app is not a member of.
+            log:printWarn(string `Skipping channel ${channel.id}`, historyResponse);
+            continue;
+        }
 
-        // Get the latest text message from the conversation history.
+        // Get the latest text message from the conversation history, skipping channels without messages.
         slack:MessageObj[] messages = historyResponse.messages;
+        if messages.length() == 0 {
+            continue;
+        }
         latestText.push(messages[0].text);
     }
 
@@ -52,7 +58,7 @@ public function main() returns error? {
     }`;
 
     // Post the stand-up report message to the "general" channel.
-    slack:ChatPostMessageResponse|error postMessageResult = slack->/chat\.postMessage.post({channel: "general", text: textMessage});
+    slack:ChatPostMessageResponse|error postMessageResult = slack->chatPostMessage({channel: "general", text: textMessage});
 
     if postMessageResult is error {
         log:printError("Failed to post message to Slack", postMessageResult);
